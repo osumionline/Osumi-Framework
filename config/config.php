@@ -9,11 +9,18 @@
   $c = new G_Config();
   $c->setRutaBase($ruta_base);
 
+  /* Carga de módulos */
+  $c->loadDefaultModules();
+
   /* Datos de la Base De Datos */
   $c->setDbHost('host');
   $c->setDbUser('user');
   $c->setDbPass('pass');
   $c->setDbName('dbname');
+
+  /* Datos para cookies */
+  $c->setCookiePrefix('osumifw');
+  $c->setCookieUrl('.osumi.es');
   
   /* Activa/desactiva el modo debug que guarda en log las consultas SQL e información variada */
   $c->setModoDebug(false);

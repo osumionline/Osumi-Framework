@@ -6,9 +6,11 @@
 
   include('../config/config.php');
   include($c->getRutaConfig().'gestores.php');
-  
-  header('Access-Control-Allow-Origin: *');
-  header('Access-Control-Allow-Methods: GET, POST');  
+
+  if ($c->getAllowCrossOrigin()){
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST');
+  }
 
   // Inicio sesion
   $s = new G_Session();

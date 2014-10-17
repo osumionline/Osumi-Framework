@@ -1,19 +1,22 @@
 <?php
 class G_Config{
-  private $modo_debug = false;
+  private $modo_debug         = false;
+  private $allow_cross_origin = false;
 
-  private $ruta_base                = '';
-  private $ruta_config              = '';
-  private $ruta_gestores            = '';
-  private $ruta_gestores_app        = '';
-  private $ruta_gestores_base       = '';
-  private $ruta_logs                = '';
-  private $ruta_debug_log           = '';
-  private $ruta_tasks               = '';
-  private $ruta_web                 = '';
-  private $ruta_controllers         = '';
-  private $ruta_templates           = '';
-  private $ruta_photos              = '';
+  private $default_modules = array();
+
+  private $ruta_base          = '';
+  private $ruta_config        = '';
+  private $ruta_gestores      = '';
+  private $ruta_gestores_app  = '';
+  private $ruta_gestores_base = '';
+  private $ruta_logs          = '';
+  private $ruta_debug_log     = '';
+  private $ruta_tasks         = '';
+  private $ruta_web           = '';
+  private $ruta_controllers   = '';
+  private $ruta_templates     = '';
+  private $ruta_photos        = '';
 
   private $db_user = '';
   private $db_pass = '';
@@ -45,16 +48,52 @@ class G_Config{
   function __construct(){}
 
   // Modo debug
-  function setModoDebug($md){
+  public function setModoDebug($md){
     $this->modo_debug = $md;
   }
 
-  function getModoDebug(){
+  public function getModoDebug(){
     return $this->modo_debug;
   }
 
+  // Permitir Cross-Origin
+  public function setAllowCrossOrigin($aco){
+    $this->allow_cross_origin = $aco;
+  }
+
+  public function getAllowCrossOrigin(){
+    return $this->allow_cross_origin;
+  }
+
+  // Módulos por defecto
+  public function setDefaultModules($dm){
+    $this->default_modules = $dm;
+  }
+
+  public function getDefaultModules(){
+    return $this->default_modules;
+  }
+
+  public function loadDefaultModules(){
+    $ruta_base_json = $this->getRutaConfig().'base.json';
+    if (file_exists($ruta_base_json)){
+      $base_json = json_decode( file_get_contents($ruta_base_json), true );
+      $this->setDefaultModules($base_json);
+    }
+  }
+
+  public function getDefaultModule($m){
+    $base_modules = $this->getDefaultModules();
+    if (array_key_exists($m,$base_modules['base_modules']) && $base_modules['base_modules'][$m]===true){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   // Rutas
-  function setRutaBase($rb){
+  public function setRutaBase($rb){
     $this->ruta_base = $rb;
     $this->setRutaConfig($rb."config/");
     $this->setRutaGestores($rb."gestores/");
@@ -69,188 +108,188 @@ class G_Config{
     $this->setRutaPhotos($rb."web/photos/");
   }
 
-  function getRutaBase(){
+  public function getRutaBase(){
     return $this->ruta_base;
   }
 
-  function setRutaConfig($rc){
+  public function setRutaConfig($rc){
     $this->ruta_config = $rc;
   }
 
-  function getRutaConfig(){
+  public function getRutaConfig(){
     return $this->ruta_config;
   }
 
-  function setRutaGestores($rg){
+  public function setRutaGestores($rg){
     $this->ruta_gestores = $rg;
   }
 
-  function getRutaGestores(){
+  public function getRutaGestores(){
     return $this->ruta_gestores;
   }
 
-  function setRutaGestoresApp($rga){
+  public function setRutaGestoresApp($rga){
     $this->ruta_gestores_app = $rga;
   }
 
-  function getRutaGestoresApp(){
+  public function getRutaGestoresApp(){
     return $this->ruta_gestores_app;
   }
 
-  function setRutaGestoresBase($rgb){
+  public function setRutaGestoresBase($rgb){
     $this->ruta_gestores_base = $rgb;
   }
 
-  function getRutaGestoresBase(){
+  public function getRutaGestoresBase(){
     return $this->ruta_gestores_base;
   }
 
-  function setRutaLogs($rl){
+  public function setRutaLogs($rl){
     $this->ruta_logs = $rl;
   }
 
-  function getRutaLogs(){
+  public function getRutaLogs(){
     return $this->ruta_logs;
   }
 
-  function setRutaDebugLog($rdl){
+  public function setRutaDebugLog($rdl){
     $this->ruta_debug_log = $rdl;
   }
 
-  function getRutaDebugLog(){
+  public function getRutaDebugLog(){
     return $this->ruta_debug_log;
   }
 
-  function setRutaTasks($rt){
+  public function setRutaTasks($rt){
     $this->ruta_tasks = $rt;
   }
 
-  function getRutaTasks(){
+  public function getRutaTasks(){
     return $this->ruta_tasks;
   }
 
-  function setRutaWeb($rw){
+  public function setRutaWeb($rw){
     $this->ruta_web = $rw;
   }
 
-  function getRutaWeb(){
+  public function getRutaWeb(){
     return $this->ruta_web;
   }
 
-  function setRutaControllers($rc){
+  public function setRutaControllers($rc){
     $this->ruta_controllers = $rc;
   }
 
-  function getRutaControllers(){
+  public function getRutaControllers(){
     return $this->ruta_controllers;
   }
 
-  function setRutaTemplates($rt){
+  public function setRutaTemplates($rt){
     $this->ruta_templates = $rt;
   }
 
-  function getRutaTemplates(){
+  public function getRutaTemplates(){
     return $this->ruta_templates;
   }
 
-  function setRutaPhotos($rp){
+  public function setRutaPhotos($rp){
     $this->ruta_photos = $rp;
   }
 
-  function getRutaPhotos(){
+  public function getRutaPhotos(){
     return $this->ruta_photos;
   }
 
   // Base de datos
-  function setDbUser($du){
+  public function setDbUser($du){
     $this->db_user = $du;
   }
 
-  function getDbUser(){
+  public function getDbUser(){
     return $this->db_user;
   }
 
-  function setDbPass($dp){
+  public function setDbPass($dp){
     $this->db_pass = $dp;
   }
 
-  function getDbPass(){
+  public function getDbPass(){
     return $this->db_pass;
   }
 
-  function setDbHost($dh){
+  public function setDbHost($dh){
     $this->db_host = $dh;
   }
 
-  function getDbHost(){
+  public function getDbHost(){
     return $this->db_host;
   }
 
-  function setDbName($dn){
+  public function setDbName($dn){
     $this->db_name = $dn;
   }
 
-  function getDbName(){
+  public function getDbName(){
     return $this->db_name;
   }
 
   // Urls
-  function setUrlBase($ub){
+  public function setUrlBase($ub){
     $this->url_base = $ub;
     $this->setUrlApi($ub.$this->getUrlCarpeta().'api/');
   }
 
-  function getUrlBase(){
+  public function getUrlBase(){
     return $this->url_base;
   }
 
-  function setUrlCarpeta($uc){
+  public function setUrlCarpeta($uc){
     $this->url_carpeta = $uc;
   }
 
-  function getUrlCarpeta(){
+  public function getUrlCarpeta(){
     return $this->url_carpeta;
   }
 
-  function setUrlApi($ua){
+  public function setUrlApi($ua){
     $this->url_api = $ua;
   }
 
-  function getUrlApi(){
+  public function getUrlApi(){
     return $this->url_api;
   }
 
   // Extras
-  function setPaginaCerrada($pc){
+  public function setPaginaCerrada($pc){
     $this->pagina_cerrada = $pc;
   }
 
-  function getPaginaCerrada(){
+  public function getPaginaCerrada(){
     return $this->pagina_cerrada;
   }
 
-  function setImageTypes($it){
+  public function setImageTypes($it){
     $this->image_types = $it;
   }
 
-  function getImageTypes(){
+  public function getImageTypes(){
     return $this->image_types;
   }
 
   // Cookies
-  function setCookiePrefix($cp){
+  public function setCookiePrefix($cp){
     $this->cookie_prefix = $cp;
   }
 
-  function getCookiePrefix(){
+  public function getCookiePrefix(){
     return $this->cookie_prefix;
   }
 
-  function setCookieUrl($cu){
+  public function setCookieUrl($cu){
     $this->cookie_url = $cu;
   }
 
-  function getCookieUrl(){
+  public function getCookieUrl(){
     return $this->cookie_url;
   }
 
@@ -343,27 +382,27 @@ class G_Config{
     return $this->default_location_long;
   }
 
-  function setAdminEmail($ae){
+  public function setAdminEmail($ae){
     $this->admin_email = $ae;
   }
 
-  function getAdminEmail(){
+  public function getAdminEmail(){
     return $this->admin_email;
   }
 
-  function setMailingFrom($mf){
+  public function setMailingFrom($mf){
     $this->mailing_from = $mf;
   }
 
-  function getMailingFrom(){
+  public function getMailingFrom(){
     return $this->mailing_from;
   }
 
-  function setLang($l){
+  public function setLang($l){
     $this->lang= $l;
   }
 
-  function getLang(){
+  public function getLang(){
     return $this->lang;
   }
 }

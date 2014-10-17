@@ -20,7 +20,7 @@ class G_Base{
   protected $created = 'created_at';
   protected $updated = 'updated_at';
 
-  function load($gestor,$tablename,$model,$pk=null,$created=null,$updated=null){
+  public function load($gestor,$tablename,$model,$pk=null,$created=null,$updated=null){
     global $c, $where;
     $this->BD=new G_BBDD();
     $this->setModoDebug($c->getModoDebug());

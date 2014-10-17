@@ -13,10 +13,11 @@ class G_Cookie{
   }
 
   function addCookieToList($k,$v){
+    global $c;
     $list = $this->getCookieList();
     $list[$k] = $v;
 
-    setcookie ("osumifw[".$k."]", $v, time() + (3600*24*31), "/", ".osumi.es");
+    setcookie ($c->getCookiePrefix().'['.$k.']', $v, time() + (3600*24*31), '/', $c->getCookieUrl());
 
     $this->setCookieList($list);
   }
@@ -32,10 +33,11 @@ class G_Cookie{
   }
 
   function loadCookies(){
+    global $c;
     $list = array();
 
-    if (isset($_COOKIE['photobook'])) {
-      foreach ($_COOKIE['photobook'] as $name => $value) {
+    if (isset($_COOKIE[$c->getCookiePrefix()])) {
+      foreach ($_COOKIE[$c->getCookiePrefix()] as $name => $value) {
         $name = htmlspecialchars($name);
         $value = htmlspecialchars($value);
 
@@ -47,18 +49,20 @@ class G_Cookie{
   }
 
   function saveCookies(){
+    global $c;
     $list = $this->getCookieList();
 
     foreach ($list as $key => $value){
-      setcookie ("photobook[".$key."]", $value, time() + (3600*24*31), "/", ".osumi.es");
+      setcookie ($c->getCookiePrefix().'['.$key.']', $value, time() + (3600*24*31), '/', $c->getCookieUrl());
     }
   }
 
   function cleanCookies(){
+    global $c;
     $list = $this->getCookieList();
 
     foreach ($list as $key => $value){
-      setcookie ("photobook[".$key."]", $value, 1, "/", ".osumi.es");
+      setcookie ($c->getCookiePrefix().'['.$key.']', $value, 1, '/', $c->getCookieUrl());
     }
 
     $this->setCookieList(array());

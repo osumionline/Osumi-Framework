@@ -1,0 +1,9 @@
+{
+  "base_modules": {
+    "browser": true,
+    "email": true,
+    "image": true,
+    "pdf": true,
+    "translate": true
+  }
+}
