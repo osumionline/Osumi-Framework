@@ -4,7 +4,7 @@ Osumi Framework
 Osumi Framework es un pequeño framework orientado al modelo MVC (Modelo, Vista, Controlador) para la creación de aplicaciones web, tanto pequeñas como grandes.
 
 ## Instalación
-El framework se puede instalar en cualquier servidor con Apache2 y PHP 5.3. MySQL no es necesario pero en caso de querer usarlo el requisito es que sea de la versión 5.1 o superior.
+El framework se puede instalar en cualquier servidor con Apache2 y PHP 5.3 (o superior). MySQL no es necesario pero en caso de querer usarlo el requisito es que sea de la versión 5.1 o superior.
 
 El `DocumentRoot` de la aplicación debe apuntar a la carpeta `web`
 
@@ -18,8 +18,6 @@ Carpeta con los ficheros de configuración:
 
 `base.json`: archivo que indica que módulos que trae el Framework por defecto se quieren habilitar.
 
-`gestores.php`: archivo encargado de cargar todos los gestores, tanto internos como el modelo.
-
 `translations.json`: archivo con textos traducidos a varios idiomas.
 
 `urls.json`: en este archivo se indican las urls del sitio, de modo que al llamar a una url se sepa que modulo y acción se debe ejecutar.
@@ -27,14 +25,16 @@ Carpeta con los ficheros de configuración:
 ### controllers
 Carpeta con la lógica de la aplicación. Corresponde a Controlador del MVC. Cada archivo en esta carpeta corresponde a un `módulo` que tiene dentro varias funciones llamadas `acciones`.
 
-### gestores
-Esta carpeta tiene tres carpetas dentro:
+### moel
+Esta carpeta tiene cuatro carpetas dentro:
 
 `app`: carpeta con clases por cada tabla de la base de datos, corresponde al Modelo.
 
 `base`: carpeta con las clases internas del Framework.
 
 `routing`: sistema de enrutado de Symfony para las "urls bonitas".
+
+`static`: carpeta con las clases estáticas que contienen funciones que se usarán a lo largo del sitio.
 
 ### log
 Carpeta donde se almacenan los logs creados por el modo debug.
