@@ -39,8 +39,10 @@ class G_Template{
 
     $this->setLang( $c->getLang() );
 
-    $tr = new G_Translate();
-    $this->setTranslator($tr);
+    if ($c->getDefaultModule('translate')){
+      $tr = new G_Translate();
+      $this->setTranslator($tr);
+    }
   }
   
   public function setDebugMode($dm){
@@ -385,7 +387,7 @@ class G_Template{
     }
 
     // Añado traducciones
-    if ($this->getTranslator()->getPage()!=''){
+    if ($c->getDefaultModule('translate') && $this->getTranslator()->getPage()!=''){
       // Añado traducciones específicas de la página
       $trads = $this->getTranslator()->getTranslations();
       foreach ($trads as $trad=>$obj){
