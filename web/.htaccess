@@ -1,18 +1,17 @@
 Options +FollowSymLinks +ExecCGI
 
-
 <IfModule mod_rewrite.c>
   RewriteEngine On
-
-
-  # uncomment the following line, if you are having trouble
-  # getting no_script_name to work
   RewriteBase /
 
   RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
   RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+  
+  # Descomentar para redirigir todas las llamadas a https
+  #RewriteCond %{SERVER_PORT} 80
+  #RewriteRule ^(.*)$ https://example.com/$1 [R,L]
 
   RewriteCond %{REQUEST_FILENAME} !-f
-  # no, so we redirect to our front web controller
+  # Redirigimos todo al controlador frontal
   RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

@@ -8,12 +8,12 @@ class G_PDF{
   private $font     = 'helvetica';
   private $pages    = array();
   private $pdf_obj  = null;
-  private $ruta_pdf = '';
+  private $pdf_dir  = '';
 
   function __construct($data=null){
-    $ruta_config = '/usr/share/php/tcpdf/tcpdf.php';
-    if (file_exists($ruta_config)){
-      require_once($ruta_config);
+    $config_dir = '/usr/share/php/tcpdf/tcpdf.php';
+    if (file_exists($config_dir)){
+      require_once($config_dir);
     }
     if (!is_null($data) && is_array($data)){
       $this->setCreator(  array_key_exists('creator',  $data)?$data['creator']  : '' );
@@ -22,14 +22,13 @@ class G_PDF{
       $this->setSubject(  array_key_exists('subject',  $data)?$data['subject']  : '' );
       $this->setKeywords( array_key_exists('keywords', $data)?$data['keywords'] : '' );
       $this->setFont(     array_key_exists('font',     $data)?$data['font']     : 'helvetica' );
-      $this->setRutaPdf(  array_key_exists('ruta_pdf', $data)?$data['ruta_pdf'] : '' );
+      $this->setPdfDir(   array_key_exists('ruta_pdf', $data)?$data['ruta_pdf'] : '' );
     }
   }
 
   public function setCreator($c){
     $this->creator = $c;
   }
-
   public function getCreator(){
     return $this->creator;
   }
@@ -37,7 +36,6 @@ class G_PDF{
   public function setAuthor($a){
     $this->author = $a;
   }
-
   public function getAuthor(){
     return $this->author;
   }
@@ -45,7 +43,6 @@ class G_PDF{
   public function setTitle($t){
     $this->title = $t;
   }
-
   public function getTitle(){
     return $this->title;
   }
@@ -53,7 +50,6 @@ class G_PDF{
   public function setSubject($s){
     $this->subject = $s;
   }
-
   public function getSubject(){
     return $this->subject;
   }
@@ -61,7 +57,6 @@ class G_PDF{
   public function setKeywords($k){
     $this->keywords = $k;
   }
-
   public function getKeywords(){
     return $this->keywords;
   }
@@ -69,7 +64,6 @@ class G_PDF{
   public function setFont($f){
     $this->font = $f;
   }
-
   public function getFont(){
     return $this->font;
   }
@@ -77,7 +71,6 @@ class G_PDF{
   public function setPages($p){
     $this->pages = $p;
   }
-
   public function getPages(){
     return $this->pages;
   }
@@ -91,17 +84,15 @@ class G_PDF{
   public function setPdfObj($po){
     $this->pdf_obj = $po;
   }
-
   public function getPdfObj(){
     return $this->pdf_obj;
   }
 
-  public function setRutaPdf($rp){
-    $this->ruta_pdf = $rp;
+  public function setPdfDir($pd){
+    $this->pdf_dir = $pd;
   }
-
-  public function getRutaPdf(){
-    return $this->ruta_pdf;
+  public function getPdfDir(){
+    return $this->pdf_dir;
   }
 
   public function render(){
@@ -156,6 +147,6 @@ class G_PDF{
   public function getPdf(){
     $this->render();
     $pdf = $this->getPdfObj();
-    $pdf->Output($this->getRutaPdf(), 'I');
+    $pdf->Output($this->getPdfDir(), 'I');
   }
 }

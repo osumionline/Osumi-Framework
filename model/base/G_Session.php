@@ -1,17 +1,17 @@
 <?php
 class G_Session{
-  private $modo_debug = false;
+  private $debug_mode = false;
 	private $l = null;
   private $params = array();
   
   function G_Session(){
     global $c, $where;
-    $this->setModoDebug($c->getModoDebug());
+    $this->setDebugMode($c->getDebugMode());
     
     $l = new G_Log();
     $this->setLog($l);
-    $this->getLog()->setPagina($where);
-    $this->getLog()->setGestor('G_Session');
+    $this->getLog()->setSection($where);
+    $this->getLog()->setModel('G_Session');
     
     if (isset($_SESSION['params'])){
       $this->setParams(unserialize($_SESSION['params']));
@@ -21,28 +21,24 @@ class G_Session{
     }
   }
   
-  public function setModoDebug($md){
-    $this->modo_debug = $md;
+  public function setDebugMode($dm){
+    $this->debug_mode = $dm;
 	}
-	
-	public function getModoDebug(){
-    return $this->modo_debug;
+	public function getDebugMode(){
+    return $this->debug_mode;
 	}
 	
 	public function setLog($l){
     $this->l = $l;
 	}
-	
 	public function getLog(){
     return $this->l;
 	}
 	
 	public function setParams($p){
     $this->params = $p;
-    
     $_SESSION['params'] = serialize($p);
 	}
-	
 	public function getParams(){
     return $this->params;
 	}
@@ -50,10 +46,8 @@ class G_Session{
 	public function addParam($key,$value){
     $params = $this->getParams();
     $params[$key] = $value;
-    
     $this->setParams($params);
   }
-  
   public function getParam($key){
     $params = $this->getParams();
     if (array_key_exists($key, $params)){
@@ -72,7 +66,6 @@ class G_Session{
   
   public function cleanSession(){
     unset($_SESSION['params']);
-    
     $this->setParams(array());
   }
 }

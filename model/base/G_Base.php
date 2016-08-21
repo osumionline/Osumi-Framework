@@ -1,10 +1,10 @@
 <?php
 class G_Base{
-  protected $BD = null;
-  protected $modo_debug = false;
-  protected $log = null;
-  protected $gestor = '';
-  protected $tablename = '';
+  protected $db         = null;
+  protected $debug_mode = false;
+  protected $log        = null;
+  protected $model_name = '';
+  protected $tablename  = '';
   // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Texto, 6-Fecha, 7-Boolean
   protected $default_model = array(
     'model_1' => array('type'=>1, 'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
@@ -15,25 +15,25 @@ class G_Base{
     'model_6' => array('type'=>6, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
     'model_7' => array('type'=>7, 'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'')
   );
-  protected $model = array();
-  protected $pk = array('id');
+  protected $model   = array();
+  protected $pk      = array('id');
   protected $created = 'created_at';
   protected $updated = 'updated_at';
 
-  public function load($gestor,$tablename,$model,$pk=null,$created=null,$updated=null){
+  function load($model_name,$tablename,$model,$pk=null,$created=null,$updated=null){
     global $c, $where;
-    $this->BD=new G_BBDD();
-    $this->setModoDebug($c->getModoDebug());
-    if ($this->getModoDebug()){
+    $this->db=new G_DB();
+    $this->setDebugMode($c->getDebugMode());
+    if ($this->getDebugMode()){
       $l = new G_Log();
       $this->setLog($l);
-      $this->getLog()->setPagina($where);
-      $this->getLog()->setGestor($this->gestor);
+      $this->getLog()->setSection($where);
+      $this->getLog()->setModel($this->model_name);
     }
 
-    $this->gestor = $gestor;
-    $this->tablename = $tablename;
-    $this->model = $model;
+    $this->model_name = $model_name;
+    $this->tablename  = $tablename;
+    $this->model      = $model;
     if (!is_null($pk)){
       $this->pk = $pk;
     }
@@ -59,12 +59,12 @@ class G_Base{
     $this->model = $full_model;
   }
 
-  public function setModoDebug($md){
-    $this->modo_debug = $md;
+  public function setDebugMode($dm){
+    $this->debug_mode = $dm;
   }
 
-  public function getModoDebug(){
-    return $this->modo_debug;
+  public function getDebugMode(){
+    return $this->debug_mode;
   }
 
   public function setLog($l){
@@ -120,11 +120,11 @@ class G_Base{
     }
   }
 
-  public function salvar(){
-    if ($this->getModoDebug()){
-      $this->getLog()->setFuncion('salvar');
+  public function save(){
+    if ($this->getDebugMode()){
+      $this->getLog()->setFunction('save');
     }
-    $tipo_save = '';
+    $save_type = '';
 
     // Cojo modelo
     $model = $this->getModel();
@@ -137,12 +137,18 @@ class G_Base{
       $sql = "UPDATE `".$this->tablename."` SET ";
       $updated_fields = array();
       foreach ($model as $fieldname=>$field){
-        if ($field['type']!=1 && $field['orig']!=$field['val']){
+        $holder = "'";
+        $val = $field['val'];
+        if (is_null($field['val'])){
+          $holder = "";
+          $val = "NULL";
+        }
+        if ($field['type']!=1 && $field['orig']!=$val){
           if ($field['clean']){
-            $cad = "`".$fieldname."` = '".$this->BD->cleanStr($field['val'])."'";
+            $cad = "`".$fieldname."` = ".$holder.$this->db->cleanStr($val).$holder;
           }
           else{
-            $cad = "`".$fieldname."` = '".$field['val']."'";
+            $cad = "`".$fieldname."` = ".$holder.$val.$holder;
           }
           array_push($updated_fields, $cad);
         }
@@ -156,7 +162,7 @@ class G_Base{
         $sql .= "`".$pk_ind."` = '".$model[$pk_ind]['val']."'";
       }
 
-      $tipo_save = 'u';
+      $save_type = 'u';
     }
     // INSERT
     else{
@@ -171,35 +177,41 @@ class G_Base{
       $sql .= ") VALUES (";
       $insert_fields = array();
       foreach ($model as $field){
+        $holder = "'";
+        $val = $field['val'];
+        if (is_null($field['val'])){
+          $holder = "";
+          $val = "NULL";
+        }
         if ($field['type']==1 && $field['incr']){
           array_push($insert_fields,"NULL");
         }
         else{
           if ($field['clean']){
-            array_push($insert_fields, "'".$this->BD->cleanStr($field['val'])."'");
+            array_push($insert_fields, $holder.$this->db->cleanStr($val).$holder);
           }
           else{
-            array_push($insert_fields, "'".$field['val']."'");
+            array_push($insert_fields, $holder.$val.$holder);
           }
         }
       }
       $sql .= implode($insert_fields, ",");
       $sql .= ")";
 
-      $tipo_save = 'i';
+      $save_type = 'i';
     }
 
     // Si hay modo debug guardo el sql
-    if ($this->getModoDebug()){
+    if ($this->getDebugMode()){
       $this->getLog()->putLog($sql);
     }
 
     // Ejecuto la consulta
-    $this->BD->consulta($sql);
+    $this->db->query($sql);
 
     // Si la tabla solo tiene un pk y es incremental lo guardo
-    if ($tipo_save == 'i' && count($this->pk)==1 && $model[$this->pk[0]]['incr']){
-      $model[$this->pk[0]]['val'] = $this->BD->last_id();
+    if ($save_type == 'i' && count($this->pk)==1 && $model[$this->pk[0]]['incr']){
+      $model[$this->pk[0]]['val'] = $this->db->last_id();
     }
 
     // Marco en el modelo todo como guardado (original=actual)
@@ -212,7 +224,7 @@ class G_Base{
   }
   
   public function check($opt=array()){
-    if ($this->buscar($opt)){
+    if ($this->find($opt)){
       return true;
     }
     else{
@@ -220,7 +232,7 @@ class G_Base{
     }
   }
 
-  public function buscar($opt=array()){
+  public function find($opt=array()){
     $ret = false;
     $sql = "SELECT * FROM `".$this->tablename."` WHERE ";
     $search_fields = array();
@@ -228,18 +240,18 @@ class G_Base{
       array_push($search_fields, "`".$k."` = '".$v."' ");
     }
     $sql .= implode($search_fields, "AND ");
-    $this->BD->consulta($sql);
-    $res = $this->BD->sig();
+    $this->db->query($sql);
+    $res = $this->db->next();
 
     if ($res){
       $ret = true;
-      $this->actualizar($res);
+      $this->update($res);
     }
 
     return $ret;
   }
 
-  public function actualizar($res){
+  public function update($res){
     $model = $this->getModel();
     foreach ($model as $fieldname=>$field){
       if (array_key_exists($fieldname,$res)){
@@ -250,7 +262,7 @@ class G_Base{
     $this->setModel($model);
   }
 
-  public function borrar(){
+  public function delete(){
     $model = $this->getModel();
     $sql = "DELETE FROM `".$this->tablename."` WHERE ";
     $delete_fields = array();
@@ -259,11 +271,11 @@ class G_Base{
     }
     $sql .= implode('AND ', $delete_fields);
 
-    if ($this->getModoDebug()){
+    if ($this->getDebugMode()){
       $this->getLog()->putLog($sql);
     }
 
-    $this->BD->consulta($sql);
+    $this->db->query($sql);
   }
   
   public function generate($type='sql'){

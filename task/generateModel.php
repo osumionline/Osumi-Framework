@@ -1,10 +1,10 @@
 <?php
   session_start();
   $start_time = microtime(true);
-  $where = 'task_generate';
+  $where = 'task_generateModel';
   
-  include(dirname(__FILE__).'/../config/config.php');
-  include($c->getRutaConfig().'gestores.php');
+  require(dirname(__FILE__).'/../config/config.php');
+  require($c->getConfigDir().'model.php');
   
   echo "Modelo\n\n";
   

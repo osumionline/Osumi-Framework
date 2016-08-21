@@ -2,12 +2,12 @@
   /* Datos generales */
   date_default_timezone_set('Europe/Madrid');
 
-  $ruta_base = realpath(dirname(__FILE__));
-  $ruta_base = str_ireplace("config","",$ruta_base);
+  $basedir = realpath(dirname(__FILE__));
+  $basedir = str_ireplace("config","",$basedir);
 
-  include($ruta_base."gestores/base/G_Config.php");
+  require($basedir."model/base/G_Config.php");
   $c = new G_Config();
-  $c->setRutaBase($ruta_base);
+  $c->setBaseDir($basedir);
 
   /* Carga de módulos */
   $c->loadDefaultModules();
@@ -23,21 +23,19 @@
   $c->setCookieUrl('.osumi.es');
   
   /* Activa/desactiva el modo debug que guarda en log las consultas SQL e información variada */
-  $c->setModoDebug(false);
+  $c->setDebugMode(false);
 
   /* URL del sitio */
-  $c->setUrlBase('http://www.example.com/');
+  $c->setBaseUrl('http://example.com/');
   
   /* Email del administrador al que se notificarán varios eventos */
   $c->setAdminEmail('inigo.gorosabel@osumi.es');
   
   /* Lista de CSS por defecto */
-  $css = array('common');
-  $c->setCssList( $css );
+  $c->setCssList( array('common') );
   
   /* Lista de JavaScript por defecto */
-  $js = array('jquery-1.11.0.min','common');
-  $c->setJsList( $js );
+  $c->setJsList( array('jquery-3.1.0.min','common') );
   
   /* Título de la página */
   $c->setDefaultTitle('Osumi Framework');

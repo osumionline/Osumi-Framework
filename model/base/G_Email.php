@@ -1,6 +1,6 @@
 <?php
 class G_Email{
-  private $modo_debug   = false;
+  private $debug_mode   = false;
   private $log          = null;
   private $recipients   = array();
   private $subject      = '';
@@ -10,21 +10,21 @@ class G_Email{
   private $result_ok    = array();
   private $result_error = array();
   
-  function G_Email() {
+  function __construct() {
     global $c, $where;
-    $this->setModoDebug($c->getModoDebug());
+    $this->setDebugMode($c->getDebugMode());
     $l = new G_Log();
     $this->setLog($l);
-    $this->getLog()->setPagina($where);
-    $this->getLog()->setGestor('G_Email');
+    $this->getLog()->setSection($where);
+    $this->getLog()->setModel('G_Email');
   }
 
-  public function setModoDebug($md){
-    $this->modo_debug = $md;
+  public function setDebugMode($dm){
+    $this->debug_mode = $dm;
   }
 
-  public function getModoDebug(){
-    return $this->modo_debug;
+  public function getDebugMode(){
+    return $this->debug_mode;
   }
 
   public function setLog($l){
@@ -109,7 +109,7 @@ class G_Email{
     $this->setResultError($list);
   }
   
-  public function enviar(){
+  public function send(){
     $ret = array('status'=>'ok','mens'=>'');
     
     // Si no hay destinatarios fuera
@@ -141,7 +141,6 @@ class G_Email{
           $ret['mens'] .= 'Error al enviar email a: '.$item.' - ';
         }
       }
-      
     }
     
     return $ret;

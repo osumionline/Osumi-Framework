@@ -1,24 +1,20 @@
 <?php
   /*
-    Página temporal, sitio cerrado
-  */
-  function executeCerrado($req, $t){
-    /*
-      Código de la página
-    */
-    global $c, $s;
-
+   * Página temporal, sitio cerrado
+   */
+  function executeClosed($req, $t){
     $t->process();
   }
 
   /*
-    Home pública
-  */
+   * Home pública
+   */
   function executeIndex($req, $t){
-    /*
-      Código de la página
-    */
     global $c, $s;
+    
+    /*
+     * Código de la página
+     */
 
     $t->process();
   }

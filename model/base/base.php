@@ -1,15 +1,49 @@
 <?php
 class Base{
   /*
-    Tipos de campos
+    Field types
   */
   const PK      = 1;
   const CREATED = 2;
   const UPDATED = 3;
   const NUM     = 4;
-  const TEXTO   = 5;
-  const FECHA   = 6;
+  const TEXT    = 5;
+  const DATE    = 6;
   const BOOL    = 7;
+
+  public static function getCache($key){
+    global $c;
+    $route = $c->getCacheDir().$key.".json";
+    if (file_exists($route)){
+      $data = file_get_contents($route);
+      $json = json_decode($data,true);
+      return $json;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public static function getRandomCharacters($options){
+    $num   = isset($options['num']) ? $options['num'] : 5;
+    $lower = isset($options['lower']) ? $options['lower'] : false;
+    $upper = isset($options['upper']) ? $options['upper'] : false;
+    $numbers = isset($options['numbers']) ? $options['numbers'] : false;
+    $special = isset($options['special']) ? $options['special'] : false;
+
+    $seed = '';
+    if ($lower){ $seed .= 'abcdefghijklmnopqrstuvwxyz'; }
+    if ($upper){ $seed .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; }
+    if ($numbers){ $seed .= '0123456789'; }
+    if ($special){ $seed .= '!@#$%^&*()'; }
+
+    $seed = str_split($seed);
+    shuffle($seed);
+    $rand = '';
+    foreach (array_rand($seed, $num) as $k) $rand .= $seed[$k];
+
+    return $rand;
+  }
   
   public static function getParam($key,$list,$default=false){
     if (array_key_exists($key, $list)){
@@ -38,6 +72,7 @@ class Base{
       $imgbinary = fread(fopen($filename, "r"), filesize($filename));
       return 'data:' . $imgsize['mime'] . ';base64,' . base64_encode($imgbinary);
     }
+    return false;
   }
   
   public static function createThumb($pathToImage,$pathToThumb,$thumbWidth){
@@ -105,56 +140,6 @@ class Base{
     $str = str_ireplace('-br', '', $str);
     $str = str_ireplace('&lt;br&gt;', '', $str);
     return $str;
-  }
-  
-  public static function checkCookie(){
-    global $s, $ck;
-    $ret = false;
-    
-    // Si pide login la pagina compruebo si ya tiene login en sesión, si no tiene compruebo la cookie
-    if (!$s->getParam('logged')){
-      $session_key = $ck->getCookie('session_key');
-      $id_user = $ck->getCookie('id_user');
-      if ($session_key && $id_user){
-        $u = new G_Usuario();
-        if ($u->buscarPorSessionKey($session_key)){
-          if ($u->getId() == $id_user){
-            $s->addParam('logged',true);
-            $s->addParam('id',$id_user);
-            
-            $ret = true;
-          }
-          else{
-            // Hay usuario por session key pero no es el id de usuario que esta guardado -> fuera!
-            $ret = false;
-          }
-        } // del if buscar usuario por session key
-        else{
-          // Hay session key pero no es de ningún usuario -> fuera!
-          $ret = false;
-        }
-      } // del if session key
-      else{
-        // Hay login y no hay session key -> fuera!
-        $ret = false;
-      }
-    }
-    else{
-      $ret = true;
-    }
-    
-    return $ret;
-  }
-  
-  public static function doLogout($mens=null){
-    global $s, $ck;
-  
-    $ck->cleanCookies();
-    $s->cleanSession();
-    if (!is_null($mens)){
-      $s->addParam('flash',$mens);
-    }
-    header( 'Location: '.G_Url::generateUrl('home',array()) );
   }
   
   public static function showErrorPage($res,$mode){
@@ -236,16 +221,15 @@ class Base{
 
   public static function formatDateForBD($d){
     $data = explode("/",$d);
-    
     return $data[2].'-'.$data[1].'-'.$data[0].' 00:00:00';
   }
   
   public static function getHash(){
-    $cad = time();
-    $cad = "esc_".$cad."_esc";
-    $cad = md5($cad);
+    $str = time();
+    $str = "v_".$str."_v";
+    $str = md5($str);
 
-    return $cad;
+    return $str;
   }
   
   public static function slugify($text, $separator = '-')

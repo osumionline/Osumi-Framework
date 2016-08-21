@@ -3,10 +3,9 @@
       {
         "id": "cerrado",
         "url": "/cerrado",
-        "module": "public",
-        "action": "cerrado",
+        "module": "home",
+        "action": "closed",
         "comment": "Página temporal, sitio cerrado",
-        "login": "dont",
         "layout": "blank"
       },
       {

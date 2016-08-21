@@ -4,13 +4,11 @@
   $start_time = microtime(true);
   $where = 'index';
 
-  include('../config/config.php');
-  include($c->getRutaConfig().'gestores.php');
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods: GET, POST');
 
-  if ($c->getAllowCrossOrigin()){
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods: GET, POST');
-  }
+  include('../config/config.php');
+  include($c->getConfigDir().'model.php');
 
   // Inicio sesion
   $s = new G_Session();
@@ -23,14 +21,10 @@
   $ck->loadCookies();
 
   // Cargo url
-  $url = $_SERVER['REQUEST_URI'];
-
-  if ($c->getPaginaCerrada()){
-    $url = '/cerrado';
-  }
+  $url = ((!empty($_SERVER['HTTPS'])) ? "https://":"http://").$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
   $u = new G_Url($_SERVER['REQUEST_METHOD']);
-  $u->setCheckUrl($url,$_GET,$_POST,$_FILES);
+  $u->setCheckUrl($_SERVER['REQUEST_URI'],$_GET,$_POST,$_FILES);
   $res = $u->process();
 
   if ($res['res']){
@@ -53,10 +47,10 @@
     $t = new G_Template();
     $t->setModule($res['module']);
     $t->setAction($res['action']);
-    $t->setLayout( file_get_contents($c->getRutaTemplates().'layout/'.$res['layout'].'.php') );
+    $t->setLayout( file_get_contents($c->getTemplatesDir().'layout/'.$res['layout'].'.php') );
 
-    $l->setPagina($res['id']);
-    $l->setGestor('Generico');
+    $l->setSection($res['id']);
+    $l->setModel('Generico');
 
     // Tiene algun mensaje flash?
     if ($s->getParam('flash') != ''){
@@ -64,8 +58,7 @@
     }
 
     $func = 'execute'.ucfirst($res['action']);
-    $module = $c->getRutaControllers().$res['module'].'.php';
-
+    $module = $c->getControllersDir().$res['module'].'.php';
     if (file_exists($module)){
       include($module);
 
