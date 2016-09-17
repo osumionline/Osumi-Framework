@@ -20,9 +20,9 @@ class G_Image{
     $this->getLog()->setSection($where);
     $this->getLog()->setModel('G_Image');
     
-    $this->setTmpDir($c->getTmpDir());
-    $this->setImgDir($c->getImgDir());
-    $this->setThumbDir($c->getThumbDir());
+    $this->setTmpDir($c->getDir('tmp'));
+    $this->setImgDir($c->getDir('img'));
+    $this->setThumbDir($c->getDir('thumb'));
     $this->setImageTypes($c->getImageTypes());
     
     $si = new SimpleImage();
@@ -148,10 +148,10 @@ class G_Image{
     global $c;
     
     if ($type == 'full'){
-      return '/'.str_replace($c->getWebDir(),'',$c->getImgDir().$id.'.jpg');
+      return '/'.str_replace($c->getDir('web'),'',$c->getDir('img').$id.'.jpg');
     }
     else{
-      return '/'.str_replace($c->getWebDir(),'',$c->getThumbDir().$id.'-'.$type.'.jpg');
+      return '/'.str_replace($c->getDir('web'),'',$c->getDir('thumb').$id.'-'.$type.'.jpg');
     }
 	}
 }

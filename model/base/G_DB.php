@@ -17,10 +17,10 @@ class G_DB {
 	function __construct($user='', $pass='', $host='', $name=''){
     global $c;
     if(empty($user) ||empty($pass) ||empty($host) ||empty($name) ){
-			$this->host = $c->getDbHost();
-			$this->user = $c->getDbUser();
-			$this->pass = $c->getDbPass();
-			$this->name = $c->getDbName();
+			$this->host = $c->getDB('host');
+			$this->user = $c->getDB('user');
+			$this->pass = $c->getDB('pass');
+			$this->name = $c->getDB('name');
 		}else{
 			$this->host = $host;
 			$this->user = $user;

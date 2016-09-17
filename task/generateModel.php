@@ -4,7 +4,7 @@
   $where = 'task_generateModel';
   
   require(dirname(__FILE__).'/../config/config.php');
-  require($c->getConfigDir().'model.php');
+  require($c->getDir('config').'model.php');
   
   echo "Modelo\n\n";
   

@@ -31,7 +31,7 @@ class G_Translate{
   public function loadTranslations(){
     if (is_null($this->getData())){
       global $c;
-      $translations_dir = $c->getConfigDir().'translations.json';
+      $translations_dir = $c->getDir('config').'translations.json';
       $data = json_decode( file_get_contents( $translations_dir ), true );
       $this->setData($data);
     }

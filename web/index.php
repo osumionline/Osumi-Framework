@@ -8,7 +8,7 @@
   header('Access-Control-Allow-Methods: GET, POST');
 
   include('../config/config.php');
-  include($c->getConfigDir().'model.php');
+  include($c->getDir('config').'model.php');
 
   // Inicio sesion
   $s = new G_Session();
@@ -47,7 +47,7 @@
     $t = new G_Template();
     $t->setModule($res['module']);
     $t->setAction($res['action']);
-    $t->setLayout( file_get_contents($c->getTemplatesDir().'layout/'.$res['layout'].'.php') );
+    $t->setLayout( file_get_contents($c->getDir('templates').'layout/'.$res['layout'].'.php') );
 
     $l->setSection($res['id']);
     $l->setModel('Generico');
@@ -58,7 +58,7 @@
     }
 
     $func = 'execute'.ucfirst($res['action']);
-    $module = $c->getControllersDir().$res['module'].'.php';
+    $module = $c->getDir('controllers').$res['module'].'.php';
     if (file_exists($module)){
       include($module);
 

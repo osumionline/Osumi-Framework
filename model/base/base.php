@@ -13,7 +13,7 @@ class Base{
 
   public static function getCache($key){
     global $c;
-    $route = $c->getCacheDir().$key.".json";
+    $route = $c->getDir('cache').$key.".json";
     if (file_exists($route)){
       $data = file_get_contents($route);
       $json = json_decode($data,true);
@@ -23,11 +23,61 @@ class Base{
       return false;
     }
   }
+  
+  public static function checkCookie(){
+    global $s, $ck;
+    $ret = false;
+    
+    // Si pide login la pagina compruebo si ya tiene login en sesión, si no tiene compruebo la cookie
+    if (!$s->getParam('logged')){
+      $session_key = $ck->getCookie('session_key');
+      $id_user = $ck->getCookie('id_user');
+      if ($session_key && $id_user){
+        $u = new G_User();
+        if ($u->find(array('session_key'=>$session_key))){
+          if ($u->get('id') == $id_user){
+            $s->addParam('logged',true);
+            $s->addParam('id',$id_user);
+            
+            $ret = true;
+          }
+          else{
+            // Hay usuario por session key pero no es el id de usuario que esta guardado -> fuera!
+            $ret = false;
+          }
+        } // del if buscar usuario por session key
+        else{
+          // Hay session key pero no es de ningún usuario -> fuera!
+          $ret = false;
+        }
+      } // del if session key
+      else{
+        // Hay login y no hay session key -> fuera!
+        $ret = false;
+      }
+    }
+    else{
+      $ret = true;
+    }
+    
+    return $ret;
+  }
+  
+  public static function doLogout($mens=null){
+    global $s, $ck;
+  
+    $ck->cleanCookies();
+    $s->cleanSession();
+    if (!is_null($mens)){
+      $s->addParam('flash',$mens);
+    }
+    header( 'Location: '.G_Url::generateUrl('home') );
+  }
 
   public static function getRandomCharacters($options){
-    $num   = isset($options['num']) ? $options['num'] : 5;
-    $lower = isset($options['lower']) ? $options['lower'] : false;
-    $upper = isset($options['upper']) ? $options['upper'] : false;
+    $num     = isset($options['num'])     ? $options['num']     : 5;
+    $lower   = isset($options['lower'])   ? $options['lower']   : false;
+    $upper   = isset($options['upper'])   ? $options['upper']   : false;
     $numbers = isset($options['numbers']) ? $options['numbers'] : false;
     $special = isset($options['special']) ? $options['special'] : false;
 

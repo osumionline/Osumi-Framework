@@ -5,32 +5,18 @@ class G_Config{
 
   private $default_modules = array();
 
-  private $base_dir         = '';
-  private $cache_dir        = '';
-  private $config_dir       = '';
-  private $controllers_dir  = '';
-  private $model_dir        = '';
-  private $model_dir_app    = '';
-  private $model_dir_base   = '';
-  private $model_dir_static = '';
-  private $logs_dir         = '';
-  private $debug_log_dir    = '';
-  private $tasks_dir        = '';
-  private $sql_dir          = '';
-  private $templates_dir    = '';
-  private $tmp_dir          = '';
-  private $web_dir          = '';
-  private $img_dir          = '';
-  private $thumb_dir        = '';
-
-  private $db_user = '';
-  private $db_pass = '';
-  private $db_host = '';
-  private $db_name = '';
-
-  private $base_url   = '';
-  private $folder_url = '';
-  private $api_url    = '';
+  private $dirs = array();
+  private $db = array(
+    'user' => '',
+    'pass' => '',
+    'host' => '',
+    'name' => ''
+  );
+  private $urls = array(
+    'base'   => '',
+    'folder' => '',
+    'api'    => ''
+  );
 
   private $closed      = false;
 
@@ -75,7 +61,7 @@ class G_Config{
   }
 
   public function loadDefaultModules(){
-    $ruta_base_json = $this->getConfigDir().'base.json';
+    $ruta_base_json = $this->getDir('config').'base.json';
     if (file_exists($ruta_base_json)){
       $base_json = json_decode( file_get_contents($ruta_base_json), true );
       $this->setDefaultModules($base_json);
@@ -93,194 +79,54 @@ class G_Config{
   }
 
   // Dirs
+  function setDir($dir,$value){
+    $this->dirs[$dir] = $value;
+  }
+  function getDir($dir){
+    return array_key_exists($dir, $this->dirs) ? $this->dirs[$dir] : null;
+  }
+  
   function setBaseDir($bd){
-    $this->base_dir = $bd;
-    $this->setCacheDir(       $bd.'cache/');
-    $this->setConfigDir(      $bd.'config/');
-    $this->setControllersDir( $bd.'controllers/');
-    $this->setModelDir(       $bd.'model/');
-    $this->setModelDirApp(    $bd.'model/app/');
-    $this->setModelDirBase(   $bd.'model/base/');
-    $this->setModelDirStatic( $bd.'model/static/');
-    $this->setLogsDir(        $bd.'logs/');
-    $this->setDebugLogDir(    $bd.'logs/debug.log');
-    $this->setTasksDir(       $bd.'task/');
-    $this->setSQLDir(         $bd.'sql/');
-    $this->setTemplatesDir(   $bd.'templates/');
-    $this->setTmpDir(         $bd.'tmp/');
-    $this->setWebDir(         $bd.'web/');
-    $this->setImgDir(         $bd.'web/img/');
-    $this->setThumbDir(       $bd.'web/img/thumb');
+    $this->setDir('base',         $bd);
+    $this->setDir('cache',        $bd.'cache/');
+    $this->setDir('config',       $bd.'config/');
+    $this->setDir('controllers',  $bd.'controllers/');
+    $this->setDir('model',        $bd.'model/');
+    $this->setDir('model_app',    $bd.'model/app/');
+    $this->setDir('model_base',   $bd.'model/base/');
+    $this->setDir('model_static', $bd.'model/static/');
+    $this->setDir('logs',         $bd.'logs/');
+    $this->setDir('debug_log',    $bd.'logs/debug.log');
+    $this->setDir('task',         $bd.'task/');
+    $this->setDir('sql',          $bd.'sql/');
+    $this->setDir('templates',    $bd.'templates/');
+    $this->setDir('tmp',          $bd.'tmp/');
+    $this->setDir('web',          $bd.'web/');
+    $this->setDir('img',          $bd.'web/img/');
+    $this->setDir('thumb',        $bd.'web/img/thumb');
   }
   
-  function getBaseDir(){
-    return $this->base_dir;
-  }
-
-  function setCacheDir($cd){
-    $this->cache_dir = $cd;
-  }
-  function getCacheDir(){
-    return $this->cache_dir;
-  }
-  
-  function setConfigDir($cd){
-    $this->config_dir = $cd;
-  }
-  function getConfigDir(){
-    return $this->config_dir;
-  }
-
-  function setControllersDir($cd){
-    $this->controllers_dir = $cd;
-  }
-  function getControllersDir(){
-    return $this->controllers_dir;
-  }
-  
-  function setModelDir($md){
-    $this->model_dir = $md;
-  }
-  function getModelDir(){
-    return $this->model_dir;
-  }
-  
-  function setModelDirApp($mda){
-    $this->model_dir_app = $mda;
-  }
-  function getModelDirApp(){
-    return $this->model_dir_app;
-  }
-  
-  function setModelDirBase($mdb){
-    $this->model_dir_base = $mdb;
-  }
-  function getModelDirBase(){
-    return $this->model_dir_base;
-  }
-  
-  function setModelDirStatic($mds){
-    $this->model_dir_static = $mds;
-  }
-  function getModelDirStatic(){
-    return $this->model_dir_static;
-  }
-  
-  function setLogsDir($ld){
-    $this->logs_dir = $ld;
-  }
-  function getLogsDir(){
-    return $this->logs_dir;
-  }
-  
-  function setDebugLogDir($dld){
-    $this->debug_log_dir = $dld;
-  }
-  function getDebugLogDir(){
-    return $this->debug_log_dir;
-  }
-  
-  function setTasksDir($td){
-    $this->tasks_dir = $td;
-  }
-  function getTasksDir(){
-    return $this->tasks_dir;
-  }
-
-  function setSQLDir($sd){
-    $this->sql_dir = $sd;
-  }
-  function getSQLDir(){
-    return $this->sql_dir;
-  }
-
-  function setTemplatesDir($td){
-    $this->templates_dir = $td;
-  }
-  function getTemplatesDir(){
-    return $this->templates_dir;
-  }
-
-  function setTmpDir($td){
-    $this->tmp_dir = $td;
-  }
-  function getTmpDir(){
-    return $this->tmp_dir;
-  }
-  
-  function setWebDir($wd){
-    $this->web_dir = $wd;
-  }
-  function getWebDir(){
-    return $this->web_dir;
-  }
-
-  function setImgDir($id){
-    $this->img_dir = $id;
-  }
-  function getImgDir(){
-    return $this->img_dir;
-  }
-
-  function setThumbDir($td){
-    $this->thumb_dir = $td;
-  }
-  function getThumbDir(){
-    return $this->thumb_dir;
-  }
-
   // Data base
-  public function setDbUser($du){
-    $this->db_user = $du;
+  public function setDB($key,$value){
+    $this->db[$key] = $value;
   }
-  public function getDbUser(){
-    return $this->db_user;
-  }
-
-  public function setDbPass($dp){
-    $this->db_pass = $dp;
-  }
-  public function getDbPass(){
-    return $this->db_pass;
-  }
-
-  public function setDbHost($dh){
-    $this->db_host = $dh;
-  }
-  public function getDbHost(){
-    return $this->db_host;
-  }
-
-  public function setDbName($dn){
-    $this->db_name = $dn;
-  }
-  public function getDbName(){
-    return $this->db_name;
+  public function getDB($key){
+    return array_key_exists($key, $this->db) ? $this->db[$key] : null;
   }
 
   // Urls
-  function setBaseUrl($bu){
-    $this->base_url = $bu;
-    $this->setApiUrl($bu.$this->getFolderUrl().'api/');
+  function setUrl($key,$url){
+    $this->urls[$key] = $url;
   }
-  function getBaseUrl(){
-    return $this->base_url;
+  public function getUrl($key){
+    return array_key_exists($key, $this->urls) ? $this->urls[$key] : null;
   }
   
-  function setFolderUrl($fu){
-    $this->folder_url = $fu;
+  function setBaseUrl($bu){
+    $this->setUrl('base',$bu);
+    $this->setUrl('api',$bu.$this->getUrl('folder').'api/');
   }
-  function getFolderUrl(){
-    return $this->folder_url;
-  }
-    
-  function setApiUrl($au){
-    $this->api_url = $au;
-  }
-  function getApiUrl(){
-    return $this->api_url;
-  }
-
+  
   // Extras
   function setClosed($c){
     $this->closed = $c;

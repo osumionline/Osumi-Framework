@@ -30,12 +30,12 @@ class G_Template{
     $this->getLog()->setSection($where);
     $this->getLog()->setModel('G_Template');
     
-    $this->setTemplatesDir( $c->getTemplatesDir() );
+    $this->setTemplatesDir( $c->getDir('templates') );
     $this->setCssList( $c->getCssList() );
     $this->setJsList( $c->getJsList() );
     $this->setExtJsList( $c->getExtJsList() );
     $this->setTitle( $c->getDefaultTitle() );
-    $this->setFolderUrl( $c->getFolderUrl() );
+    $this->setFolderUrl( $c->getUrl('folder') );
 
     $this->setLang( $c->getLang() );
 

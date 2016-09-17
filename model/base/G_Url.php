@@ -20,10 +20,10 @@ class G_Url{
     
     $this->setMethod( $method );
         
-    $u = json_decode(file_get_contents($c->getConfigDir().'urls.json'));
+    $u = json_decode(file_get_contents($c->getDir('config').'urls.json'));
     $this->setUrls($u);
     
-    $this->setRoutingDir( $c->getModelDir().'routing/' );
+    $this->setRoutingDir( $c->getDir('model').'routing/' );
   }
   
   public function setDebugMode($dm){
@@ -51,7 +51,7 @@ class G_Url{
     global $c;
     // Comprobación de url carpeta
     if ($c->getFolderUrl()!=''){
-      $cu = str_ireplace($c->getFolderUrl(), '', $cu);
+      $cu = str_ireplace($c->getUrl('folder'), '', $cu);
     }
   
     $check_params = stripos($cu,'?');
@@ -176,7 +176,7 @@ class G_Url{
   public static function generateUrl($id,$params=array(),$absolute=null){
     // Cargo las urls, al ser un metodo estatico no va a pasar por el constructor
     global $c;
-    $u = json_decode(file_get_contents($c->getRutaConfig().'urls.json'));
+    $u = json_decode(file_get_contents($c->getDir('config').'urls.json'));
 
     $enc = false;
     $i   = 0;
@@ -200,7 +200,7 @@ class G_Url{
     }
     
     if (!is_null($absolute) && $absolute === true){
-      $base = $c->getBaseUrl();
+      $base = $c->getUrl('base');
       $base = substr($base,0,strlen($base)-1);
       
       $url = $base.$url;

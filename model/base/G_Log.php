@@ -7,7 +7,7 @@ class G_Log{
   
   function __construct(){
     global $c;
-    $this->setLogDir($c->getDebugLogDir());
+    $this->setLogDir($c->getDir('debug_log'));
   }
   
   public function setSection($s){

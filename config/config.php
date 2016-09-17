@@ -3,9 +3,9 @@
   date_default_timezone_set('Europe/Madrid');
 
   $basedir = realpath(dirname(__FILE__));
-  $basedir = str_ireplace("config","",$basedir);
+  $basedir = str_ireplace('config','',$basedir);
 
-  require($basedir."model/base/G_Config.php");
+  require($basedir.'model/base/G_Config.php');
   $c = new G_Config();
   $c->setBaseDir($basedir);
 
@@ -13,10 +13,10 @@
   $c->loadDefaultModules();
 
   /* Datos de la Base De Datos */
-  $c->setDbHost('host');
-  $c->setDbUser('user');
-  $c->setDbPass('pass');
-  $c->setDbName('dbname');
+  $c->setDB('host','host');
+  $c->setDB('user','user');
+  $c->setDB('pass','pass');
+  $c->setDB('name','dbname');
 
   /* Datos para cookies */
   $c->setCookiePrefix('osumifw');
