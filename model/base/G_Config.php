@@ -33,6 +33,8 @@ class G_Config{
   private $mailing_from          = '';
   private $lang                  = '';
   private $image_types           = array();
+  
+  private $extras = array();
 
   function __construct(){}
 
@@ -123,8 +125,8 @@ class G_Config{
   }
   
   function setBaseUrl($bu){
-    $this->setUrl('base',$bu);
-    $this->setUrl('api',$bu.$this->getUrl('folder').'api/');
+    $this->setUrl('base', $bu);
+    $this->setUrl('api',  $bu.$this->getUrl('folder').'api/');
   }
   
   // Extras
@@ -243,5 +245,13 @@ class G_Config{
   }
   public function getLang(){
     return $this->lang;
+  }
+  
+  // Extras
+  function setExtra($key,$value){
+    $this->extras[$key] = $value;
+  }
+  function getExtra($key){
+    return array_key_exists($key, $this->extras) ? $this->extras[$key] : null;
   }
 }
