@@ -50,7 +50,7 @@ class G_Url{
   public function setCheckUrl($cu,$g=null,$p=null,$f=null){
     global $c;
     // Comprobación de url carpeta
-    if ($c->getFolderUrl()!=''){
+    if ($c->getUrl('folder')!=''){
       $cu = str_ireplace($c->getUrl('folder'), '', $cu);
     }
   

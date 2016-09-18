@@ -7,13 +7,13 @@ class G_Base{
   protected $tablename  = '';
   // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Texto, 6-Fecha, 7-Boolean
   protected $default_model = array(
-    'model_1' => array('type'=>1, 'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
-    'model_2' => array('type'=>2, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_3' => array('type'=>3, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_4' => array('type'=>4, 'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>''),
-    'model_5' => array('type'=>5, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>''),
-    'model_6' => array('type'=>6, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_7' => array('type'=>7, 'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'')
+    'model_1' => array('type'=>Base::PK,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
+    'model_2' => array('type'=>Base::CREATED, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_3' => array('type'=>Base::UPDATED, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_4' => array('type'=>Base::NUM,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>''),
+    'model_5' => array('type'=>Base::TEXT,    'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>''),
+    'model_6' => array('type'=>Base::DATE,    'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_7' => array('type'=>Base::BOOL,    'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'')
   );
   protected $model   = array();
   protected $pk      = array('id');
@@ -34,6 +34,7 @@ class G_Base{
     $this->model_name = $model_name;
     $this->tablename  = $tablename;
     $this->model      = $model;
+    
     if (!is_null($pk)){
       $this->pk = $pk;
     }
@@ -47,13 +48,13 @@ class G_Base{
     $full_model = array();
     foreach ($model as $fieldname => $row){
       $temp = $this->default_model['model_'.$row['type']];
-      $temp['def']   = array_key_exists('def',$row)   ? $row['def']   : $temp['def'];
-      $temp['orig']  = array_key_exists('orig',$row)  ? $row['orig']  : $temp['orig'];
-      $temp['val']   = array_key_exists('val',$row)   ? $row['val']   : $temp['val'];
-      $temp['clean'] = array_key_exists('clean',$row) ? $row['clean'] : $temp['clean'];
-      $temp['incr']  = array_key_exists('incr',$row)  ? $row['incr']  : $temp['incr'];
-      $temp['len']   = array_key_exists('len',$row)   ? $row['len']   : $temp['len'];
-      $temp['com']   = array_key_exists('com',$row)   ? $row['com']   : $temp['com'];
+      $temp['def']   = array_key_exists('def',   $row) ? $row['def']   : $temp['def'];
+      $temp['orig']  = array_key_exists('orig',  $row) ? $row['orig']  : $temp['orig'];
+      $temp['val']   = array_key_exists('val',   $row) ? $row['val']   : $temp['val'];
+      $temp['clean'] = array_key_exists('clean', $row) ? $row['clean'] : $temp['clean'];
+      $temp['incr']  = array_key_exists('incr',  $row) ? $row['incr']  : $temp['incr'];
+      $temp['len']   = array_key_exists('len',   $row) ? $row['len']   : $temp['len'];
+      $temp['com']   = array_key_exists('com',   $row) ? $row['com']   : $temp['com'];
       $full_model[$fieldname] = $temp;
     }
     $this->model = $full_model;
@@ -108,12 +109,21 @@ class G_Base{
   public function get($key,$extra=null){
     $field = $this->getModel($key);
     if ($field){
-      if (!is_null($extra) && in_array($field['type'],array(2,3,6))){
+      if (!is_null($extra) && in_array($field['type'],array(Base::CREATED,Base::UPDATED,Base::DATE))){
         return date($extra,strtotime($field['val']));
       }
-      else{
-        return $field['val'];
+      if (!is_null($extra) && $field['type']==Base::TEXT){
+        if (strlen($field['val'])>$extra){
+          return substr($field['val'], 0, $extra).'...';
+        }
+        else{
+          return $field['val'];
+        }
       }
+      if (in_array($field['type'],array(Base::NUM,Base::BOOL))){
+        return (int)$field['val'];
+      }
+      return $field['val'];
     }
     else{
       return false;
