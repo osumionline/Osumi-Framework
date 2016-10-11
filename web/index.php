@@ -11,19 +11,19 @@
   include($c->getDir('config').'model.php');
 
   // Inicio sesion
-  $s = new G_Session();
+  $s = new OSession();
 
   // Inicio objeto log generico
-  $l = new G_Log();
+  $l = new OLog();
 
   // Cargo cookies
-  $ck = new G_Cookie();
+  $ck = new OCookie();
   $ck->loadCookies();
 
   // Cargo url
   $url = ((!empty($_SERVER['HTTPS'])) ? "https://":"http://").$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
-  $u = new G_Url($_SERVER['REQUEST_METHOD']);
+  $u = new OUrl($_SERVER['REQUEST_METHOD']);
   $u->setCheckUrl($_SERVER['REQUEST_URI'],$_GET,$_POST,$_FILES);
   $res = $u->process();
 
@@ -44,7 +44,7 @@
       }
     }
 
-    $t = new G_Template();
+    $t = new OTemplate();
     $t->setModule($res['module']);
     $t->setAction($res['action']);
     $t->setLayout( file_get_contents($c->getDir('templates').'layout/'.$res['layout'].'.php') );

@@ -1,5 +1,5 @@
 <?php
-class G_PDF{
+class OPDF{
   private $creator  = '';
   private $author   = '';
   private $title    = '';

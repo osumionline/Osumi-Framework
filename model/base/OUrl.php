@@ -1,5 +1,5 @@
 <?php
-class G_Url{
+class OUrl{
   private $debug_mode  = false;
   private $l           = null;
   private $urls        = null;
@@ -13,10 +13,10 @@ class G_Url{
     global $c, $where;
     $this->setDebugMode($c->getDebugMode());
   
-    $l = new G_Log();
+    $l = new OLog();
     $this->setLog($l);
     $this->getLog()->setSection($where);
-    $this->getLog()->setModel('G_Url');
+    $this->getLog()->setModel('OUrl');
     
     $this->setMethod( $method );
         

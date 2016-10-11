@@ -1,5 +1,5 @@
 <?php
-class G_Translate{
+class OTranslate{
   private $page = '';
   private $data = null;
   private $translations = array();

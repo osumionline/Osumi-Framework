@@ -1,5 +1,5 @@
 <?php
-class G_Template{
+class OTemplate{
   private $debug_mode    = false;
   private $l             = null;
   private $templates_dir = '';
@@ -25,10 +25,10 @@ class G_Template{
     global $c, $where;
     $this->setDebugMode($c->getDebugMode());
   
-    $l = new G_Log();
+    $l = new OLog();
     $this->setLog($l);
     $this->getLog()->setSection($where);
-    $this->getLog()->setModel('G_Template');
+    $this->getLog()->setModel('OTemplate');
     
     $this->setTemplatesDir( $c->getDir('templates') );
     $this->setCssList( $c->getCssList() );
@@ -40,7 +40,7 @@ class G_Template{
     $this->setLang( $c->getLang() );
 
     if ($c->getDefaultModule('translate')){
-      $tr = new G_Translate();
+      $tr = new OTranslate();
       $this->setTranslator($tr);
     }
   }

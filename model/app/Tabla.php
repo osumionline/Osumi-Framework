@@ -1,7 +1,7 @@
 <?php
-class G_Tabla extends G_Base{
+class Tabla extends OBase{
   function __construct(){
-    $model_name = 'G_Tabla';
+    $model_name = 'Tabla';
     $tablename  = 'tabla';
     $model = array(
         'id'         => array('type'=>Base::PK,      'com'=>'Clave primaria'),

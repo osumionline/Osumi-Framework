@@ -2,7 +2,7 @@
 /**
  * Clase para gestionar la Base de datos
  */
-class G_DB {
+class ODB {
 	private $host;
 	private $user;
 	private $pass;

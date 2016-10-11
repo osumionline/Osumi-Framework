@@ -1,5 +1,5 @@
 <?php
-class G_Cookie{
+class OCookie{
   private $cookie_list = array();
 
   function __construct(){}

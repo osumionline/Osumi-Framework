@@ -5,8 +5,8 @@
   $basedir = realpath(dirname(__FILE__));
   $basedir = str_ireplace('config','',$basedir);
 
-  require($basedir.'model/base/G_Config.php');
-  $c = new G_Config();
+  require($basedir.'model/base/OConfig.php');
+  $c = new OConfig();
   $c->setBaseDir($basedir);
 
   /* Carga de módulos */

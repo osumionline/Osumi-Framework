@@ -1,5 +1,5 @@
 <?php
-class G_Config{
+class OConfig{
   private $debug_mode         = false;
   private $allow_cross_origin = false;
 

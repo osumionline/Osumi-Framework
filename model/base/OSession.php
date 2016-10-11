@@ -1,17 +1,17 @@
 <?php
-class G_Session{
+class OSession{
   private $debug_mode = false;
 	private $l = null;
   private $params = array();
   
-  function G_Session(){
+  function __construct(){
     global $c, $where;
     $this->setDebugMode($c->getDebugMode());
     
-    $l = new G_Log();
+    $l = new OLog();
     $this->setLog($l);
     $this->getLog()->setSection($where);
-    $this->getLog()->setModel('G_Session');
+    $this->getLog()->setModel('OSession');
     
     if (isset($_SESSION['params'])){
       $this->setParams(unserialize($_SESSION['params']));

@@ -33,7 +33,7 @@ class Base{
       $session_key = $ck->getCookie('session_key');
       $id_user = $ck->getCookie('id_user');
       if ($session_key && $id_user){
-        $u = new G_User();
+        $u = new User();
         if ($u->find(array('session_key'=>$session_key))){
           if ($u->get('id') == $id_user){
             $s->addParam('logged',true);
@@ -71,7 +71,7 @@ class Base{
     if (!is_null($mens)){
       $s->addParam('flash',$mens);
     }
-    header( 'Location: '.G_Url::generateUrl('home') );
+    header( 'Location: '.OUrl::generateUrl('home') );
   }
 
   public static function getRandomCharacters($options){

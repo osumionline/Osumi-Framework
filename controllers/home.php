@@ -11,7 +11,6 @@
    */
   function executeIndex($req, $t){
     global $c, $s;
-    
     /*
      * Código de la página
      */

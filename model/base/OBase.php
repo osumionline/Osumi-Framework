@@ -1,5 +1,5 @@
 <?php
-class G_Base{
+class OBase{
   protected $db         = null;
   protected $debug_mode = false;
   protected $log        = null;
@@ -22,10 +22,10 @@ class G_Base{
 
   function load($model_name,$tablename,$model,$pk=null,$created=null,$updated=null){
     global $c, $where;
-    $this->db=new G_DB();
+    $this->db=new ODB();
     $this->setDebugMode($c->getDebugMode());
     if ($this->getDebugMode()){
-      $l = new G_Log();
+      $l = new OLog();
       $this->setLog($l);
       $this->getLog()->setSection($where);
       $this->getLog()->setModel($this->model_name);

@@ -1,5 +1,5 @@
 <?php
-class Browser{
+class OBrowser{
   private $browser_data = null;
   private $ua = '';
   

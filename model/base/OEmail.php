@@ -1,5 +1,5 @@
 <?php
-class G_Email{
+class OEmail{
   private $debug_mode   = false;
   private $log          = null;
   private $recipients   = array();
@@ -13,10 +13,10 @@ class G_Email{
   function __construct() {
     global $c, $where;
     $this->setDebugMode($c->getDebugMode());
-    $l = new G_Log();
+    $l = new OLog();
     $this->setLog($l);
     $this->getLog()->setSection($where);
-    $this->getLog()->setModel('G_Email');
+    $this->getLog()->setModel('OEmail');
   }
 
   public function setDebugMode($dm){

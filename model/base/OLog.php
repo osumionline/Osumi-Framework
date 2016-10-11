@@ -1,5 +1,5 @@
 <?php
-class G_Log{
+class OLog{
   private $section  = '';
   private $model    = '';
   private $function = '';
@@ -41,10 +41,10 @@ class G_Log{
   public function putLog($data){
     $str = "[".date("Y-m-d H:i:s",time())."] - ";
     if ($this->getSection() != ''){
-      $str .= "[P: ".$this->getSection()."] - ";
+      $str .= "[S: ".$this->getSection()."] - ";
     }
     if ($this->getModel() != ''){
-      $str .= "[G: ".$this->getModel()."] - ";
+      $str .= "[M: ".$this->getModel()."] - ";
     }
     if ($this->getFunction() != ''){
       $str .= "[F: ".$this->getFunction()."] - ";

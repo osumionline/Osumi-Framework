@@ -1,5 +1,5 @@
 <?php
-class G_Image{
+class OImage{
   private $db;
   private $debug_mode  = false;
   private $l           = null;
@@ -12,13 +12,13 @@ class G_Image{
 
   function __construct() {
     global $c, $where;
-    $this->db=new G_DB();
+    $this->db=new ODB();
     $this->setDebugMode($c->getDebugMode());
     
-    $l = new G_Log();
+    $l = new OLog();
     $this->setLog($l);
     $this->getLog()->setSection($where);
-    $this->getLog()->setModel('G_Image');
+    $this->getLog()->setModel('OImage');
     
     $this->setTmpDir($c->getDir('tmp'));
     $this->setImgDir($c->getDir('img'));
