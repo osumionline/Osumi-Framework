@@ -221,7 +221,7 @@ class OBase{
 
     // Si la tabla solo tiene un pk y es incremental lo guardo
     if ($save_type == 'i' && count($this->pk)==1 && $model[$this->pk[0]]['incr']){
-      $model[$this->pk[0]]['val'] = $this->db->last_id();
+      $model[$this->pk[0]]['val'] = $this->db->lastId();
     }
 
     // Marco en el modelo todo como guardado (original=actual)

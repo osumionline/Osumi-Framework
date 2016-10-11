@@ -15,11 +15,15 @@
   if ($c->getDefaultModule('email')){
     require($c->getDir('model_base').'OEmail.php');
   }
+  if ($c->getDefaultModule('email_smtp')){
+    require($c->getDir('model_lib').'email/PHPMailerAutoload.php');
+  }
   if ($c->getDefaultModule('image')){
-    require($c->getDir('model_base').'SimpleImage.php');
+    require($c->getDir('model_lib').'image/SimpleImage.php');
     require($c->getDir('model_base').'OImage.php');
   }
   if ($c->getDefaultModule('pdf')){
+    require($c->getDir('model_lib').'pdf/tcpdf.php');
     require($c->getDir('model_base').'OPDF.php');
   }
   if ($c->getDefaultModule('translate')){

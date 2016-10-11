@@ -97,6 +97,7 @@ class OConfig{
     $this->setDir('model_app',    $bd.'model/app/');
     $this->setDir('model_base',   $bd.'model/base/');
     $this->setDir('model_static', $bd.'model/static/');
+    $this->setDir('model_lib',    $bd.'model/lib/');
     $this->setDir('logs',         $bd.'logs/');
     $this->setDir('debug_log',    $bd.'logs/debug.log');
     $this->setDir('task',         $bd.'task/');

@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## 2.2 `(12/10/2016)`
+
+1. Separo librerías externas a la carpeta model/lib
+2. Preparo carpetas para librerías PHPMailer y TCPDF pero no las incluyo, son proyectos grandes por si solos y solo se deberían incluir si fuesen necesarios
+3. Añado funciones para transacciones en ODB (commit, rollback)
+
 ## 2.1 `(11/10/2016)`
 
 1. Añado CHANGELOG

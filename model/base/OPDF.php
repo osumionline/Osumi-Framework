@@ -11,10 +11,6 @@ class OPDF{
   private $pdf_dir  = '';
 
   function __construct($data=null){
-    $config_dir = '/usr/share/php/tcpdf/tcpdf.php';
-    if (file_exists($config_dir)){
-      require_once($config_dir);
-    }
     if (!is_null($data) && is_array($data)){
       $this->setCreator(  array_key_exists('creator',  $data)?$data['creator']  : '' );
       $this->setAuthor(   array_key_exists('author',   $data)?$data['author']   : '' );

@@ -13,6 +13,7 @@ class ODB {
 	private $last_id;
 	private $found_rows;
 	private $affected;
+	private $autocommit = true;
 	
 	function __construct($user='', $pass='', $host='', $name=''){
     global $c;
@@ -67,6 +68,18 @@ class ODB {
 			return 0;
 		}
 	}
+	
+	function autoCommit($mode){
+  	mysqli_autocommit($this->link, $mode);
+	}
+	
+	function commit(){
+  	mysqli_commit($this->link);
+	}
+	
+	function rollback(){
+  	mysqli_rollback($this->link);
+	}
 
 	function info(){
 		return mysqli_info($this->link);
@@ -76,7 +89,7 @@ class ODB {
 		return $this->affected;
 	}
 	
-	function how_many(){
+	function howMany(){
 		return mysqli_num_rows($this->res);
 	}
 	
@@ -84,15 +97,15 @@ class ODB {
 		return mysqli_fetch_array($this->res);
 	}
 
-	function last_query(){
+	function lastQuery(){
 		return $this->query;
 	}
 
-	function last_id(){
+	function lastId(){
 		return $this->last_id;
 	}
 
-	function found_rows(){
+	function foundRows(){
 		return $this->found_rows;
 	}
 	

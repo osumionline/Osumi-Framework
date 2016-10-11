@@ -2,6 +2,7 @@
   "base_modules": {
     "browser": true,
     "email": true,
+    "email_smtp": false,
     "image": true,
     "pdf": true,
     "translate": true

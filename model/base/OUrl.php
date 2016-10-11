@@ -23,7 +23,7 @@ class OUrl{
     $u = json_decode(file_get_contents($c->getDir('config').'urls.json'));
     $this->setUrls($u);
     
-    $this->setRoutingDir( $c->getDir('model').'routing/' );
+    $this->setRoutingDir( $c->getDir('model_lib').'routing/' );
   }
   
   public function setDebugMode($dm){
