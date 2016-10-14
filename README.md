@@ -25,14 +25,14 @@ Carpeta con los ficheros de configuración:
 ### controllers
 Carpeta con la lógica de la aplicación. Corresponde a Controlador del MVC. Cada archivo en esta carpeta corresponde a un `módulo` que tiene dentro varias funciones llamadas `acciones`.
 
-### moel
+### model
 Esta carpeta tiene cuatro carpetas dentro:
 
 `app`: carpeta con clases por cada tabla de la base de datos, corresponde al Modelo.
 
 `base`: carpeta con las clases internas del Framework.
 
-`routing`: sistema de enrutado de Symfony para las "urls bonitas".
+`lib`: carpeta para las librerías externas.
 
 `static`: carpeta con las clases estáticas que contienen funciones que se usarán a lo largo del sitio.
 
