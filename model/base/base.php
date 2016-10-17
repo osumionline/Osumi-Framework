@@ -3,13 +3,14 @@ class Base{
   /*
     Field types
   */
-  const PK      = 1;
-  const CREATED = 2;
-  const UPDATED = 3;
-  const NUM     = 4;
-  const TEXT    = 5;
-  const DATE    = 6;
-  const BOOL    = 7;
+  const PK       = 1;
+  const CREATED  = 2;
+  const UPDATED  = 3;
+  const NUM      = 4;
+  const TEXT     = 5;
+  const DATE     = 6;
+  const BOOL     = 7;
+  const LONGTEXT = 8;
 
   public static function getCache($key){
     global $c;

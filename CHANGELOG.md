@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## 2.3 `(17/10/2016)`
+
+1. A√ado la posibilidad de usar campos TEXT, en vez de marcarlos como texto y ponerles tama√o grande
+
 ## 2.2 `(12/10/2016)`
 
 1. Separo librer√≠as externas a la carpeta model/lib

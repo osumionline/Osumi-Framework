@@ -5,15 +5,16 @@ class OBase{
   protected $log        = null;
   protected $model_name = '';
   protected $tablename  = '';
-  // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Texto, 6-Fecha, 7-Boolean
+  // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text
   protected $default_model = array(
-    'model_1' => array('type'=>Base::PK,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
-    'model_2' => array('type'=>Base::CREATED, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_3' => array('type'=>Base::UPDATED, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_4' => array('type'=>Base::NUM,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>''),
-    'model_5' => array('type'=>Base::TEXT,    'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>''),
-    'model_6' => array('type'=>Base::DATE,    'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_7' => array('type'=>Base::BOOL,    'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'')
+    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
+    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>''),
+    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>''),
+    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
+    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>''),
+    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'')
   );
   protected $model   = array();
   protected $pk      = array('id');
@@ -112,7 +113,7 @@ class OBase{
       if (!is_null($extra) && in_array($field['type'],array(Base::CREATED,Base::UPDATED,Base::DATE))){
         return date($extra,strtotime($field['val']));
       }
-      if (!is_null($extra) && $field['type']==Base::TEXT){
+      if (!is_null($extra) && ($field['type']==Base::TEXT || $field['type']==Base::LONGTEXT)){
         if (strlen($field['val'])>$extra){
           return substr($field['val'], 0, $extra).'...';
         }
@@ -120,8 +121,11 @@ class OBase{
           return $field['val'];
         }
       }
-      if (in_array($field['type'],array(Base::NUM,Base::BOOL))){
+      if ($field['type']==Base::NUM){
         return (int)$field['val'];
+      }
+      if ($field['type']==Base::BOOL){
+        return ( ( (int)$field['val'] )==1 );
       }
       return $field['val'];
     }
@@ -306,39 +310,38 @@ class OBase{
         foreach ($model as $fieldname => $field){
           $sql .= "  `".$fieldname."` ";
           switch ($field['type']){
-            case 1:{
-              $sql .= "int(11) NOT NULL ";
+            case Base::PK:{
+              $sql .= "int(".$field['len'].") NOT NULL ";
             }
             break;
-            case 2:{
+            case Base::CREATED:{
               $sql .= "datetime NOT NULL ";
             }
             break;
-            case 3:{
+            case Base::UPDATED:{
               $sql .= "datetime NOT NULL ";
             }
             break;
-            case 4:{
-              $sql .= "int(11) NOT NULL ";
+            case Base::NUM:{
+              $sql .= "int(".$field['len'].") NOT NULL ";
             }
             break;
-            case 5:{
-              if ($field['len']<256){
-                $sql .= "varchar(".$field['len'].") COLLATE utf8_unicode_ci NOT NULL ";
-              }
-              else{
-                $sql .= "text COLLATE utf8_unicode_ci  NOT NULL ";
-              }
+            case Base::TEXT:{
+              $sql .= "varchar(".$field['len'].") COLLATE utf8_unicode_ci NOT NULL ";
             }
             break;
-            case 6:{
+            case Base::DATE:{
               $sql .= "datetime NOT NULL ";
             }
             break;
-            case 7:{
+            case Base::BOOL:{
               $sql .= "tinyint(1) NOT NULL ";
             }
-              break;
+            break;
+            case Base::LONGTEXT:{
+              $sql .= "text COLLATE utf8_unicode_ci  NOT NULL ";
+            }
+            break;
           }
           if ($field['com']!=''){
             $sql .= "COMMENT '".$field['com']."' ";
