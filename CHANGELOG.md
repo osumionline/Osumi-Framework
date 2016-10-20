@@ -3,7 +3,9 @@ CHANGELOG
 
 ## 2.3 `(17/10/2016)`
 
-1. A�ado la posibilidad de usar campos TEXT, en vez de marcarlos como texto y ponerles tama�o grande
+1. Añado la posibilidad de usar campos TEXT, en vez de marcarlos como texto y ponerles tamaño grande
+2. Añado referencias a otros modelos para crear las foreign keys
+3. Añado modificaciones para preparar el backend (20/10/2016)
 
 ## 2.2 `(12/10/2016)`
 

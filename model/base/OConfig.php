@@ -18,6 +18,11 @@ class OConfig{
     'api'    => ''
   );
 
+  private $backend = array(
+    'user' => '',
+    'pass' => ''
+  );
+
   private $closed      = false;
 
   private $cookie_prefix = '';
@@ -33,7 +38,7 @@ class OConfig{
   private $mailing_from          = '';
   private $lang                  = '';
   private $image_types           = array();
-  
+
   private $extras = array();
 
   function __construct(){}
@@ -87,7 +92,7 @@ class OConfig{
   function getDir($dir){
     return array_key_exists($dir, $this->dirs) ? $this->dirs[$dir] : null;
   }
-  
+
   function setBaseDir($bd){
     $this->setDir('base',         $bd);
     $this->setDir('cache',        $bd.'cache/');
@@ -108,7 +113,7 @@ class OConfig{
     $this->setDir('img',          $bd.'web/img/');
     $this->setDir('thumb',        $bd.'web/img/thumb');
   }
-  
+
   // Data base
   public function setDB($key,$value){
     $this->db[$key] = $value;
@@ -124,12 +129,21 @@ class OConfig{
   public function getUrl($key){
     return array_key_exists($key, $this->urls) ? $this->urls[$key] : null;
   }
-  
+
   function setBaseUrl($bu){
     $this->setUrl('base', $bu);
     $this->setUrl('api',  $bu.$this->getUrl('folder').'api/');
   }
-  
+
+  // Backend
+  function setBackend($key,$value){
+    $this->backend[$key] = $value;
+  }
+
+  function getBackend($key){
+    return array_key_exists($key, $this->backend) ? $this->backend[$key] : null;
+  }
+
   // Extras
   function setClosed($c){
     $this->closed = $c;
@@ -247,7 +261,7 @@ class OConfig{
   public function getLang(){
     return $this->lang;
   }
-  
+
   // Extras
   function setExtra($key,$value){
     $this->extras[$key] = $value;

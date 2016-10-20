@@ -13,8 +13,7 @@
         "url": "/",
         "module": "home",
         "action": "index",
-        "comment": "Home pública",
-        "login": "dont"
+        "comment": "Home pública"
       }
   ]
 }

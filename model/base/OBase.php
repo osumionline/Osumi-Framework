@@ -7,19 +7,20 @@ class OBase{
   protected $tablename  = '';
   // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text
   protected $default_model = array(
-    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>''),
-    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>''),
-    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>''),
-    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>''),
-    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>''),
-    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'')
+    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>''),
+    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
+    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
+    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>'', 'ref'=>''),
+    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>''),
+    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
+    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>''),
+    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'')
   );
   protected $model   = array();
   protected $pk      = array('id');
   protected $created = 'created_at';
   protected $updated = 'updated_at';
+  protected $show_in_backend = true;
 
   function load($model_name,$tablename,$model,$pk=null,$created=null,$updated=null){
     global $c, $where;
@@ -35,7 +36,7 @@ class OBase{
     $this->model_name = $model_name;
     $this->tablename  = $tablename;
     $this->model      = $model;
-    
+
     if (!is_null($pk)){
       $this->pk = $pk;
     }
@@ -56,9 +57,18 @@ class OBase{
       $temp['incr']  = array_key_exists('incr',  $row) ? $row['incr']  : $temp['incr'];
       $temp['len']   = array_key_exists('len',   $row) ? $row['len']   : $temp['len'];
       $temp['com']   = array_key_exists('com',   $row) ? $row['com']   : $temp['com'];
+      $temp['ref']   = array_key_exists('ref',   $row) ? $row['ref']   : $temp['ref'];
       $full_model[$fieldname] = $temp;
     }
     $this->model = $full_model;
+  }
+
+  public function getModelName(){
+    return $this->model_name;
+  }
+
+  public function getTableName(){
+    return $this->tablename;
   }
 
   public function setDebugMode($dm){
@@ -132,6 +142,14 @@ class OBase{
     else{
       return false;
     }
+  }
+
+  public function setShowInBackend($show){
+    $this->show_in_backend = $show;
+  }
+
+  public function getShowInBackend(){
+    return $this->show_in_backend;
   }
 
   public function save(){
@@ -236,7 +254,7 @@ class OBase{
     // Guardo el modelo modificado
     $this->setModel($model);
   }
-  
+
   public function check($opt=array()){
     if ($this->find($opt)){
       return true;
@@ -291,57 +309,59 @@ class OBase{
 
     $this->db->query($sql);
   }
-  
+
   public function generate($type='sql'){
     $model = $this->getModel();
     $ret = '';
-    
+
     switch ($type){
       case 'array':{
         $ret = $model;
       }
-      break;
+        break;
       case 'json':{
         $ret = json_encode($model);
       }
-      break;
+        break;
       case 'sql':{
+        $array_refs = array();
         $sql = "CREATE TABLE `".$this->tablename."` (\n";
         foreach ($model as $fieldname => $field){
           $sql .= "  `".$fieldname."` ";
           switch ($field['type']){
-            case Base::PK:{
-              $sql .= "int(".$field['len'].") NOT NULL ";
+            case 1:{
+              $sql .= "int(11) NOT NULL ";
             }
-            break;
-            case Base::CREATED:{
+              break;
+            case 2:{
               $sql .= "datetime NOT NULL ";
             }
-            break;
-            case Base::UPDATED:{
+              break;
+            case 3:{
               $sql .= "datetime NOT NULL ";
             }
-            break;
-            case Base::NUM:{
-              $sql .= "int(".$field['len'].") NOT NULL ";
+              break;
+            case 4:{
+              $sql .= "int(11) NOT NULL ";
             }
-            break;
-            case Base::TEXT:{
-              $sql .= "varchar(".$field['len'].") COLLATE utf8_unicode_ci NOT NULL ";
+              break;
+            case 5:{
+              if ($field['len']<256){
+                $sql .= "varchar(".$field['len'].") COLLATE utf8_unicode_ci NOT NULL ";
+              }
+              else{
+                $sql .= "text COLLATE utf8_unicode_ci  NOT NULL ";
+              }
             }
-            break;
-            case Base::DATE:{
+              break;
+            case 6:{
               $sql .= "datetime NOT NULL ";
             }
-            break;
-            case Base::BOOL:{
+              break;
+            case 7:{
               $sql .= "tinyint(1) NOT NULL ";
             }
-            break;
-            case Base::LONGTEXT:{
-              $sql .= "text COLLATE utf8_unicode_ci  NOT NULL ";
-            }
-            break;
+              break;
           }
           if ($field['com']!=''){
             $sql .= "COMMENT '".$field['com']."' ";
@@ -350,15 +370,28 @@ class OBase{
             $sql .= "AUTO_INCREMENT";
           }
           $sql .= ",\n";
+
+          if ($field['ref']!=''){
+            $ref_data = explode('.',$field['ref']);
+            $ref_pre_data = explode('(',$ref_data[0]);
+            $ref = array('table'=>str_ireplace(')','',$ref_pre_data[1]),'field'=>$ref_data[1]);
+            array_push($array_refs, "  ADD CONSTRAINT `fk_".$ref['table']."` FOREIGN KEY (`".$fieldname."`) REFERENCES `".$ref['table']."` (`".$ref['field']."`) ON DELETE NO ACTION ON UPDATE NO ACTION");
+          }
         }
         $sql .= "  PRIMARY KEY (`".implode('`,`',$this->pk)."`)\n";
         $sql .= ") ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;\n";
-        
+
         $ret = $sql;
+
+        if (count($array_refs)>0){
+          $ret .= "\n\n";
+          $ret .= "ALTER TABLE `".$this->tablename."`\n";
+          $ret .= implode(",\n", $array_refs).";\n";
+        }
       }
-      break;
+        break;
     }
-    
+
     return $ret;
   }
 }

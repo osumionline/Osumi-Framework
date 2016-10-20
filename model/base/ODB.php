@@ -92,9 +92,9 @@ class ODB {
 	function howMany(){
 		return mysqli_num_rows($this->res);
 	}
-	
+
 	function next(){
-		return mysqli_fetch_array($this->res);
+		return mysqli_fetch_array($this->res,MYSQLI_ASSOC);
 	}
 
 	function lastQuery(){
