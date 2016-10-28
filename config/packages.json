@@ -1,0 +1,9 @@
+{
+  "packages": [
+    {
+      "name": "backend",
+      "comment": "Panel de administración para la base de datos",
+      "active": true
+    }
+  ]
+}

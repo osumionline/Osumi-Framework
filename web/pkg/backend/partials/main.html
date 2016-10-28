@@ -1,0 +1,30 @@
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="$mdMedia('gt-xs')" md-component-id="leftmenu">
+  <md-toolbar>
+    <h1 class="md-toolbar-tools">Gestores</h3>
+  </md-toolbar>
+  <md-list>
+    <md-list-item ng-repeat="model in vm.models" ng-click="vm.selectModel(model)">
+      {{model.name}}
+    </md-list-item>
+  </md-list>
+</md-sidenav>
+
+<div class="full-page" layout="column" flex class="content">
+  <md-toolbar layout="row">
+    <div class="md-toolbar-tools">
+      <md-button hide-gt-xs class="md-icon-button" aria-label="Menú" ng-click="vm.openMenu()">
+        <md-icon md-svg-src="/pkg/backend/img/menu.svg"></md-icon>
+      </md-button>
+      <h2>
+        <span>Backend</span>
+      </h2>
+    </div>
+  </md-toolbar>
+
+  <md-content layout-padding>
+    <p ng-if="!vm.selectedModel">
+      Elige un gestor de la columna izquierda
+    </p>
+    <model-detail ng-if="vm.selectedModel" selected="vm.selectedModel"></model-detail>
+  </md-content>
+</div>

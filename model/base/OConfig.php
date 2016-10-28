@@ -4,6 +4,7 @@ class OConfig{
   private $allow_cross_origin = false;
 
   private $default_modules = array();
+  private $packages        = array();
 
   private $dirs = array();
   private $db = array(
@@ -27,6 +28,8 @@ class OConfig{
 
   private $cookie_prefix = '';
   private $cookie_url    = '';
+
+  private $url_list      = null;
 
   private $css_list              = array();
   private $ext_css_list          = array();
@@ -85,6 +88,32 @@ class OConfig{
     }
   }
 
+  // Packages
+  public function setPackages($p){
+    $this->packages = $p;
+  }
+  public function getPackages(){
+    return $this->packages;
+  }
+
+  public function loadPackages(){
+    $ruta_base_json = $this->getDir('config').'packages.json';
+    if (file_exists($ruta_base_json)){
+      $base_json = json_decode( file_get_contents($ruta_base_json), true );
+      $this->setPackages($base_json);
+    }
+  }
+
+  public function getPackage($p){
+    $packages = $this->getPackages();
+    if (array_key_exists($p,$packages['packages']) && $packages['packages'][$p]===true){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   // Dirs
   function setDir($dir,$value){
     $this->dirs[$dir] = $value;
@@ -94,24 +123,25 @@ class OConfig{
   }
 
   function setBaseDir($bd){
-    $this->setDir('base',         $bd);
-    $this->setDir('cache',        $bd.'cache/');
-    $this->setDir('config',       $bd.'config/');
-    $this->setDir('controllers',  $bd.'controllers/');
-    $this->setDir('model',        $bd.'model/');
-    $this->setDir('model_app',    $bd.'model/app/');
-    $this->setDir('model_base',   $bd.'model/base/');
-    $this->setDir('model_static', $bd.'model/static/');
-    $this->setDir('model_lib',    $bd.'model/lib/');
-    $this->setDir('logs',         $bd.'logs/');
-    $this->setDir('debug_log',    $bd.'logs/debug.log');
-    $this->setDir('task',         $bd.'task/');
-    $this->setDir('sql',          $bd.'sql/');
-    $this->setDir('templates',    $bd.'templates/');
-    $this->setDir('tmp',          $bd.'tmp/');
-    $this->setDir('web',          $bd.'web/');
-    $this->setDir('img',          $bd.'web/img/');
-    $this->setDir('thumb',        $bd.'web/img/thumb');
+    $this->setDir('base',           $bd);
+    $this->setDir('cache',          $bd.'cache/');
+    $this->setDir('config',         $bd.'config/');
+    $this->setDir('controllers',    $bd.'controllers/');
+    $this->setDir('model',          $bd.'model/');
+    $this->setDir('model_app',      $bd.'model/app/');
+    $this->setDir('model_base',     $bd.'model/base/');
+    $this->setDir('model_lib',      $bd.'model/lib/');
+    $this->setDir('model_packages', $bd.'model/packages/');
+    $this->setDir('model_static',   $bd.'model/static/');
+    $this->setDir('logs',           $bd.'logs/');
+    $this->setDir('debug_log',      $bd.'logs/debug.log');
+    $this->setDir('task',           $bd.'task/');
+    $this->setDir('sql',            $bd.'sql/');
+    $this->setDir('templates',      $bd.'templates/');
+    $this->setDir('tmp',            $bd.'tmp/');
+    $this->setDir('web',            $bd.'web/');
+    $this->setDir('img',            $bd.'web/img/');
+    $this->setDir('thumb',          $bd.'web/img/thumb');
   }
 
   // Data base
@@ -172,6 +202,15 @@ class OConfig{
   }
   public function getCookieUrl(){
     return $this->cookie_url;
+  }
+
+  // Url cache
+  public function setUrlList($u){
+    $this->url_list = $u;
+  }
+
+  public function getUrlList(){
+    return $this->url_list;
   }
 
   // Templates

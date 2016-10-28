@@ -1,0 +1,68 @@
+{
+  "urls": [
+    {
+      "id": "backend",
+      "url": "/backend/",
+      "package": "backend",
+      "module": "backend",
+      "action": "backend",
+      "comment": "Aplicación backend"
+    },
+    {
+      "id": "backend_login",
+      "url": "/backend/login",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendLogin",
+      "comment": "Función para iniciar sesión en el backend"
+    },
+    {
+      "id": "backend_get_models",
+      "url": "/backend/get_models",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendGetModels",
+      "comment": "Función para obtener la lista de gestores"
+    },
+    {
+      "id": "backend_get_records",
+      "url": "/backend/get_records",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendGetRecords",
+      "comment": "Función para obtener la lista de registros de una tabla"
+    },
+    {
+      "id": "backend_get_refs",
+      "url": "/backend/get_refs",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendGetRefs",
+      "comment": "Función para obtener las relaciones entre tablas"
+    },
+    {
+      "id": "backend_delete_record",
+      "url": "/backend/delete_record",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendDeleteRecord",
+      "comment": "Función para borrar un registro"
+    },
+    {
+      "id": "backend_delete_records",
+      "url": "/backend/delete_records",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendDeleteRecords",
+      "comment": "Función para borrar una lista de registros"
+    },
+    {
+      "id": "backend_add_edit_record",
+      "url": "/backend/add_edit_record",
+      "package": "backend",
+      "module": "backend",
+      "action": "backendAddEditRecord",
+      "comment": "Función para añadir o editar un registro"
+    }
+  ]
+}

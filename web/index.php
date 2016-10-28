@@ -47,7 +47,6 @@ if ($res['res']){
   $t = new OTemplate();
   $t->setModule($res['module']);
   $t->setAction($res['action']);
-  $t->setLayout( file_get_contents($c->getDir('templates').'layout/'.$res['layout'].'.php') );
 
   $l->setSection($res['id']);
   $l->setModel('Generico');
@@ -58,7 +57,15 @@ if ($res['res']){
   }
 
   $func = 'execute'.ucfirst($res['action']);
-  $module = $c->getDir('controllers').$res['module'].'.php';
+  if (!array_key_exists('package', $res)){
+    $module = $c->getDir('controllers').$res['module'].'.php';
+  }
+  else{
+    $t->setPackage($res['package']);
+    $module = $c->getDir('model_packages').$res['package'].'/controllers/'.$res['module'].'.php';
+    include($c->getDir('model_packages').$res['package'].'/config/config.php');
+  }
+  $t->loadLayout($res['layout']);
   if (file_exists($module)){
     include($module);
 

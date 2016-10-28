@@ -1,0 +1,80 @@
+<md-card flex="100">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{selected.name}}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <div layout="row" class="list-title-row">
+      <div class="field-5">
+        <md-checkbox ng-model="select_all" aria-label="Todos"></md-checkbox>
+      </div>
+      <div class="field field-{{vm.width}}" ng-repeat="field in vm.fields" title="{{field.com}}">
+        <a href ng-click="vm.orderBy(field.name)" md-ink-ripple="#FF0000">
+          <md-icon ng-if="vm.order_by==field.name && vm.order_sent" md-svg-icon="/pkg/backend/img/{{vm.order_sent}}.svg"></md-icon>
+          {{field.name}}
+        </a>
+      </div>
+      <div class="field field-15">
+        Opciones
+      </div>
+    </div>
+    <md-divider></md-divider>
+    <md-list>
+      <md-list-item ng-if="vm.records.length" ng-repeat="item in vm.records">
+        <div class="field-5">
+          <md-checkbox ng-model="item.selected" aria-label="Checkbox 1" ng-change="vm.selectRow($index)"></md-checkbox>
+        </div>
+        <model-detail-field class="field field-{{vm.width}}" ng-repeat="field in vm.fields" field="field" item="item" refs="vm.refs"></model-detail-field>
+        <div class="field field-15">
+          <md-button class="md-icon-button" aria-label="Editar" title="Editar" ng-click="vm.editRecord($event,$index)">
+            <md-icon md-svg-icon="/pkg/backend/img/edit.svg"></md-icon>
+          </md-button>
+          <md-button class="md-icon-button" aria-label="Borrar" title="Borrar" ng-click="vm.deleteRecord($event,$index)">
+            <md-icon md-svg-icon="/pkg/backend/img/delete.svg"></md-icon>
+          </md-button>
+        </div>
+        <md-divider></md-divider>
+      </md-list-item>
+      <md-list-item ng-if="!vm.records.length">
+        No hay ningún registro en esta tabla.
+      </md-list-item>
+    </md-list>
+    <div layout="row">
+      <div flex="33" layout="row">
+        <md-input-container>
+          <label>Num res</label>
+          <md-select ng-disabled="!vm.records.length" ng-model="vm.num_pag" class="md-no-underline" ng-change="vm.updateNumPag()" aria-label="Num por página">
+            <md-option value="10">10</md-option>
+            <md-option value="20">20</md-option>
+            <md-option value="50">50</md-option>
+            <md-option value="100">100</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div flex="33" layout="row" layout-align="center center">
+        <md-button ng-disabled="!vm.selectedList.length" class="md-raised md-warn" ng-click="vm.deleteBatch($event)">Borrar seleccionados</md-button>
+      </div>
+      <div flex="33" layout="row" layout-align="end center">
+        <md-button ng-disabled="vm.pag==1" class="md-icon-button btn-black" ng-class="{'btn-disabled':vm.pag==1}" aria-label="Anterior">
+          <md-icon md-svg-icon="/pkg/backend/img/previous.svg"></md-icon>
+        </md-button>
+        <md-input-container>
+          <label>Página</label>
+          <md-select ng-disabled="!vm.records.length" ng-model="vm.pag" class="md-no-underline" ng-change="vm.updateRecords()" aria-label="Página">
+            <md-option ng-repeat="pag in vm.pags" ng-value="pag">
+              {{pag}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+        <md-button ng-disabled="vm.pag==vm.pags[vm.pags.length-1]" class="md-icon-button btn-black" aria-label="Siguiente">
+          <md-icon md-svg-icon="/pkg/backend/img/next.svg"></md-icon>
+        </md-button>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>
+
+<md-button class="md-fab btn-fab" aria-label="Añadir registro" title="Añadir registro" ng-click="vm.add($event)">
+  <md-icon md-svg-src="/pkg/backend/img/add.svg"></md-icon>
+</md-button>

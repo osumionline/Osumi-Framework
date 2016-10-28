@@ -7,14 +7,14 @@ class OBase{
   protected $tablename  = '';
   // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text
   protected $default_model = array(
-    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>''),
-    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
-    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
-    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>'', 'ref'=>''),
-    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>''),
-    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>''),
-    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>''),
-    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'')
+    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'')
   );
   protected $model   = array();
   protected $pk      = array('id');
@@ -58,6 +58,7 @@ class OBase{
       $temp['len']   = array_key_exists('len',   $row) ? $row['len']   : $temp['len'];
       $temp['com']   = array_key_exists('com',   $row) ? $row['com']   : $temp['com'];
       $temp['ref']   = array_key_exists('ref',   $row) ? $row['ref']   : $temp['ref'];
+      $temp['by']    = array_key_exists('by',    $row) ? $row['by']    : $temp['by'];
       $full_model[$fieldname] = $temp;
     }
     $this->model = $full_model;
@@ -142,6 +143,18 @@ class OBase{
     else{
       return false;
     }
+  }
+
+  public function getPks(){
+    $ret = array();
+    $model = $this->getModel();
+
+    foreach ($model as $fieldname => $row){
+      if ($row['type']==Base::PK){
+        array_push($ret,$fieldname);
+      }
+    }
+    return $ret;
   }
 
   public function setShowInBackend($show){

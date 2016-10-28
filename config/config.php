@@ -12,6 +12,9 @@
   /* Carga de módulos */
   $c->loadDefaultModules();
 
+  /* Carga de paquetes */
+  $c->loadPackages();
+
   /* Datos de la Base De Datos */
   $c->setDB('host','host');
   $c->setDB('user','user');
@@ -45,3 +48,7 @@
   
   /* Para cerrar la página descomentar la siguiente linea */
   //$c->setPaginaCerrada(true);
+
+  /* Backend */
+  $c->setBackend('user','admin');
+  $c->setBackend('pass','cb5ef71ffc7a67bdb217c5496d3a36d5be0b5d25');

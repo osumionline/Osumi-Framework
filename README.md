@@ -26,13 +26,15 @@ Carpeta con los ficheros de configuración:
 Carpeta con la lógica de la aplicación. Corresponde a Controlador del MVC. Cada archivo en esta carpeta corresponde a un `módulo` que tiene dentro varias funciones llamadas `acciones`.
 
 ### model
-Esta carpeta tiene cuatro carpetas dentro:
+Esta carpeta tiene cinco carpetas dentro:
 
 `app`: carpeta con clases por cada tabla de la base de datos, corresponde al Modelo.
 
 `base`: carpeta con las clases internas del Framework.
 
 `lib`: carpeta para las librerías externas.
+
+`packages`: carpeta para los paquetes añadidos al framework. Inicialmente vacía en caso de no querer usar ninguno.
 
 `static`: carpeta con las clases estáticas que contienen funciones que se usarán a lo largo del sitio.
 
