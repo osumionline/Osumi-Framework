@@ -6,6 +6,7 @@ CHANGELOG
 1. ¡Paquetes! Sistema de plugins que incorpora nuevas funcionalidades o apartados completos a una web. Basta con añadir una línea en el archivo `config/packages.json`, añadir la carpeta correspondiente en `model/packages` y en caso de que lo necesite, la carpeta pública correspondiente en `web/pkg`
 2. Se incluye el primer paquete, `backend`, que ofrece una interfaz para manejar los datos de la base de datos desde una interfaz creada con Angular Material
 3. Correcciones y mejoras detectadas al hacer el nuevo desarrollo.
+4. Añado tipo `FLOAT` para valores con decimales (01/11/2016)
 
 ## `2.3` (17/10/2016)
 

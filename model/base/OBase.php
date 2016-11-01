@@ -5,7 +5,7 @@ class OBase{
   protected $log        = null;
   protected $model_name = '';
   protected $tablename  = '';
-  // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text
+  // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text, 9-Float
   protected $default_model = array(
     'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>''),
     'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
@@ -14,7 +14,8 @@ class OBase{
     'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>'', 'by'=>''),
     'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
     'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'')
+    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
+    'model_9' => array('type'=>Base::FLOAT,    'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'')
   );
   protected $model   = array();
   protected $pk      = array('id');
@@ -36,7 +37,7 @@ class OBase{
     $this->model_name = $model_name;
     $this->tablename  = $tablename;
     $this->model      = $model;
-
+    
     if (!is_null($pk)){
       $this->pk = $pk;
     }
@@ -137,6 +138,9 @@ class OBase{
       }
       if ($field['type']==Base::BOOL){
         return ( ( (int)$field['val'] )==1 );
+      }
+      if ($field['type']==Base::FLOAT){
+        return (float)$field['val'];
       }
       return $field['val'];
     }
@@ -267,7 +271,7 @@ class OBase{
     // Guardo el modelo modificado
     $this->setModel($model);
   }
-
+  
   public function check($opt=array()){
     if ($this->find($opt)){
       return true;
@@ -322,20 +326,20 @@ class OBase{
 
     $this->db->query($sql);
   }
-
+  
   public function generate($type='sql'){
     $model = $this->getModel();
     $ret = '';
-
+    
     switch ($type){
       case 'array':{
         $ret = $model;
       }
-        break;
+      break;
       case 'json':{
         $ret = json_encode($model);
       }
-        break;
+      break;
       case 'sql':{
         $array_refs = array();
         $sql = "CREATE TABLE `".$this->tablename."` (\n";
@@ -345,19 +349,19 @@ class OBase{
             case 1:{
               $sql .= "int(11) NOT NULL ";
             }
-              break;
+            break;
             case 2:{
               $sql .= "datetime NOT NULL ";
             }
-              break;
+            break;
             case 3:{
               $sql .= "datetime NOT NULL ";
             }
-              break;
+            break;
             case 4:{
               $sql .= "int(11) NOT NULL ";
             }
-              break;
+            break;
             case 5:{
               if ($field['len']<256){
                 $sql .= "varchar(".$field['len'].") COLLATE utf8_unicode_ci NOT NULL ";
@@ -366,22 +370,31 @@ class OBase{
                 $sql .= "text COLLATE utf8_unicode_ci  NOT NULL ";
               }
             }
-              break;
+            break;
             case 6:{
               $sql .= "datetime NOT NULL ";
             }
-              break;
+            break;
             case 7:{
               $sql .= "tinyint(1) NOT NULL ";
             }
-              break;
+            break;
+            case 8:{
+              $sql .= "text ";
+            }
+            break;
+            case 9:{
+              $sql .= "float ";
+            }
+            break;
+          }
+          if ($field['incr']){
+            $sql .= "AUTO_INCREMENT ";
           }
           if ($field['com']!=''){
             $sql .= "COMMENT '".$field['com']."' ";
           }
-          if ($field['incr']){
-            $sql .= "AUTO_INCREMENT";
-          }
+          $sql = substr($sql, 0, strlen($sql)-1);
           $sql .= ",\n";
 
           if ($field['ref']!=''){
@@ -392,8 +405,8 @@ class OBase{
           }
         }
         $sql .= "  PRIMARY KEY (`".implode('`,`',$this->pk)."`)\n";
-        $sql .= ") ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;\n";
-
+        $sql .= ") ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;\n";
+        
         $ret = $sql;
 
         if (count($array_refs)>0){
@@ -402,9 +415,9 @@ class OBase{
           $ret .= implode(",\n", $array_refs).";\n";
         }
       }
-        break;
+      break;
     }
-
+    
     return $ret;
   }
 }

@@ -11,6 +11,7 @@ class Base{
   const DATE     = 6;
   const BOOL     = 7;
   const LONGTEXT = 8;
+  const FLOAT    = 9;
 
   public static function getModelList(){
     global $c;
@@ -30,6 +31,31 @@ class Base{
     sort($ret);
     return $ret;
   }
+  
+  public static function getResults($table,$field,$list){
+    $ret = array();
+    $db = new ODB();
+    $sql = "SELECT * FROM `".$table."` WHERE `".$field."` IN (".implode(',', $list).")";
+    $db->query($sql);
+    
+    while ($res=$db->next()){
+      array_push($ret, $res);
+    }
+    
+    return $ret;
+  }
+
+  public static function getRefData($ref){
+    $ret = array('model'=>'','table'=>'','field'=>'');
+
+    $ref_data = explode('.',$ref);
+    $ret['field'] = $ref_data[1];
+    $ref_obj = explode('(',$ref_data[0]);
+    $ret['model'] = $ref_obj[0];
+    $ret['table'] = str_ireplace(')','',$ref_obj[1]);
+
+    return $ret;
+  }
 
   public static function getCache($key){
     global $c;
@@ -43,11 +69,11 @@ class Base{
       return false;
     }
   }
-
+  
   public static function checkCookie(){
     global $s, $ck;
     $ret = false;
-
+    
     // Si pide login la pagina compruebo si ya tiene login en sesión, si no tiene compruebo la cookie
     if (!$s->getParam('logged')){
       $session_key = $ck->getCookie('session_key');
@@ -58,7 +84,7 @@ class Base{
           if ($u->get('id') == $id_user){
             $s->addParam('logged',true);
             $s->addParam('id',$id_user);
-
+            
             $ret = true;
           }
           else{
@@ -79,13 +105,13 @@ class Base{
     else{
       $ret = true;
     }
-
+    
     return $ret;
   }
-
+  
   public static function doLogout($mens=null){
     global $s, $ck;
-
+  
     $ck->cleanCookies();
     $s->cleanSession();
     if (!is_null($mens)){
@@ -114,7 +140,7 @@ class Base{
 
     return $rand;
   }
-
+  
   public static function getParam($key,$list,$default=false){
     if (array_key_exists($key, $list)){
       return $list[$key];
@@ -123,16 +149,16 @@ class Base{
       return $default;
     }
   }
-
+  
   public static function getTemplate($ruta,$html,$params){
     if ($ruta!=''){
       $html = file_get_contents($ruta);
     }
-
+    
     foreach ($params as $param_name => $param){
       $html = str_ireplace('{{'.strtoupper($param_name).'}}', $param, $html);
     }
-
+    
     return $html;
   }
 
@@ -144,7 +170,7 @@ class Base{
     }
     return false;
   }
-
+  
   public static function createThumb($pathToImage,$pathToThumb,$thumbWidth){
     $status = true;
 
@@ -211,7 +237,7 @@ class Base{
     $str = str_ireplace('&lt;br&gt;', '', $str);
     return $str;
   }
-
+  
   public static function showErrorPage($res,$mode){
     echo "<html>\n";
     echo "  <head>\n";
@@ -254,7 +280,7 @@ class Base{
     echo "  </body>\n";
     echo "</html>";
   }
-
+  
   public static function doPostRequest($url,$data){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -264,10 +290,10 @@ class Base{
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     $result = curl_exec($ch);
-
+    
     return $result;
   }
-
+  
   public static function doDeleteRequest($url,$data){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -277,7 +303,7 @@ class Base{
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     $result = curl_exec($ch);
-
+    
     return $result;
   }
 
@@ -286,14 +312,14 @@ class Base{
     foreach ($files as $file) {
       (is_dir("$dir/$file")) ? self::rrmdir("$dir/$file") : unlink("$dir/$file");
     }
-    return rmdir($dir);
+    return rmdir($dir); 
   }
 
   public static function formatDateForBD($d){
     $data = explode("/",$d);
     return $data[2].'-'.$data[1].'-'.$data[0].' 00:00:00';
   }
-
+  
   public static function getHash(){
     $str = time();
     $str = "v_".$str."_v";
@@ -301,56 +327,56 @@ class Base{
 
     return $str;
   }
-
+  
   public static function slugify($text, $separator = '-')
   {
-    $bad = array(
-      'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
-      'Ć','ć','Č','č','Ç','ç',
-      'Ď','ď','Đ','đ',
-      'È','è','É','é','Ê','ê','Ë','ë','Ě','ě','Ę','ę',
-      'Ğ','ğ',
-      'Ì','ì','Í','í','Î','î','Ï','ï',
-      'Ĺ','ĺ','Ľ','ľ','Ł','ł',
-      'Ñ','ñ','Ň','ň','Ń','ń',
-      'Ò','ò','Ó','ó','Ô','ô','Õ','õ','Ö','ö','Ø','ø','ő',
-      'Ř','ř','Ŕ','ŕ',
-      'Š','š','Ş','ş','Ś','ś',
-      'Ť','ť','Ť','ť','Ţ','ţ',
-      'Ù','ù','Ú','ú','Û','û','Ü','ü','Ů','ů',
-      'Ÿ','ÿ','ý','Ý',
-      'Ž','ž','Ź','ź','Ż','ż',
-      'Þ','þ','Ð','ð','ß','Œ','œ','Æ','æ','µ',
-      '”','“','‘','’',"'","\n","\r",'_','º','ª');
+  	$bad = array(
+    'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
+    'Ć','ć','Č','č','Ç','ç',
+    'Ď','ď','Đ','đ',
+    'È','è','É','é','Ê','ê','Ë','ë','Ě','ě','Ę','ę',
+    'Ğ','ğ',
+    'Ì','ì','Í','í','Î','î','Ï','ï',
+    'Ĺ','ĺ','Ľ','ľ','Ł','ł',
+    'Ñ','ñ','Ň','ň','Ń','ń',
+    'Ò','ò','Ó','ó','Ô','ô','Õ','õ','Ö','ö','Ø','ø','ő',
+    'Ř','ř','Ŕ','ŕ',
+    'Š','š','Ş','ş','Ś','ś',
+    'Ť','ť','Ť','ť','Ţ','ţ',
+    'Ù','ù','Ú','ú','Û','û','Ü','ü','Ů','ů',
+    'Ÿ','ÿ','ý','Ý',
+    'Ž','ž','Ź','ź','Ż','ż',
+    'Þ','þ','Ð','ð','ß','Œ','œ','Æ','æ','µ',
+    '”','“','‘','’',"'","\n","\r",'_','º','ª');
 
     $good = array(
-      'A','a','A','a','A','a','A','a','Ae','ae','A','a','A','a','A','a',
-      'C','c','C','c','C','c',
-      'D','d','D','d',
-      'E','e','E','e','E','e','E','e','E','e','E','e',
-      'G','g',
-      'I','i','I','i','I','i','I','i',
-      'L','l','L','l','L','l',
-      'N','n','N','n','N','n',
-      'O','o','O','o','O','o','O','o','Oe','oe','O','o','o',
-      'R','r','R','r',
-      'S','s','S','s','S','s',
-      'T','t','T','t','T','t',
-      'U','u','U','u','U','u','Ue','ue','U','u',
-      'Y','y','Y','y',
-      'Z','z','Z','z','Z','z',
-      'TH','th','DH','dh','ss','OE','oe','AE','ae','u',
-      '','','','','','','','-','','');
+    'A','a','A','a','A','a','A','a','Ae','ae','A','a','A','a','A','a',
+    'C','c','C','c','C','c',
+    'D','d','D','d',
+    'E','e','E','e','E','e','E','e','E','e','E','e',
+    'G','g',
+    'I','i','I','i','I','i','I','i',
+    'L','l','L','l','L','l',
+    'N','n','N','n','N','n',
+    'O','o','O','o','O','o','O','o','Oe','oe','O','o','o',
+    'R','r','R','r',
+    'S','s','S','s','S','s',
+    'T','t','T','t','T','t',
+    'U','u','U','u','U','u','Ue','ue','U','u',
+    'Y','y','Y','y',
+    'Z','z','Z','z','Z','z',
+    'TH','th','DH','dh','ss','OE','oe','AE','ae','u',
+    '','','','','','','','-','','');
 
     // convert special characters
     $text = str_replace($bad, $good, $text);
-
+  	
     // convert special characters
     $text = utf8_decode($text);
     $text = htmlentities($text);
     $text = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde);/', '$1', $text);
     $text = html_entity_decode($text);
-
+    
     $text = strtolower($text);
 
     // strip all non word chars
@@ -363,7 +389,7 @@ class Base{
     $text = trim($text, $separator);
     //$text = preg_replace('/\-$/', '', $text);
     //$text = preg_replace('/^\-/', '', $text);
-
+        
     return $text;
   }
 }
