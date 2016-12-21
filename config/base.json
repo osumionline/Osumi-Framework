@@ -1,10 +1,11 @@
 {
   "base_modules": {
-    "browser": true,
-    "email": true,
+    "browser": false,
+    "email": false,
     "email_smtp": false,
-    "image": true,
-    "pdf": true,
-    "translate": true
+    "ftp": false,
+    "image": false,
+    "pdf": false,
+    "translate": false
   }
 }

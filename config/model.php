@@ -18,6 +18,9 @@
   if ($c->getDefaultModule('email_smtp')){
     require($c->getDir('model_lib').'email/PHPMailerAutoload.php');
   }
+  if ($c->getDefaultModule('ftp')){
+    require($c->getDir('model_base').'OFTP.php');
+  }
   if ($c->getDefaultModule('image')){
     require($c->getDir('model_lib').'image/SimpleImage.php');
     require($c->getDir('model_base').'OImage.php');

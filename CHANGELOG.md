@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.5` (21/12/2016)
+
+1. Añado clase OFTP con varios métodos para acceder a servidores remotos. Métodos como put, get, delete...
+
 ## `2.4` (28/10/2016)
 
 1. ¡Paquetes! Sistema de plugins que incorpora nuevas funcionalidades o apartados completos a una web. Basta con añadir una línea en el archivo `config/packages.json`, añadir la carpeta correspondiente en `model/packages` y en caso de que lo necesite, la carpeta pública correspondiente en `web/pkg`
