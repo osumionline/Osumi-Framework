@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.6` (14/01/2017)
+
+1. Añado clase ODBp para conexiones a la base de datos usando PDO, para consultas con Prepared Statements
+
 ## `2.5` (21/12/2016)
 
 1. Añado clase OFTP con varios métodos para acceder a servidores remotos. Métodos como put, get, delete...
