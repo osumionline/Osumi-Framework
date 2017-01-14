@@ -2,6 +2,7 @@
   // Base
   require($c->getDir('model_base').'OBase.php');
   require($c->getDir('model_base').'ODB.php');
+  require($c->getDir('model_base').'ODBp.php');
   require($c->getDir('model_base').'OLog.php');
   require($c->getDir('model_base').'OUrl.php');
   require($c->getDir('model_base').'OTemplate.php');

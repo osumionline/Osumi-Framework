@@ -3,13 +3,14 @@
  * Clase para gestionar la Base de datos
  */
 class ODBp {
-  private $driver = 'mysql';
-	private $host;
-	private $user;
-	private $pass;
-	private $name;
-	private $link;
-	private $stmt;
+  private $driver     = 'mysql';
+	private $host       = null;
+	private $user       = null;
+	private $pass       = null;
+	private $name       = null;
+	private $link       = null;
+	private $stmt       = null;
+	private $fetch_mode = null;
 
 	function __construct($user='', $pass='', $host='', $name=''){
 		global $c;
@@ -71,6 +72,12 @@ class ODBp {
 	public function getStmt(){
   	return $this->stmt;
 	}
+	public function setFetchMode($fm){
+  	$this->fetch_mode = $fm;
+	}
+	public function getFetchMode(){
+  	return $this->fetch_mode;
+	}
 	
 	/*
    * Function to open a connection to the database
@@ -118,6 +125,12 @@ class ODBp {
     else{
       $stmt->execute();
     }
+    
+    // If fetch mode is not null, set it into the statement
+    if (!is_null($this->getFetchMode())){
+      $stmt->setFetchMode(PDO::FETCH_CLASS, $this->getFetchMode());
+    }
+    
     $this->setStmt($stmt);
 	}
 	
@@ -146,7 +159,10 @@ class ODBp {
    * Function to get one result
    */
 	public function fetch(){
-  	return $this->getStmt()->fetch(PDO::FETCH_ASSOC);
+  	if (is_null($this->getFetchMode())){
+  	  return $this->getStmt()->fetch(PDO::FETCH_ASSOC);
+  	}
+  	return $this->getStmt()->fetch();
 	}
 	
 	/*
