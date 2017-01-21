@@ -28,21 +28,21 @@ $u->setCheckUrl($_SERVER['REQUEST_URI'],$_GET,$_POST,$_FILES);
 $res = $u->process();
 
 if ($res['res']){
+  // Si hay un filtro de seguridad lo aplico antes del controller
+  if (array_key_exists('filter', $res)){
+    $res['params'] = call_user_func($res['filter'], $res['params']);
+    
+    // Si el status es error, doy status 403 Forbidden
+    if ($res['params']['filter']['status']=='error'){
+      Base::showErrorPage($res,'403');
+    }
+  }
+  
   if ($s->getParam('current') != ''){
     $s->addParam('previous', $s->getParam('current'));
   }
   $s->addParam('current', $res['module'].'/'.$res['action']);
   $s->addParam('method', $u->getMethod());
-
-  // Comprobación de login
-  if (array_key_exists('login',$res) && $res['login']!='dont'){
-    $check = Base::checkCookie();
-    if ($res['login']=='yes'){
-      if (!$check){
-        Base::doLogout('Tienes que iniciar sesión antes');
-      }
-    }
-  }
 
   $t = new OTemplate();
   $t->setModule($res['module']);

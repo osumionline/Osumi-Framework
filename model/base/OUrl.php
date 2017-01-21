@@ -158,7 +158,6 @@ class OUrl{
       'action' => '',
       'params' => array(),
       'layout' => 'default',
-      'login' => 'dont',
       'res' => false
     );
 
@@ -185,13 +184,14 @@ class OUrl{
           $ret['layout'] = $u['urls'][$i]['layout'];
         }
 
-        if (array_key_exists('login', $u['urls'][$i])){
-          $ret['login'] = $u['urls'][$i]['login'];
+        if (array_key_exists('filter', $u['urls'][$i])){
+          $ret['filter'] = $u['urls'][$i]['filter'];
         }
 
         $ret['params'] = $chk;
 
         $ret['params']['url_params'] = $this->getUrlParams();
+        $ret['params']['headers'] = getallheaders();
       }
 
       $i++;

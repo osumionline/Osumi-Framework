@@ -56,3 +56,13 @@
     }
     closedir($model);
   }
+  
+  // Filters
+  if ($model = opendir($c->getDir('model_filters'))) {
+    while (false !== ($entry = readdir($model))) {
+      if ($entry != "." && $entry != "..") {
+        require($c->getDir('model_filters').$entry);
+      }
+    }
+    closedir($model);
+  }

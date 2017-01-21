@@ -14,6 +14,14 @@
         "module": "home",
         "action": "index",
         "comment": "Home pública"
+      },
+      {
+        "id": "api_call",
+        "url": "/api/call",
+        "module": "api",
+        "action": "apiCall",
+        "comment": "Función llamada por API",
+        "filter": "tokenFilter"
       }
   ]
 }

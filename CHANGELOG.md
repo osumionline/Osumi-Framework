@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `2.7` (21/01/2017)
+
+1. Corrección en clase de muestra
+2. Filtros de seguridad: en el archivo `urls.json` se puede definir un filtro de seguridad que se aplicará antes del controller llamado. Si el filtro de seguridad devuelve error, el usuario recibe el status 403.
+
 ## `2.6` (14/01/2017)
 
 1. Añado clase ODBp para conexiones a la base de datos usando PDO, para consultas con Prepared Statements
