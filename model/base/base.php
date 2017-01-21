@@ -239,13 +239,18 @@ class Base{
   }
   
   public static function showErrorPage($res,$mode){
+    if ($mode=='403'){ header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden"); }
+    if ($mode=='404'){ header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found"); }
     echo "<html>\n";
     echo "  <head>\n";
     echo "    <meta charset=\"UTF-8\">\n";
     echo "    <title>Error</title>\n";
     echo "  </head>\n";
     echo "  <body>\n";
-    if ($mode=='404' || $mode=='general'){
+    if ($mode=='404' || $mode=='403' || $mode=='general'){
+      if ($mode=='403'){
+        echo "403 - Error de autenticación\n";
+      }
       if ($mode=='404'){
         echo "404 - Página no encontrada\n";
       }
@@ -279,6 +284,7 @@ class Base{
     }
     echo "  </body>\n";
     echo "</html>";
+    exit();
   }
   
   public static function doPostRequest($url,$data){
