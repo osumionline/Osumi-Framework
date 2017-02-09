@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `2.8` (09/02/2017)
+
+1. Corrección en clase de muestra
+2. Corrección en OTemplate para poder añadir css y js desde los ontrollers
+
 ## `2.7` (21/01/2017)
 
 1. Corrección en clase de muestra

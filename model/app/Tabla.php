@@ -1,7 +1,7 @@
 <?php
 class Tabla extends OBase{
   function __construct(){
-    $model_name = 'Tabla';
+    $model_name = get_class($this);
     $tablename  = 'tabla';
     $model = array(
         'id'          => array('type'=>Base::PK,                   'com'=>'Clave primaria'),

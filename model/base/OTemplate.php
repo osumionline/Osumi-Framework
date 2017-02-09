@@ -287,10 +287,10 @@ class OTemplate{
       $this->addJs('gallery');
     }
 
-    $this->setExtCssList( $c->getExtCssList() );
-    $this->setCssList( $c->getCssList() );
-    $this->setJsList( $c->getJsList() );
-    $this->setExtJsList( $c->getExtJsList() );
+    $this->setExtCssList( array_merge($this->getExtCssList(),$c->getExtCssList()) );
+    $this->setCssList( array_merge($this->getCssList(),$c->getCssList()) );
+    $this->setJsList( array_merge($this->getJsList(),$c->getJsList()) );
+    $this->setExtJsList( array_merge($this->getExtJsList(),$c->getExtJsList()) );
 
     $str      = $this->getLayout();
     $p        = $this->getParams();
