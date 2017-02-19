@@ -304,8 +304,8 @@ class OBase{
     $model = $this->getModel();
     foreach ($model as $fieldname=>$field){
       if (array_key_exists($fieldname,$res)){
-        $model[$fieldname]['orig'] = in_array($field['type'],array(1,4))?(int)$res[$fieldname]:$res[$fieldname];
-        $model[$fieldname]['val']  = in_array($field['type'],array(1,4))?(int)$res[$fieldname]:$res[$fieldname];
+        $model[$fieldname]['orig'] = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
+        $model[$fieldname]['val']  = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
       }
     }
     $this->setModel($model);

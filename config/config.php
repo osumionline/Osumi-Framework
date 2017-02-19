@@ -48,6 +48,9 @@
   
   /* Para cerrar la página descomentar la siguiente linea */
   //$c->setPaginaCerrada(true);
+  
+  /* Páginas de error customizadas */
+  $c->setErrorPage('403','/admin');
 
   /* Backend */
   $c->setBackend('user','admin');

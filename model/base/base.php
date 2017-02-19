@@ -239,6 +239,12 @@ class Base{
   }
   
   public static function showErrorPage($res,$mode){
+    global $c;
+    if (!is_null($c->getErrorPage($mode))){
+      header('Location:'.$c->getErrorPage($mode));
+      exit();
+    }
+
     if ($mode=='403'){ header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden"); }
     if ($mode=='404'){ header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found"); }
     echo "<html>\n";

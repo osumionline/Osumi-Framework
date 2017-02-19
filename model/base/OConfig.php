@@ -30,6 +30,12 @@ class OConfig{
   private $cookie_url    = '';
 
   private $url_list      = null;
+  
+  private $error_pages  = array(
+    '403' => null,
+    '404' => null,
+    '500' => null
+  );
 
   private $css_list              = array();
   private $ext_css_list          = array();
@@ -212,6 +218,18 @@ class OConfig{
 
   public function getUrlList(){
     return $this->url_list;
+  }
+  
+  // Error pages
+  public function setErrorPage($num,$url){
+    $this->error_pages[$num] = $url;
+  }
+  
+  public function getErrorPage($num){
+    if (array_key_exists($num, $this->error_pages)){
+      return $this->error_pages[$num];
+    }
+    return null;
   }
 
   // Templates
