@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `2.9.1` (11/03/2017)
+
+1. Corrección en Otemplate
+
+
 ## `2.9` (19/02/2017)
 
 1. Posibilidad de redirigir a urls customizadas en caso e 403/404/500

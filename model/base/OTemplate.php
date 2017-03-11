@@ -394,8 +394,8 @@ class OTemplate{
 
     // Añado carpeta imágenes
     if (stripos($str_body, '{{img}}')){
-      $str_body = str_replace(array('{{img}}'), '/'.$c->getUrlCarpeta().'img/', $str_body);
-      $str_body = str_replace(array('{{img_url}}'), '/'.$c->getUrlCarpeta().'img/', $str_body);
+      $str_body = str_replace(array('{{img}}'), '/'.$c->getUrl('folder').'img/', $str_body);
+      $str_body = str_replace(array('{{img_url}}'), '/'.$c->getUrl('folder').'img/', $str_body);
     }
 
     // Añado cuerpo al layout
