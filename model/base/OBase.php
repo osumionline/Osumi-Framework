@@ -202,6 +202,7 @@ class OBase{
           array_push($updated_fields, $cad);
         }
       }
+      if (count($updated_fields)==0){ return false; }
       $sql .= implode($updated_fields,", ");
       $sql .= ' WHERE ';
       foreach ($this->pk as $i=>$pk_ind){

@@ -1,9 +1,13 @@
 CHANGELOG
 =========
 
+## `2.9.2` (08/06/2017)
+
+1. Corrección en OBase para que no ejecute una SQL vacía en caso de que no se haya modificado nada.
+
 ## `2.9.1` (11/03/2017)
 
-1. Corrección en Otemplate
+1. Corrección en OTemplate
 
 
 ## `2.9` (19/02/2017)
