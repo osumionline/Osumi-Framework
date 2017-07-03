@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.10` (03/07/2017)
+
+1. A√ado m√todo a ODB (`all`) para obtener toda la lista de una consulta en vez de tener que andar recorriendo los resultados.
+
 ## `2.9.2` (08/06/2017)
 
 1. Correcci√≥n en OBase para que no ejecute una SQL vac√≠a en caso de que no se haya modificado nada.

@@ -94,6 +94,14 @@ class ODB {
 		return mysqli_fetch_array($this->res,MYSQLI_ASSOC);
 	}
 
+	function all(){
+		$list = array();
+		while($res=$this->next()){
+			array_push($list,$res);
+		}
+		return $list;
+	}
+
 	function lastQuery(){
 		return $this->query;
 	}
