@@ -51,9 +51,14 @@ class OUrl{
     global $c;
     $ret = array();
 
+    $urls_cache_file = $c->getDir('cache').'urls.cache.json';
+    if (!file_exists($urls_cache_file)){
+      Base::updateUrls(true);
+    }
+
     // App urls
     if (is_null($c->getUrlList())){
-      $u = json_decode(file_get_contents($c->getDir('config').'urls.json'),true);
+      $u = json_decode(file_get_contents($urls_cache_file),true);
       $ret = $u;
     }
     else{
@@ -164,28 +169,28 @@ class OUrl{
     // Incluyo routing de Symfony
     require_once($this->getRoutingDir().'sfRoute.class.php');
 
-    while (!$enc && $i<count($u['urls'])){
-      $route = new sfRoute($u['urls'][$i]['url']);
+    while (!$enc && $i<count($u)){
+      $route = new sfRoute($u[$i]['url']);
       $chk = $route->matchesUrl($this->getCheckUrl());
 
       // Si hay resultado devuelvo valores del urls.json mas parametros devueltos por la ruta
       if ($chk !== false){
         $enc = true;
-        $ret['id'] = $u['urls'][$i]['id'];
-        $ret['module'] = $u['urls'][$i]['module'];
-        $ret['action'] = $u['urls'][$i]['action'];
+        $ret['id'] = $u[$i]['id'];
+        $ret['module'] = $u[$i]['module'];
+        $ret['action'] = $u[$i]['action'];
         $ret['res'] = true;
 
-        if (array_key_exists('package', $u['urls'][$i])){
-          $ret['package'] = $u['urls'][$i]['package'];
+        if (array_key_exists('package', $u[$i])){
+          $ret['package'] = $u[$i]['package'];
         }
 
-        if (array_key_exists('layout', $u['urls'][$i])){
-          $ret['layout'] = $u['urls'][$i]['layout'];
+        if (array_key_exists('layout', $u[$i])){
+          $ret['layout'] = $u[$i]['layout'];
         }
 
-        if (array_key_exists('filter', $u['urls'][$i])){
-          $ret['filter'] = $u['urls'][$i]['filter'];
+        if (array_key_exists('filter', $u[$i])){
+          $ret['filter'] = $u[$i]['filter'];
         }
 
         $ret['params'] = $chk;
@@ -210,9 +215,9 @@ class OUrl{
     $i   = 0;
     $url = '';
 
-    while (!$enc && $i<count($u['urls'])){
-      if ($u['urls'][$i]['id'] == $id){
-        $url = $u['urls'][$i]['url'];
+    while (!$enc && $i<count($u)){
+      if ($u[$i]['id'] == $id){
+        $url = $u[$i]['url'];
         $enc = true;
       }
       $i++;

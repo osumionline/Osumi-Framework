@@ -31,17 +31,17 @@ class Base{
     sort($ret);
     return $ret;
   }
-  
+
   public static function getResults($table,$field,$list){
     $ret = array();
     $db = new ODB();
     $sql = "SELECT * FROM `".$table."` WHERE `".$field."` IN (".implode(',', $list).")";
     $db->query($sql);
-    
+
     while ($res=$db->next()){
       array_push($ret, $res);
     }
-    
+
     return $ret;
   }
 
@@ -69,11 +69,11 @@ class Base{
       return false;
     }
   }
-  
+
   public static function checkCookie(){
     global $s, $ck;
     $ret = false;
-    
+
     // Si pide login la pagina compruebo si ya tiene login en sesión, si no tiene compruebo la cookie
     if (!$s->getParam('logged')){
       $session_key = $ck->getCookie('session_key');
@@ -84,7 +84,7 @@ class Base{
           if ($u->get('id') == $id_user){
             $s->addParam('logged',true);
             $s->addParam('id',$id_user);
-            
+
             $ret = true;
           }
           else{
@@ -105,13 +105,13 @@ class Base{
     else{
       $ret = true;
     }
-    
+
     return $ret;
   }
-  
+
   public static function doLogout($mens=null){
     global $s, $ck;
-  
+
     $ck->cleanCookies();
     $s->cleanSession();
     if (!is_null($mens)){
@@ -140,7 +140,7 @@ class Base{
 
     return $rand;
   }
-  
+
   public static function getParam($key,$list,$default=false){
     if (array_key_exists($key, $list)){
       return $list[$key];
@@ -149,16 +149,16 @@ class Base{
       return $default;
     }
   }
-  
+
   public static function getTemplate($ruta,$html,$params){
     if ($ruta!=''){
       $html = file_get_contents($ruta);
     }
-    
+
     foreach ($params as $param_name => $param){
       $html = str_ireplace('{{'.strtoupper($param_name).'}}', $param, $html);
     }
-    
+
     return $html;
   }
 
@@ -170,7 +170,7 @@ class Base{
     }
     return false;
   }
-  
+
   public static function createThumb($pathToImage,$pathToThumb,$thumbWidth){
     $status = true;
 
@@ -237,7 +237,7 @@ class Base{
     $str = str_ireplace('&lt;br&gt;', '', $str);
     return $str;
   }
-  
+
   public static function showErrorPage($res,$mode){
     global $c;
     if (!is_null($c->getErrorPage($mode))){
@@ -292,7 +292,7 @@ class Base{
     echo "</html>";
     exit();
   }
-  
+
   public static function doPostRequest($url,$data){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -302,10 +302,10 @@ class Base{
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     $result = curl_exec($ch);
-    
+
     return $result;
   }
-  
+
   public static function doDeleteRequest($url,$data){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -315,7 +315,7 @@ class Base{
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     $result = curl_exec($ch);
-    
+
     return $result;
   }
 
@@ -324,14 +324,14 @@ class Base{
     foreach ($files as $file) {
       (is_dir("$dir/$file")) ? self::rrmdir("$dir/$file") : unlink("$dir/$file");
     }
-    return rmdir($dir); 
+    return rmdir($dir);
   }
 
   public static function formatDateForBD($d){
     $data = explode("/",$d);
     return $data[2].'-'.$data[1].'-'.$data[0].' 00:00:00';
   }
-  
+
   public static function getHash(){
     $str = time();
     $str = "v_".$str."_v";
@@ -339,56 +339,56 @@ class Base{
 
     return $str;
   }
-  
+
   public static function slugify($text, $separator = '-')
   {
-  	$bad = array(
-    'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
-    'Ć','ć','Č','č','Ç','ç',
-    'Ď','ď','Đ','đ',
-    'È','è','É','é','Ê','ê','Ë','ë','Ě','ě','Ę','ę',
-    'Ğ','ğ',
-    'Ì','ì','Í','í','Î','î','Ï','ï',
-    'Ĺ','ĺ','Ľ','ľ','Ł','ł',
-    'Ñ','ñ','Ň','ň','Ń','ń',
-    'Ò','ò','Ó','ó','Ô','ô','Õ','õ','Ö','ö','Ø','ø','ő',
-    'Ř','ř','Ŕ','ŕ',
-    'Š','š','Ş','ş','Ś','ś',
-    'Ť','ť','Ť','ť','Ţ','ţ',
-    'Ù','ù','Ú','ú','Û','û','Ü','ü','Ů','ů',
-    'Ÿ','ÿ','ý','Ý',
-    'Ž','ž','Ź','ź','Ż','ż',
-    'Þ','þ','Ð','ð','ß','Œ','œ','Æ','æ','µ',
-    '”','“','‘','’',"'","\n","\r",'_','º','ª');
+    $bad = array(
+      'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
+      'Ć','ć','Č','č','Ç','ç',
+      'Ď','ď','Đ','đ',
+      'È','è','É','é','Ê','ê','Ë','ë','Ě','ě','Ę','ę',
+      'Ğ','ğ',
+      'Ì','ì','Í','í','Î','î','Ï','ï',
+      'Ĺ','ĺ','Ľ','ľ','Ł','ł',
+      'Ñ','ñ','Ň','ň','Ń','ń',
+      'Ò','ò','Ó','ó','Ô','ô','Õ','õ','Ö','ö','Ø','ø','ő',
+      'Ř','ř','Ŕ','ŕ',
+      'Š','š','Ş','ş','Ś','ś',
+      'Ť','ť','Ť','ť','Ţ','ţ',
+      'Ù','ù','Ú','ú','Û','û','Ü','ü','Ů','ů',
+      'Ÿ','ÿ','ý','Ý',
+      'Ž','ž','Ź','ź','Ż','ż',
+      'Þ','þ','Ð','ð','ß','Œ','œ','Æ','æ','µ',
+      '”','“','‘','’',"'","\n","\r",'_','º','ª');
 
     $good = array(
-    'A','a','A','a','A','a','A','a','Ae','ae','A','a','A','a','A','a',
-    'C','c','C','c','C','c',
-    'D','d','D','d',
-    'E','e','E','e','E','e','E','e','E','e','E','e',
-    'G','g',
-    'I','i','I','i','I','i','I','i',
-    'L','l','L','l','L','l',
-    'N','n','N','n','N','n',
-    'O','o','O','o','O','o','O','o','Oe','oe','O','o','o',
-    'R','r','R','r',
-    'S','s','S','s','S','s',
-    'T','t','T','t','T','t',
-    'U','u','U','u','U','u','Ue','ue','U','u',
-    'Y','y','Y','y',
-    'Z','z','Z','z','Z','z',
-    'TH','th','DH','dh','ss','OE','oe','AE','ae','u',
-    '','','','','','','','-','','');
+      'A','a','A','a','A','a','A','a','Ae','ae','A','a','A','a','A','a',
+      'C','c','C','c','C','c',
+      'D','d','D','d',
+      'E','e','E','e','E','e','E','e','E','e','E','e',
+      'G','g',
+      'I','i','I','i','I','i','I','i',
+      'L','l','L','l','L','l',
+      'N','n','N','n','N','n',
+      'O','o','O','o','O','o','O','o','Oe','oe','O','o','o',
+      'R','r','R','r',
+      'S','s','S','s','S','s',
+      'T','t','T','t','T','t',
+      'U','u','U','u','U','u','Ue','ue','U','u',
+      'Y','y','Y','y',
+      'Z','z','Z','z','Z','z',
+      'TH','th','DH','dh','ss','OE','oe','AE','ae','u',
+      '','','','','','','','-','','');
 
     // convert special characters
     $text = str_replace($bad, $good, $text);
-  	
+
     // convert special characters
     $text = utf8_decode($text);
     $text = htmlentities($text);
     $text = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde);/', '$1', $text);
     $text = html_entity_decode($text);
-    
+
     $text = strtolower($text);
 
     // strip all non word chars
@@ -401,7 +401,145 @@ class Base{
     $text = trim($text, $separator);
     //$text = preg_replace('/\-$/', '', $text);
     //$text = preg_replace('/^\-/', '', $text);
-        
+
     return $text;
+  }
+
+  public static function generateModel(){
+    global $c;
+    echo "Modelo\n\n";
+    $sql = "";
+    $models = self::getModelList();
+
+    foreach ($models as $model) {
+      $sql .= $model->generate()."\n\n";
+    }
+
+    echo $sql;
+
+    $sql_file = $c->getDir('sql').'model.sql';
+    if (file_exists($sql_file)){
+      unlink($sql_file);
+    }
+
+    file_put_contents($sql_file,$sql);
+  }
+
+  public static function updateUrls($silent=false){
+    global $c;
+    $urls_file = json_decode( file_get_contents($c->getDir('config').'urls.json'), true);
+
+    $result = self::getUrlNodes($urls_file['urls']);
+    $urls = array();
+    foreach ($result as $url){
+      unset($url['prefix']);
+      if (is_null($url['layout'])){
+        unset($url['layout']);
+      }
+      if (is_null($url['filter'])){
+        unset($url['filter']);
+      }
+      array_push($urls, $url);
+    }
+
+    $urls_cache_file = $c->getDir('cache').'urls.cache.json';
+    if (file_exists($urls_cache_file)){
+      unlink($urls_cache_file);
+    }
+
+    file_put_contents($urls_cache_file, json_encode($urls, JSON_UNESCAPED_UNICODE ));
+
+    self::updateControllers($silent);
+  }
+
+  public static function getUrlNodes($urls, $node_info=null){
+    $return = array();
+
+    foreach ($urls as $url){
+      $item = array(
+        'id'      => $url['id'],
+        'module'  => array_key_exists('module', $url)  ? $url['module']  : null,
+        'action'  => array_key_exists('action', $url)  ? $url['action']  : null,
+        'filter'  => array_key_exists('filter', $url)  ? $url['filter']  : null,
+        'layout'  => array_key_exists('layout', $url)  ? $url['layout']  : 'default',
+        'prefix'  => array_key_exists('prefix', $url)  ? $url['prefix']  : null,
+        'type'    => array_key_exists('type',   $url)  ? $url['type']    : 'html',
+        'comment' => array_key_exists('comment', $url) ? $url['comment'] : null
+      );
+
+      if (is_array($node_info)) {
+        $item['module'] = array_key_exists('module', $node_info) ? $node_info['module'] : $item['module'];
+        $item['filter'] = array_key_exists('filter', $node_info) ? $node_info['filter'] : $item['filter'];
+        $item['layout'] = array_key_exists('layout', $node_info) ? $node_info['layout'] : $item['layout'];
+        $item['type']   = array_key_exists('type',   $node_info) ? $node_info['type']   : $item['type'];
+        if (!is_null($node_info['prefix'])) {
+          $item['prefix'] = array_key_exists('prefix', $node_info) ? $node_info['prefix'] . $item['prefix'] : $item['prefix'];
+        }
+      }
+      if ($item['type']=='json'){
+        $item['layout'] = null;
+      }
+
+      if (array_key_exists('urls', $url)){
+        $return = array_merge($return, self::getUrlNodes($url['urls'], $item));
+      }
+      else{
+        $item['url'] = ( array_key_exists('prefix', $item) ? $item['prefix'] : '' ) . $url['url'];
+        array_push($return, $item);
+      }
+    }
+
+    return $return;
+  }
+
+  public static function updateControllers($silent){
+    global $c;
+    $urls = json_decode( file_get_contents($c->getDir('cache').'urls.cache.json'), true);
+    foreach ($urls as $url){
+      $ruta_templates = $c->getDir('templates') . $url['module'];
+      if (!file_exists($ruta_templates) && !is_dir($ruta_templates)){
+        mkdir($ruta_templates);
+        if (!$silent) {
+          echo "Nueva carpeta para templates \"" . $ruta_templates . "\" creada\n";
+        }
+      }
+
+      $ruta_controller = $c->getDir('controllers') . $url['module'] . '.php';
+      if (!file_exists($ruta_controller)){
+        if (!$silent) {
+          echo "Nuevo controlador \"" . $url['module'] . "\" creado en el archivo \"" . $ruta_controller . "\"\n";
+        }
+        file_put_contents($ruta_controller, "<"."?php\n");
+      }
+
+      require_once $ruta_controller;
+      $func = 'execute'.ucfirst($url['action']);
+      if (!function_exists($func)){
+        $str = "";
+        $str .= "  /*\n";
+        $str .= "   * ".$url['comment']."\n";
+        $str .= "   */\n";
+        $str .= "  function execute".ucfirst($url['action'])."($"."req, $"."t){\n";
+        if ($url['type']=='json'){
+          $str .= "    $"."t->setLayout(false);\n";
+          $str .= "    $"."t->setJson(true);\n";
+        }
+        $str .= "    $"."t->process();\n";
+        $str .= "  }\n";
+        file_put_contents($ruta_controller, $str, FILE_APPEND);
+
+        if (!$silent) {
+          echo "Nueva acción \"" . $url['action'] . "\" creada en el controlador \"" . $url['module'] . "\"\n";
+        }
+
+        $ruta_template = $c->getDir('templates') . $url['module'] . '/' . $url['action'] . '.php';
+        if (!file_exists($ruta_template)){
+          file_put_contents($ruta_template, '');
+          if (!$silent) {
+            echo "Nuevo template \"" . $ruta_template . "\" creado\n";
+          }
+        }
+      }
+    }
   }
 }

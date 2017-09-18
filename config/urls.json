@@ -1,27 +1,38 @@
 {
   "urls": [
-      {
-        "id": "cerrado",
-        "url": "/cerrado",
-        "module": "home",
-        "action": "closed",
-        "comment": "Página temporal, sitio cerrado",
-        "layout": "blank"
-      },
-      {
-        "id": "home",
-        "url": "/",
-        "module": "home",
-        "action": "index",
-        "comment": "Home pública"
-      },
-      {
-        "id": "api_call",
-        "url": "/api/call",
-        "module": "api",
-        "action": "apiCall",
-        "comment": "Función llamada por API",
-        "filter": "tokenFilter"
-      }
+    {
+      "id": "pages",
+      "module": "home",
+      "urls": [
+        {
+          "id": "cerrado",
+          "url": "/cerrado",
+          "action": "closed",
+          "comment": "Página temporal, sitio cerrado",
+          "layout": "blank"
+        },
+        {
+          "id": "home",
+          "url": "/",
+          "action": "index",
+          "comment": "Home pública"
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "module": "api",
+      "type": "json",
+      "prefix": "/api",
+      "urls": [
+        {
+          "id": "api_call",
+          "url": "/call",
+          "action": "apiCall",
+          "comment": "Función llamada por API",
+          "filter": "tokenFilter"
+        }
+      ]
+    }
   ]
 }

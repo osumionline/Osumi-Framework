@@ -1,9 +1,17 @@
 CHANGELOG
 =========
 
+## `2.11` (18/09/2017)
+
+1. Nueva estructura para el archivo urls.json. Ahora las urls se pueden agrupar, cada grupo puede tener un prefijo (p.e. "/api/").
+2. Nuevo gestor de tareas internas. Utilizando la tarea "`ofw`" se pueden acceder a tareas internas:
+    1. "`generate-model`": tarea para generar el SQL resultante a partir del modelo definido en "`model/app`".
+    2. "`update-urls`": tarea que lee el archivo "`urls.json`" y crea los controladores, funciones y templates. Esta tarea lee el archivo "`urls.json`" y genera una versión más reducida en la carpeta "`cache`" para uso interno.
+3. Añado template de la función "`api`" de muestra que faltaba.
+
 ## `2.10` (03/07/2017)
 
-1. A�ado m�todo a ODB (`all`) para obtener toda la lista de una consulta en vez de tener que andar recorriendo los resultados.
+1. Añado método a ODB (`all`) para obtener toda la lista de una consulta en vez de tener que andar recorriendo los resultados.
 
 ## `2.9.2` (08/06/2017)
 
