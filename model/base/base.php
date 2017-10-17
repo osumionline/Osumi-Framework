@@ -464,6 +464,7 @@ class Base{
         $list[$i]['layout'] = (array_key_exists('layout', $list[$i])  && !is_null($list[$i]['layout'])) ? $list[$i]['layout'] : ( (array_key_exists('layout', $item) && !is_null($item['layout'])) ? $item['layout'] : null);
         $list[$i]['module'] = (array_key_exists('module', $list[$i])  && !is_null($list[$i]['module'])) ? $list[$i]['module'] : ( (array_key_exists('module', $item) && !is_null($item['module'])) ? $item['module'] : null);
         $list[$i]['filter'] = (array_key_exists('filter', $list[$i])  && !is_null($list[$i]['filter'])) ? $list[$i]['filter'] : ( (array_key_exists('filter', $item) && !is_null($item['filter'])) ? $item['filter'] : null);
+        $list[$i]['type']   = (array_key_exists('type',   $list[$i])  && !is_null($list[$i]['type']))   ? $list[$i]['type']   : ( (array_key_exists('type',   $item) && !is_null($item['type']))   ? $item['type']   : null);
       }
     }
     else{
@@ -500,7 +501,7 @@ class Base{
         $str .= "   * ".$url['comment']."\n";
         $str .= "   */\n";
         $str .= "  function execute".ucfirst($url['action'])."($"."req, $"."t){\n";
-        if ($url['type']=='json'){
+        if (array_key_exists('type',$url) && $url['type']=='json'){
           $str .= "    $"."t->setLayout(false);\n";
           $str .= "    $"."t->setJson(true);\n";
         }

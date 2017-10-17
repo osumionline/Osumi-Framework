@@ -1,9 +1,13 @@
 CHANGELOG
 =========
 
+## `2.11.2` (17/10/2017)
+
+1. Corrección en update-urls, había un error al generar los nuevos controllers.
+
 ## `2.11.1` (17/10/2017)
 
-1. Corrección en update-urls, las urls no heredaban correctamente todos los posibles parámetros
+1. Corrección en update-urls, las urls no heredaban correctamente todos los posibles parámetros.
 
 ## `2.11` (18/09/2017)
 
