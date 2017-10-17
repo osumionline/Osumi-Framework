@@ -168,7 +168,6 @@ class OUrl{
 
     // Incluyo routing de Symfony
     require_once($this->getRoutingDir().'sfRoute.class.php');
-
     while (!$enc && $i<count($u)){
       $route = new sfRoute($u[$i]['url']);
       $chk = $route->matchesUrl($this->getCheckUrl());
@@ -201,7 +200,6 @@ class OUrl{
 
       $i++;
     }
-
     $this->setRetData($ret);
     return $ret;
   }

@@ -428,19 +428,7 @@ class Base{
   public static function updateUrls($silent=false){
     global $c;
     $urls_file = json_decode( file_get_contents($c->getDir('config').'urls.json'), true);
-
-    $result = self::getUrlNodes($urls_file['urls']);
-    $urls = array();
-    foreach ($result as $url){
-      unset($url['prefix']);
-      if (is_null($url['layout'])){
-        unset($url['layout']);
-      }
-      if (is_null($url['filter'])){
-        unset($url['filter']);
-      }
-      array_push($urls, $url);
-    }
+    $urls = self::getUrlList($urls_file);
 
     $urls_cache_file = $c->getDir('cache').'urls.cache.json';
     if (file_exists($urls_cache_file)){
@@ -452,44 +440,36 @@ class Base{
     self::updateControllers($silent);
   }
 
-  public static function getUrlNodes($urls, $node_info=null){
-    $return = array();
-
-    foreach ($urls as $url){
-      $item = array(
-        'id'      => $url['id'],
-        'module'  => array_key_exists('module', $url)  ? $url['module']  : null,
-        'action'  => array_key_exists('action', $url)  ? $url['action']  : null,
-        'filter'  => array_key_exists('filter', $url)  ? $url['filter']  : null,
-        'layout'  => array_key_exists('layout', $url)  ? $url['layout']  : 'default',
-        'prefix'  => array_key_exists('prefix', $url)  ? $url['prefix']  : null,
-        'type'    => array_key_exists('type',   $url)  ? $url['type']    : 'html',
-        'comment' => array_key_exists('comment', $url) ? $url['comment'] : null
-      );
-
-      if (is_array($node_info)) {
-        $item['module'] = array_key_exists('module', $node_info) ? $node_info['module'] : $item['module'];
-        $item['filter'] = array_key_exists('filter', $node_info) ? $node_info['filter'] : $item['filter'];
-        $item['layout'] = array_key_exists('layout', $node_info) ? $node_info['layout'] : $item['layout'];
-        $item['type']   = array_key_exists('type',   $node_info) ? $node_info['type']   : $item['type'];
-        if (!is_null($node_info['prefix'])) {
-          $item['prefix'] = array_key_exists('prefix', $node_info) ? $node_info['prefix'] . $item['prefix'] : $item['prefix'];
+  public static function getUrlList($item){
+    $list = self::getUrls($item);
+    for ($i=0;$i<count($list);$i++){
+      $keys = array_keys($list[$i]);
+      foreach ($keys as $key){
+        if (is_null($list[$i][$key])){
+          unset($list[$i][$key]);
         }
       }
-      if ($item['type']=='json'){
-        $item['layout'] = null;
-      }
+    }
+    return $list;
+  }
 
-      if (array_key_exists('urls', $url)){
-        $return = array_merge($return, self::getUrlNodes($url['urls'], $item));
+  public static function getUrls($item){
+    $list = array();
+    if (array_key_exists('urls', $item)){
+      foreach ($item['urls'] as $elem){
+        $list = array_merge($list, self::getUrls($elem));
       }
-      else{
-        $item['url'] = ( array_key_exists('prefix', $item) ? $item['prefix'] : '' ) . $url['url'];
-        array_push($return, $item);
+      for ($i=0;$i<count($list);$i++){
+        $list[$i]['url']    = ((array_key_exists('prefix', $item) && !is_null($item['prefix'])) ? $item['prefix'] : '') . $list[$i]['url'];
+        $list[$i]['layout'] = (array_key_exists('layout', $list[$i])  && !is_null($list[$i]['layout'])) ? $list[$i]['layout'] : ( (array_key_exists('layout', $item) && !is_null($item['layout'])) ? $item['layout'] : null);
+        $list[$i]['module'] = (array_key_exists('module', $list[$i])  && !is_null($list[$i]['module'])) ? $list[$i]['module'] : ( (array_key_exists('module', $item) && !is_null($item['module'])) ? $item['module'] : null);
+        $list[$i]['filter'] = (array_key_exists('filter', $list[$i])  && !is_null($list[$i]['filter'])) ? $list[$i]['filter'] : ( (array_key_exists('filter', $item) && !is_null($item['filter'])) ? $item['filter'] : null);
       }
     }
-
-    return $return;
+    else{
+      array_push($list, $item);
+    }
+    return $list;
   }
 
   public static function updateControllers($silent){

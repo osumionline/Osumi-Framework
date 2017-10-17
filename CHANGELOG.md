@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.11.1` (17/10/2017)
+
+1. Corrección en update-urls, las urls no heredaban correctamente todos los posibles parámetros
+
 ## `2.11` (18/09/2017)
 
 1. Nueva estructura para el archivo urls.json. Ahora las urls se pueden agrupar, cada grupo puede tener un prefijo (p.e. "/api/").
