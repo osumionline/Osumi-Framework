@@ -8,6 +8,7 @@
   require($c->getDir('model_base').'OTemplate.php');
   require($c->getDir('model_base').'OSession.php');
   require($c->getDir('model_base').'OCookie.php');
+  require($c->getDir('model_base').'OCache.php');
   
   // Opcionales
   if ($c->getDefaultModule('browser')){

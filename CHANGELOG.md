@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.12` (09/12/2017)
+
+1. Añado OCache para crear archivos de cache para pares clave-valor.
+
 ## `2.11.2` (17/10/2017)
 
 1. Corrección en update-urls, había un error al generar los nuevos controllers.
