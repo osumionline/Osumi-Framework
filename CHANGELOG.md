@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `2.13` (13/12/2017)
+
+1. Añado OToken para crear y validar tokenes JWT
+2. Corrección en index para que se envíen las cabeceras para permitir peticiones Cross Origin si está así configurado (por defecto permitido).
+
 ## `2.12` (09/12/2017)
 
 1. Añado OCache para crear archivos de cache para pares clave-valor.

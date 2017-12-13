@@ -4,11 +4,13 @@ session_start();
 $start_time = microtime(true);
 $where = 'index';
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST');
-
 include('../config/config.php');
 include($c->getDir('config').'model.php');
+
+if ($c->getAllowCrossOrigin()){
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods: GET, POST');
+}
 
 // Inicio sesion
 $s = new OSession();

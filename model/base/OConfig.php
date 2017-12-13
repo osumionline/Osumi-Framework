@@ -1,7 +1,7 @@
 <?php
 class OConfig{
   private $debug_mode         = false;
-  private $allow_cross_origin = false;
+  private $allow_cross_origin = true;
 
   private $default_modules = array();
   private $packages        = array();
