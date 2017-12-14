@@ -44,7 +44,7 @@ if ($res['res']){
     $s->addParam('previous', $s->getParam('current'));
   }
   $s->addParam('current', $res['module'].'/'.$res['action']);
-  $s->addParam('method', $u->getMethod());
+  $res['params']['method'] = strtolower($u->getMethod());
 
   $t = new OTemplate();
   $t->setModule($res['module']);

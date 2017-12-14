@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.13.1` (15/12/2017)
+
+1. Pequeña corrección para que el método (get, post...) vaya en el objeto $req que se pasa a cada controller, en vez de ir en el objeto $s que se encarga de la sesión.
+
 ## `2.13` (13/12/2017)
 
 1. Añado OToken para crear y validar tokenes JWT
