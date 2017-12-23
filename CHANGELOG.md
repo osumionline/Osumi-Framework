@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.13.2` (23/12/2017)
+
+1. Los filtros pueden definir una url de retorno en caso de que no se cumpla, pero no funcionaba
+
 ## `2.13.1` (15/12/2017)
 
 1. Pequeña corrección para que el método (get, post...) vaya en el objeto $req que se pasa a cada controller, en vez de ir en el objeto $s que se encarga de la sesión.

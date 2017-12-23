@@ -36,7 +36,12 @@ if ($res['res']){
     
     // Si el status es error, doy status 403 Forbidden
     if ($res['params']['filter']['status']=='error'){
-      Base::showErrorPage($res,'403');
+      if (array_key_exists('return', $res['params']['filter'])){
+        OUrl::goToUrl($res['params']['filter']['return']);
+      }
+      else {
+        Base::showErrorPage($res, '403');
+      }
     }
   }
   
