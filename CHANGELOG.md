@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+## `2.14` (10/04/2018)
+
+1. Nueva task `composer` para exportar proyectos enteros a un solo archivo y luego poder crear todo el proyecto con un solo comando.
+
+Ejecutando `php task/composer.php` se crea un archivo llamado `ofw-composer.php` en la carpeta `tmp` que contiene todos los archivos del framework.  Por ejemplo esto sirve para crear un backup o para poder exportar el proyecto entero y llevarlo a otro servidor.
+
+2. Pequeñas correcciones en funciones de la clase `Base` para `composer` y nueva funcion `getParamList` para obtener varios parametros con un solo comando.
+
 ## `2.13.2` (23/12/2017)
 
 1. Los filtros pueden definir una url de retorno en caso de que no se cumpla, pero no funcionaba

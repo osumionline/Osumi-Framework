@@ -150,6 +150,19 @@ class Base{
     }
   }
 
+  public static function getParamList($key_list, $list){
+    $params = array();
+    foreach ($key_list as $key){
+      $check = self::getParam($key, $list, false);
+      if (!array_key_exists($key, $list)){
+        return false;
+      }
+      $params[$key] = $check;
+    }
+
+    return $params;
+  }
+
   public static function getTemplate($ruta,$html,$params){
     if ($ruta!=''){
       $html = file_get_contents($ruta);
@@ -162,13 +175,20 @@ class Base{
     return $html;
   }
 
-  public static function base64_encode_image($filename) {
+  public static function fileToBase64($filename) {
     if (file_exists($filename)){
-      $imgsize = getimagesize($filename);
-      $imgbinary = fread(fopen($filename, "r"), filesize($filename));
-      return 'data:' . $imgsize['mime'] . ';base64,' . base64_encode($imgbinary);
+      $finfo = finfo_open(FILEINFO_MIME_TYPE);
+      $filebinary = (filesize($filename)>0) ? fread(fopen($filename, "r"), filesize($filename)) : '';
+      return 'data:' . finfo_file($finfo, $filename) . ';base64,' . base64_encode($filebinary);
     }
     return false;
+  }
+
+  public static function base64ToFile($base64_string, $filename) {
+    $ifp = fopen( $filename, 'wb' );
+    $data = explode( ',', $base64_string );
+    fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+    fclose( $ifp );
   }
 
   public static function createThumb($pathToImage,$pathToThumb,$thumbWidth){
@@ -412,7 +432,9 @@ class Base{
     $models = self::getModelList();
 
     foreach ($models as $model) {
-      $sql .= $model->generate()."\n\n";
+      if (method_exists($model, 'generate')) {
+        $sql .= $model->generate() . "\n\n";
+      }
     }
 
     echo $sql;
