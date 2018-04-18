@@ -57,3 +57,8 @@ Carpeta para las plantillas de las páginas que componen el sitio. Se distribuye
 Carpeta pública o visible. Contiene el archivo index.php, archivo a través del que se canaliza toda la lógica.
 
 En esta carpeta se encuentran las carpetas para los archivos CSS, JavaScript o imágenes.
+
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
