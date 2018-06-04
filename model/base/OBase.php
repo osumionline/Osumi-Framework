@@ -7,15 +7,15 @@ class OBase{
   protected $tablename  = '';
   // Tipos 1-PK, 2-Created 3-Updated, 4-Num, 5-Varchar, 6-Fecha, 7-Boolean, 8-Text, 9-Float
   protected $default_model = array(
-    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>''),
-    'model_9' => array('type'=>Base::FLOAT,    'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'')
+    'model_1' => array('type'=>Base::PK,       'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>true,  'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_2' => array('type'=>Base::CREATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_3' => array('type'=>Base::UPDATED,  'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_4' => array('type'=>Base::NUM,      'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>11, 'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_5' => array('type'=>Base::TEXT,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>50, 'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_6' => array('type'=>Base::DATE,     'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_7' => array('type'=>Base::BOOL,     'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>1,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_8' => array('type'=>Base::LONGTEXT, 'def'=>'', 'orig'=>'', 'val'=>'', 'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true),
+    'model_9' => array('type'=>Base::FLOAT,    'def'=>0,  'orig'=>0,  'val'=>0,  'clean'=>false, 'incr'=>false, 'len'=>0,  'com'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true)
   );
   protected $model   = array();
   protected $pk      = array('id');
@@ -37,7 +37,7 @@ class OBase{
     $this->model_name = $model_name;
     $this->tablename  = $tablename;
     $this->model      = $model;
-    
+
     if (!is_null($pk)){
       $this->pk = $pk;
     }
@@ -51,15 +51,16 @@ class OBase{
     $full_model = array();
     foreach ($model as $fieldname => $row){
       $temp = $this->default_model['model_'.$row['type']];
-      $temp['def']   = array_key_exists('def',   $row) ? $row['def']   : $temp['def'];
-      $temp['orig']  = array_key_exists('orig',  $row) ? $row['orig']  : $temp['orig'];
-      $temp['val']   = array_key_exists('val',   $row) ? $row['val']   : $temp['val'];
-      $temp['clean'] = array_key_exists('clean', $row) ? $row['clean'] : $temp['clean'];
-      $temp['incr']  = array_key_exists('incr',  $row) ? $row['incr']  : $temp['incr'];
-      $temp['len']   = array_key_exists('len',   $row) ? $row['len']   : $temp['len'];
-      $temp['com']   = array_key_exists('com',   $row) ? $row['com']   : $temp['com'];
-      $temp['ref']   = array_key_exists('ref',   $row) ? $row['ref']   : $temp['ref'];
-      $temp['by']    = array_key_exists('by',    $row) ? $row['by']    : $temp['by'];
+      $temp['def']    = array_key_exists('def',    $row) ? $row['def']    : $temp['def'];
+      $temp['orig']   = array_key_exists('orig',   $row) ? $row['orig']   : $temp['orig'];
+      $temp['val']    = array_key_exists('val',    $row) ? $row['val']    : $temp['val'];
+      $temp['clean']  = array_key_exists('clean',  $row) ? $row['clean']  : $temp['clean'];
+      $temp['incr']   = array_key_exists('incr',   $row) ? $row['incr']   : $temp['incr'];
+      $temp['len']    = array_key_exists('len',    $row) ? $row['len']    : $temp['len'];
+      $temp['com']    = array_key_exists('com',    $row) ? $row['com']    : $temp['com'];
+      $temp['ref']    = array_key_exists('ref',    $row) ? $row['ref']    : $temp['ref'];
+      $temp['by']     = array_key_exists('by',     $row) ? $row['by']     : $temp['by'];
+      $temp['expose'] = array_key_exists('expose', $row) ? $row['expose'] : $temp['expose'];
       $full_model[$fieldname] = $temp;
     }
     $this->model = $full_model;
@@ -122,6 +123,9 @@ class OBase{
   public function get($key,$extra=null){
     $field = $this->getModel($key);
     if ($field){
+      if (is_null($field['val'])){
+        return null;
+      }
       if (!is_null($extra) && in_array($field['type'],array(Base::CREATED,Base::UPDATED,Base::DATE))){
         return date($extra,strtotime($field['val']));
       }
@@ -202,7 +206,6 @@ class OBase{
           array_push($updated_fields, $cad);
         }
       }
-      if (count($updated_fields)==0){ return false; }
       $sql .= implode($updated_fields,", ");
       $sql .= ' WHERE ';
       foreach ($this->pk as $i=>$pk_ind){
@@ -272,7 +275,7 @@ class OBase{
     // Guardo el modelo modificado
     $this->setModel($model);
   }
-  
+
   public function check($opt=array()){
     if ($this->find($opt)){
       return true;
@@ -305,8 +308,14 @@ class OBase{
     $model = $this->getModel();
     foreach ($model as $fieldname=>$field){
       if (array_key_exists($fieldname,$res)){
-        $model[$fieldname]['orig'] = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
-        $model[$fieldname]['val']  = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
+        if (is_null($res[$fieldname])){
+          $model[$fieldname]['orig'] = null;
+          $model[$fieldname]['val']  = null;
+        }
+        else{
+          $model[$fieldname]['orig'] = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
+          $model[$fieldname]['val']  = ($field['type']==4)?(int)$res[$fieldname]:$res[$fieldname];
+        }
       }
     }
     $this->setModel($model);
@@ -327,11 +336,11 @@ class OBase{
 
     $this->db->query($sql);
   }
-  
+
   public function generate($type='sql'){
     $model = $this->getModel();
     $ret = '';
-    
+
     switch ($type){
       case 'array':{
         $ret = $model;
@@ -407,7 +416,7 @@ class OBase{
         }
         $sql .= "  PRIMARY KEY (`".implode('`,`',$this->pk)."`)\n";
         $sql .= ") ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;\n";
-        
+
         $ret = $sql;
 
         if (count($array_refs)>0){
@@ -418,7 +427,36 @@ class OBase{
       }
       break;
     }
-    
+
+    return $ret;
+  }
+
+  public function cleanValue($val){
+    if (is_null($val)){
+      return 'null';
+    }
+    if (is_numeric($val)){
+      return $val;
+    }
+    $str = str_ireplace("\n", '\n', $val);
+    $str = str_ireplace('"', '\"', $str);
+    return '"'.$str.'"';
+  }
+
+  public function __toString(){
+    $ret = '{';
+    $fields = array();
+    $model = $this->getModel();
+    foreach ($model as $fieldname => $field){
+      if ($field['expose']){
+        $str = '';
+        $str .= '"'.$fieldname.'": ';
+        $str .= $this->cleanValue($field['val']);
+        array_push($fields, $str);
+      }
+    }
+    $ret .= implode(', ', $fields);
+    $ret .= '}';
     return $ret;
   }
 }

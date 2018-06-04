@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.15` (04/06/2018)
+
+1. Nueva propiedad `expose` en los objetos del modelo. Se ha añadido el método `toString` a los objetos del modelo, de modo que al hacer un `echo $objeto` se muestra un objeto JSON con todas las propiedades del objeto, excepto las explicitamente marcadas como `expose = false`.
+
 ## `2.14` (10/04/2018)
 
 1. Nueva task `composer` para exportar proyectos enteros a un solo archivo y luego poder crear todo el proyecto con un solo comando.
