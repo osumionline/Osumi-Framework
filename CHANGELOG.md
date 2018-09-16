@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `2.16` (17/09/2018)
+
+1. Nueva función `Base::runTask` con la que ejecutar una `task` desde código. Por ejemplo, una tarea que actualiza un `sitemap.xml` periódicamente con un cronjob pero que se pueda ejecutar cada vez que se actualice manualmente un producto.
+
 ## `2.15` (04/06/2018)
 
 1. Nueva propiedad `expose` en los objetos del modelo. Se ha añadido el método `toString` a los objetos del modelo, de modo que al hacer un `echo $objeto` se muestra un objeto JSON con todas las propiedades del objeto, excepto las explicitamente marcadas como `expose = false`.

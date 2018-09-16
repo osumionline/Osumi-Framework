@@ -545,4 +545,15 @@ class Base{
       }
     }
   }
+  
+  public static function runTask($task_name){
+	  global $c;
+	  $task_file = $c->getDir('task').$task_name.'.php';
+	  if (!file_exists($task_file)){
+		  return false;
+	  }
+	  $to_run = 'php '.$task_file;
+	  
+	  exec($to_run);
+  }
 }
