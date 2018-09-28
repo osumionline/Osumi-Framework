@@ -1,6 +1,72 @@
 CHANGELOG
 =========
 
+## `3.0` (28/09/2018)
+
+1. Nueva estructura de Controllers. Hasta ahora los módulos eran archivos php independientes y dentro de cada uno estaban las funciones que componían cada módulo. Ahora cada archivo php contiene una clase php con el nombre del módulo, y heredan la nueva clase `OController`. Al heredar esta nueva clase, cada acción dentro de un módulo tiene acceso a varias funcionalidades:
+- `config`: la configuración de la aplicación.
+- `db`: una clase con la que realizar consultas personalizadas a la base de datos directamente.
+- `template`: antes las acciones recibían como parámetro la clase `template` con la que acceder a la plantilla de la acción. Antes cada acción terminaba con una llamada a la función `process` y ahora ya no es necesario. Anteriormente las acciones solo devolvían datos de tipo HTML o JSON, pero ahora al definir que acción y módulo se ejecutan con cada URL, se puede añadir una nueva clave `type` en la que indicar el tipo deseado. De este modo, ahora en las acciones tampoco es necesario quitar el `layout` e indicar que los datos son JSON, por ejemplo.
+- `log`: clase log genérica para el controller.
+- `sessión`: clase con la que acceder a los datos de la sesión.
+- `cookie`: clase con la que acceder a los cookies.
+
+Antes:
+
+```php
+  /*
+   * Ejemplo de función API que devuelve un JSON
+   */
+  function executeApiCall($req, $t){
+    global $c, $s;
+    /*
+     * Código de la página
+     */
+    $status = 'ok';
+    
+    $t->setLayout(false);
+    $t->setJson(true);
+    
+    $t->add('status',$status);
+    $t->process();
+  }
+```
+
+Ahora:
+
+```php
+class api extends OController{
+  /*
+   * Ejemplo de función API que devuelve un JSON
+   */
+  public function apiCall($req){
+    /*
+     * Código de la función
+     */
+
+    $status = 'ok';
+
+    $this->getTemplate()->add('status', $status);
+  }
+}
+```
+
+2. Cambios en funciones auxiliares. Antes las funciones auxiliares eran clases estáticas que iban en la carpeta `model/static`. Ahora el nombre de la carpeta ha cambiado a `model/utils` y las clases ahora son clases normales, ya que ahora se crea un objeto global llamado `$utils` en el que se cargan todas las clases auxiliares.
+
+Antes:
+
+```php
+stAdmin::getCategory($id);
+```
+
+Ahora:
+
+```php
+$utils['admin']->getCategory($id);
+```
+
+Estas clases auxiliares tienen incluido el controlador que se está usando de modo que tiene acceso a los mismos objetos (`config`, `db`...). De este modo no es necesario abrir conexiones a la base de datos en cada función, sino que pueden usar la conexión del controlador mejorando mucho el rendimiento.
+
 ## `2.16` (17/09/2018)
 
 1. Nueva función `Base::runTask` con la que ejecutar una `task` desde código. Por ejemplo, una tarea que actualiza un `sitemap.xml` periódicamente con un cronjob pero que se pueda ejecutar cada vez que se actualice manualmente un producto.

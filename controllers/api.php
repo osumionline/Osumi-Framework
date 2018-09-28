@@ -1,18 +1,15 @@
 <?php
+class api extends OController{
   /*
    * Ejemplo de función API que devuelve un JSON
    */
-  function executeApiCall($req, $t){
-    global $c, $s;
+  public function apiCall($req){
     /*
-     * Código de la página
+     * Código de la función
      */
 
     $status = 'ok';
 
-    $t->setLayout(false);
-    $t->setJson(true);
-
-    $t->add('status',$status);
-    $t->process();
+    $this->getTemplate()->add('status', $status);
   }
+}

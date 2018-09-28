@@ -158,12 +158,13 @@ class OUrl{
     $i = 0;
     $u = $this->getUrls();
     $ret = array(
-      'id' => '',
+      'id'     => '',
       'module' => '',
       'action' => '',
+      'type'   => 'html',
       'params' => array(),
       'layout' => 'default',
-      'res' => false
+      'res'    => false
     );
 
     // Incluyo routing de Symfony
@@ -184,6 +185,10 @@ class OUrl{
           $ret['package'] = $u[$i]['package'];
         }
 
+        if (array_key_exists('type', $u[$i])){
+          $ret['type'] = $u[$i]['type'];
+        }
+
         if (array_key_exists('layout', $u[$i])){
           $ret['layout'] = $u[$i]['layout'];
         }
@@ -197,6 +202,7 @@ class OUrl{
         $ret['params']['url_params'] = $this->getUrlParams();
         $ret['params']['headers'] = getallheaders();
       }
+      $ret['params']['method'] = strtolower($this->getMethod());
 
       $i++;
     }
@@ -238,5 +244,10 @@ class OUrl{
     }
 
     return $url;
+  }
+  
+  public static function goToUrl($url){
+    header('Location:'.$url);
+    exit();
   }
 }

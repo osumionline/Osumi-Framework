@@ -1,19 +1,16 @@
 <?php
+class home extends OController{
   /*
-   * Página temporal, sitio cerrado
+   * Página temporal, sitio cerrado. Al ser una página estática no tiene código.
    */
-  function executeClosed($req, $t){
-    $t->process();
-  }
+  public function closed($req){}
 
   /*
    * Home pública
    */
-  function executeIndex($req, $t){
-    global $c, $s;
+  public function index($req){
     /*
      * Código de la página
      */
-
-    $t->process();
   }
+}

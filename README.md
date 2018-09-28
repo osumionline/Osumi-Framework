@@ -25,6 +25,27 @@ Carpeta con los ficheros de configuración:
 ### controllers
 Carpeta con la lógica de la aplicación. Corresponde a Controlador del MVC. Cada archivo en esta carpeta corresponde a un `módulo` que tiene dentro varias funciones llamadas `acciones`.
 
+Cada `módulo`es un archivo php que contiene una clase con el mismo nombre que el archivo y hereda la clase `OController`. Por ejemplo:
+
+```php
+<?php
+class home extends OController{
+  /*
+   * Página temporal, sitio cerrado. Al ser una página estática no tiene código.
+   */
+  public function closed($req){}
+
+  /*
+   * Home pública
+   */
+  public function index($req){
+    /*
+     * Código de la página
+     */
+  }
+}
+```
+
 ### model
 Esta carpeta tiene cinco carpetas dentro:
 
@@ -36,7 +57,7 @@ Esta carpeta tiene cinco carpetas dentro:
 
 `packages`: carpeta para los paquetes añadidos al framework. Inicialmente vacía en caso de no querer usar ninguno.
 
-`static`: carpeta con las clases estáticas que contienen funciones que se usarán a lo largo del sitio.
+`utils`: carpeta con las clases auxiliares que contienen funciones que se usarán a lo largo del sitio.
 
 ### log
 Carpeta donde se almacenan los logs creados por el modo debug.
@@ -60,5 +81,3 @@ En esta carpeta se encuentran las carpetas para los archivos CSS, JavaScript o i
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-

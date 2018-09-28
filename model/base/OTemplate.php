@@ -6,6 +6,7 @@ class OTemplate{
   private $template      = null;
   private $action        = '';
   private $module        = '';
+  private $type          = 'html';
   private $layout        = '';
   private $params        = array();
   private $folder_url    = '';
@@ -16,8 +17,6 @@ class OTemplate{
   private $ext_js_list   = array();
   private $title         = '';
   private $json          = false;
-  private $flash         = '';
-  private $gallery       = false;
   private $lang          = '';
   private $translator    = null;
   private $package       = null;
@@ -83,6 +82,13 @@ class OTemplate{
   }
   public function getModule(){
     return $this->module;
+  }
+
+  public function setType($t){
+    $this->type = $t;
+  }
+  public function getType(){
+    return $this->type;
   }
 
   public function setParams($p){
@@ -152,27 +158,6 @@ class OTemplate{
   }
   public function getTitle(){
     return $this->title;
-  }
-
-  public function setJson($j){
-    $this->json = $j;
-  }
-  public function getJson(){
-    return $this->json;
-  }
-
-  public function setFlash($f){
-    $this->flash = $f;
-  }
-  public function getFlash(){
-    return $this->flash;
-  }
-
-  public function setGallery($g){
-    $this->gallery = $g;
-  }
-  public function getGallery(){
-    return $this->gallery;
   }
 
   public function setLang($l){
@@ -282,11 +267,6 @@ class OTemplate{
 
     $this->setTemplate(file_get_contents($template));
 
-    if ($this->getGallery()){
-      $this->addCss('gallery');
-      $this->addJs('gallery');
-    }
-
     $this->setExtCssList( array_merge($this->getExtCssList(),$c->getExtCssList()) );
     $this->setCssList( array_merge($this->getCssList(),$c->getCssList()) );
     $this->setJsList( array_merge($this->getJsList(),$c->getJsList()) );
@@ -303,7 +283,7 @@ class OTemplate{
     $str_body = $this->getTemplate();
 
     // Si no es JSON, por defecto, añado titulo, css y js
-    if (!$this->getJson()){
+    if ($this->getType()==='html'){
       // Añado titulo a la pagina
       $str = str_replace(array('{{title}}'), $title, $str);
 
@@ -367,24 +347,12 @@ class OTemplate{
       $str_js .= $str_ext_js;
 
       $str = str_replace(array('{{js}}'), $str_js, $str);
-
-      // Tiene mensaje flash?
-      if ($this->getFlash() != ''){
-        $str_flash = $this->readPartial('common/flash',array('flash' => $this->getFlash()));
-        $str = str_replace(array('{{flash}}'), $str_flash, $str);
-
-        global $s;
-        $s->addParam('flash','');
-      }
-      else{
-        $str = str_replace(array('{{flash}}'), '', $str);
-      }
     }
 
     // Añado parametros al cuerpo
     foreach ($p as $param){
-      $sub_value = ($this->getJson())?urlencode($param['value']):$param['value'];
-      if (isset($param['extra']) && $param['extra'] == 'nourlencode'){
+      $sub_value = ($this->getType()!=='html')?urlencode($param['value']):$param['value'];
+      if (isset($param['extra']) && $param['extra'] === 'nourlencode'){
         $sub_value = $param['value'];
       }
 
@@ -399,7 +367,7 @@ class OTemplate{
     }
 
     // Añado cuerpo al layout
-    if (!$this->getJson()){
+    if ($this->getType()==='html'){
       $str = str_replace(array('{{body}}'), $str_body, $str);
     }
     else{
@@ -421,14 +389,11 @@ class OTemplate{
       }
     }
 
-    if ($this->getJson()){
+    if ($this->getType()!=='html'){
       header('Cache-Control: no-cache, must-revalidate');
       header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-      header('Content-type: application/json');
     }
-    else{
-      header('Content-type: text/html');
-    }
+    header('Content-type: text/'.$this->getType());
 
     echo $str;
   }
