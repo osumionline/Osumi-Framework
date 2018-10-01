@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `3.0.1` (01/10/2018)
+
+1. Corrección para llamadas CrossOrigin y corrección al inicializar Utils.
+
 ## `3.0` (28/09/2018)
 
 1. Nueva estructura de Controllers. Hasta ahora los módulos eran archivos php independientes y dentro de cada uno estaban las funciones que componían cada módulo. Ahora cada archivo php contiene una clase php con el nombre del módulo, y heredan la nueva clase `OController`. Al heredar esta nueva clase, cada acción dentro de un módulo tiene acceso a varias funcionalidades:

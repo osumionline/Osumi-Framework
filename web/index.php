@@ -9,6 +9,7 @@ include($c->getDir('model_base').'model.php');
 
 if ($c->getAllowCrossOrigin()){
   header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
   header('Access-Control-Allow-Methods: GET, POST');
 }
 
@@ -17,7 +18,16 @@ $u = new OUrl($_SERVER['REQUEST_METHOD']);
 $u->setCheckUrl($_SERVER['REQUEST_URI'], $_GET, $_POST, $_FILES);
 $url_result = $u->process();
 
+// Inicializo Utils
+$utils = [];
+
 if ($url_result['res']){
+  // Si es una llamada de OPTIONS, devuelvo OK directamente
+  if ($url_result['params']['method']==='options'){
+    header($_SERVER["SERVER_PROTOCOL"]." 200 OK");
+    exit();
+  }
+
   // Si hay un filtro de seguridad lo aplico antes del controller
   if (array_key_exists('filter', $url_result)){
     $url_result['params'] = call_user_func($url_result['filter'], $url_result['params']);
@@ -46,9 +56,7 @@ if ($url_result['res']){
     $controller = new $url_result['module']();
     $controller->loadController($url_result);
 
-    $utils = [];
-
-    // Cargo utils
+    // Cargo utils del usuario
     if ($model = opendir($c->getDir('model_utils'))) {
       while (false !== ($entry = readdir($model))) {
         if ($entry != '.' && $entry != '..') {
