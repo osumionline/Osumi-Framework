@@ -4,7 +4,7 @@ $start_time = microtime(true);
 $where = 'task_ofw';
 
 require(dirname(__FILE__).'/../config/config.php');
-require($c->getDir('config').'model.php');
+require($c->getDir('model_base').'model.php');
 
 if (!array_key_exists(1, $argv)){
   echo "\nTienes que indicar una opción.\n\n";

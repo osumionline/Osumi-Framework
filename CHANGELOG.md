@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `3.0.2` (03/10/2018)
+
+1. Corrección para Tasks por la nueva versión.
+
 ## `3.0.1` (01/10/2018)
 
 1. Corrección para llamadas CrossOrigin y corrección al inicializar Utils.

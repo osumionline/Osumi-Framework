@@ -18,9 +18,6 @@ $u = new OUrl($_SERVER['REQUEST_METHOD']);
 $u->setCheckUrl($_SERVER['REQUEST_URI'], $_GET, $_POST, $_FILES);
 $url_result = $u->process();
 
-// Inicializo Utils
-$utils = [];
-
 if ($url_result['res']){
   // Si es una llamada de OPTIONS, devuelvo OK directamente
   if ($url_result['params']['method']==='options'){
@@ -56,17 +53,8 @@ if ($url_result['res']){
     $controller = new $url_result['module']();
     $controller->loadController($url_result);
 
-    // Cargo utils del usuario
-    if ($model = opendir($c->getDir('model_utils'))) {
-      while (false !== ($entry = readdir($model))) {
-        if ($entry != '.' && $entry != '..') {
-          require($c->getDir('model_utils').$entry);
-          $util_name = str_ireplace('.php', '', $entry);
-          $utils[$util_name] = new $util_name();
-          $utils[$util_name]->setController($controller);
-        }
-      }
-      closedir($model);
+    foreach ($utils as $util){
+      $util->setController($controller);
     }
 
     if (method_exists($controller, $url_result['action'])){

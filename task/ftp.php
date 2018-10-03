@@ -4,7 +4,7 @@ $start_time = microtime(true);
 $where = 'task_ftp';
 
 require(dirname(__FILE__).'/../config/config.php');
-require($c->getDir('config').'model.php');
+require($c->getDir('model_base').'model.php');
 
 $f = new OFTP('host','user','pass');
 $f->autoDisconnect(false);

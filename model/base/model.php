@@ -1,6 +1,8 @@
 <?php
   // Base
   require($c->getDir('model_base').'OBase.php');
+  require($c->getDir('model_base').'OController.php');
+  require($c->getDir('model_base').'OUtils.php');
   require($c->getDir('model_base').'ODB.php');
   require($c->getDir('model_base').'ODBp.php');
   require($c->getDir('model_base').'OLog.php');
@@ -9,6 +11,8 @@
   require($c->getDir('model_base').'OSession.php');
   require($c->getDir('model_base').'OCookie.php');
   require($c->getDir('model_base').'OCache.php');
+  require($c->getDir('model_base').'OForm.php');
+  require($c->getDir('model_base').'OToken.php');
   
   // Opcionales
   if ($c->getDefaultModule('browser')){
@@ -38,21 +42,26 @@
   // Funciones base
   require($c->getDir('model_base').'base.php');
   
-  // App
-  if ($model = opendir($c->getDir('model_app'))) {
+  // Inicializo Utils
+  $utils = [];
+  
+  // Cargo utils del usuario
+  if ($model = opendir($c->getDir('model_utils'))) {
     while (false !== ($entry = readdir($model))) {
-      if ($entry != "." && $entry != "..") {
-        require($c->getDir('model_app').$entry);
+      if ($entry != '.' && $entry != '..') {
+        require($c->getDir('model_utils').$entry);
+        $util_name = str_ireplace('.php', '', $entry);
+        $utils[$util_name] = new $util_name();
       }
     }
     closedir($model);
   }
   
-  // Static
-  if ($model = opendir($c->getDir('model_static'))) {
+  // App
+  if ($model = opendir($c->getDir('model_app'))) {
     while (false !== ($entry = readdir($model))) {
       if ($entry != "." && $entry != "..") {
-        require($c->getDir('model_static').$entry);
+        require($c->getDir('model_app').$entry);
       }
     }
     closedir($model);
