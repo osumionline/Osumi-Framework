@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+## `3.1.0` (28/10/2018)
+
+1. Corrección en OCache para expiración de cache y nueva funcionalidad para incluir nombre de remitente en OEmail (válido tanto para mail como para PHPMailer):
+
+```php
+  $email = new OEmail();
+  ...
+  $email->setFrom('email@prueba.com', 'Nombre remitente');
+```
+
 ## `3.0.2` (03/10/2018)
 
 1. Corrección para Tasks por la nueva versión.

@@ -29,7 +29,7 @@ class OCache{
       if ($this->status=='ok'){
         $this->cache_date = $data['date'];
         $check = mktime();
-        if (($this->cache_date+(60*60*24*7))>$check){
+        if (($this->cache_date+(60*60*24*7))<$check){
           $this->status = 'error_date';
         }
       }
