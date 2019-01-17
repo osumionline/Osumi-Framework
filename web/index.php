@@ -4,8 +4,7 @@ session_start();
 $start_time = microtime(true);
 $where = 'index';
 
-include('../config/config.php');
-include($c->getDir('model_base').'model.php');
+include('../ofw/base/start.php');
 
 if ($c->getAllowCrossOrigin()){
   header('Access-Control-Allow-Origin: *');
@@ -28,7 +27,7 @@ if ($url_result['res']){
   // Si hay un filtro de seguridad lo aplico antes del controller
   if (array_key_exists('filter', $url_result)){
     $url_result['params'] = call_user_func($url_result['filter'], $url_result['params']);
-    
+
     // Si el status es error, doy status 403 Forbidden
     if ($url_result['params']['filter']['status']=='error'){
       if (array_key_exists('return', $url_result['params']['filter'])){
@@ -41,21 +40,17 @@ if ($url_result['res']){
   }
 
   if (!array_key_exists('package', $url_result)){
-    $module = $c->getDir('controllers').$url_result['module'].'.php';
+    $module = $c->getDir('app_controller').$url_result['module'].'.php';
   }
   else{
-    $module = $c->getDir('model_packages').$url_result['package'].'/controllers/'.$url_result['module'].'.php';
-    include($c->getDir('model_packages').$url_result['package'].'/config/config.php');
+    $module = $c->getDir('ofw_packages').$url_result['package'].'/controllers/'.$url_result['module'].'.php';
+    include($c->getDir('ofw_packages').$url_result['package'].'/config/config.php');
   }
 
   if (file_exists($module)){
     include($module);
     $controller = new $url_result['module']();
     $controller->loadController($url_result);
-
-    foreach ($utils as $util){
-      $util->setController($controller);
-    }
 
     if (method_exists($controller, $url_result['action'])){
       call_user_func(array($controller, $url_result['action']), $url_result['params']);

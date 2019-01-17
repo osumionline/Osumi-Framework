@@ -1,0 +1,36 @@
+{
+  "urls": [
+    {
+      "id": "pages",
+      "module": "home",
+      "urls": [
+        {
+          "id": "page_start",
+          "url": "/",
+          "action": "start",
+          "comment": "Página de inicio"
+        },
+        {
+          "id": "page_user",
+          "url": "/user/:id",
+          "action": "user",
+          "comment": "Página de un usuario"
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "module": "api",
+      "type": "json",
+      "prefix": "/api",
+      "urls": [
+        {
+          "id": "get_user",
+          "url": "/getUser/:id",
+          "action": "getUser",
+          "comment": "Función para obtener los datos de un usuario"
+        }
+      ]
+    }
+  ]
+}

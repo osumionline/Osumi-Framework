@@ -1,0 +1,1 @@
+En caso de necesitar la creación de archivos PDF, en está carpeta hay que incluir la librería TCPDF (https://github.com/tecnickcom/tcpdf)

@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+## `4.0.0` (17/01/2019)
+
+¡Nueva versión!
+
+La versión 3 ha resultado ser una etapa intermedia, una forma de experimentar ideas. Pero quedaron muchas cosas a medio hacer y muchos bugs por corregir. Esta versión `4.0.0` introduce una serie de breaking changes. Estos son los principales cambios y novedades:
+
+1. Nueva estructura de carpetas: se han separado las carpetas donde el usuario introduce su código y el código del framework propiamente. La carpeta `app` contiene todo el código de la aplicación y la carpeta `ofw` el framework en si.
+2. `config.json` y archivos `config` de entorno: se ha quitado el antiguo `config.php` y ahora todas las opciones de configuración van en un solo archivo `json`, donde solo hay que incluir los campos que el usuario necesite. Ahora se pueden incluir archivos específicos de diferentes entornos, por ejemplo `config.dev.json`. Los valores de estos archivos sobrescriben los valores del archivo `config.json` global.
+3. Correcciones de bugs: crear rutas nuevas en el archivo `urls.json` no creaba correctamente las nuevas funciones. `composer` también estaba roto.
+4. Nuevos `services`: después de varias nomenclaturas, estructuras y aspectos... Presentamos los `services`. Primero fueron clases con funciones estáticas, luego una clase global con todas las clases dentro (lo que obligaba a usar `global $utils` cada vez que se querían usar...). Ahora por defecto no se carga ninguna de estas clases y los módulos pueden cargarlas como variables privadas que se inicializan en el constructor.
+5. Nuevas `task`: hasta ahora las tareas eran scripts individuales de modo que todos tenían que inicializar todo el framework al inicio. Ahora son clases independientes y se ejecutan mediante el punto de entrada común `ofw.php`. Las `task` ahora se dividen entre las propias del framework y las creadas por el usuario, aunque todas se ejecutan del mismo modo.
+6. Datos de ejemplo: se incluye un ejemplonde una pequeña aplicación de un sitio de fotos (con usuarios, fotos y tags) como demostración de como crear el modelo, módulos, controladores, filtros o tareas. Para crear una aplicación nueva, tan solo es necesario borrar el contenido de las carpetas que hay dentro de la carpeta `app`.
+
+También he creado una nueva página para la documentación del framework (todavía en desarrollo):
+
+[Osumi Framework Docs](https://framework.osumi.es)
+
 ## `3.1.0` (28/10/2018)
 
 1. Corrección en OCache para expiración de cache y nueva funcionalidad para incluir nombre de remitente en OEmail (válido tanto para mail como para PHPMailer):
@@ -41,10 +58,10 @@ Antes:
      * Código de la página
      */
     $status = 'ok';
-    
+
     $t->setLayout(false);
     $t->setJson(true);
-    
+
     $t->add('status',$status);
     $t->process();
   }

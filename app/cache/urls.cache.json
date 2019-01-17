@@ -1,0 +1,1 @@
+[{"id":"page_start","url":"\/","action":"start","comment":"Página de inicio","module":"home"},{"id":"page_user","url":"\/user\/:id","action":"user","comment":"Página de un usuario","module":"home"},{"id":"get_user","url":"\/api\/getUser\/:id","action":"getUser","comment":"Función para obtener los datos de un usuario","module":"api","type":"json"}]
