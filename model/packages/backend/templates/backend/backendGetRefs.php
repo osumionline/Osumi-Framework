@@ -1,4 +1,0 @@
-{
-  "status": "{{status}}",
-  "refs": {{refs}}
-}

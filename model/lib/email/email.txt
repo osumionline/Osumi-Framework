@@ -1,5 +1,0 @@
-En caso de necesitar el envío de emails mediante SMTP, en está carpeta hay que incluir la librería PHPMailer (https://github.com/PHPMailer/PHPMailer):
-
- · Exception.php
- · PHPMailer.php
- · SMTP.php

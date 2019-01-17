@@ -1,6 +1,0 @@
-{
-  "status": "{{status}}",
-  "list": [
-{{list}}
-  ]
-}
