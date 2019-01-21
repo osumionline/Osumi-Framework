@@ -3,81 +3,11 @@ Osumi Framework
 
 Osumi Framework es un pequeño framework orientado al modelo MVC (Modelo, Vista, Controlador) para la creación de aplicaciones web, tanto pequeñas como grandes.
 
-## Instalación
-El framework se puede instalar en cualquier servidor con Apache2 y PHP 5.3 (o superior). MySQL no es necesario pero en caso de querer usarlo el requisito es que sea de la versión 5.1 o superior.
+## Documentación
 
-El `DocumentRoot` de la aplicación debe apuntar a la carpeta `web`
+La documentación del framework, con casos de uso y ejemplos, se encuentra en [Osumi Framework Docs](https://framework.osumi.es).
 
-## Estructura
-El Framework se compone de varias carpetas organizadas de la siguiente manera:
-
-### config
-Carpeta con los ficheros de configuración:
-
-`config.php`: configuración general del sitio (configuración de la base de datos, CSS y JS por defecto...).
-
-`base.json`: archivo que indica que módulos que trae el Framework por defecto se quieren habilitar.
-
-`translations.json`: archivo con textos traducidos a varios idiomas.
-
-`urls.json`: en este archivo se indican las urls del sitio, de modo que al llamar a una url se sepa que modulo y acción se debe ejecutar.
-
-### controllers
-Carpeta con la lógica de la aplicación. Corresponde a Controlador del MVC. Cada archivo en esta carpeta corresponde a un `módulo` que tiene dentro varias funciones llamadas `acciones`.
-
-Cada `módulo`es un archivo php que contiene una clase con el mismo nombre que el archivo y hereda la clase `OController`. Por ejemplo:
-
-```php
-<?php
-class home extends OController{
-  /*
-   * Página temporal, sitio cerrado. Al ser una página estática no tiene código.
-   */
-  public function closed($req){}
-
-  /*
-   * Home pública
-   */
-  public function index($req){
-    /*
-     * Código de la página
-     */
-  }
-}
-```
-
-### model
-Esta carpeta tiene cinco carpetas dentro:
-
-`app`: carpeta con clases por cada tabla de la base de datos, corresponde al Modelo.
-
-`base`: carpeta con las clases internas del Framework.
-
-`lib`: carpeta para las librerías externas.
-
-`packages`: carpeta para los paquetes añadidos al framework. Inicialmente vacía en caso de no querer usar ninguno.
-
-`utils`: carpeta con las clases auxiliares que contienen funciones que se usarán a lo largo del sitio.
-
-### log
-Carpeta donde se almacenan los logs creados por el modo debug.
-
-### task
-Carpeta para archivos script o tareas que no se ejecutan desde el navegador, para tareas internas de mantenimiento por ejemplo.
-
-### templates
-Carpeta para las plantillas de las páginas que componen el sitio. Se distribuye en varias carpetas:
-
-`layout`: carpeta con las plantillas estructurales de la aplicación.
-
-`partials`: carpeta con las plantillas de elementos reutilizables (pueden tener lógica). Se organizan en carpetas según los nombres de los módulos que las usan.
-
-`carpetas para los módulos`: varias carpetas, cada una con el nombre de un módulo. Dentro de estas carpetas habrá un archivo php por cada acción del módulo.
-
-### web
-Carpeta pública o visible. Contiene el archivo index.php, archivo a través del que se canaliza toda la lógica.
-
-En esta carpeta se encuentran las carpetas para los archivos CSS, JavaScript o imágenes.
+Este repositorio contiene código de ejemplo para crear una pequeña aplicación que es necesario quitar para crear una nueva.
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
