@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.0.1` (18/02/2019)
+
+Corrección en `runTask`, el método para ejecutar tareas desde los controladores.
+
 ## `4.0.0` (17/01/2019)
 
 ¡Nueva versión!

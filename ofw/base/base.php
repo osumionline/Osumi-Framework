@@ -587,6 +587,7 @@ class Base{
 		  return false;
 	  }
     require_once $task_file;
+    $task_name .= 'Task';
     $tsk = new $task_name();
     $tsk->run($params);
   }
