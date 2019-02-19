@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.0.2` (19/02/2019)
+
+Nueva tarea `update` para actualizar los archivos del Framework. Ejecutando `php ofw.php update` se comprueba la versión instalada contra la del repositorio de GitHub. En caso de haber una versión más nueva, la tarea se encarga de descargar y actualizar o añadir los archivos nuevos.
+
+Esta versión es necesario actualizarla "a mano" pero las siguientes ya se podrán actualizar utilizando esta nueva tarea.
+
 ## `4.0.1` (18/02/2019)
 
 Corrección en `runTask`, el método para ejecutar tareas desde los controladores.

@@ -591,4 +591,10 @@ class Base{
     $tsk = new $task_name();
     $tsk->run($params);
   }
+
+  public static function getVersion(){
+    global $c;
+    $version_file = $c->getDir('ofw_base').'VERSION';
+    return file_get_contents($version_file);
+  }
 }
