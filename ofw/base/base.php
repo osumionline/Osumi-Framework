@@ -597,4 +597,11 @@ class Base{
     $version_file = $c->getDir('ofw_base').'VERSION';
     return file_get_contents($version_file);
   }
+
+  public static function getVersionInformation(){
+    global $c;
+    $current_version = trim( self::getVersion() );
+    $updates = json_decode( file_get_contents($c->getDir('ofw_base').'updates.json'), true );
+    return $updates[$current_version]['message'];
+  }
 }

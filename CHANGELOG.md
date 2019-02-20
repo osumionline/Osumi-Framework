@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+## `4.1.0` (20/02/2019)
+
+Las últimas dos actualizaciones introdujeron las tareas `update` y `updateCheck`, por lo que debería haber incrementado el número de versión (incrementar el último dígito indica correcciones sobre la versión actual).
+
+Las tareas `update` y `updateCheck` han sido modificadas de modo que tengan en cuenta todas las actualizaciones intermedias entre la actual y la instalada. Antes, si alguien tenía la version `4.0.1` y ejecutaba la tarea `update`, se le instalaría la versión `4.1.0`, sin recibir las versiones `4.0.2` y la `4.0.3`.
+
+Ahora las actualizaciones son secuenciales, de modo que se van instalando en orden de menor a mayor hasta alcanzar la versión actual.
+
+Por otra parte, se ha añadido la tarea `version`, que ofrece información sobre la versión actual.
+
+Por último, al ejecutar el comando `php ofw.php` se muestra la lista de tareas disponibles, solo que ahora están ordenadas de manera alfabetica.
+
 ## `4.0.3` (20/02/2019)
 
 Nueva tarea `updateCheck` para comprobar si existen actualizaciones del Framework y en caso de que existan, para comprobar que archivos se modificarán o eliminaran.

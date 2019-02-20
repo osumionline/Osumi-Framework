@@ -6,35 +6,48 @@ class updateCheckTask{
 
   private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
 
-  function doUpdateCheck($repo_version){
+  function doUpdateCheck($current_version){
     global $c;
     $updates = json_decode( file_get_contents($this->repo_url.'ofw/base/updates.json'), true );
-    echo "  ".$updates[$repo_version]['message']."\n";
-    echo "==============================================================================================================\n\n";
 
-    if (count($updates[$repo_version]['deletes'])>0){
-      echo "  Archivos que serán eliminados:\n\n";
-      foreach ($updates[$repo_version]['deletes'] as $delete){
-        $local_delete = $c->getDir('base').$delete;
-        if (file_exists($local_delete)){
-          echo "    ".$local_delete."\n";
-        }
+    $to_be_updated = [];
+    foreach ($updates as $update_version => $update){
+      if (version_compare($current_version, $update_version)==-1){
+        array_push($to_be_updated, $update_version);
       }
-      echo "\n";
     }
-    if (count($updates[$repo_version]['files'])>0){
-      echo "  Archivos actualizados:\n\n";
-      foreach ($updates[$repo_version]['files'] as $file){
-        $local_file = $c->getDir('base').$file;
-        if (file_exists($local_file)){
-          echo "    Actualización: \"".$local_file."\"\n";
+    asort($to_be_updated);
+    echo "Se han encontrado ".count($to_be_updated)." actualizaciones pendientes.\n\n";
+
+    foreach ($to_be_updated as $repo_version){
+      echo "  ".$updates[$repo_version]['message']."\n";
+      echo "==============================================================================================================\n\n";
+
+      if (count($updates[$repo_version]['deletes'])>0){
+        echo "  Archivos que serán eliminados:\n\n";
+        foreach ($updates[$repo_version]['deletes'] as $delete){
+          $local_delete = $c->getDir('base').$delete;
+          if (file_exists($local_delete)){
+            echo "    ".$local_delete."\n";
+          }
         }
-        else{
-          echo "    Nuevo: \"".$local_file."\"\n";
-        }
+        echo "\n";
       }
-      echo "\n";
+      if (count($updates[$repo_version]['files'])>0){
+        echo "  Archivos actualizados:\n\n";
+        foreach ($updates[$repo_version]['files'] as $file){
+          $local_file = $c->getDir('base').$file;
+          if (file_exists($local_file)){
+            echo "    Actualización: \"".$local_file."\"\n";
+          }
+          else{
+            echo "    Nuevo: \"".$local_file."\"\n";
+          }
+        }
+        echo "\n";
+      }
     }
+
     echo "Para proceder a la actualización debes ejecutar el siguiente comando:\n\n";
     echo "  php ofw.php update\n";
   }
@@ -51,7 +64,7 @@ class updateCheckTask{
     switch ($compare){
       case -1: {
         echo "La actualización modificará los siguientes archivos:\n";
-        $this->doUpdateCheck($repo_version);
+        $this->doUpdateCheck($current_version);
       }
       break;
       case 0: {

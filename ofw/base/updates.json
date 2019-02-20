@@ -1,4 +1,17 @@
 {
+  "4.1.0": {
+    "message": "4.1.0 - Tarea update redefinida",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "ofw/base/base.php",
+      "ofw/task/update.php",
+      "ofw/task/updateCheck.php",
+      "ofw/task/version.php",
+      "ofw.php",
+      "CHANGELOG.md"
+    ]
+  },
   "4.0.3": {
     "message": "4.0.3 - Nueva tarea updateCheck para comprobar actualizaciones del Framework",
     "files": [
