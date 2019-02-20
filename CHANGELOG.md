@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.0.3` (20/02/2019)
+
+Nueva tarea `updateCheck` para comprobar si existen actualizaciones del Framework y en caso de que existan, para comprobar que archivos se modificarán o eliminaran.
+
+La tarea `update` ahora también puede borrar archivos viejos innecesarios, no solo añadir o modificar.
+
 ## `4.0.2` (19/02/2019)
 
 Nueva tarea `update` para actualizar los archivos del Framework. Ejecutando `php ofw.php update` se comprueba la versión instalada contra la del repositorio de GitHub. En caso de haber una versión más nueva, la tarea se encarga de descargar y actualizar o añadir los archivos nuevos.

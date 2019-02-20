@@ -1,4 +1,13 @@
 {
+  "4.0.3": {
+    "message": "4.0.3 - Nueva tarea updateCheck para comprobar actualizaciones del Framework",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "ofw/task/update.php",
+      "ofw/task/updateCheck.php"
+    ]
+  },
   "4.0.2": {
     "message": "4.0.2 - Nueva tarea update para actualizar el Framework",
     "files": [
