@@ -1,4 +1,14 @@
 {
+  "4.1.1": {
+    "message": "4.1.1 - Correcciones de estilo en tareas update",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "ofw/task/update.php",
+      "ofw/task/updateCheck.php",
+      "CHANGELOG.md"
+    ]
+  },
   "4.1.0": {
     "message": "4.1.0 - Tarea update redefinida",
     "files": [

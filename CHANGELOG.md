@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.1.1` (20/02/2019)
+
+Retoques de estílo en tareas `update` y `updateCheck`.
+
 ## `4.1.0` (20/02/2019)
 
 Las últimas dos actualizaciones introdujeron las tareas `update` y `updateCheck`, por lo que debería haber incrementado el número de versión (incrementar el último dígito indica correcciones sobre la versión actual).
