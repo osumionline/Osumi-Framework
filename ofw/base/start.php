@@ -13,7 +13,6 @@
   require($c->getDir('ofw_base').'OController.php');
   require($c->getDir('ofw_base').'OService.php');
   require($c->getDir('ofw_base').'ODB.php');
-  require($c->getDir('ofw_base').'ODBp.php');
   require($c->getDir('ofw_base').'OLog.php');
   require($c->getDir('ofw_base').'OUrl.php');
   require($c->getDir('ofw_base').'OTemplate.php');
@@ -66,7 +65,14 @@
   // Libs
   $lib_list = $c->getLibs();
   foreach ($lib_list as $lib){
-    require($c->getDir('ofw_lib').$lib.'.php');
+    $lib_file = $c->getDir('ofw_lib').$lib.'.php';
+    if (file_exists($lib_file)){
+      require($c->getDir('ofw_lib').$lib.'.php');
+    }
+    else{
+      echo "ERROR: Lib file \"".$lib_file."\" not found.\n";
+      exit();
+    }
   }
 
   // User services
@@ -97,4 +103,13 @@
       }
     }
     closedir($model);
+  }
+
+  // Si hay conexión a BD, compruebo drivers
+  if ($c->getDB('user')!=='' || $c->getDB('pass')!=='' || $c->getDB('host')!=='' || $c->getDB('name')!==''){
+    $pdo_drivers = PDO::getAvailableDrivers();
+    if (!in_array($c->getDB('driver'), $pdo_drivers)){
+      echo "ERROR: El sistema no dispone del driver ".$c->getDB('driver')." solicitado para realizar la conexión a la base de datos.\n";
+      exit();
+    }
   }

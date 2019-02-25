@@ -16,10 +16,12 @@ class OConfig{
 
   private $dirs = [];
   private $db = [
-    'user' => '',
-    'pass' => '',
-    'host' => '',
-    'name' => ''
+    'driver'  => 'mysql',
+    'user'    => '',
+    'pass'    => '',
+    'host'    => '',
+    'name'    => '',
+    'charset' => 'UTF8'
   ];
   private $urls = [
     'base'   => '',
@@ -104,7 +106,7 @@ class OConfig{
       $this->setPackages($config['packages']);
     }
     if (array_key_exists('db', $config)){
-      $db_fields = ['host', 'user', 'pass', 'name'];
+      $db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset'];
       foreach ($db_fields as $db_field){
         if (array_key_exists($db_field, $config['db'])){
           $this->setDB($db_field, $config['db'][$db_field]);

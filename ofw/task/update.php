@@ -105,11 +105,11 @@ class updateTask{
       }
       break;
       case 0: {
-        echo "  La versión instalada está actualizada.\n";
+        echo "  La versión instalada está actualizada.\n\n";
       }
       break;
       case 1: {
-        echo "  ¡¡La versión instalada está MÁS actualizada que la del repositorio!!\n";
+        echo "  ¡¡La versión instalada está MÁS actualizada que la del repositorio!!\n\n";
       }
       break;
     }

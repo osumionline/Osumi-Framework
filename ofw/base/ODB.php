@@ -3,118 +3,215 @@
  * Clase para gestionar la Base de datos
  */
 class ODB {
-	private $host;
-	private $user;
-	private $pass;
-	private $name;
-	private $link;
-	private $res;
-	private $query;
-	private $last_id;
-	private $found_rows;
+  private $driver     = 'mysql';
+	private $host       = null;
+	private $user       = null;
+	private $pass       = null;
+	private $name       = null;
+  private $charset    = 'UTF8';
+	private $link       = null;
+	private $stmt       = null;
+	private $fetch_mode = null;
+  private $last_query = null;
 
 	function __construct($user='', $pass='', $host='', $name=''){
 		global $c;
-		if(empty($user) ||empty($pass) ||empty($host) ||empty($name) ){
-			$this->host = $c->getDB('host');
-			$this->user = $c->getDB('user');
-			$this->pass = $c->getDB('pass');
-			$this->name = $c->getDB('name');
-		}else{
-			$this->host = $host;
-			$this->user = $user;
-			$this->pass = $pass;
-			$this->name = $name;
+		if (empty($user) ||empty($pass) ||empty($host) ||empty($name) ){
+      $this->setDriver( $c->getDB('driver') );
+			$this->setHost( $c->getDB('host') );
+			$this->setUser( $c->getDB('user') );
+			$this->setPass( $c->getDB('pass') );
+			$this->setName( $c->getDB('name') );
+      $this->setCharset( $c->getDB('charset') );
+		}
+    else{
+			$this->setHost( $host );
+			$this->setUser( $user );
+			$this->setPass( $pass );
+			$this->setName( $name );
 		}
 	}
 
+	/*
+   * Getters / Setters
+   */
+	public function setDriver($d){
+  	$this->driver = $d;
+	}
+	public function getDriver(){
+  	return $this->driver;
+	}
+	public function setHost($h){
+  	$this->host = $h;
+	}
+	public function getHost(){
+  	return $this->host;
+	}
+	public function setUser($u){
+  	$this->user = $u;
+	}
+	public function getUser(){
+  	return $this->user;
+	}
+	public function setPass($p){
+  	$this->pass = $p;
+	}
+	public function getPass(){
+  	return $this->pass;
+	}
+	public function setName($n){
+  	$this->name = $n;
+	}
+	public function getName(){
+  	return $this->name;
+	}
+  public function setCharset($c){
+  	$this->charset = $c;
+	}
+	public function getCharset(){
+  	return $this->charset;
+	}
+	public function setLink($l){
+  	$this->link = $l;
+	}
+	public function getLink(){
+  	return $this->link;
+	}
+	public function setStmt($s){
+  	$this->stmt = $s;
+	}
+	public function getStmt(){
+  	return $this->stmt;
+	}
+	public function setFetchMode($fm){
+  	$this->fetch_mode = $fm;
+	}
+	public function getFetchMode(){
+  	return $this->fetch_mode;
+	}
+  public function setLastQuery($lq){
+  	$this->last_query = $lq;
+	}
+	public function getLastQuery(){
+  	return $this->last_query;
+	}
+
+	/*
+   * Función para abrir una conexión a la base de datos
+   */
 	function connect(){
-		$link = mysqli_connect($this->host,$this->user,$this->pass,$this->name);
-		if (!$link){
-			return mysqli_errno($link);  # Error Conectando la DB
-		}else{
-			$this->link=$link;
-			mysqli_set_charset($link,'utf8');
-		}
+  	try {
+  	  $link = new PDO(
+  	    $this->getDriver().':host='.$this->getHost().';dbname='.$this->getName().';charset='.$this->getCharset(),
+  	    $this->getUser(),
+  	    $this->getPass(),
+        [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+      );
+      $this->setLink($link);
+    }
+    catch (PDOException $e) {
+      return 'Connection failed: ' . $e->getMessage();
+    }
+
 		return true;
 	}
 
-	function query($q,$silent=false){
-		$this->query = $q;
-		$this->connect();
-		$result = mysqli_query($this->link,$q);
-		if (!$result){
-			if(!$silent){
-				echo "ERROR en la consulta: ".$q."\n".mysqli_error($this->link)."\n";
-			}
-			$this->disconnect();
-			return mysqli_error($this->link);
-		}else{
-			$this->res = $result;
-			if( strpos(strtoupper($q),'INSERT') !== false ){
-				$get_last_id = mysqli_query($this->link,'SELECT LAST_INSERT_ID() AS `last_id`');
-				$last_id = mysqli_fetch_array($get_last_id,MYSQLI_ASSOC);
-				$this->last_id = $last_id['last_id'];
-			}
-			if( strpos(strtoupper($q),'SQL_CALC_FOUND_ROWS') !== false ){
-				$num_found = mysqli_query($this->link,'SELECT FOUND_ROWS() AS `num`');
-				$found_rows = mysqli_fetch_array($num_found,MYSQLI_ASSOC);
-				$this->found_rows = $found_rows['num'];
-			}
-			$this->disconnect();
-			return true;
-		}
+  /*
+   * Función para cerrar una conexión a la base de datos
+   */
+  function disconnect(){
+    if (!is_null($this->getLink())){
+      $this->setLink(null);
+    }
+  }
+
+	/*
+   * Función para realizar una consulta
+   */
+	public function query($q, $params=[]){
+  	// Obtener conexión
+  	$pdo = $this->getLink();
+  	if (!$pdo){
+    	$conn = $this->connect();
+    	if ($conn===true){
+    	  $pdo = $this->getLink();
+    	}
+    	else{
+      	return $conn;
+    	}
+  	}
+
+  	// Si hay parámetros uso prepared statement
+  	if (count($params)>0){
+      $stmt = $pdo->prepare($q);
+      $stmt->execute($params);
+    }
+    // Si no hay parámetros hago la consulta directamente
+    else{
+      $stmt = $pdo->query($q);
+    }
+
+    // Si el modo de obtener los resultados está definido, se lo indico al statement
+    if (!is_null($this->getFetchMode())){
+      $stmt->setFetchMode(PDO::FETCH_CLASS, $this->getFetchMode());
+    }
+
+    $this->setStmt($stmt);
+    $this->setLastQuery($q);
 	}
 
-	function autoCommit($mode){
-		mysqli_autocommit($this->link, $mode);
+	/*
+   * Función para marcar el inicio de una transacción
+   */
+  public function beginTransaction(){
+    $this->getStmt()->beginTransaction();
+  }
+
+  /*
+   * Función para finalizar una transacción
+   */
+  public function commit(){
+    $this->getStmt()->commit();
+  }
+
+  /*
+   * Función para cancelar una transacción
+   */
+  public function rollback(){
+    $this->getStmt()->rollback();
+  }
+
+	/*
+   * Función para obtener un resultado
+   */
+	public function next(){
+  	if (is_null($this->getFetchMode())){
+  	  return $this->getStmt()->fetch(PDO::FETCH_ASSOC);
+  	}
+  	return $this->getStmt()->fetch();
 	}
 
-	function commit(){
-		mysqli_commit($this->link);
+	/*
+   * Función para obtener todos los resultados
+   */
+	public function fetchAll(){
+    if (is_null($this->getFetchMode())){
+  	  return $this->getStmt()->fetchAll(PDO::FETCH_ASSOC);
+  	}
+  	return $this->getStmt()->fetchAll();
 	}
 
-	function rollback(){
-		mysqli_rollback($this->link);
-	}
+  /*
+   * Función para obtener el número de filas afectadas
+   */
+  public function affected(){
+    return $this->getStmt()->rowCount();
+  }
 
-	function info(){
-		return mysqli_info($this->link);
-	}
-
-	function affected(){
-		return mysqli_affected_rows($this->link);
-	}
-
-	function howMany(){
-		return mysqli_num_rows($this->res);
-	}
-
-	function next(){
-		return mysqli_fetch_array($this->res,MYSQLI_ASSOC);
-	}
-
-	function lastQuery(){
-		return $this->query;
-	}
-
-	function lastId(){
-		return $this->last_id;
-	}
-
-	function foundRows(){
-		return $this->found_rows;
-	}
-
-	function disconnect(){
-		mysqli_close($this->link);
-		$this->link = null;
-	}
-
-	function cleanStr($str){
-		if (is_null($this->link)){
-			$this->connect();
-		}
-		return mysqli_real_escape_string($this->link,$str);
-	}
+	/*
+   * Función para obtener el último id insertado en una columna auto-increment
+   */
+  public function lastId(){
+    return $this->getStmt()->lastInsertId();
+  }
 }

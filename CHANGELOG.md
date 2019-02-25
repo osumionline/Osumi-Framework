@@ -1,9 +1,15 @@
 CHANGELOG
 =========
 
+## `4.2.0` (25/02/2019)
+
+A partir de esta versión el modo de conectarse a la base de datos será mediante PDO. Con este cambio se abre la posibilidad de utilizar diferentes tipos de bases de datos, aunque `MySQL` sigue siendo el tipo por defecto. Esto es algo que llevo tiempo queriendo hacerlo, de echo existía la clase `ODBp` desde hace tiempo pero no la llegué a terminar ni usar nunca.
+
+Retoques de estilo en tareas `update` y `updateCheck`.
+
 ## `4.1.1` (20/02/2019)
 
-Retoques de estílo en tareas `update` y `updateCheck`.
+Retoques de estilo en tareas `update` y `updateCheck`.
 
 ## `4.1.0` (20/02/2019)
 
