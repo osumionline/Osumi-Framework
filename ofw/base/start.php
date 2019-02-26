@@ -13,6 +13,7 @@
   require($c->getDir('ofw_base').'OController.php');
   require($c->getDir('ofw_base').'OService.php');
   require($c->getDir('ofw_base').'ODB.php');
+  require($c->getDir('ofw_base').'ODBContainer.php');
   require($c->getDir('ofw_base').'OLog.php');
   require($c->getDir('ofw_base').'OUrl.php');
   require($c->getDir('ofw_base').'OTemplate.php');
@@ -112,4 +113,5 @@
       echo "ERROR: El sistema no dispone del driver ".$c->getDB('driver')." solicitado para realizar la conexión a la base de datos.\n";
       exit();
     }
+    $dbcontainer = new ODBContainer();
   }

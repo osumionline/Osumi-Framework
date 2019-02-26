@@ -53,7 +53,7 @@ if ($url_result['res']){
     $controller->loadController($url_result);
 
     if (method_exists($controller, $url_result['action'])){
-      call_user_func([$controller, $url_result['action']], $url_result['params']);
+      call_user_func(array($controller, $url_result['action']), $url_result['params']);
       $controller->getTemplate()->process();
     }
     else{
@@ -67,3 +67,5 @@ if ($url_result['res']){
 else{
   Base::showErrorPage($url_result, '404');
 }
+
+$dbcontainer->closeAllConnections();

@@ -3,16 +3,17 @@
  * Clase para gestionar la Base de datos
  */
 class ODB {
-  private $driver     = 'mysql';
-	private $host       = null;
-	private $user       = null;
-	private $pass       = null;
-	private $name       = null;
-  private $charset    = 'UTF8';
-	private $link       = null;
-	private $stmt       = null;
-	private $fetch_mode = null;
-  private $last_query = null;
+  private $driver           = 'mysql';
+	private $host             = null;
+	private $user             = null;
+	private $pass             = null;
+	private $name             = null;
+  private $charset          = 'UTF8';
+	private $link             = null;
+  private $connection_index = null;
+	private $stmt             = null;
+	private $fetch_mode       = null;
+  private $last_query       = null;
 
 	function __construct($user='', $pass='', $host='', $name=''){
 		global $c;
@@ -77,6 +78,12 @@ class ODB {
 	public function getLink(){
   	return $this->link;
 	}
+  public function setConnectionIndex($ci){
+    $this->connection_index = $ci;
+  }
+  public function getConnectionIndex(){
+    return $this->connection_index;
+  }
 	public function setStmt($s){
   	$this->stmt = $s;
 	}
@@ -100,20 +107,24 @@ class ODB {
    * Función para abrir una conexión a la base de datos
    */
 	function connect(){
-  	try {
-  	  $link = new PDO(
-  	    $this->getDriver().':host='.$this->getHost().';dbname='.$this->getName().';charset='.$this->getCharset(),
-  	    $this->getUser(),
-  	    $this->getPass(),
-        [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
-      );
-      $this->setLink($link);
+    global $dbcontainer;
+    if (!is_null($this->getConnectionIndex())){
+      $connection = $dbcontainer->getConnectionByIndex( $this->getConnectionIndex() );
+      $this->setConnectionIndex($connection['index']);
+      $this->setLink($connection['link']);
     }
-    catch (PDOException $e) {
-      return 'Connection failed: ' . $e->getMessage();
+    else{
+      try{
+        $connection = $dbcontainer->getConnection($this->getDriver(), $this->getHost(), $this->getUser(), $this->getPass(), $this->getName(), $this->getCharset());
+        $this->setConnectionIndex($connection['index']);
+        $this->setLink($connection['link']);
+      }
+      catch (PDOException $e) {
+        return 'Connection failed: ' . $e->getMessage();
+      }
     }
 
-		return true;
+    return true;
 	}
 
   /*

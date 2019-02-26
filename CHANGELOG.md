@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+## `4.2.1` (26/02/2019)
+
+Introduzco la nueva clase `ODBContainer`. Esta clase es un repositorio de las conexiones que se abren a la base de datos. De modo que si un objeto nuevo solicita abrir una conexión a una base de datos a la que ya se está conectado, se le devuelve esa conexión en lugar de crear una nueva.
+
+Al acabar la ejecución se cierran todas las conexiones.
+
+Esta versión es una corrección de la anterior ya que podía causar errores de "demasiadas conexiones abiertas" en casos con mucho acceso a base de datos.
+
 ## `4.2.0` (25/02/2019)
 
 A partir de esta versión el modo de conectarse a la base de datos será mediante PDO. Con este cambio se abre la posibilidad de utilizar diferentes tipos de bases de datos, aunque `MySQL` sigue siendo el tipo por defecto. Esto es algo que llevo tiempo queriendo hacerlo, de echo existía la clase `ODBp` desde hace tiempo pero no la llegué a terminar ni usar nunca.

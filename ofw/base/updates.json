@@ -1,4 +1,16 @@
 {
+  "4.2.1": {
+    "message": "4.2.1 - Nueva clase ODBContainer para unificar conexiones a bases de datos",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "CHANGELOG.md",
+      "ofw/base/ODB.php",
+      "ofw/base/start.php",
+      "web/index.php",
+      "ofw/base/ODBContainer.php"
+    ]
+  },
   "4.2.0": {
     "message": "4.2.0 - PDO por defecto",
     "files": [
