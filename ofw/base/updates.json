@@ -1,4 +1,13 @@
 {
+  "4.2.2": {
+    "message": "4.2.2 - Corrección en ODB al obtener el último id insertado",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "CHANGELOG.md",
+      "ofw/base/ODB.php"
+    ]
+  },
   "4.2.1": {
     "message": "4.2.1 - Nueva clase ODBContainer para unificar conexiones a bases de datos",
     "files": [

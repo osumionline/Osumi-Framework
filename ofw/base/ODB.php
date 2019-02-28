@@ -223,6 +223,6 @@ class ODB {
    * Función para obtener el último id insertado en una columna auto-increment
    */
   public function lastId(){
-    return $this->getStmt()->lastInsertId();
+    return $this->getLink()->lastInsertId();
   }
 }

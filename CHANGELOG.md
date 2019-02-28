@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.2.2` (28/02/2019)
+
+Corrección en `ODB` al obtener el último `id` insertado.
+
 ## `4.2.1` (26/02/2019)
 
 Introduzco la nueva clase `ODBContainer`. Esta clase es un repositorio de las conexiones que se abren a la base de datos. De modo que si un objeto nuevo solicita abrir una conexión a una base de datos a la que ya se está conectado, se le devuelve esa conexión en lugar de crear una nueva.
