@@ -4,16 +4,16 @@ class OBase{
   protected $model_name = '';
   protected $table_name = '';
   protected $default_model = [
-    Base::PK       => ['default'=>null,  'original'=>null,  'value'=>null,  'clean'=>false, 'incr'=>true,  'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::PK_STR   => ['default'=>null,  'original'=>null,  'value'=>null,  'clean'=>false, 'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::CREATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'clean'=>false, 'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::UPDATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'clean'=>false, 'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::NUM      => ['default'=>0,     'original'=>0,     'value'=>0,     'clean'=>false, 'incr'=>false, 'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::TEXT     => ['default'=>'',    'original'=>'',    'value'=>'',    'clean'=>false, 'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::DATE     => ['default'=>null,  'original'=>null,  'value'=>'',    'clean'=>false, 'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::BOOL     => ['default'=>false, 'original'=>false, 'value'=>false, 'clean'=>false, 'incr'=>false, 'size'=>1,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::LONGTEXT => ['default'=>'',    'original'=>'',    'value'=>'',    'clean'=>false, 'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::FLOAT    => ['default'=>0,     'original'=>0,     'value'=>0,     'clean'=>false, 'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true]
+    Base::PK       => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>true,  'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::PK_STR   => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::CREATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::UPDATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::NUM      => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::TEXT     => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::DATE     => ['default'=>null,  'original'=>null,  'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::BOOL     => ['default'=>false, 'original'=>false, 'value'=>false, 'incr'=>false, 'size'=>1,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::LONGTEXT => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    Base::FLOAT    => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true]
   ];
   protected $model   = [];
   protected $pk      = [];
@@ -44,7 +44,6 @@ class OBase{
       $temp['default']  = array_key_exists('default',  $row) ? $row['default']  : $temp['default'];
       $temp['original'] = array_key_exists('original', $row) ? $row['original'] : $temp['original'];
       $temp['value']    = array_key_exists('value',    $row) ? $row['value']    : $temp['value'];
-      $temp['clean']    = array_key_exists('clean',    $row) ? $row['clean']    : $temp['clean'];
       $temp['incr']     = array_key_exists('incr',     $row) ? $row['incr']     : $temp['incr'];
       $temp['size']     = array_key_exists('size',     $row) ? $row['size']     : $temp['size'];
       $temp['nullable'] = array_key_exists('nullable', $row) ? $row['nullable'] : $temp['nullable'];
@@ -153,6 +152,7 @@ class OBase{
 
     // Cojo modelo
     $model = $this->getModel();
+    $query_params = [];
 
     // Marco fecha de ultima modificación
     if (!is_null($this->updated)){
@@ -163,20 +163,11 @@ class OBase{
       $sql = "UPDATE `".$this->table_name."` SET ";
       $updated_fields = [];
       foreach ($model as $field_name => $field){
-        $holder = "'";
         $value  = $field['value'];
-        if (is_null($field['value'])){
-          $holder = "";
-          $value  = "NULL";
-        }
         if ($field['type']!=Base::PK && $field['type']!=Base::PK_STR && $field['original']!==$value){
-          if ($field['clean']){
-            $cad = "`".$field_name."` = ".$holder.$this->db->cleanStr($value).$holder;
-          }
-          else{
-            $cad = "`".$field_name."` = ".$holder.$value.$holder;
-          }
+          $cad = "`".$field_name."` = ?";
           array_push($updated_fields, $cad);
+          array_push($query_params, $value);
         }
       }
       $sql .= implode($updated_fields,", ");
@@ -185,7 +176,8 @@ class OBase{
         if ($i!=0){
           $sql .= "AND ";
         }
-        $sql .= "`".$pk_ind."` = '".$model[$pk_ind]['value']."'";
+        $sql .= "`".$pk_ind."` = ?";
+        array_push($query_params, $model[$pk_ind]['value']);
       }
 
       $save_type = 'u';
@@ -213,12 +205,8 @@ class OBase{
           array_push($insert_fields, "NULL");
         }
         else{
-          if ($field['clean']){
-            array_push($insert_fields, $holder.$this->db->cleanStr($value).$holder);
-          }
-          else{
-            array_push($insert_fields, $holder.$value.$holder);
-          }
+          array_push($insert_fields, "?");
+          array_push($query_params, $value);
         }
       }
       $sql .= implode($insert_fields, ",");
@@ -228,7 +216,7 @@ class OBase{
     }
 
     // Ejecuto la consulta
-    $this->db->query($sql);
+    $this->db->query($sql, $query_params);
 
     // Si la tabla solo tiene un pk y es incremental lo guardo
     if ($save_type == 'i' && count($this->pk)==1 && $model[$this->pk[0]]['incr']){

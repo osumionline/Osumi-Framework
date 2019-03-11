@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.3.0` (11/03/2019)
+
+Cambio en las consultas internas de los objetos de modelo, en vez de construir SQLs ahora uso `Prepared Statements`. Esto hace que el parámetro `clean` quede obsoleto y se ha eliminado. En caso de estar todavía definido en algún modelo simplemente se ignorará.
+
 ## `4.2.2` (28/02/2019)
 
 Corrección en `ODB` al obtener el último `id` insertado.

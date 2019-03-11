@@ -1,4 +1,13 @@
 {
+  "4.3.0": {
+    "message": "4.3.0 - Consultas de los modelos con Prepared Statements y limpieza de código obsoleto",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "CHANGELOG.md",
+      "ofw/base/OBase.php"
+    ]
+  },
   "4.2.2": {
     "message": "4.2.2 - Corrección en ODB al obtener el último id insertado",
     "files": [
