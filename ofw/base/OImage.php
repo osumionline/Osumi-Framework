@@ -1,157 +1,76 @@
 <?php
 class OImage{
-  private $db;
-  private $debug_mode  = false;
-  private $l           = null;
-  private $tmp_dir     = '';
-  private $img_dir     = '';
-  private $thumb_dir   = '';
-  private $image_types = [];
-  private $img_id      = '';
-  private $si          = null;
+   private $image;
+   private $image_type;
 
-  function __construct() {
-    global $c, $where;
-    $this->db=new ODB();
-    $this->setDebugMode($c->getDebugMode());
+   public function load($filename){
+     $image_info       = getimagesize($filename);
+     $this->image_type = $image_info[2];
 
-    $l = new OLog();
-    $this->setLog($l);
-    $this->getLog()->setSection($where);
-    $this->getLog()->setModel('OImage');
+     switch ($this->image_type){
+       case IMAGETYPE_JPEG: { $this->image = imagecreatefromjpeg($filename); }
+       break;
+       case IMAGETYPE_GIF: {  $this->image = imagecreatefromgif($filename);  }
+       break;
+       case IMAGETYPE_PNG: {  $this->image = imagecreatefrompng($filename);  }
+       break;
+     }
+   }
 
-    $this->setTmpDir($c->getDir('ofw_tmp'));
-    $this->setImgDir($c->getDir('web')."img/");
-    $this->setThumbDir($c->getDir('web')."img/thumb/");
-    $this->setImageTypes($c->getImageTypes());
+   public function save($filename, $image_type=IMAGETYPE_JPEG, $compression=75, $permissions=null){
+     switch ($image_type){
+       case IMAGETYPE_JPEG: { imagejpeg($this->image, $filename, $compression); }
+       break;
+       case IMAGETYPE_GIF: {  imagegif($this->image,  $filename); }
+       break;
+       case IMAGETYPE_PNG: {  imagepng($this->image,  $filename); }
+       break;
+     }
+     if (!is_null($permissions)){
+       chmod($filename, $permissions);
+     }
+   }
 
-    $si = new SimpleImage();
-    $this->setSI($si);
-	}
+   function output($image_type=IMAGETYPE_JPEG){
+     switch ($image_type){
+       case IMAGETYPE_JPEG: { imagejpeg($this->image); }
+       break;
+       case IMAGETYPE_GIF: {  imagegif($this->image);  }
+       break;
+       case IMAGETYPE_PNG: {  imagepng($this->image);  }
+       break;
+     }
+   }
 
-	public function setDebugMode($dm){
-    $this->debug_mode = $dm;
-	}
-	public function getDebugMode(){
-    return $this->debug_mode;
-	}
+   function getWidth(){
+     return imagesx($this->image);
+   }
 
-	public function setLog($l){
-    $this->l = $l;
-	}
-	public function getLog(){
-    return $this->l;
-	}
+   function getHeight(){
+     return imagesy($this->image);
+   }
 
-	public function setTmpDir($td){
-    $this->tmp_dir = $td;
-	}
-	public function getTmpDir(){
-    return $this->tmp_dir;
-	}
+   function resizeToHeight($height){
+     $ratio = $height / $this->getHeight();
+     $width = $this->getWidth() * $ratio;
+     $this->resize($width, $height);
+   }
 
-	public function setImgDir($id){
-    $this->img_dir = $id;
-	}
-	public function getImgDir(){
-    return $this->img_dir;
-	}
+   function resizeToWidth($width){
+     $ratio  = $width / $this->getWidth();
+     $height = $this->getheight() * $ratio;
+     $this->resize($width, $height);
+   }
 
-	public function setThumbDir($td){
-    $this->thumb_dir = $td;
-	}
-	public function getThumbDir(){
-    return $this->thumb_dir;
-	}
+   function scale($scale){
+     $width  = $this->getWidth() * $scale/100;
+     $height = $this->getheight() * $scale/100;
+     $this->resize($width, $height);
+   }
 
-	public function setImageTypes($it){
-    $this->image_types = $it;
-	}
-	public function getImageTypes(){
-    return $this->image_types;
-	}
-
-	public function setImgId($ii){
-    $this->img_id = $ii;
-	}
-	public function getImgId(){
-    return $this->img_id;
-	}
-
-	public function setSI($si){
-    $this->si = $si;
-	}
-	public function getSI(){
-    return $this->si;
-	}
-
-  public function copyImg($image, $imgId){
-		$tmpfile = tempnam($this->getTmpDir(), 'import');
-		$imageTypes = $this->getImageTypes();
-
-		if (@copy($image, $tmpfile))
-		{
-		  // Cargo la imagen
-		  $this->getSI()->load($tmpfile);
-
-		  $size = getimagesize($tmpfile);
-
-		  // Creo thumbs
-    	foreach ($imageTypes as $imageType){
-        if ($size[0] > $size[1]){
-          $this->getSI()->resizeToWidth($imageType['width']);
-        }
-        else{
-          $this->getSI()->resizeToHeight($imageType['height']);
-        }
-        $this->getSI()->save($this->getThumbDir().$imgId.'-'.$imageType['name'].'.jpg');
-      }
-
-      // Copio el original
-      copy($image, $this->getImgDir().$imgId.'.jpg');
-    }
-    @unlink($tmpfile);
-	}
-
-	public function delete($id=null){
-    if (!is_null($id)){
-      $this->setImgId($id);
-    }
-
-    $imageTypes = $this->getImageTypes();
-
-    // Borro thumbs
-    foreach ($imageTypes as $imageType){
-      $route_img = $this->getThumbDir().$this->getImgId().'-'.$imageType['name'].'.jpg';
-      if ($this->getDebugMode()){
-        $this->getLog()->putLog('Borro imagen thumb '.$route_img);
-      }
-      unlink($route_img);
-    }
-    // Borro el original
-    $route_img = $this->getImgDir().$this->getImgId().'.jpg';
-    if ($this->getDebugMode()){
-      $this->getLog()->putLog('Borro imagen original'.$route_img);
-    }
-    unlink($route_img);
-
-    // Borro la foto de BD
-    $sql = "DELETE FROM `photo` WHERE `id` = ".$this->getImgId();
-
-    if ($this->getDebugMode()){
-      $this->getLog()->putLog($sql);
-    }
-    $this->db->query($sql);
-	}
-
-	public static function generateUrl($id,$type='full'){
-    global $c;
-
-    if ($type == 'full'){
-      return '/'.str_replace($c->getDir('web'),'',$c->getDir('web')."img/".$id.'.jpg');
-    }
-    else{
-      return '/'.str_replace($c->getDir('web'),'',$c->getDir('web')."img/thumb/".$id.'-'.$type.'.jpg');
-    }
-	}
+   function resize($width, $height) {
+     $new_image = imagecreatetruecolor($width, $height);
+     imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
+     $this->image = $new_image;
+   }
 }

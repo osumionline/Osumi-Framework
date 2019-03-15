@@ -39,7 +39,6 @@
     require($c->getDir('ofw_base').'OFTP.php');
   }
   if ($c->getDefaultModule('image')){
-    require($c->getDir('ofw_lib').'image/SimpleImage.php');
     require($c->getDir('ofw_base').'OImage.php');
   }
   if ($c->getDefaultModule('pdf')){

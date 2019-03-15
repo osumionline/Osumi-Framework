@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.4.0` (15/03/2019)
+
+Modifico la clase `OImage` para que ya no dependa de la librería `SimpleImage` adaptando sus funciones. Hasta ahora `OImage` era un wrapper con funciones que fueron usadas para un proyecto concreto.
+
+La clase ahora puede cargar imagenes `jpg`, `png` o `gif` y cambiar su tamaño, escalarlas o convertirlas entre formatos.
+
 ## `4.3.0` (11/03/2019)
 
 Cambio en las consultas internas de los objetos de modelo, en vez de construir SQLs ahora uso `Prepared Statements`. Esto hace que el parámetro `clean` quede obsoleto y se ha eliminado. En caso de estar todavía definido en algún modelo simplemente se ignorará.

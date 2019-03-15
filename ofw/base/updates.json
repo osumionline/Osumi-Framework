@@ -1,4 +1,17 @@
 {
+  "4.4.0": {
+    "message": "4.4.0 - Nuevo OImage",
+    "files": [
+      "ofw/base/updates.json",
+      "ofw/base/VERSION",
+      "ofw/base/OImage.php",
+      "ofw/base/start.php",
+      "CHANGELOG.md"
+    ],
+    "deletes": [
+      "ofw/lib/image/SimpleImage.php"
+    ]
+  },
   "4.3.0": {
     "message": "4.3.0 - Consultas de los modelos con Prepared Statements y limpieza de código obsoleto",
     "files": [
