@@ -1,4 +1,20 @@
 {
+  "4.5.0": {
+    "message": "4.5.0 - Colores en CLI y correcciones estéticas en tasks",
+    "files": [
+      "CHANGELOG.md",
+      "ofw.php",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/task/composer.php",
+      "ofw/task/generateModel.php",
+      "ofw/task/update.php",
+      "ofw/task/updateCheck.php",
+      "ofw/task/updateUrls.php",
+      "ofw/task/version.php",
+      "ofw/base/OColors.php"
+    ]
+  },
   "4.4.0": {
     "message": "4.4.0 - Nuevo OImage",
     "files": [

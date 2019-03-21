@@ -3,9 +3,12 @@ session_start();
 $start_time = microtime(true);
 $where = 'task_ofw';
 
-require(dirname(__FILE__).'/ofw/base/start.php');
+require dirname(__FILE__).'/ofw/base/start.php' ;
+// Include OColors class to make colores messages available in CLI
+require $c->getDir('ofw_base').'OColors.php';
 
 $task_list = [];
+$colors = new OColors();
 
 // OFW Tasks
 if ($model = opendir($c->getDir('ofw_task'))) {
@@ -41,7 +44,8 @@ function taskOptions($task_list){
   return $ret;
 }
 if (!array_key_exists(1, $argv)){
-  echo "\nTienes que indicar una opción.\n\n";
+  echo "\n  ".$colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
+  echo "Tienes que indicar una opción.\n\n";
   echo taskOptions($task_list);
   exit();
 }

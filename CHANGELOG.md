@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.5.0` (21/03/2019)
+
+¡Colores! Añado una nueva clase `OColors` que permite mostrar mensajes con diferentes colores en las `task` que se ejecutan como CLI. Los mensajes que se muestran por consola se pueden personalizar con un color de fondo y color de letras.
+
 ## `4.4.0` (15/03/2019)
 
 Modifico la clase `OImage` para que ya no dependa de la librería `SimpleImage` adaptando sus funciones. Hasta ahora `OImage` era un wrapper con funciones que fueron usadas para un proyecto concreto.

@@ -1,7 +1,13 @@
 <?php
 class updateCheckTask{
   public function __toString(){
-    return "updateCheck: Función para comprobar si existen actualizaciones del Framework.";
+    return $this->colors->getColoredString("updateCheck", "light_green").": Función para comprobar si existen actualizaciones del Framework.";
+  }
+
+  private $colors = null;
+
+  function __construct(){
+    $this->colors = new OColors();
   }
 
   private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
@@ -17,24 +23,26 @@ class updateCheckTask{
       }
     }
     asort($to_be_updated);
-    echo "  Se han encontrado ".count($to_be_updated)." actualizaciones pendientes.\n\n";
+    echo "  ".$this->colors->getColoredString("Se han encontrado ".count($to_be_updated)." actualizaciones pendientes", "light_green")."\n\n";
 
     foreach ($to_be_updated as $repo_version){
-      echo "  ".$updates[$repo_version]['message']."\n";
+      echo "  ".$this->colors->getColoredString($updates[$repo_version]['message'], "black", "yellow")."\n";
       echo "==============================================================================================================\n\n";
 
       if (array_key_exists('deletes', $updates[$repo_version]) && count($updates[$repo_version]['deletes'])>0){
         echo "  Archivos que serán eliminados:\n\n";
         foreach ($updates[$repo_version]['deletes'] as $delete){
           $local_delete = $c->getDir('base').$delete;
-          if (file_exists($local_delete)){
-            echo "    ".$delete."\n";
+          echo "    \"".$delete."\"";
+          if (!file_exists($local_delete)){
+            echo " ".$this->colors->getColoredString("(El archivo no existe)", "white", "red");
           }
+          echo "\n";
         }
         echo "\n";
       }
       if (array_key_exists('files', $updates[$repo_version]) && count($updates[$repo_version]['files'])>0){
-        echo "  Archivos actualizados:\n\n";
+        echo "  Archivos que serán actualizados:\n\n";
         foreach ($updates[$repo_version]['files'] as $file){
           $local_file = $c->getDir('base').$file;
           if (file_exists($local_file)){
@@ -48,8 +56,9 @@ class updateCheckTask{
       }
     }
 
+    echo "==============================================================================================================\n\n";
     echo "  Para proceder a la actualización ejecuta el siguiente comando:\n\n";
-    echo "    php ofw.php update\n\n";
+    echo "    ".$this->colors->getColoredString("php ofw.php update", "light_green")."\n\n";
   }
 
   public function run(){
@@ -57,9 +66,9 @@ class updateCheckTask{
     $repo_version = trim( file_get_contents($this->repo_url.'ofw/base/VERSION') );
 
     echo "\n";
-    echo "  Osumi Framework\n";
+    echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
     echo "  Versión instalada: ".$current_version."\n";
-    echo "  Versión actual: ".$repo_version."\n";
+    echo "  Versión actual:    ".$repo_version."\n\n";
 
     $compare = version_compare($current_version, $repo_version);
 
@@ -70,11 +79,11 @@ class updateCheckTask{
       }
       break;
       case 0: {
-        echo "  La versión instalada está actualizada.\n\n";
+        echo "  ".$this->colors->getColoredString("La versión instalada está actualizada.", "light_green")."\n\n";
       }
       break;
       case 1: {
-        echo "  ¡¡La versión instalada está MÁS actualizada que la del repositorio!!\n\n";
+        echo "  ".$this->colors->getColoredString("¡¡La versión instalada está MÁS actualizada que la del repositorio!!", "white", "red")."\n\n";
       }
       break;
     }

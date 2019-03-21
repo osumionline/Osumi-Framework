@@ -1,7 +1,13 @@
 <?php
 class composerTask{
   public function __toString(){
-    return "composer: Función para exportar una aplicación con todos sus archivos a un solo archivo autoextraíble.";
+    return $this->colors->getColoredString("composer", "light_green").": Función para exportar una aplicación con todos sus archivos a un solo archivo autoextraíble.";
+  }
+
+  private $colors = null;
+
+  function __construct(){
+    $this->colors = new OColors();
   }
 
   private $base_dir;
@@ -34,7 +40,7 @@ class composerTask{
     global $c;
     $this->base_dir = $c->getDir('base');
 
-    echo "Exportando proyecto\n";
+    echo $this->colors->getColoredString("Exportando proyecto", "light_green")."\n\n";
     $destination = $c->getDir('ofw_tmp').'ofw_composer.php';
     if (file_exists($destination)){
       echo "  Archivo destino ya existía, se ha borrado\n";
@@ -135,6 +141,6 @@ class composerTask{
     $str .= "}";
     file_put_contents($destination, $str, FILE_APPEND);
 
-    echo "Proyecto exportado\n";
+    echo $this->colors->getColoredString("Proyecto exportado", "light_green")."\n";
   }
 }

@@ -1,7 +1,13 @@
 <?php
 class updateTask{
   public function __toString(){
-    return "update: Función para actualizar el Framework.";
+    return $this->colors->getColoredString("update", "light_green").": Función para actualizar el Framework.";
+  }
+
+  private $colors = null;
+
+  function __construct(){
+    $this->colors = new OColors();
   }
 
   private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
@@ -17,12 +23,12 @@ class updateTask{
       }
     }
     asort($to_be_updated);
-    echo "  Se han encontrado ".count($to_be_updated)." actualizaciones pendientes. Se procede a la instalación ordenada.\n\n";
+    echo "  ".$this->colors->getColoredString("Se han encontrado ".count($to_be_updated)." actualizaciones pendientes. Se procede a la instalación ordenada.", "light_green")."\n\n";
 
     foreach ($to_be_updated as $repo_version){
       $backups = [];
       $result = true;
-      echo "  ".$updates[$repo_version]['message']."\n";
+      echo "  ".$this->colors->getColoredString($updates[$repo_version]['message'], "black", "yellow")."\n";
       echo "==============================================================================================================\n";
 
       if (array_key_exists('deletes', $updates[$repo_version]) && count($updates[$repo_version]['deletes'])>0){
@@ -66,7 +72,7 @@ class updateTask{
       if ($result){
         $version_file = $c->getDir('ofw_base').'VERSION';
         file_put_contents($version_file, $repo_version);
-        echo "\n  Todos los archivos han sido actualizados. La nueva versión instalada es: ".$repo_version."\n";
+        echo "\n  ".$this->colors->getColoredString("Todos los archivos han sido actualizados. La nueva versión instalada es: ".$repo_version, "light_green")."\n";
         if (count($backups)>0){
           echo "  Se procede a eliminar las copias de seguridad realizadas.\n";
           foreach ($backups as $backup){
@@ -75,7 +81,7 @@ class updateTask{
         }
       }
       else{
-        echo "  Ocurrió un error al actualizar los archivos, se procede a restaurar las copias de seguridad.\n";
+        echo "  ".$this->colors->getColoredString("Ocurrió un error al actualizar los archivos, se procede a restaurar las copias de seguridad.", "white", "red")."\n";
         foreach ($backups as $backup){
           if (file_exists($backup['new_file'])){
             unlink($backup['new_file']);
@@ -92,9 +98,9 @@ class updateTask{
     $repo_version = trim( file_get_contents($this->repo_url.'ofw/base/VERSION') );
 
     echo "\n";
-    echo "  Osumi Framework\n";
+    echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
     echo "  Versión instalada: ".$current_version."\n";
-    echo "  Versión actual: ".$repo_version."\n";
+    echo "  Versión actual:    ".$repo_version."\n\n";
 
     $compare = version_compare($current_version, $repo_version);
 
@@ -105,11 +111,11 @@ class updateTask{
       }
       break;
       case 0: {
-        echo "  La versión instalada está actualizada.\n\n";
+        echo "  ".$this->colors->getColoredString("La versión instalada está actualizada.", "light_green")."\n\n";
       }
       break;
       case 1: {
-        echo "  ¡¡La versión instalada está MÁS actualizada que la del repositorio!!\n\n";
+        echo "  ".$this->colors->getColoredString("¡¡La versión instalada está MÁS actualizada que la del repositorio!!", "white", "red")."\n\n";
       }
       break;
     }
