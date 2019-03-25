@@ -1,6 +1,26 @@
 CHANGELOG
 =========
 
+## `4.5.1` (21/03/2019)
+
+Correcciones en los datos de ejemplo para que la aplicación funcione nada más descargarla. Los datos de ejemplo son los mismos que hay en [https://demo.osumi.es](https://demo.osumi.es) .
+
+Para crear un proyecto nuevo es necesario eliminar estos archivos:
+
+* app/cache/*
+* app/controller/*
+* app/filter/*
+* app/model/*
+* app/service/*
+* app/task/*
+* app/template/api
+* app/template/home
+* app/template/partials/*
+
+El archivo de configuración `app/config/config.json` debe ser adaptado al proyecto nuevo y el archivo `app/template/layout/default.php` también debe ser modificado para el proyecto nuevo.
+
+Se incluye el archivo `ofw/sql/model.sql` con los datos de prueba para la demo.
+
 ## `4.5.0` (21/03/2019)
 
 ¡Colores! Añado una nueva clase `OColors` que permite mostrar mensajes con diferentes colores en las `task` que se ejecutan como CLI. Los mensajes que se muestran por consola se pueden personalizar con un color de fondo y color de letras.
