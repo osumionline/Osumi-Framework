@@ -34,9 +34,9 @@
   "error_pages": {
   	"404": ""
   },
-  "css": [],
+  "css": ["common"],
   "ext_css": [],
-  "js": [],
+  "js": ["common"],
   "ext_js": [],
   "extra": {
     "key": "value",

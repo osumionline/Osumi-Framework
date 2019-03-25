@@ -1,7 +1,6 @@
 <?php
 class PhotoTag extends OBase{
   function __construct(){
-    $model_name = get_class($this);
     $table_name  = 'photo_tag';
     $model = [
         'id_photo' => [
@@ -20,6 +19,6 @@ class PhotoTag extends OBase{
         ]
     ];
 
-    parent::load($model_name, $table_name, $model);
+    parent::load($table_name, $model);
   }
 }

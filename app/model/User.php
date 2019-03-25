@@ -1,7 +1,6 @@
 <?php
 class User extends OBase{
   function __construct(){
-    $model_name = get_class($this);
     $table_name  = 'user';
     $model = [
         'id' => [
@@ -55,6 +54,6 @@ class User extends OBase{
         ]
     ];
 
-    parent::load($model_name, $table_name, $model);
+    parent::load($table_name, $model);
   }
 }

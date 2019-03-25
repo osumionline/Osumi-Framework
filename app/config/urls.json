@@ -25,10 +25,10 @@
       "prefix": "/api",
       "urls": [
         {
-          "id": "get_user",
-          "url": "/getUser/:id",
-          "action": "getUser",
-          "comment": "Función para obtener los datos de un usuario"
+          "id": "get_date",
+          "url": "/getDate",
+          "action": "getDate",
+          "comment": "Función para obtener la fecha"
         }
       ]
     }

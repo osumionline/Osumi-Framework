@@ -1,8 +1,8 @@
 <?php if (count($values['list'])>0): ?>
-  <ul>
+  <ul class="photos">
 <?php foreach ($values['list'] as $photo): ?>
     <li>
-      <strong>Foto <?php echo $photo ?></strong>
+      <img src="/photo/<?php echo $photo ?>">
       <p>
         Tags: <?php echo implode(', ', $photo->getTags()) ?>
       </p>

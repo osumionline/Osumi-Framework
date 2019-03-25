@@ -1,7 +1,6 @@
 <?php
 class Tag extends OBase{
   function __construct(){
-    $model_name = get_class($this);
     $table_name  = 'tag';
     $model = [
         'id' => [
@@ -31,9 +30,9 @@ class Tag extends OBase{
         ]
     ];
 
-    parent::load($model_name, $table_name, $model);
+    parent::load($table_name, $model);
   }
-  
+
   public function __toString(){
     return $this->get('name');
   }

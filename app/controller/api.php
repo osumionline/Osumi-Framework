@@ -1,10 +1,15 @@
 <?php
 class api extends OController{
+  private $user_service;
+
+  function __construct(){
+    $this->user_service  = new userService($this);
+  }
+
   /*
-   * Función para obtener los datos de un usuario
+   * Función para obtener la fecha
    */
-  function getUser($req){
-    $this->getTemplate()->add('status', 'ok');
-    $this->getTemplate()->add('user', 'igorosabel');
+  function getDate($req){
+    $this->getTemplate()->add('date', $this->user_service->getLastUpdate());
   }
 }
