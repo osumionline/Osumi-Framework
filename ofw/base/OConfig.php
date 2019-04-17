@@ -10,7 +10,8 @@ class OConfig{
     'ftp'        => false,
     'image'      => false,
     'pdf'        => false,
-    'translate'  => false
+    'translate'  => false,
+    'crypt'      => false
   ];
   private $packages = [];
 

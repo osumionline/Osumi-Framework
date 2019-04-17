@@ -1,6 +1,45 @@
 CHANGELOG
 =========
 
+## `4.6.0` (17/04/2019)
+
+Nueva clase `OCrypt` para cifrar/descifrar cadenas de texto. Esta clase acepta una clave de 32 caracteres como clave de cifrado y ofrece unos métodos `encrypt` y `decrypt` para cifrar y descrifrar los datos:
+
+```php
+  // Método 1, inicializar sin clave
+  $crypt = new OCrypt();
+  $key = $crypt->generateKey(); // Devuelve una clave de 32 caracteres aleatoria que luego podrá ser almacenada. La clase se "auto-inicializa" con esta clave al generarla.
+  // Método 2, inicializar con clave
+  $crypt = new OCrypt('bRuD5WYw5wd0rdHR9yLlM6wt2vteuiniQBqE70nAuhU=');
+
+  // Para cifrar una cadena de texto:
+  $cifrado = $crypt->encrypt('abc123');
+  // También es posible indicar la clave en el propio momento del cifrado:
+  $cifrado = $crypt->encrypt('abc123', 'bRuD5WYw5wd0rdHR9yLlM6wt2vteuiniQBqE70nAuhU=');
+  // El resultado será: K3gzWkxySUd6VkgvQTNJUUtZMjV2UT09Ojpia3sh1zglO3DYodw84855
+
+  // Para descifrar una cadena de texto:
+  $descifrado = $crypt->decrypt('K3gzWkxySUd6VkgvQTNJUUtZMjV2UT09Ojpia3sh1zglO3DYodw84855');
+  // También es posible indicar la clave en el propio momento del descifrado:
+  $descifrado = $crypt->decrypt('K3gzWkxySUd6VkgvQTNJUUtZMjV2UT09Ojpia3sh1zglO3DYodw84855', 'bRuD5WYw5wd0rdHR9yLlM6wt2vteuiniQBqE70nAuhU=');
+  // El resultado será: abc123
+```
+El método de cifrado por defecto es `aes-256-cbc` pero se puede cambiar usando el método `setMethod` de la clase:
+
+```php
+  $crypt->setMethod('aes-128-ecb')
+```
+Ya que no todos los proyectos necesitarán esta nueva funcionalidad, he creado una nueva opción en `base_modules` del archivo `config.json` para cargar la clase en el proyecto (por defecto su valor será `false`):
+
+```json
+{
+  "base_modules": {
+    "crypt": true
+  }
+}
+```
+Esta nueva clase está basada en el código de [Hoover Web Development](https://bhoover.com/using-php-openssl_encrypt-openssl_decrypt-encrypt-decrypt-data/)
+
 ## `4.5.1` (21/03/2019)
 
 Correcciones en los datos de ejemplo para que la aplicación funcione nada más descargarla. Los datos de ejemplo son los mismos que hay en [https://demo.osumi.es](https://demo.osumi.es) .

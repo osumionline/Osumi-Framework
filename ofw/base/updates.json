@@ -1,4 +1,14 @@
 {
+  "4.6.0": {
+    "message": "4.6.0 - Nueva clase OCrypt",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/OConfig.php",
+      "ofw/base/OCrypt.php"
+    ]
+  },
   "4.5.1": {
     "message": "4.5.1 - Correcciones en los datos de ejemplo",
     "files": [

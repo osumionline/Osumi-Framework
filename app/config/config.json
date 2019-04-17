@@ -6,7 +6,8 @@
     "ftp": false,
     "image": false,
     "pdf": false,
-    "translate": false
+    "translate": false,
+    "crypt": false
   },
   "packages": [],
   "db": {
