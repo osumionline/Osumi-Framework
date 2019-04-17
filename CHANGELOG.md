@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.6.1` (17/04/2019)
+
+Corrección para `OCrypt`, el framework ignoraba el parámetro de configuración y no cargaba la clase.
+
 ## `4.6.0` (17/04/2019)
 
 Nueva clase `OCrypt` para cifrar/descifrar cadenas de texto. Esta clase acepta una clave de 32 caracteres como clave de cifrado y ofrece unos métodos `encrypt` y `decrypt` para cifrar y descrifrar los datos:

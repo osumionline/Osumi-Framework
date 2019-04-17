@@ -48,6 +48,9 @@
   if ($c->getDefaultModule('translate')){
     require $c->getDir('ofw_base').'OTranslate.php';
   }
+  if ($c->getDefaultModule('crypt')){
+    require $c->getDir('ofw_base').'OCrypt.php';
+  }
 
   // Base functions
   require $c->getDir('ofw_base').'base.php';
