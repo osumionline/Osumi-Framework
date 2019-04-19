@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.6.2` (20/04/2019)
+
+Corrección para `OBase`, había un error al hacer `insert` con valores `null`.
+
 ## `4.6.1` (17/04/2019)
 
 Corrección para `OCrypt`, el framework ignoraba el parámetro de configuración y no cargaba la clase.

@@ -201,11 +201,11 @@ class OBase{
           $holder = "";
           $value  = "NULL";
         }
+        array_push($insert_fields, "?");
         if ($field['type']==1 && $field['incr']){
-          array_push($insert_fields, "NULL");
+          array_push($query_params, null);
         }
         else{
-          array_push($insert_fields, "?");
           array_push($query_params, $value);
         }
       }
