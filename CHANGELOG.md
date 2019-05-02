@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.6.3` (02/05/2019)
+
+La última release no incluía la corrección completa a la hora de hacer `insert` con valores `null`. Ahora si :)
+
 ## `4.6.2` (20/04/2019)
 
 Corrección para `OBase`, había un error al hacer `insert` con valores `null`.

@@ -1,4 +1,13 @@
 {
+  "4.6.3": {
+    "message": "4.6.3 - Corrección para OBase",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/OBase.php"
+    ]
+  },
   "4.6.2": {
     "message": "4.6.2 - Corrección para OBase",
     "files": [

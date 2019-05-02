@@ -195,12 +195,7 @@ class OBase{
       $sql .= ") VALUES (";
       $insert_fields = [];
       foreach ($model as $field){
-        $holder = "'";
         $value  = $field['value'];
-        if (is_null($field['value'])){
-          $holder = "";
-          $value  = "NULL";
-        }
         array_push($insert_fields, "?");
         if ($field['type']==1 && $field['incr']){
           array_push($query_params, null);
