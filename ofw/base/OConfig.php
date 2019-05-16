@@ -11,7 +11,8 @@ class OConfig{
     'image'      => false,
     'pdf'        => false,
     'translate'  => false,
-    'crypt'      => false
+    'crypt'      => false,
+    'file'       => false
   ];
   private $packages = [];
 

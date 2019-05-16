@@ -1,4 +1,19 @@
 {
+  "4.7.0": {
+    "message": "4.7.0 - Nueva clase OFile y cambios en actualizaciones",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/OConfig.php",
+      "ofw/base/VERSION",
+      "ofw/base/base.php",
+      "ofw/base/start.php",
+      "ofw/base/updates.json",
+      "ofw/task/update.php",
+      "ofw/task/updateCheck.php",
+      "ofw/base/OFile.php",
+      "ofw/base/version.json"
+    ]
+  },
   "4.6.3": {
     "message": "4.6.3 - Corrección para OBase",
     "files": [

@@ -1,6 +1,55 @@
 CHANGELOG
 =========
 
+## `4.7.0` (16/05/2019)
+
+Nueva clase `OFile` para operaciones con archivos. Esta clase ofrece las siguientes funciones:
+
+__copy__: Método estático para copiar archivos. Recibe dos parámetros: origen y destino. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
+
+```php
+OFile::copy('/tmp/file.txt', '/var/www/file.txt');
+```
+
+__rename__: Método estatico para cambiar de nombre y/o de ubicación a un archivo. Recibe dos parámetros: nombre antiguo y nuevo nombre. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
+
+```php
+OFile::rename('/tmp/file.txt', '/var/www/list.txt');
+```
+
+__delete__: Método estático para borrar un archivo. Recibe un parámetro: nombre del archivo a borrar. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
+
+```php
+OFile::delete('/tmp/file.txt');
+```
+
+__rrmdir__: Método estático para borrar recursivamente una carpeta con su contenido, todos los archivos y sub-carpetas que contenga. Recibe un parámetro: nombre de la carpeta a borrar. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
+
+```php
+OFile::rrmdir('/var/www/folder');
+```
+
+__getOFWFolders__: Método estático que devuelve la lista de carpetas que componen el framework. No recibe ningún parámetro. Por ejemplo:
+
+```php
+$folder_list = OFile::getOFWFolders();
+```
+
+__getOFWFiles__: Método estático que devuelve la lista de archivos que componen el framework. No recibe ningún parámetro. Por ejemplo:
+
+```php
+$file_list = OFile::getOFWFiles();
+```
+
+__zip__: Método para crear un archivo ZIP a partir de una carpeta. Se debe crear una variable de esta clase y acepta dos parámetros: ruta de la carpeta a comprimir y ruta/nomre del archivo ZIP que se creará. Por ejemplo:
+
+```php
+$zip_file = new OFile();
+$zip_file->zip('/var/www/folder', '/var/www/folder.zip');
+```
+
+Por otra parte, he combinado el archivo `VERSION` y `updates.json` en un nuevo archivo `version.json`. En esta release todavía se mantienen los archivos antiguos para permitir que proyectos antiguos se puedan actualizar, pero en la próxima release se borrarán. Esto hará que solo los proyectos a partir de la versión 4.7.0 se puedan actualizar.
+
 ## `4.6.3` (02/05/2019)
 
 La última release no incluía la corrección completa a la hora de hacer `insert` con valores `null`. Ahora si :)

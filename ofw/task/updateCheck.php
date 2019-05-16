@@ -10,11 +10,25 @@ class updateCheckTask{
     $this->colors = new OColors();
   }
 
-  private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
+  private $repo_url     = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
+  private $version_file = null;
 
-  function doUpdateCheck($current_version){
+  private function getVersionFile(){
+    if (is_null($this->version_file)){
+      $this->version_file = json_decode( file_get_contents($this->repo_url.'ofw/base/version.json'), true );
+    }
+    return $this->version_file;
+  }
+
+  private function getRepoVersion(){
+    $version = getVersionFile();
+    return $version['version'];
+  }
+
+  private function doUpdateCheck($current_version){
     global $c;
-    $updates = json_decode( file_get_contents($this->repo_url.'ofw/base/updates.json'), true );
+    $version = getVersionFile();
+    $updates = $version['updates'];
 
     $to_be_updated = [];
     foreach ($updates as $update_version => $update){
@@ -63,7 +77,7 @@ class updateCheckTask{
 
   public function run(){
     $current_version = trim( Base::getVersion() );
-    $repo_version = trim( file_get_contents($this->repo_url.'ofw/base/VERSION') );
+    $repo_version = $this->getRepoVersion();
 
     echo "\n";
     echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";

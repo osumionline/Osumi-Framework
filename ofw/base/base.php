@@ -14,53 +14,9 @@ class Base{
   const LONGTEXT = 8;
   const FLOAT    = 9;
 
-  public static function getModelList(){
+  public static function getCache($key) {
     global $c;
-    $ret = array();
-
-    if ($model = opendir($c->getDir('app_model'))) {
-      while (false !== ($entry = readdir($model))) {
-        if ($entry != "." && $entry != "..") {
-          $table = str_ireplace('.php','',$entry);
-          eval("$"."mod = new ".$table."();");
-          array_push($ret,$mod);
-        }
-      }
-      closedir($model);
-    }
-
-    sort($ret);
-    return $ret;
-  }
-
-  public static function getResults($table,$field,$list){
-    $ret = array();
-    $db = new ODB();
-    $sql = "SELECT * FROM `".$table."` WHERE `".$field."` IN (".implode(',', $list).")";
-    $db->query($sql);
-
-    while ($res=$db->next()){
-      array_push($ret, $res);
-    }
-
-    return $ret;
-  }
-
-  public static function getRefData($ref){
-    $ret = array('model'=>'','table'=>'','field'=>'');
-
-    $ref_data = explode('.',$ref);
-    $ret['field'] = $ref_data[1];
-    $ref_obj = explode('(',$ref_data[0]);
-    $ret['model'] = $ref_obj[0];
-    $ret['table'] = str_ireplace(')','',$ref_obj[1]);
-
-    return $ret;
-  }
-
-  public static function getCache($key){
-    global $c;
-    $route = $c->getDir('app_cache').$key.".json";
+    $route = $c->getDir('app_cache').$key.'.json';
     if (file_exists($route)){
       $data = file_get_contents($route);
       $json = json_decode($data,true);
@@ -71,57 +27,7 @@ class Base{
     }
   }
 
-  public static function checkCookie(){
-    global $s, $ck;
-    $ret = false;
-
-    // Si pide login la pagina compruebo si ya tiene login en sesión, si no tiene compruebo la cookie
-    if (!$s->getParam('logged')){
-      $session_key = $ck->getCookie('session_key');
-      $id_user = $ck->getCookie('id_user');
-      if ($session_key && $id_user){
-        $u = new User();
-        if ($u->find(array('session_key'=>$session_key))){
-          if ($u->get('id') == $id_user){
-            $s->addParam('logged',true);
-            $s->addParam('id',$id_user);
-
-            $ret = true;
-          }
-          else{
-            // Hay usuario por session key pero no es el id de usuario que esta guardado -> fuera!
-            $ret = false;
-          }
-        } // del if buscar usuario por session key
-        else{
-          // Hay session key pero no es de ningún usuario -> fuera!
-          $ret = false;
-        }
-      } // del if session key
-      else{
-        // Hay login y no hay session key -> fuera!
-        $ret = false;
-      }
-    }
-    else{
-      $ret = true;
-    }
-
-    return $ret;
-  }
-
-  public static function doLogout($mens=null){
-    global $s, $ck;
-
-    $ck->cleanCookies();
-    $s->cleanSession();
-    if (!is_null($mens)){
-      $s->addParam('flash',$mens);
-    }
-    header( 'Location: '.OUrl::generateUrl('home') );
-  }
-
-  public static function getRandomCharacters($options){
+  public static function getRandomCharacters($options) {
     $num     = isset($options['num'])     ? $options['num']     : 5;
     $lower   = isset($options['lower'])   ? $options['lower']   : false;
     $upper   = isset($options['upper'])   ? $options['upper']   : false;
@@ -142,7 +48,7 @@ class Base{
     return $rand;
   }
 
-  public static function getParam($key,$list,$default=false){
+  public static function getParam($key, $list, $default=false) {
     if (array_key_exists($key, $list)){
       return $list[$key];
     }
@@ -151,7 +57,7 @@ class Base{
     }
   }
 
-  public static function getParamList($key_list, $list){
+  public static function getParamList($key_list, $list) {
     $params = array();
     foreach ($key_list as $key){
       $check = self::getParam($key, $list, false);
@@ -164,13 +70,13 @@ class Base{
     return $params;
   }
 
-  public static function getTemplate($ruta,$html,$params){
+  public static function getTemplate($ruta,$html,$params) {
     if ($ruta!=''){
       $html = file_get_contents($ruta);
     }
 
     foreach ($params as $param_name => $param){
-      $html = str_ireplace('{{'.strtoupper($param_name).'}}', $param, $html);
+      $html = str_ireplace('{{'.$param_name.'}}', $param, $html);
     }
 
     return $html;
@@ -192,36 +98,7 @@ class Base{
     fclose( $ifp );
   }
 
-  public static function createThumb($pathToImage,$pathToThumb,$thumbWidth){
-    $status = true;
-
-    if (!file_exists($pathToImage)){
-      $status = false;
-    }
-    else{
-      // load image and get image size
-      $img    = imagecreatefromjpeg($pathToImage);
-      $width  = imagesx($img);
-      $height = imagesy($img);
-
-      // calculate thumbnail size
-      $new_width  = $thumbWidth;
-      $new_height = floor( $height * ( $thumbWidth / $width ) );
-
-      // create a new temporary image
-      $tmp_img = imagecreatetruecolor( $new_width, $new_height );
-
-      // copy and resize old image into new image
-      imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
-
-      // save thumbnail into a file
-      imagejpeg( $tmp_img, $pathToThumb );
-    }
-
-    return $status;
-  }
-
-  public static function bbcode($texto){
+  public static function bbcode($texto) {
     $bbcode = [
       "/\<(.*?)>/is",
       "/\[i\](.*?)\[\/i\]/is",
@@ -250,16 +127,7 @@ class Base{
     return $texto;
   }
 
-  public static function cleanBrs($str){
-    $str = str_ireplace('<br>', '', $str);
-    $str = str_ireplace('<br/>', '', $str);
-    $str = str_ireplace('<br />', '', $str);
-    $str = str_ireplace('-br', '', $str);
-    $str = str_ireplace('&lt;br&gt;', '', $str);
-    return $str;
-  }
-
-  public static function showErrorPage($res,$mode){
+  public static function showErrorPage($res,$mode) {
     global $c;
     if (!is_null($c->getErrorPage($mode))){
       header('Location:'.$c->getErrorPage($mode));
@@ -314,7 +182,7 @@ class Base{
     exit();
   }
 
-  public static function doPostRequest($url,$data){
+  public static function doPostRequest($url,$data) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -327,7 +195,7 @@ class Base{
     return $result;
   }
 
-  public static function doDeleteRequest($url,$data){
+  public static function doDeleteRequest($url,$data) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -340,29 +208,7 @@ class Base{
     return $result;
   }
 
-  public static function rrmdir($dir) {
-    $files = array_diff(scandir($dir), array('.','..'));
-    foreach ($files as $file) {
-      (is_dir("$dir/$file")) ? self::rrmdir("$dir/$file") : unlink("$dir/$file");
-    }
-    return rmdir($dir);
-  }
-
-  public static function formatDateForBD($d){
-    $data = explode("/",$d);
-    return $data[2].'-'.$data[1].'-'.$data[0].' 00:00:00';
-  }
-
-  public static function getHash(){
-    $str = time();
-    $str = "v_".$str."_v";
-    $str = md5($str);
-
-    return $str;
-  }
-
-  public static function slugify($text, $separator = '-')
-  {
+  public static function slugify($text, $separator = '-') {
     $bad = [
       'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
       'Ć','ć','Č','č','Ç','ç',
@@ -426,7 +272,26 @@ class Base{
     return $text;
   }
 
-  public static function generateModel(){
+  public static function getModelList() {
+    global $c;
+    $ret = array();
+
+    if ($model = opendir($c->getDir('app_model'))) {
+      while (false !== ($entry = readdir($model))) {
+        if ($entry != "." && $entry != "..") {
+          $table = str_ireplace('.php','',$entry);
+          eval("$"."mod = new ".$table."();");
+          array_push($ret,$mod);
+        }
+      }
+      closedir($model);
+    }
+
+    sort($ret);
+    return $ret;
+  }
+
+  public static function generateModel() {
     global $c;
     echo "Modelo\n\n";
     $sql = "/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n\n";
@@ -457,7 +322,7 @@ class Base{
     file_put_contents($sql_file,$sql);
   }
 
-  public static function updateUrls($silent=false){
+  public static function updateUrls($silent=false) {
     global $c;
     $urls_file = json_decode( file_get_contents($c->getDir('app_config').'urls.json'), true);
     $urls = self::getUrlList($urls_file);
@@ -472,7 +337,7 @@ class Base{
     self::updateControllers($silent);
   }
 
-  public static function getUrlList($item){
+  public static function getUrlList($item) {
     $list = self::getUrls($item);
     for ($i=0;$i<count($list);$i++){
       $keys = array_keys($list[$i]);
@@ -485,8 +350,8 @@ class Base{
     return $list;
   }
 
-  public static function getUrls($item){
-    $list = array();
+  public static function getUrls($item) {
+    $list = [];
     if (array_key_exists('urls', $item)){
       foreach ($item['urls'] as $elem){
         $list = array_merge($list, self::getUrls($elem));
@@ -505,7 +370,7 @@ class Base{
     return $list;
   }
 
-  public static function updateControllers($silent=false){
+  public static function updateControllers($silent=false) {
     global $c;
     $urls   = json_decode( file_get_contents($c->getDir('app_cache').'urls.cache.json'), true);
     $errors = false;
@@ -580,7 +445,7 @@ class Base{
     }
   }
 
-  public static function runTask($task_name, $params=[]){
+  public static function runTask($task_name, $params=[]) {
 	  global $c;
 	  $task_file = $c->getDir('app_task').$task_name.'.php';
 	  if (!file_exists($task_file)){
@@ -592,16 +457,19 @@ class Base{
     $tsk->run($params);
   }
 
-  public static function getVersion(){
+  public static function getVersion() {
     global $c;
-    $version_file = $c->getDir('ofw_base').'VERSION';
-    return file_get_contents($version_file);
+    $version_file = $c->getDir('ofw_base').'version.json';
+    $version = json_decode( file_get_contents($version_file), true );
+    return $version['version'];
   }
 
-  public static function getVersionInformation(){
+  public static function getVersionInformation() {
     global $c;
-    $current_version = trim( self::getVersion() );
-    $updates = json_decode( file_get_contents($c->getDir('ofw_base').'updates.json'), true );
-    return $updates[$current_version]['message'];
+    $version_file = $c->getDir('ofw_base').'version.json';
+    $version = json_decode( file_get_contents($version_file), true );
+
+    $current_version = $version['version'];
+    return $version['updates'][$current_version]['message'];
   }
 }

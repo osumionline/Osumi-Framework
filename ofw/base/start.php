@@ -51,6 +51,9 @@
   if ($c->getDefaultModule('crypt')){
     require $c->getDir('ofw_base').'OCrypt.php';
   }
+  if ($c->getDefaultModule('file')){
+    require $c->getDir('ofw_base').'OFile.php';
+  }
 
   // Base functions
   require $c->getDir('ofw_base').'base.php';
