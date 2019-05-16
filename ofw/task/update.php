@@ -21,13 +21,13 @@ class updateTask{
   }
 
   private function getRepoVersion(){
-    $version = getVersionFile();
+    $version = $this->getVersionFile();
     return $version['version'];
   }
 
   function doUpdate($current_version){
     global $c;
-    $version = getVersionFile();
+    $version = $this->getVersionFile();
     $updates = $version['updates'];
 
     $to_be_updated = [];

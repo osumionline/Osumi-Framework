@@ -1,6 +1,17 @@
 {
-  "version": "4.7.0",
+  "version": "4.7.1",
   "updates": {
+    "4.7.1": {
+      "message": "4.7.1 - Corrección para update y updateCheck",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/VERSION",
+        "ofw/base/updates.json",
+        "ofw/base/version.json",
+        "ofw/task/update.php",
+        "ofw/task/updateCheck.php"
+      ]
+    },
     "4.7.0": {
       "message": "4.7.0 - Nueva clase OFile y cambios en actualizaciones",
       "files": [

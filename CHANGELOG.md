@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.7.1` (16/05/2019)
+
+Corrección en tareas `update` y `updateCheck`.
+
 ## `4.7.0` (16/05/2019)
 
 Nueva clase `OFile` para operaciones con archivos. Esta clase ofrece las siguientes funciones:
