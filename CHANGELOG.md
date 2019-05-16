@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.7.2` (16/05/2019)
+
+Corrección en `OFile`. La lista de archivos del framework no estaba actualizada a esta nueva versión.
+
 ## `4.7.1` (16/05/2019)
 
 Corrección en tareas `update` y `updateCheck`.
