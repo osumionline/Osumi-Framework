@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+## `4.7.3` (21/05/2019)
+
+Nueva opción para los archivos ZIP de `OFile`. Al crear un zip a partir de una carpeta, el ZIP contiene primero una carpeta con el nombre de la carpeta origen. Esto ahora se puede cambiar mediante un nuevo parámetro opcional:
+
+```php
+$zip_file = new OFile();
+$zip_file->zip('/var/www/folder', '/var/www/folder.zip', 'demo');
+```
+
+Esto crearía un archivo llamado `folder.zip`, dentro de este habría una carpeta llamada `demo` y dentro todos los archivos de la ruta `/var/www/folder`.
+
 ## `4.7.2` (16/05/2019)
 
 Corrección en `OFile`. La lista de archivos del framework no estaba actualizada a esta nueva versión.

@@ -1,4 +1,14 @@
 {
+  "4.7.3": {
+    "message": "4.7.3 - Ruta base en los ZIP",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/version.json",
+      "ofw/base/OFile.php"
+    ]
+  },
   "4.7.2": {
     "message": "4.7.2 - Corrección para OFile",
     "files": [

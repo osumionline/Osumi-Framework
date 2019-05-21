@@ -103,30 +103,33 @@ class OFile{
   private $zip_file = null;
 
   private function addDir($location, $name){
-        $this->zip_file->addEmptyDir($name);
-        $this->addDirDo($location, $name);
+    $this->zip_file->addEmptyDir($name);
+    $this->addDirDo($location, $name);
   }
 
   private function addDirDo($location, $name){
-     $name .= '/';
-     $location .= '/';
-     $dir = opendir($location);
-     while ($file = readdir($dir)){
-         if ($file == '.' || $file == '..') continue;
-         $do = (filetype( $location . $file) == 'dir') ? 'addDir' : 'addFile';
-         $this->zip_file->$do($location . $file, $name . $file);
-     }
+    $name .= '/';
+    $location .= '/';
+    $dir = opendir($location);
+    while ($file = readdir($dir)){
+      if ($file == '.' || $file == '..') continue;
+      if (filetype( $location . $file) == 'dir'){
+        $this->addDir($location . $file, $name . $file);
+      }
+      else{
+        $this->zip_file->addFile($location . $file, $name . $file);
+      }
+    }
   }
 
-  public function zip($route, $zip_route){
+  public function zip($route, $zip_route, $basename=null){
     if (file_exists($zip_route)){
       unlink($zip_route);
     }
 
     $this->zip_file = new ZipArchive();
     $this->zip_file->open($zip_route, ZipArchive::CREATE);
-
-    $this->addDir($route, basename($route));
+    $this->addDir($route, is_null($basename) ? basename($route) : $basename);
     $this->zip_file->close();
   }
 }
