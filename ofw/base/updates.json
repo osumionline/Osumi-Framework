@@ -1,4 +1,17 @@
 {
+  "4.7.5": {
+    "message": "4.7.5 - Corrección para la última release",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/version.json",
+      "web/index.php"
+    ],
+    "deletes": [
+      "ofw/web/index.php"
+    ]
+  },
   "4.7.4": {
     "message": "4.7.4 - Corrección para proyectos sin BD",
     "files": [
