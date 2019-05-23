@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.7.6` (23/05/2019)
+
+Otra release por el error de la `4.7.4`, al fallar se dejaba un archivo por actualizar.
+
 ## `4.7.5` (23/05/2019)
 
 Corrección para la última release. La ruta de un archivo a actualizar estaba mal. Se ha marcado ese archivo para borrar por si al actualizar dejase algún resto que no debería estar.

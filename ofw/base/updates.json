@@ -1,4 +1,14 @@
 {
+  "4.7.6": {
+    "message": "4.7.6 - Corrección para la release con error",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/version.json",
+      "ofw/base/start.php"
+    ]
+  },
   "4.7.5": {
     "message": "4.7.5 - Corrección para la última release",
     "files": [
