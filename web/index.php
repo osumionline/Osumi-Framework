@@ -68,4 +68,6 @@ else{
   Base::showErrorPage($url_result, '404');
 }
 
-$dbcontainer->closeAllConnections();
+if (!is_null($dbcontainer)){
+  $dbcontainer->closeAllConnections();
+}

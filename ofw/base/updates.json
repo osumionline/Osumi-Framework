@@ -1,4 +1,15 @@
 {
+  "4.7.4": {
+    "message": "4.7.4 - Corrección para proyectos sin BD",
+    "files": [
+      "CHANGELOG.md",
+      "ofw/base/VERSION",
+      "ofw/base/updates.json",
+      "ofw/base/version.json",
+      "ofw/base/start.php",
+      "ofw/web/index.php"
+    ]
+  },
   "4.7.3": {
     "message": "4.7.3 - Ruta base en los ZIP",
     "files": [

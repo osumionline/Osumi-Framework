@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.7.4` (23/05/2019)
+
+Corrección para los proyectos sin base de datos. Siempre se intentaba cerrar las conexiones abiertas, a pesar de que ni siquiera haya definida una base de datos.
+
 ## `4.7.3` (21/05/2019)
 
 Nueva opción para los archivos ZIP de `OFile`. Al crear un zip a partir de una carpeta, el ZIP contiene primero una carpeta con el nombre de la carpeta origen. Esto ahora se puede cambiar mediante un nuevo parámetro opcional:
