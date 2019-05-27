@@ -1,6 +1,14 @@
 {
-  "version": "4.8.0",
+  "version": "4.8.1",
   "updates": {
+    "4.8.1": {
+      "message": "4.8.1 - Corrección en update",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/task/update.php"
+      ]
+    },
     "4.8.0": {
       "message": "4.8.0 - Mejores mensajes en updateUrls, limpieza en OTemplate y mejora en update",
       "files": [

@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.8.1` (27/05/2019)
+
+Corrección en tarea `update`. Al terminar escribía el nuevo número de versión en el archivo `VERSION`, a pesar de que ya no se usa para nada.
+
 ## `4.8.0` (27/05/2019)
 
 Actualización de mantenimiento:

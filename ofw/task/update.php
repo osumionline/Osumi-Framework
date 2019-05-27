@@ -84,8 +84,6 @@ class updateTask{
       echo "==============================================================================================================\n";
 
       if ($result){
-        $version_file = $c->getDir('ofw_base').'VERSION';
-        file_put_contents($version_file, $repo_version);
         echo "\n  ".$this->colors->getColoredString("Todos los archivos han sido actualizados. La nueva versión instalada es: ".$repo_version, "light_green")."\n";
         if (count($backups)>0){
           echo "  Se procede a eliminar las copias de seguridad realizadas.\n";
