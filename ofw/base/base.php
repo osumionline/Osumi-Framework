@@ -372,12 +372,20 @@ class Base{
 
   public static function updateControllers($silent=false) {
     global $c;
+    $colors = new OColors();
     $urls   = json_decode( file_get_contents($c->getDir('app_cache').'urls.cache.json'), true);
     $errors = false;
+
+    if (!$silent){
+      echo "\n";
+      echo "  ".$colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
+      echo "  Actualizando módulos/controladores...\n\n";
+    }
+
     foreach ($urls as $url){
       if (in_array($url['module'], ['private', 'protected', 'public'])){
         if (!$silent) {
-          echo "ERROR: El nombre del módulo es una palabra reservada (".$url['module']."). El módulo no puede llamarse de las siguientes maneras:\n";
+          echo $colors->getColoredString("ERROR", "white", "red").": El nombre del módulo es una palabra reservada (".$url['module']."). El módulo no puede llamarse de las siguientes maneras:\n";
           echo "  · private\n";
           echo "  · protected\n";
           echo "  · public\n";
@@ -388,7 +396,7 @@ class Base{
 
       if ($url['action']==$url['module']){
         if (!$silent) {
-          echo "ERROR: Una acción no puede llamarse igual que el módulo que la contiene:\n";
+          echo $colors->getColoredString("ERROR", "white", "red").": Una acción no puede llamarse igual que el módulo que la contiene:\n";
           echo "  Módulo: ".$url['module']."\n";
           echo "  Acción: ".$url['action']."\n";
           $errors = true;
@@ -400,7 +408,7 @@ class Base{
       if (!file_exists($ruta_controller)){
         file_put_contents($ruta_controller, "<"."?php\nclass ".$url['module']." extends OController{\n}");
         if (!$silent) {
-          echo "Nuevo controlador \"" . $url['module'] . "\" creado en el archivo \"" . $ruta_controller . "\"\n";
+          echo "  Nuevo controlador ".$colors->getColoredString("\"" . $url['module'] . "\"", "light_green")." creado en el archivo ".$colors->getColoredString("\"" . $ruta_controller . "\"", "light_green").".\n";
         }
       }
 
@@ -408,7 +416,7 @@ class Base{
       if (!file_exists($ruta_templates) && !is_dir($ruta_templates)){
         mkdir($ruta_templates);
         if (!$silent) {
-          echo "Nueva carpeta para templates \"" . $ruta_templates . "\" creada\n";
+          echo "  Nueva carpeta para templates ".$colors->getColoredString("\"" . $ruta_templates . "\"", "light_green")." creada.\n";
         }
       }
 
@@ -424,14 +432,14 @@ class Base{
         file_put_contents($ruta_controller, $str."}", FILE_APPEND);
 
         if (!$silent) {
-          echo "Nueva acción \"" . $url['action'] . "\" creada en el controlador \"" . $url['module'] . "\"\n";
+          echo "  Nueva acción ".$colors->getColoredString("\"" . $url['action'] . "\"", "light_green")." creada en el controlador ".$colors->getColoredString("\"" . $url['module'] . "\"", "light_green").".\n";
         }
 
         $ruta_template = $c->getDir('app_template') . $url['module'] . '/' . $url['action'] . '.php';
         if (!file_exists($ruta_template)){
           file_put_contents($ruta_template, '');
           if (!$silent) {
-            echo "Nuevo template \"" . $ruta_template . "\" creado\n";
+            echo "  Nuevo template ".$colors->getColoredString("\"" . $ruta_template . "\"", "light_green")." creado.\n";
           }
         }
       }
@@ -439,9 +447,12 @@ class Base{
 
     if ($errors && !$silent){
       echo "\n";
-      echo "-----------------------------------------------------------------------------------------------------------------------\n";
-      echo "  Ocurrieron errores al actualizar módulos y controladores. Revisa los errores y vuelve a ejecutar la tarea update-urls\n";
-      echo "-----------------------------------------------------------------------------------------------------------------------\n";
+      echo $colors->getColoredString("----------------------------------------------------------------------------------------------------------------------", "white", "red")."\n";
+      echo $colors->getColoredString("  Ocurrieron errores al actualizar módulos y controladores. Revisa los errores y vuelve a ejecutar la tarea updateUrls", "white", "red")."\n";
+      echo $colors->getColoredString("----------------------------------------------------------------------------------------------------------------------", "white", "red")."\n";
+    }
+    if (!$silent){
+      echo "\n";
     }
   }
 

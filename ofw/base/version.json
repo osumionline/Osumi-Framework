@@ -1,6 +1,20 @@
 {
-  "version": "4.7.6",
+  "version": "4.8.0",
   "updates": {
+    "4.8.0": {
+      "message": "4.8.0 - Mejores mensajes en updateUrls, limpieza en OTemplate y mejora en update",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/OTemplate.php",
+        "ofw/base/base.php",
+        "ofw/base/version.json",
+        "ofw/task/update.php"
+      ],
+      "deletes": [
+        "ofw/base/VERSION",
+        "ofw/base/updates.json"
+      ]
+    },
     "4.7.6": {
       "message": "4.7.6 - Corrección para la release con error",
       "files": [

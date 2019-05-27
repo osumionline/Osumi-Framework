@@ -8,13 +8,13 @@ class OTemplate{
   private $module        = '';
   private $type          = 'html';
   private $layout        = '';
-  private $params        = array();
+  private $params        = [];
   private $folder_url    = '';
-  private $css_list      = array();
-  private $ext_css_list  = array();
-  private $mq_css_list   = array();
-  private $js_list       = array();
-  private $ext_js_list   = array();
+  private $css_list      = [];
+  private $ext_css_list  = [];
+  private $mq_css_list   = [];
+  private $js_list       = [];
+  private $ext_js_list   = [];
   private $title         = '';
   private $json          = false;
   private $lang          = '';
@@ -185,7 +185,7 @@ class OTemplate{
 
   public function add($key,$value,$extra=null){
     $params = $this->getParams();
-    $temp = array('name' => $key, 'value' => $value);
+    $temp = ['name' => $key, 'value' => $value];
     if (!is_null($extra)){
       $temp['extra'] = $extra;
     }
@@ -229,7 +229,7 @@ class OTemplate{
     $this->setExtJsList($ext_js);
   }
 
-  public function addPartial($where, $name, $values=array()){
+  public function addPartial($where, $name, $values=[]){
     $partial_file = $this->getTemplatesDir().'partials/'.$name.'.php';
     if (file_exists($partial_file)){
       ob_start();
@@ -260,7 +260,7 @@ class OTemplate{
 
     foreach ($values as $key => $value){
       if (!is_object($value) && !is_array($value)){
-        $output = str_replace(array('{{'.$key.'}}'), $value, $output);
+        $output = str_replace(['{{'.$key.'}}'], $value, $output);
       }
     }
 
@@ -291,7 +291,7 @@ class OTemplate{
     // Si no es JSON, por defecto, añado titulo, css y js
     if ($this->getType()==='html'){
       // Añado titulo a la pagina
-      $str = str_replace(array('{{title}}'), $title, $str);
+      $str = str_replace(['{{title}}'], $title, $str);
 
       // Añado css
       $str_css = '';
@@ -300,7 +300,7 @@ class OTemplate{
         $css_base = '/'.$this->getFolderUrl().'pkg/'.$this->getPackage().'/css/';
       }
       foreach ($css as $css_item){
-        $css_data = array();
+        $css_data = [];
         if (stripos($css_item, '#')){
           $css_data = explode('#', $css_item);
           $css_item = array_shift($css_data);
@@ -331,7 +331,7 @@ class OTemplate{
       // Añado al css
       $str_css .= $str_mq_css;
 
-      $str = str_replace(array('{{css}}'), $str_css, $str);
+      $str = str_replace(['{{css}}'], $str_css, $str);
 
       // Añado js
       $str_js = '';
@@ -352,7 +352,7 @@ class OTemplate{
       // Uno ambos js
       $str_js .= $str_ext_js;
 
-      $str = str_replace(array('{{js}}'), $str_js, $str);
+      $str = str_replace(['{{js}}'], $str_js, $str);
     }
 
     // Añado parametros al cuerpo
@@ -362,19 +362,19 @@ class OTemplate{
         $sub_value = $param['value'];
       }
 
-      $str_body = str_replace(array('{{'.$param['name'].'}}'), $sub_value, $str_body);
-      $str = str_replace(array('{{'.$param['name'].'}}'), $sub_value, $str);
+      $str_body = str_replace(['{{'.$param['name'].'}}'], $sub_value, $str_body);
+      $str = str_replace(['{{'.$param['name'].'}}'], $sub_value, $str);
     }
 
     // Añado carpeta imágenes
     if (stripos($str_body, '{{img}}')){
-      $str_body = str_replace(array('{{img}}'), '/'.$c->getUrl('folder').'img/', $str_body);
-      $str_body = str_replace(array('{{img_url}}'), '/'.$c->getUrl('folder').'img/', $str_body);
+      $str_body = str_replace(['{{img}}'], '/'.$c->getUrl('folder').'img/', $str_body);
+      $str_body = str_replace(['{{img_url}}'], '/'.$c->getUrl('folder').'img/', $str_body);
     }
 
     // Añado cuerpo al layout
     if ($this->getType()==='html'){
-      $str = str_replace(array('{{body}}'), $str_body, $str);
+      $str = str_replace(['{{body}}'], $str_body, $str);
     }
     else{
       $str = $str_body;
@@ -385,13 +385,13 @@ class OTemplate{
       // Añado traducciones específicas de la página
       $trads = $this->getTranslator()->getTranslations();
       foreach ($trads as $trad=>$obj){
-        $str = str_replace(array('{{trans_'.$trad.'}}'), $obj[$this->getLang()], $str);
+        $str = str_replace(['{{trans_'.$trad.'}}'], $obj[$this->getLang()], $str);
       }
       // Añado traducciones generales
       $this->getTranslator()->setPage('general');
       $trads = $this->getTranslator()->getTranslations();
       foreach ($trads as $trad=>$obj){
-        $str = str_replace(array('{{trans_general_'.$trad.'}}'), $obj[$this->getLang()], $str);
+        $str = str_replace(['{{trans_general_'.$trad.'}}'], $obj[$this->getLang()], $str);
       }
     }
 

@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+## `4.8.0` (27/05/2019)
+
+Actualización de mantenimiento:
+
+* `OTemplate`: Limpieza de código. Cambio sintaxis antigua de `array()` por `[]`.
+* `updateUrls`: Mejoro los mensajes mostrados por consola al ejecutar esta tarea (tabulaciones, colores...).
+* `update`: Mejora al obtener las actualizaciones. Ahora al realizar una actualización se descarga la versión específica de cada archivo. Hasta ahora siempre se descargaba la últiima versión del archivo y en el caso de que hubiese varias actualizaciones, cada actualización siempre cogía la misma versión (la master).
+* Borro archivos obsoletos `VERSION` y `updates.json`, ya que ahora han sido integrados en `version.json` y ya no se usaban.
+
 ## `4.7.6` (23/05/2019)
 
 Otra release por el error de la `4.7.4`, al fallar se dejaba un archivo por actualizar.

@@ -10,12 +10,12 @@ class updateTask{
     $this->colors = new OColors();
   }
 
-  private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
+  private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/';
   private $version_file = null;
 
   private function getVersionFile(){
     if (is_null($this->version_file)){
-      $this->version_file = json_decode( file_get_contents($this->repo_url.'ofw/base/version.json'), true );
+      $this->version_file = json_decode( file_get_contents($this->repo_url.'master/ofw/base/version.json'), true );
     }
     return $this->version_file;
   }
@@ -59,7 +59,7 @@ class updateTask{
       }
       if (array_key_exists('files', $updates[$repo_version]) && count($updates[$repo_version]['files'])>0){
         foreach ($updates[$repo_version]['files'] as $file){
-          $file_url = $this->repo_url.$file;
+          $file_url = $this->repo_url.'v'.$repo_version.'/'.$file;
           echo "  Descargando \"".$file_url."\"\n";
           $file_content = file_get_contents($file_url);
 
