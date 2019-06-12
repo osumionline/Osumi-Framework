@@ -21,7 +21,7 @@ class backupDBTask{
       echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
     }
 
-    $dump_file = $c->getDir('ofw_sql').$c->getDb('name').'.sql';
+    $dump_file = $c->getDir('ofw_export').$c->getDb('name').'.sql';
     $dir = dirname(__FILE__) . '/dump.sql';
     echo "  Exportando base de datos \"".$this->colors->getColoredString($c->getDb('name'), "light_green")."\" al archivo \"".$this->colors->getColoredString($dump_file, "light_green")."\".\n\n";
     if (file_exists($dump_file)){

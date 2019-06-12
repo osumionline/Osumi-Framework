@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.11.0` (12/06/2019)
+
+Nueva carpeta `ofw/export` para archivos generados por el framework. Ahora al usar la tarea `generateModel` o la tarea `composer`, el resultado se guardará en esta nueva carpeta. Así que he borrado la carpeta `ofw/sql` que ya no se usa.
+
+Esta nueva carpeta también tiene un archivo `.gitignore` para no subir al repositorio los archivos generados.
+
 ## `4.10.0` (12/06/2019)
 
 He hecho que las carpetas `app/filter`, `app/model` y `app/service` no sean obligatorias. No es obligatorio que un proyecto use filtros o servicios, y puede haber proyectos que no requieran base de datos. Hasta ahora estas carpetas eran obligatorias (aunque estuviesen vacías) por que sino daba un fallo al cargar.

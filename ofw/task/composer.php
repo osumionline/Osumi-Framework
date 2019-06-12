@@ -46,7 +46,7 @@ class composerTask{
     }
 
     echo "  ".$this->colors->getColoredString("Exportando proyecto", "light_green")."\n\n";
-    $destination = $c->getDir('ofw_tmp').'ofw_composer.php';
+    $destination = $c->getDir('ofw_export').'ofw_composer.php';
     if (file_exists($destination)){
       echo "    Archivo destino ya existía, se ha borrado.\n\n";
       unlink($destination);

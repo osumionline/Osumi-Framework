@@ -1,6 +1,18 @@
 {
-  "version": "4.10.0",
+  "version": "4.11.0",
   "updates": {
+    "4.11.0": {
+      "message": "4.11.0 - Nueva carpeta export",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/base.php",
+        "app/base/OConfig.php",
+        "ofw/task/backupDB.php",
+        "ofw/task/composer.php",
+        "ofw/export/.gitignore"
+      ]
+    },
     "4.10.0": {
       "message": "4.10.0 - Carpetas no obligatorias",
       "files": [

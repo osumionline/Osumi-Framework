@@ -314,7 +314,7 @@ class Base{
     $sql .= "/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;\n";
     echo $sql;
 
-    $sql_file = $c->getDir('ofw_sql').'model.sql';
+    $sql_file = $c->getDir('ofw_export').'model.sql';
     if (file_exists($sql_file)){
       unlink($sql_file);
     }
