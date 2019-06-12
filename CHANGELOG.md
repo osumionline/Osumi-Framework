@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+## `4.10.0` (12/06/2019)
+
+He hecho que las carpetas `app/filter`, `app/model` y `app/service` no sean obligatorias. No es obligatorio que un proyecto use filtros o servicios, y puede haber proyectos que no requieran base de datos. Hasta ahora estas carpetas eran obligatorias (aunque estuviesen vacías) por que sino daba un fallo al cargar.
+
+He añadido la carpeta `ofw/tmp`, que era generada dinámicamente en caso de que no existiese y fuese necesaria, pero le he puesto un `.gitignore` para no subir al repositorio posibles valores temporales o de desarrollo.
+
+He añadido otro `.gitignore` en la carpeta `app/cache` para que no se suban los valores cacheados al repositorio, ya que se generan dinámicamente.
+
 ## `4.9.0` (12/06/2019)
 
 Nuevas tareas para realizar copias de seguridad:

@@ -82,33 +82,39 @@
   }
 
   // User services
-  if ($model = opendir($c->getDir('app_service'))) {
-    while (false !== ($entry = readdir($model))) {
-      if ($entry != '.' && $entry != '..') {
-        require $c->getDir('app_service').$entry;
+  if (file_exists($c->getDir('app_service'))){
+    if ($model = opendir($c->getDir('app_service'))) {
+      while (false !== ($entry = readdir($model))) {
+        if ($entry != '.' && $entry != '..') {
+          require $c->getDir('app_service').$entry;
+        }
       }
+      closedir($model);
     }
-    closedir($model);
   }
 
   // Filters
-  if ($model = opendir($c->getDir('app_filter'))) {
-    while (false !== ($entry = readdir($model))) {
-      if ($entry != "." && $entry != "..") {
-        require $c->getDir('app_filter').$entry;
+  if (file_exists($c->getDir('app_filter'))){
+    if ($model = opendir($c->getDir('app_filter'))) {
+      while (false !== ($entry = readdir($model))) {
+        if ($entry != "." && $entry != "..") {
+          require $c->getDir('app_filter').$entry;
+        }
       }
+      closedir($model);
     }
-    closedir($model);
   }
 
   // App
-  if ($model = opendir($c->getDir('app_model'))) {
-    while (false !== ($entry = readdir($model))) {
-      if ($entry != "." && $entry != "..") {
-        require $c->getDir('app_model').$entry;
+  if (file_exists($c->getDir('app_model'))){
+    if ($model = opendir($c->getDir('app_model'))) {
+      while (false !== ($entry = readdir($model))) {
+        if ($entry != "." && $entry != "..") {
+          require $c->getDir('app_model').$entry;
+        }
       }
+      closedir($model);
     }
-    closedir($model);
   }
 
   // Si hay conexión a BD, compruebo drivers
