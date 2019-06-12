@@ -468,6 +468,18 @@ class Base{
     $tsk->run($params);
   }
 
+  public static function runOFWTask($task_name, $params=[]) {
+	  global $c;
+	  $task_file = $c->getDir('ofw_task').$task_name.'.php';
+	  if (!file_exists($task_file)){
+		  return false;
+	  }
+    require_once $task_file;
+    $task_name .= 'Task';
+    $tsk = new $task_name();
+    $tsk->run($params);
+  }
+
   public static function getVersion() {
     global $c;
     $version_file = $c->getDir('ofw_base').'version.json';

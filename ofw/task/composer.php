@@ -36,14 +36,19 @@ class composerTask{
     return $name;
   }
 
-  public function run(){
+  public function run($silent = false){
     global $c;
     $this->base_dir = $c->getDir('base');
 
-    echo $this->colors->getColoredString("Exportando proyecto", "light_green")."\n\n";
+    echo "\n";
+    if (!$silent){
+      echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
+    }
+
+    echo "  ".$this->colors->getColoredString("Exportando proyecto", "light_green")."\n\n";
     $destination = $c->getDir('ofw_tmp').'ofw_composer.php';
     if (file_exists($destination)){
-      echo "  Archivo destino ya existía, se ha borrado\n";
+      echo "    Archivo destino ya existía, se ha borrado.\n\n";
       unlink($destination);
     }
     $folders = [];
@@ -51,7 +56,7 @@ class composerTask{
 
     file_put_contents($destination, "<?php\n");
 
-    echo "Obteniendo carpetas y archivos a exportar\n";
+    echo "  Obteniendo carpetas y archivos a exportar...\n";
 
     $files['ofw.php'] = Base::fileToBase64($c->getDir('base') . 'ofw.php');
 
@@ -96,7 +101,7 @@ class composerTask{
       }
     }
 
-    echo "Exportando ".count($files)." archivos\n";
+    echo "  Exportando ".count($files)." archivos.\n";
     file_put_contents($destination, "$"."files = [\n", FILE_APPEND);
     $content_array = [];
     foreach ($files as $key => $content){
@@ -108,14 +113,14 @@ class composerTask{
     unset($files);
     unset($content_array);
 
-    echo "Exportando ".count($folders)." carpetas\n";
+    echo "  Exportando ".count($folders)." carpetas.\n";
     file_put_contents($destination, "$"."folders = ['", FILE_APPEND);
     file_put_contents($destination, implode("','", $folders), FILE_APPEND);
     file_put_contents($destination, "'];\n", FILE_APPEND);
 
     unset($files);
 
-    echo "Preparando composer\n";
+    echo "  Preparando composer...\n";
     $str = "\n";
     $str .= "fun"."ction base64ToFile($"."base64_string, $"."filename){\n";
     $str .= "  $"."ifp = fopen( $"."filename, 'wb' );\n";
@@ -141,6 +146,6 @@ class composerTask{
     $str .= "}";
     file_put_contents($destination, $str, FILE_APPEND);
 
-    echo $this->colors->getColoredString("Proyecto exportado", "light_green")."\n";
+    echo "  ".$this->colors->getColoredString("Proyecto exportado.", "light_green")."\n";
   }
 }

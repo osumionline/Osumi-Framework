@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+## `4.9.0` (12/06/2019)
+
+Nuevas tareas para realizar copias de seguridad:
+
+* `backupDB`: exporta la base de datos mediante el comando `mysqldump` a un archivo en la carpeta `ofw/sql`.
+* `backupAll`: esta tarea primero llama a `backupDB` para exportar la base de datos a un archivo y luego llama a la tarea `composer`, para crear un archivo de exportación (que contiene el dump realizado en el primer paso).
+
 ## `4.8.1` (27/05/2019)
 
 Corrección en tarea `update`. Al terminar escribía el nuevo número de versión en el archivo `VERSION`, a pesar de que ya no se usa para nada.

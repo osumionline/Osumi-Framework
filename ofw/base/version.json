@@ -1,6 +1,17 @@
 {
-  "version": "4.8.1",
+  "version": "4.9.0",
   "updates": {
+    "4.9.0": {
+      "message": "4.9.0 - Nuevas tareas para backup",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/base.php",
+        "ofw/task/composer.php",
+        "ofw/task/backupDB.php",
+        "ofw/task/backupAll.php"
+      ]
+    },
     "4.8.1": {
       "message": "4.8.1 - Corrección en update",
       "files": [
