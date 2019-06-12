@@ -7,7 +7,7 @@
         "CHANGELOG.md",
         "ofw/base/version.json",
         "ofw/base/base.php",
-        "app/base/OConfig.php",
+        "ofw/base/OConfig.php",
         "ofw/task/backupDB.php",
         "ofw/task/composer.php",
         "ofw/export/.gitignore"
