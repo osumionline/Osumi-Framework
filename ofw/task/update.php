@@ -73,6 +73,11 @@ class updateTask{
           else{
             echo "    Creando nuevo archivo.\n";
           }
+          
+          $dir = dirname($local_file);
+          if (!file_exists($dir)){
+            mkdir($dir, 0777, true);
+          }
 
           $result_file = file_put_contents($local_file, $file_content);
           if ($result_file===false){

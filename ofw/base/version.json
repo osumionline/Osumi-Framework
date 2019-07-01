@@ -1,6 +1,15 @@
 {
-  "version": "4.11.0",
+  "version": "4.11.1",
   "updates": {
+    "4.11.1": {
+      "message": "4.11.1 - Corrección en OFile y en la tarea update",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/OFile.php",
+        "ofw/task/update.php"
+      ]
+    },
     "4.11.0": {
       "message": "4.11.0 - Nueva carpeta export",
       "files": [

@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.11.1` (01/07/2019)
+
+Corrección en `OFile`. Este archivo contiene la lista de carpetas y archivos que conforman el Framework y no estaba actualizado, en la lista no estaban la nueva carpeta `ofw/export`, había que quitar la carpeta `ofw/sql` y faltaban las dos task nuevas (`backupAll` y `backupDB`).
+
+Corrección al actualizar para que compruebe y cree las carpetas apropiadas. Si se añade un nuevo archivo en una nueva carpeta fallaba al copiar el nuevo archivo a una carpeta que previamente no existía. Ahora primero se comprueba que la carpeta exista y en caso de no existir la crea.
+
 ## `4.11.0` (12/06/2019)
 
 Nueva carpeta `ofw/export` para archivos generados por el framework. Ahora al usar la tarea `generateModel` o la tarea `composer`, el resultado se guardará en esta nueva carpeta. Así que he borrado la carpeta `ofw/sql` que ya no se usa.
