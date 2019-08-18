@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.11.2` (18/08/2019)
+
+Corrección al generar el archivo SQL del modelo. En los campos de tipo `booleano`, si el valor por defecto era `false` lo dejaba en blanco en lugar de poner un `0`.
+
 ## `4.11.1` (01/07/2019)
 
 Corrección en `OFile`. Este archivo contiene la lista de carpetas y archivos que conforman el Framework y no estaba actualizado, en la lista no estaban la nueva carpeta `ofw/export`, había que quitar la carpeta `ofw/sql` y faltaban las dos task nuevas (`backupAll` y `backupDB`).

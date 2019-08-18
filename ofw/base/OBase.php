@@ -366,7 +366,12 @@ class OBase{
             $sql .= " AUTO_INCREMENT";
           }
           if (!$field['nullable'] && !is_null($field['default']) && $field['ref']==''){
-            $sql .= " DEFAULT '".$field['default']."'";
+            if ($field['type']!=Base::BOOL){
+              $sql .= " DEFAULT '".$field['default']."'";
+            }
+            else{
+              $sql .= " DEFAULT '".($field['default'] ? '1' : '0')."'";
+            }
           }
           if ($field['comment']!=''){
             $sql .= " COMMENT '".$field['comment']."' ";
