@@ -1,6 +1,14 @@
 {
-  "version": "4.11.2",
+  "version": "4.11.3",
   "updates": {
+    "4.11.3": {
+      "message": "4.11.3 - Corrección en el método slugify",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/base.php"
+      ]
+    },
     "4.11.2": {
       "message": "4.11.2 - Corrección al generar el archivo SQL del modelo",
       "files": [

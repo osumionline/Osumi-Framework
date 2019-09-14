@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.11.3` (14/09/2019)
+
+Corrección en el método `Base::slugify`. Si la cadena de texto introducida tenía un carácter "¿" fallaba por que no estaba contemplado.
+
 ## `4.11.2` (18/08/2019)
 
 Corrección al generar el archivo SQL del modelo. En los campos de tipo `booleano`, si el valor por defecto era `false` lo dejaba en blanco en lugar de poner un `0`.
