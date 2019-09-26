@@ -102,7 +102,13 @@ class OConfig{
 
   function loadConfig($config){
   	if (array_key_exists('base_modules', $config)){
-      $this->setDefaultModules($config['base_modules']);
+      foreach ($config['base_modules'] as $key => $val){
+        if (!array_key_exists($key, $this->default_modules)){
+          echo "ERROR: base module ".$key." is not part of the default module list.\n";
+          exit();
+        }
+        $this->setDefaultModule($key, $val);
+      }
     }
     if (array_key_exists('packages', $config)){
       $this->setPackages($config['packages']);
@@ -210,6 +216,10 @@ class OConfig{
   }
   public function getDefaultModules(){
     return $this->default_modules;
+  }
+
+  public function setDefaultModule($key, $val){
+    $this->default_modules[$key] = $val;
   }
 
   public function getDefaultModule($m){

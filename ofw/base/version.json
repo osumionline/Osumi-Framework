@@ -1,6 +1,14 @@
 {
-  "version": "4.11.3",
+  "version": "4.12.0",
   "updates": {
+    "4.12.0": {
+      "message": "4.12.0 - Mejora en base modules",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/OConfig.php"
+      ]
+    },
     "4.11.3": {
       "message": "4.11.3 - Corrección en el método slugify",
       "files": [

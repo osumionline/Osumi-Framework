@@ -1,6 +1,34 @@
 CHANGELOG
 =========
 
+## `4.12.0` (26/09/2019)
+
+Mejora en la carga de `base_modules`. Hasta ahora, para cargar uno de los módulos que incorpora el framework había que incluir en el archivo `config.json` la lista entera de módulos y marcar con `true` cual se quería añadir.
+
+```php
+  "base_modules": {
+    "browser": false,
+    "email": true,
+    "email_smtp": false,
+    "ftp": false,
+    "image": false,
+    "pdf": false,
+    "translate": false,
+    "crypt": false,
+    "file": false
+  },
+  ...
+```
+
+Con la mejora introducida en esta versión solo será necesario incluir en el archivo `config.json` aquellos módulos que se quieren usar.
+
+```php
+  "base_modules": {
+    "email": true
+  },
+  ...
+```
+
 ## `4.11.3` (14/09/2019)
 
 Corrección en el método `Base::slugify`. Si la cadena de texto introducida tenía un carácter "¿" fallaba por que no estaba contemplado.
