@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.13.0` (22/10/2019)
+
+Corrección por dependencia de `OColors`. El archivo `base.php` utiliza en una función una llamada a `OColors` y por defecto no se incluía, pero en la última versión de PHP comprueba todas las referencias y producía un error.
+
 ## `4.12.0` (26/09/2019)
 
 Mejora en la carga de `base_modules`. Hasta ahora, para cargar uno de los módulos que incorpora el framework había que incluir en el archivo `config.json` la lista entera de módulos y marcar con `true` cual se quería añadir.

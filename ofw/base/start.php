@@ -22,6 +22,7 @@
   require $c->getDir('ofw_base').'OCache.php';
   require $c->getDir('ofw_base').'OForm.php';
   require $c->getDir('ofw_base').'OToken.php';
+  require $c->getDir('ofw_base').'OColors.php';
 
   // Optionals
   if ($c->getDefaultModule('browser')){

@@ -4,8 +4,6 @@ $start_time = microtime(true);
 $where = 'task_ofw';
 
 require dirname(__FILE__).'/ofw/base/start.php' ;
-// Include OColors class to make colores messages available in CLI
-require $c->getDir('ofw_base').'OColors.php';
 
 $task_list = [];
 $colors = new OColors();
