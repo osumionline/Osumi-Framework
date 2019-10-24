@@ -23,7 +23,8 @@ class OConfig{
     'pass'    => '',
     'host'    => '',
     'name'    => '',
-    'charset' => 'UTF8'
+    'charset' => 'utf8mb4',
+    'collate' => 'utf8mb4_unicode_ci'
   ];
   private $urls = [
     'base'   => '',
@@ -114,7 +115,7 @@ class OConfig{
       $this->setPackages($config['packages']);
     }
     if (array_key_exists('db', $config)){
-      $db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset'];
+      $db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset', 'collate'];
       foreach ($db_fields as $db_field){
         if (array_key_exists($db_field, $config['db'])){
           $this->setDB($db_field, $config['db'][$db_field]);

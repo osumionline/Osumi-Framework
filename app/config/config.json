@@ -15,7 +15,9 @@
   	"host": "localhost",
   	"user": "user",
   	"pass": "password",
-  	"name": "db_name"
+  	"name": "db_name",
+    "charset": "utf8mb4",
+    "collate": "utf8mb4_unicode_ci"
   },
   "cookies": {
   	"prefix": "ofw",

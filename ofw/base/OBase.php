@@ -88,7 +88,7 @@ class OBase{
       if (is_null($field['value'])){
         return null;
       }
-      if ( !is_null($extra) && in_array($field['type'], [Base::CREATED,Base::UPDATED,Base::DATE]) ){
+      if ( !is_null($extra) && in_array($field['type'], [Base::CREATED, Base::UPDATED, Base::DATE]) ){
         return date($extra, strtotime($field['value']));
       }
       if ( !is_null($extra) && ($field['type']==Base::TEXT || $field['type']==Base::LONGTEXT) ){
@@ -292,6 +292,7 @@ class OBase{
   }
 
   public function generate($type='sql'){
+    global $c;
     $model = $this->getModel();
     $ret = '';
 
@@ -326,10 +327,10 @@ class OBase{
             case Base::PK_STR:
             case Base::TEXT:{
               if ($field['size']<256){
-                $sql .= "VARCHAR(".$field['size'].") COLLATE utf8_unicode_ci";
+                $sql .= "VARCHAR(" . $field['size'] . ") COLLATE " . $c->getDb('collate');
               }
               else{
-                $sql .= "TEXT COLLATE utf8_unicode_ci";
+                $sql .= "TEXT COLLATE " . $c->getDb('collate');
               }
             }
             break;
@@ -338,7 +339,7 @@ class OBase{
             }
             break;
             case Base::LONGTEXT:{
-              $sql .= "TEXT";
+              $sql .= "TEXT COLLATE " . $c->getDb('collate');
             }
             break;
             case Base::FLOAT:{
@@ -368,7 +369,7 @@ class OBase{
           $sql .= ",\n";
         }
         $sql .= "  PRIMARY KEY (`".implode('`,`',$this->pk)."`)\n";
-        $sql .= ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;\n";
+        $sql .= ") ENGINE=InnoDB DEFAULT CHARSET=" . $c->getDb('charset') . " COLLATE=" . $c->getDb('collate') . ";\n";
 
         $ret = $sql;
       }

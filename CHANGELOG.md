@@ -1,6 +1,31 @@
 CHANGELOG
 =========
 
+## `4.15.0` (24/10/2019)
+
+Cambio en collate por defecto a `utf8mb4_unicode_ci` y charset por defecto a `utf8mb4`.
+
+A partir de esta versión el `charset` por defecto a la hora de hacer una conexión a la base de datos cambia de `utf8` a `utf8mb4` y el `collate` de los campos de texto cambia de `utf8_general_ci` a `utf8mb4_unicode_ci`.
+
+Los campos con `utf8` guardan 3 bytes de información por caracter y los emojis son caracteres Unicode de 4 bytes, por lo que daba un error al guardar campos de texto que tuviesen este tipo de símbolos 😎 y solo guardaba algo como `????`.
+
+Aun así, estos valores son personalizables mediante el archivo `config.json`:
+
+```json
+...
+  "db": {
+    "host": "localhost",
+    "user": "user",
+    "pass": "password",
+    "name": "db_name",
+    "charset": "utf8mb4",
+    "collate": "utf8mb4_unicode_ci"
+ },
+...
+```
+
+Los proyectos que actualicen a esta versión deberán actualizar las tablas de la base de datos a este nuevo tipo de `collate` o cambiar el archivo de configuración para indicar el tipo de `charset` y `collate` apropiados.
+
 ## `4.14.0` (24/10/2019)
 
 Mejora en `OBase`: la clase `OBase` tenía una variable llamada `$default_model` con los valores por defecto que podían tener los distintos tipos de campos. Esta variable se ha movido a la clase estática `Base` de modo que ya no se incluye en cada variable de modelo que se use.
