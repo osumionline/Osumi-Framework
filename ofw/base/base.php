@@ -14,6 +14,19 @@ class Base{
   const LONGTEXT = 8;
   const FLOAT    = 9;
 
+  const DEFAULT_MODEL = [
+    self::PK       => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>true,  'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::PK_STR   => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::CREATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::UPDATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::NUM      => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::TEXT     => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::DATE     => ['default'=>null,  'original'=>null,  'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::BOOL     => ['default'=>false, 'original'=>false, 'value'=>false, 'incr'=>false, 'size'=>1,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::LONGTEXT => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
+    self::FLOAT    => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true]
+  ];
+
   public static function getCache($key) {
     global $c;
     $route = $c->getDir('app_cache').$key.'.json';

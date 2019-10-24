@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `4.14.0` (24/10/2019)
+
+Mejora en `OBase`: la clase `OBase` tenía una variable llamada `$default_model` con los valores por defecto que podían tener los distintos tipos de campos. Esta variable se ha movido a la clase estática `Base` de modo que ya no se incluye en cada variable de modelo que se use.
+
+Esta variable contiene muchos campos y al realizar un `var_dump` ensuciaba mucho la salida y dificultaba la legibilidad dificultando la depuración. Además del consumo de memoria innecesario al ser cargada en cada variable que se use. Ahora al estar en la clase general `Base` solo se incluye una vez y ayudará en la depuración de errores.
+
 ## `4.13.0` (22/10/2019)
 
 Corrección por dependencia de `OColors`. El archivo `base.php` utiliza en una función una llamada a `OColors` y por defecto no se incluía, pero en la última versión de PHP comprueba todas las referencias y producía un error.

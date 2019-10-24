@@ -3,22 +3,10 @@ class OBase{
   protected $db         = null;
   protected $model_name = '';
   protected $table_name = '';
-  protected $default_model = [
-    Base::PK       => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>true,  'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::PK_STR   => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::CREATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::UPDATED  => ['default'=>null,  'original'=>null,  'value'=>null,  'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::NUM      => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>11, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::TEXT     => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>50, 'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::DATE     => ['default'=>null,  'original'=>null,  'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>true,  'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::BOOL     => ['default'=>false, 'original'=>false, 'value'=>false, 'incr'=>false, 'size'=>1,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::LONGTEXT => ['default'=>'',    'original'=>'',    'value'=>'',    'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true],
-    Base::FLOAT    => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'', 'expose'=>true]
-  ];
-  protected $model   = [];
-  protected $pk      = [];
-  protected $created = null;
-  protected $updated = null;
+  protected $model      = [];
+  protected $pk         = [];
+  protected $created    = null;
+  protected $updated    = null;
   protected $show_in_backend = true;
 
   function load($table_name, $model){
@@ -39,7 +27,7 @@ class OBase{
         $this->updated = $field_name;
       }
 
-      $temp = $this->default_model[$row['type']];
+      $temp = Base::DEFAULT_MODEL[$row['type']];
       $temp['type']     = $row['type'];
       $temp['default']  = array_key_exists('default',  $row) ? $row['default']  : $temp['default'];
       $temp['original'] = array_key_exists('original', $row) ? $row['original'] : $temp['original'];
