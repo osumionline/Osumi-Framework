@@ -36,7 +36,7 @@ class OTemplate{
 
     $this->setLang( $c->getLang() );
 
-    if ($c->getDefaultModule('translate')){
+    if ($c->getPlugin('translate')){
       $tr = new OTranslate();
       $this->setTranslator($tr);
     }
@@ -381,7 +381,7 @@ class OTemplate{
     }
 
     // Añado traducciones
-    if ($c->getDefaultModule('translate') && $this->getTranslator()->getPage()!=''){
+    if ($c->getPlugin('translate') && $this->getTranslator()->getPage()!=''){
       // Añado traducciones específicas de la página
       $trads = $this->getTranslator()->getTranslations();
       foreach ($trads as $trad=>$obj){

@@ -1,6 +1,35 @@
 {
-  "version": "4.15.0",
+  "version": "4.16.0",
   "updates": {
+  	"4.16.0": {
+  		"message": "4.16.0 - Nuevo sistema de Plugins",
+  		"files": [
+  			"CHANGELOG.md",
+  			"ofw/base/version.json",
+  			"ofw/base/OConfig.php",
+  			"ofw/base/OTemplate.php",
+  			"ofw/base/OUrl.php",
+  			"ofw/base/base.php",
+  			"ofw/base/start.php",
+  			"ofw/base/OPlugin.php",
+  			"ofw/plugins/.gitignore",
+  			"ofw/plugins/plugins.txt",
+  			"ofw/task/plugins.php"
+  		],
+  		"deletes": [
+  			"ofw/base/OBrowser.php",
+  			"ofw/base/OCrypt.php",
+  			"ofw/base/OEmail.php",
+  			"ofw/base/OFTP.php",
+  			"ofw/base/OFile.php",
+  			"ofw/base/OImage.php",
+  			"ofw/base/OPDF.php",
+  			"ofw/base/OToken.php",
+  			"ofw/base/OTranslate.php",
+  			"ofw/lib/email/.gitignore",
+  			"ofw/lib/email/email.txt"
+  		]
+  	},
     "4.15.0": {
       "message": "4.15.0 - Cambio en collate por defecto a utf8mb4_unicode_ci y charset por defecto a utf8mb4",
       "files": [

@@ -144,7 +144,7 @@ class Base{
     global $c;
     if (!is_null($c->getErrorPage($mode))){
       header('Location:'.$c->getErrorPage($mode));
-      exit();
+      exit;
     }
 
     if ($mode=='403'){ header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden"); }
@@ -192,7 +192,7 @@ class Base{
     }
     echo "  </body>\n";
     echo "</html>";
-    exit();
+    exit;
   }
 
   public static function doPostRequest($url,$data) {

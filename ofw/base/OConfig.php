@@ -3,17 +3,7 @@ class OConfig{
   private $debug_mode         = false;
   private $allow_cross_origin = true;
 
-  private $default_modules = [
-    'browser'    => false,
-    'email'      => false,
-    'email_smtp' => false,
-    'ftp'        => false,
-    'image'      => false,
-    'pdf'        => false,
-    'translate'  => false,
-    'crypt'      => false,
-    'file'       => false
-  ];
+  private $plugins  = [];
   private $packages = [];
 
   private $dirs = [];
@@ -78,39 +68,37 @@ class OConfig{
     $json_file = $this->getDir('app_config').'config.json';
     if (!file_exists($json_file)){
       echo "ERROR: config.json file not found.\n";
-      exit();
+      exit;
     }
     $config = json_decode( file_get_contents($json_file), true );
     if (!$config){
       echo "ERROR: config.json file is malformed.\n";
-      exit();
+      exit;
     }
     $this->loadConfig($config);
     if (array_key_exists('environment', $config)){
       $json_env_file = $this->getDir('app_config').'config.'.$config['environment'].'.json';
       if (!file_exists($json_env_file)){
         echo "ERROR: config.".$config['environment'].".json file not found.\n";
-        exit();
+        exit;
       }
       $config_env = json_decode( file_get_contents($json_env_file), true );
       if (!$config_env){
         echo "ERROR: config.".$config['environment'].".json file is malformed.\n";
-        exit();
+        exit;
       }
       $this->loadConfig($config_env);
+    }
+    $plugins_file = $this->getDir('app_config').'plugins.json';
+    if (file_exists($plugins_file)){
+	    $plugins = json_decode( file_get_contents($plugins_file), true );
+	    if (array_key_exists('plugins', $plugins) && is_array($plugins['plugins'])){
+	      $this->setPlugins($plugins['plugins']);
+	    }
     }
   }
 
   function loadConfig($config){
-  	if (array_key_exists('base_modules', $config)){
-      foreach ($config['base_modules'] as $key => $val){
-        if (!array_key_exists($key, $this->default_modules)){
-          echo "ERROR: base module ".$key." is not part of the default module list.\n";
-          exit();
-        }
-        $this->setDefaultModule($key, $val);
-      }
-    }
     if (array_key_exists('packages', $config)){
       $this->setPackages($config['packages']);
     }
@@ -212,25 +200,15 @@ class OConfig{
   }
 
   // Default modules
-  public function setDefaultModules($dm){
-    $this->default_modules = $dm;
+  public function setPlugins($p){
+    $this->plugins = $p;
   }
-  public function getDefaultModules(){
-    return $this->default_modules;
-  }
-
-  public function setDefaultModule($key, $val){
-    $this->default_modules[$key] = $val;
+  public function getPlugins(){
+    return $this->plugins;
   }
 
-  public function getDefaultModule($m){
-    $base_modules = $this->getDefaultModules();
-    if (array_key_exists($m, $base_modules) && $base_modules[$m]===true){
-      return true;
-    }
-    else{
-      return false;
-    }
+  public function getPlugin($p){
+    return in_array($p, $this->plugins);
   }
 
   // Packages
@@ -275,6 +253,7 @@ class OConfig{
     $this->setDir('app_task',       $bd.'app/task/');
     $this->setDir('ofw_base',       $bd.'ofw/base/');
     $this->setDir('ofw_lib',        $bd.'ofw/lib/');
+    $this->setDir('ofw_plugins',    $bd.'ofw/plugins/');
     $this->setDir('ofw_packages',   $bd.'ofw/packages/');
     $this->setDir('ofw_task',       $bd.'ofw/task/');
     $this->setDir('ofw_export',     $bd.'ofw/export/');

@@ -1,13 +1,61 @@
 CHANGELOG
 =========
 
+## `4.16.0` (23/12/2019)
+
+¡Plugins!
+
+Hasta ahora cada funcionalidad nueva creada para el Framework era incorporada como una nueva clase que se cargaba junto con el resto del Framework. Para indicar que clases se cargaban, en el archivo `config.json` había un apartado llamado `base_modules`en el que mediante valores `true/false` se indicaba si la funcionalidad se debía cargar.
+
+Este apartado ahora desaparece y aparece el concepto de `Plugins`. Todas estas clases opcionales se han borrado de la instalación por defecto del Framework y están disponibles en un nuevo repositorio:
+
+[Osumi Framework Plugins](https://github.com/igorosabel/Osumi-Plugins)
+
+Para utilizar estos plugins se ha creado una nueva tarea que se puede usar desde el CLI:
+
+Para listar los plugins disponibles hay que ejecutar el siguiente comando:
+
+`php ofw.php plugins`
+
+Esto muestra un listado con los plugins disponibles, su versión y una breve descripción.
+
+Para listar los plugins instalados hay que ejecutar el siguiente comando:
+
+`php ofw.php plugins list`
+
+Esto muestra un listado con los plugins actualmente instalados, su versión y una breve descripción.
+
+Para instalar un nuevo plugin hay que ejecutar el siguiente comando:
+
+`php ofw.php plugins install (nombre)`
+
+Por ejemplo para instalar el plugin para realizar envíos de emails:
+
+`php ofw.php plugins install email`
+
+Esto descarga la última versión del plugin desde el repositorio, crea los archivos necesarios y actualiza el nuevo archivo de configuración `plugins.json`. Este archivo no se debe modificar manualmente.
+
+Para comprobar si existen actualizaciones de los plugins instalados hay que ejecutar el siguiente comando:
+
+`php ofw.php plugins updateCheck`
+
+Esto lista los plugins instalados, muestra la versión instalada y la versión actual del repositorio. En caso de haber alguna actualización muestra un aviso.
+
+Para actualizar los plugins instalados hay que ejecutar el siguiente comando:
+
+`php ofw.php plugins update`
+
+Este comando recorre los plugins instalados y en caso de haber alguna actualización descarga los archivos necesarios y actualiza el número de versión.
+
+Este es un cambio que puede romper las aplicaciones. Si una aplicación utilizaba cualquiera de estas clases, después de actualizar el Framework a la última versión será necesario instalar los plugins correspondientes.
+
 ## `4.15.0` (24/10/2019)
 
 Cambio en collate por defecto a `utf8mb4_unicode_ci` y charset por defecto a `utf8mb4`.
 
 A partir de esta versión el `charset` por defecto a la hora de hacer una conexión a la base de datos cambia de `utf8` a `utf8mb4` y el `collate` de los campos de texto cambia de `utf8_general_ci` a `utf8mb4_unicode_ci`.
 
-Los campos con `utf8` guardan 3 bytes de información por caracter y los emojis son caracteres Unicode de 4 bytes, por lo que daba un error al guardar campos de texto que tuviesen este tipo de símbolos 😎 y solo guardaba algo como `????`.
+Los campos con `utf8` guardan 3 bytes de información por carácter y los emojis son caracteres Unicode de 4 bytes, por lo que daba un error al guardar campos de texto que tuviesen este tipo de símbolos 😎 y solo guardaba algo como `????`.
 
 Aun así, estos valores son personalizables mediante el archivo `config.json`:
 
@@ -109,7 +157,7 @@ Actualización de mantenimiento:
 
 * `OTemplate`: Limpieza de código. Cambio sintaxis antigua de `array()` por `[]`.
 * `updateUrls`: Mejoro los mensajes mostrados por consola al ejecutar esta tarea (tabulaciones, colores...).
-* `update`: Mejora al obtener las actualizaciones. Ahora al realizar una actualización se descarga la versión específica de cada archivo. Hasta ahora siempre se descargaba la últiima versión del archivo y en el caso de que hubiese varias actualizaciones, cada actualización siempre cogía la misma versión (la master).
+* `update`: Mejora al obtener las actualizaciones. Ahora al realizar una actualización se descarga la versión específica de cada archivo. Hasta ahora siempre se descargaba la última versión del archivo y en el caso de que hubiese varias actualizaciones, cada actualización siempre cogía la misma versión (la master).
 * Borro archivos obsoletos `VERSION` y `updates.json`, ya que ahora han sido integrados en `version.json` y ya no se usaban.
 
 ## `4.7.6` (23/05/2019)
@@ -153,7 +201,7 @@ __copy__: Método estático para copiar archivos. Recibe dos parámetros: origen
 OFile::copy('/tmp/file.txt', '/var/www/file.txt');
 ```
 
-__rename__: Método estatico para cambiar de nombre y/o de ubicación a un archivo. Recibe dos parámetros: nombre antiguo y nuevo nombre. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
+__rename__: Método estático para cambiar de nombre y/o de ubicación a un archivo. Recibe dos parámetros: nombre antiguo y nuevo nombre. Devuelve `true` o `false` como resultado de la operación. Por ejemplo:
 
 ```php
 OFile::rename('/tmp/file.txt', '/var/www/list.txt');
@@ -206,7 +254,7 @@ Corrección para `OCrypt`, el framework ignoraba el parámetro de configuración
 
 ## `4.6.0` (17/04/2019)
 
-Nueva clase `OCrypt` para cifrar/descifrar cadenas de texto. Esta clase acepta una clave de 32 caracteres como clave de cifrado y ofrece unos métodos `encrypt` y `decrypt` para cifrar y descrifrar los datos:
+Nueva clase `OCrypt` para cifrar/descifrar cadenas de texto. Esta clase acepta una clave de 32 caracteres como clave de cifrado y ofrece unos métodos `encrypt` y `decrypt` para cifrar y descifrar los datos:
 
 ```php
   // Método 1, inicializar sin clave
@@ -271,7 +319,7 @@ Se incluye el archivo `ofw/sql/model.sql` con los datos de prueba para la demo.
 
 Modifico la clase `OImage` para que ya no dependa de la librería `SimpleImage` adaptando sus funciones. Hasta ahora `OImage` era un wrapper con funciones que fueron usadas para un proyecto concreto.
 
-La clase ahora puede cargar imagenes `jpg`, `png` o `gif` y cambiar su tamaño, escalarlas o convertirlas entre formatos.
+La clase ahora puede cargar imágenes `jpg`, `png` o `gif` y cambiar su tamaño, escalarlas o convertirlas entre formatos.
 
 ## `4.3.0` (11/03/2019)
 
@@ -309,7 +357,7 @@ Ahora las actualizaciones son secuenciales, de modo que se van instalando en ord
 
 Por otra parte, se ha añadido la tarea `version`, que ofrece información sobre la versión actual.
 
-Por último, al ejecutar el comando `php ofw.php` se muestra la lista de tareas disponibles, solo que ahora están ordenadas de manera alfabetica.
+Por último, al ejecutar el comando `php ofw.php` se muestra la lista de tareas disponibles, solo que ahora están ordenadas de manera alfabética.
 
 ## `4.0.3` (20/02/2019)
 
@@ -338,7 +386,7 @@ La versión 3 ha resultado ser una etapa intermedia, una forma de experimentar i
 3. Correcciones de bugs: crear rutas nuevas en el archivo `urls.json` no creaba correctamente las nuevas funciones. `composer` también estaba roto.
 4. Nuevos `services`: después de varias nomenclaturas, estructuras y aspectos... Presentamos los `services`. Primero fueron clases con funciones estáticas, luego una clase global con todas las clases dentro (lo que obligaba a usar `global $utils` cada vez que se querían usar...). Ahora por defecto no se carga ninguna de estas clases y los módulos pueden cargarlas como variables privadas que se inicializan en el constructor.
 5. Nuevas `task`: hasta ahora las tareas eran scripts individuales de modo que todos tenían que inicializar todo el framework al inicio. Ahora son clases independientes y se ejecutan mediante el punto de entrada común `ofw.php`. Las `task` ahora se dividen entre las propias del framework y las creadas por el usuario, aunque todas se ejecutan del mismo modo.
-6. Datos de ejemplo: se incluye un ejemplonde una pequeña aplicación de un sitio de fotos (con usuarios, fotos y tags) como demostración de como crear el modelo, módulos, controladores, filtros o tareas. Para crear una aplicación nueva, tan solo es necesario borrar el contenido de las carpetas que hay dentro de la carpeta `app`.
+6. Datos de ejemplo: se incluye un ejemplo de una pequeña aplicación de un sitio de fotos (con usuarios, fotos y tags) como demostración de como crear el modelo, módulos, controladores, filtros o tareas. Para crear una aplicación nueva, tan solo es necesario borrar el contenido de las carpetas que hay dentro de la carpeta `app`.
 
 También he creado una nueva página para la documentación del framework (todavía en desarrollo):
 
@@ -434,7 +482,7 @@ Estas clases auxiliares tienen incluido el controlador que se está usando de mo
 
 ## `2.15` (04/06/2018)
 
-1. Nueva propiedad `expose` en los objetos del modelo. Se ha añadido el método `toString` a los objetos del modelo, de modo que al hacer un `echo $objeto` se muestra un objeto JSON con todas las propiedades del objeto, excepto las explicitamente marcadas como `expose = false`.
+1. Nueva propiedad `expose` en los objetos del modelo. Se ha añadido el método `toString` a los objetos del modelo, de modo que al hacer un `echo $objeto` se muestra un objeto JSON con todas las propiedades del objeto, excepto las explícitamente marcadas como `expose = false`.
 
 ## `2.14` (10/04/2018)
 
@@ -442,7 +490,7 @@ Estas clases auxiliares tienen incluido el controlador que se está usando de mo
 
 Ejecutando `php task/composer.php` se crea un archivo llamado `ofw-composer.php` en la carpeta `tmp` que contiene todos los archivos del framework.  Por ejemplo esto sirve para crear un backup o para poder exportar el proyecto entero y llevarlo a otro servidor.
 
-2. Pequeñas correcciones en funciones de la clase `Base` para `composer` y nueva funcion `getParamList` para obtener varios parametros con un solo comando.
+2. Pequeñas correcciones en funciones de la clase `Base` para `composer` y nueva función `getParamList` para obtener varios parámetros con un solo comando.
 
 ## `2.13.2` (23/12/2017)
 

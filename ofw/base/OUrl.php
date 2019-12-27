@@ -248,6 +248,6 @@ class OUrl{
 
   public static function goToUrl($url){
     header('Location:'.$url);
-    exit();
+    exit;
   }
 }
