@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.17.1` (23/01/2020)
+
+Corrección en la clase ODB. Había un error al lanzar la nueva excepción cuando ocurre un error de SQL.
+
 ## `4.17.0` (23/01/2020)
 
 Corrección al crear nuevos objetos de modelo, no tomaba bien los valores por defecto. También se ha añadido una excepción que se lanza al ejecutar una SQL que contenga errores o que produzca un error.

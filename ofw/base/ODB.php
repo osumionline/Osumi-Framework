@@ -167,7 +167,7 @@ class ODB {
     }
     catch(PDOException $e){
       // En caso de que haya un error lanzo una excepción generica con el mensaje del error
-      throw Exception("SQL ERROR: ".$e->getMessage());
+      throw new Exception('SQL ERROR: '.$e->getMessage());
     }
 
     // Si el modo de obtener los resultados está definido, se lo indico al statement

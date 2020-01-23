@@ -1,6 +1,14 @@
 {
-  "version": "4.17.0",
+  "version": "4.17.1",
   "updates": {
+    "4.17.1": {
+      "message": "4.17.1 - Corrección en ODB al lanzar la excepción",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/ODB.php"
+      ]
+    },
     "4.17.0": {
       "message": "4.17.0 - Corrección en valores por defecto de la DB y gestión de errores SQL",
       "files": [
