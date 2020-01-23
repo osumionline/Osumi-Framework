@@ -152,14 +152,22 @@ class ODB {
     	}
   	}
 
-  	// Si hay parámetros uso prepared statement
-  	if (count($params)>0){
-      $stmt = $pdo->prepare($q);
-      $stmt->execute($params);
+    // Guardo query ejecutada
+    $this->setLastQuery($q);
+    try{
+  	   // Si hay parámetros uso prepared statement
+  	    if (count($params)>0){
+          $stmt = $pdo->prepare($q);
+          $stmt->execute($params);
+        }
+        // Si no hay parámetros hago la consulta directamente
+        else{
+          $stmt = $pdo->query($q);
+        }
     }
-    // Si no hay parámetros hago la consulta directamente
-    else{
-      $stmt = $pdo->query($q);
+    catch(PDOException $e){
+      // En caso de que haya un error lanzo una excepción generica con el mensaje del error
+      throw Exception("SQL ERROR: ".$e->getMessage());
     }
 
     // Si el modo de obtener los resultados está definido, se lo indico al statement
@@ -168,7 +176,6 @@ class ODB {
     }
 
     $this->setStmt($stmt);
-    $this->setLastQuery($q);
 	}
 
 	/*

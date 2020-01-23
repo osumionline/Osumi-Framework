@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.17.0` (23/01/2020)
+
+Corrección al crear nuevos objetos de modelo, no tomaba bien los valores por defecto. También se ha añadido una excepción que se lanza al ejecutar una SQL que contenga errores o que produzca un error.
+
 ## `4.16.0` (23/12/2019)
 
 ¡Plugins!

@@ -30,8 +30,8 @@ class OBase{
       $temp = Base::DEFAULT_MODEL[$row['type']];
       $temp['type']     = $row['type'];
       $temp['default']  = array_key_exists('default',  $row) ? $row['default']  : $temp['default'];
-      $temp['original'] = array_key_exists('original', $row) ? $row['original'] : $temp['original'];
-      $temp['value']    = array_key_exists('value',    $row) ? $row['value']    : $temp['value'];
+      $temp['original'] = array_key_exists('original', $row) ? $row['original'] : $temp['default'];
+      $temp['value']    = array_key_exists('value',    $row) ? $row['value']    : $temp['default'];
       $temp['incr']     = array_key_exists('incr',     $row) ? $row['incr']     : $temp['incr'];
       $temp['size']     = array_key_exists('size',     $row) ? $row['size']     : $temp['size'];
       $temp['nullable'] = array_key_exists('nullable', $row) ? $row['nullable'] : $temp['nullable'];
