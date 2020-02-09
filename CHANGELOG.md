@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+## `4.18.0` (10/02/2020)
+
+Nueva clase `OCacheContainer`. Al usar el método `getCache` de la clase `Base` se lee un archivo de la carpeta `cache`, por ejemplo un archivo de configuración, pero si, por ejemplo, multiples instancias de una misma clase tienen que leer algún archivo de `cache`, se hace un acceso a disco cada vez.
+
+Con esta clase nueva, al acceder a un archivo de la carpeta `cache`, el contenido de este archivo se guarda en memoria en esta nueva clase `OCacheContainer`, que no es más que un contenedor con métodos para leer y guardar estos valores.
+
+
 ## `4.17.1` (23/01/2020)
 
 Corrección en la clase ODB. Había un error al lanzar la nueva excepción cuando ocurre un error de SQL.

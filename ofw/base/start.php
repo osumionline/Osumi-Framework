@@ -20,6 +20,7 @@
   require $c->getDir('ofw_base').'OSession.php';
   require $c->getDir('ofw_base').'OCookie.php';
   require $c->getDir('ofw_base').'OCache.php';
+  require $c->getDir('ofw_base').'OCacheContainer.php';
   require $c->getDir('ofw_base').'OForm.php';
   require $c->getDir('ofw_base').'OColors.php';
   require $c->getDir('ofw_base').'OPlugin.php';

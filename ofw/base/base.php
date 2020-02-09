@@ -28,15 +28,24 @@ class Base{
   ];
 
   public static function getCache($key) {
-    global $c;
-    $route = $c->getDir('app_cache').$key.'.json';
-    if (file_exists($route)){
-      $data = file_get_contents($route);
-      $json = json_decode($data,true);
-      return $json;
-    }
-    else{
-      return false;
+	global $c;
+  	if (!array_key_exists('cache_container', $GLOBALS)){
+	  	$GLOBALS['cache_container'] = new OCacheContainer();
+  	}
+  	if ($GLOBALS['cache_container']->get($key)!==false){
+	  	return $GLOBALS['cache_container']->get($key);
+  	}
+  	else{
+	    $route = $c->getDir('app_cache').$key.'.json';
+	    if (file_exists($route)){
+	      $data = file_get_contents($route);
+	      $json = json_decode($data,true);
+	      $GLOBALS['cache_container']->set($key, $json);
+	      return $json;
+	    }
+	    else{
+	      return false;
+	    }
     }
   }
 
