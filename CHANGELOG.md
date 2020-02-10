@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.18.1` (10/02/2020)
+
+Corrección de error tipográfico en `OCacheContainer`.
+
 ## `4.18.0` (10/02/2020)
 
 Nueva clase `OCacheContainer`. Al usar el método `getCache` de la clase `Base` se lee un archivo de la carpeta `cache`, por ejemplo un archivo de configuración, pero si, por ejemplo, multiples instancias de una misma clase tienen que leer algún archivo de `cache`, se hace un acceso a disco cada vez.

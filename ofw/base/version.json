@@ -1,6 +1,14 @@
 {
-  "version": "4.18.0",
+  "version": "4.18.1",
   "updates": {
+    "4.18.1": {
+      "message": "4.18.1 - Corrección en cache container",
+      "files": [
+        "CHANGELOG.md",
+        "ofw/base/version.json",
+        "ofw/base/OCacheContainer.php"
+      ]
+    },
     "4.18.0": {
       "message": "4.18.0 - Nuevo cache container",
       "files": [
