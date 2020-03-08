@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `4.19.0` (08/03/2020)
+
+Corrección en `ODB` al realizar transacciones. Las transacciones se realizan contra la conexión y se estaban realizando contra una query inexistente.
+
 ## `4.18.1` (10/02/2020)
 
 Corrección de error tipográfico en `OCacheContainer`.

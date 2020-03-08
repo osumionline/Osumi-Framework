@@ -182,21 +182,30 @@ class ODB {
    * Función para marcar el inicio de una transacción
    */
   public function beginTransaction(){
-    $this->getStmt()->beginTransaction();
+  	if (is_null($this->getLink())){
+  		$this->connect();
+  	}
+    $this->getLink()->beginTransaction();
   }
 
   /*
    * Función para finalizar una transacción
    */
   public function commit(){
-    $this->getStmt()->commit();
+    if (is_null($this->getLink())){
+  		$this->connect();
+  	}
+    $this->getLink()->commit();
   }
 
   /*
    * Función para cancelar una transacción
    */
   public function rollback(){
-    $this->getStmt()->rollback();
+    if (is_null($this->getLink())){
+  		$this->connect();
+  	}
+    $this->getLink()->rollback();
   }
 
 	/*
