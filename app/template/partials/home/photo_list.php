@@ -1,14 +1,14 @@
 <?php if (count($values['list'])>0): ?>
-  <ul class="photos">
+	<ul class="photos">
 <?php foreach ($values['list'] as $photo): ?>
-    <li>
-      <img src="/photo/<?php echo $photo ?>">
-      <p>
-        Tags: <?php echo implode(', ', $photo->getTags()) ?>
-      </p>
-    </li>
+		<li>
+			<img src="/photo/<?php echo $photo ?>">
+			<p>
+				Tags: <?php echo implode(', ', $photo->getTags()) ?>
+			</p>
+		</li>
 <?php endforeach ?>
-  </ul>
+	</ul>
 <?php else: ?>
-  El usuario todavía no tiene ninguna foto.
+	El usuario todavía no tiene ninguna foto.
 <?php endif ?>

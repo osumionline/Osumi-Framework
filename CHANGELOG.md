@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+## `4.20.0` (09/03/2020)
+
+Refactorización y limpieza. Cambio tabulaciones de todo el Framework a tabuladores, había tabulaciones con espacios y con tabuladores y todas han sido igualadas.
+
+Empiezo limpieza pensando en diseño para versión 5 :)
+
+
 ## `4.19.0` (08/03/2020)
 
 Corrección en `ODB` al realizar transacciones. Las transacciones se realizan contra la conexión y se estaban realizando contra una query inexistente.

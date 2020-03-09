@@ -1,16 +1,16 @@
 <?php
-class generateModelTask{
-  public function __toString(){
-    return $this->colors->getColoredString("generateModel", "light_green").": Función para generar el script con el que crear la base de datos a partir del modelo.";
-  }
+class generateModelTask {
+	public function __toString() {
+		return $this->colors->getColoredString("generateModel", "light_green").": Función para generar el script con el que crear la base de datos a partir del modelo.";
+	}
 
-  private $colors = null;
+	private $colors = null;
 
-  function __construct(){
-    $this->colors = new OColors();
-  }
+	function __construct() {
+		$this->colors = new OColors();
+	}
 
-  public function run(){
-    Base::generateModel();
-  }
+	public function run() {
+		Base::generateModel();
+	}
 }

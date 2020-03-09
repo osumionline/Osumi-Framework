@@ -1,54 +1,54 @@
 {
-  "base_modules": {
-    "browser": false,
-    "email": true,
-    "email_smtp": false,
-    "ftp": false,
-    "image": false,
-    "pdf": false,
-    "translate": false,
-    "crypt": false,
-    "file": false
-  },
-  "packages": [],
-  "db": {
-  	"host": "localhost",
-  	"user": "user",
-  	"pass": "password",
-  	"name": "db_name",
-    "charset": "utf8mb4",
-    "collate": "utf8mb4_unicode_ci"
-  },
-  "cookies": {
-  	"prefix": "ofw",
-  	"url": ".osumi.es"
-  },
-  "debug": false,
-  "base_url": "https://osumi.es/",
-  "admin_email": "igorosabel@osumi.es",
-  "default_title": "Osumi Framework",
-  "lang": "es",
-  "smtp": {
-  	"host": "smtp.gmail.com",
-  	"port": 587,
-  	"secure": "tls",
-  	"user": "igorosabel@osumi.es",
-    "pass": "password"
-  },
-  "error_pages": {
-  	"404": ""
-  },
-  "css": ["common"],
-  "ext_css": [],
-  "js": ["common"],
-  "ext_js": [],
-  "extra": {
-    "key": "value",
-    "foo": "bar"
-  },
-  "libs": ["another/library"],
-  "dir": {
-    "test": "{{app_controller}}test/"
-  },
-  "environment": "dev"
+	"base_modules": {
+		"browser": false,
+		"email": true,
+		"email_smtp": false,
+		"ftp": false,
+		"image": false,
+		"pdf": false,
+		"translate": false,
+		"crypt": false,
+		"file": false
+	},
+	"packages": [],
+	"db": {
+		"host": "localhost",
+		"user": "user",
+		"pass": "password",
+		"name": "db_name",
+		"charset": "utf8mb4",
+		"collate": "utf8mb4_unicode_ci"
+	},
+	"cookies": {
+		"prefix": "ofw",
+		"url": ".osumi.es"
+	},
+	"debug": false,
+	"base_url": "https://osumi.es/",
+	"admin_email": "igorosabel@osumi.es",
+	"default_title": "Osumi Framework",
+	"lang": "es",
+	"smtp": {
+		"host": "smtp.gmail.com",
+		"port": 587,
+		"secure": "tls",
+		"user": "igorosabel@osumi.es",
+		"pass": "password"
+	},
+	"error_pages": {
+		"404": ""
+	},
+	"css": ["common"],
+	"ext_css": [],
+	"js": ["common"],
+	"ext_js": [],
+	"extra": {
+		"key": "value",
+		"foo": "bar"
+	},
+	"libs": ["another/library"],
+	"dir": {
+		"test": "{{app_controller}}test/"
+	},
+	"environment": "dev"
 }

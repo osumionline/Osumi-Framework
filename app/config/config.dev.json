@@ -1,6 +1,6 @@
 {
-  "base_url": "https://ofw.osumi.es/",
-  "extra": {
-    "key": "boooo"
-  }
+	"base_url": "https://ofw.osumi.es/",
+	"extra": {
+		"key": "boooo"
+	}
 }

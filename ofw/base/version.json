@@ -1,435 +1,123 @@
 {
-  "version": "4.19.0",
-  "updates": {
-  	"4.19.0": {
-      "message": "4.19.0 - Corrección en ODB para transacciones",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/ODB.php"
-      ]
-    },
-    "4.18.1": {
-      "message": "4.18.1 - Corrección en cache container",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OCacheContainer.php"
-      ]
-    },
-    "4.18.0": {
-      "message": "4.18.0 - Nuevo cache container",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/base.php",
-        "ofw/base/OCacheContainer.php",
-        "ofw/base/start.php"
-      ]
-    },
-    "4.17.1": {
-      "message": "4.17.1 - Corrección en ODB al lanzar la excepción",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/ODB.php"
-      ]
-    },
-    "4.17.0": {
-      "message": "4.17.0 - Corrección en valores por defecto de la DB y gestión de errores SQL",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OBase.php",
-        "ofw/base/ODB.php",
-        "ofw/base/ODBContainer.php"
-      ]
-    },
-  	"4.16.0": {
-  		"message": "4.16.0 - Nuevo sistema de Plugins",
-  		"files": [
-  			"CHANGELOG.md",
-  			"ofw/base/version.json",
-  			"ofw/base/OConfig.php",
-  			"ofw/base/OTemplate.php",
-  			"ofw/base/OUrl.php",
-  			"ofw/base/base.php",
-  			"ofw/base/start.php",
-  			"ofw/base/OPlugin.php",
-  			"ofw/plugins/.gitignore",
-  			"ofw/plugins/plugins.txt",
-  			"ofw/task/plugins.php"
-  		],
-  		"deletes": [
-  			"ofw/base/OBrowser.php",
-  			"ofw/base/OCrypt.php",
-  			"ofw/base/OEmail.php",
-  			"ofw/base/OFTP.php",
-  			"ofw/base/OFile.php",
-  			"ofw/base/OImage.php",
-  			"ofw/base/OPDF.php",
-  			"ofw/base/OToken.php",
-  			"ofw/base/OTranslate.php",
-  			"ofw/lib/email/.gitignore",
-  			"ofw/lib/email/email.txt"
-  		]
-  	},
-    "4.15.0": {
-      "message": "4.15.0 - Cambio en collate por defecto a utf8mb4_unicode_ci y charset por defecto a utf8mb4",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OConfig.php",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.14.0": {
-      "message": "4.14.0 - Mejora en OBase",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/base.php",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.13.0": {
-      "message": "4.13.0 - Corrección por dependencia de OColors",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/start.php",
-        "ofw.php"
-      ]
-    },
-    "4.12.0": {
-      "message": "4.12.0 - Mejora en base modules",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OConfig.php"
-      ]
-    },
-    "4.11.3": {
-      "message": "4.11.3 - Corrección en el método slugify",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/base.php"
-      ]
-    },
-    "4.11.2": {
-      "message": "4.11.2 - Corrección al generar el archivo SQL del modelo",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.11.1": {
-      "message": "4.11.1 - Corrección en OFile y en la tarea update",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/OFile.php",
-        "ofw/task/update.php"
-      ]
-    },
-    "4.11.0": {
-      "message": "4.11.0 - Nueva carpeta export",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/base.php",
-        "ofw/base/OConfig.php",
-        "ofw/task/backupDB.php",
-        "ofw/task/composer.php",
-        "ofw/export/.gitignore"
-      ]
-    },
-    "4.10.0": {
-      "message": "4.10.0 - Carpetas no obligatorias",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/start.php",
-        "app/cache/.gitignore",
-        "ofw/tmp/.gitignore"
-      ]
-    },
-    "4.9.0": {
-      "message": "4.9.0 - Nuevas tareas para backup",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/base/base.php",
-        "ofw/task/composer.php",
-        "ofw/task/backupDB.php",
-        "ofw/task/backupAll.php"
-      ]
-    },
-    "4.8.1": {
-      "message": "4.8.1 - Corrección en update",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/version.json",
-        "ofw/task/update.php"
-      ]
-    },
-    "4.8.0": {
-      "message": "4.8.0 - Mejores mensajes en updateUrls, limpieza en OTemplate y mejora en update",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/OTemplate.php",
-        "ofw/base/base.php",
-        "ofw/base/version.json",
-        "ofw/task/update.php"
-      ],
-      "deletes": [
-        "ofw/base/VERSION",
-        "ofw/base/updates.json"
-      ]
-    },
-    "4.7.6": {
-      "message": "4.7.6 - Corrección para la release con error",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "ofw/base/start.php"
-      ]
-    },
-    "4.7.5": {
-      "message": "4.7.5 - Corrección para la última release",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "web/index.php"
-      ],
-      "deletes": [
-        "ofw/web/index.php"
-      ]
-    },
-    "4.7.4": {
-      "message": "4.7.4 - Corrección para proyectos sin BD",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "ofw/base/start.php",
-        "ofw/web/index.php"
-      ]
-    },
-    "4.7.3": {
-      "message": "4.7.3 - Ruta base en los ZIP",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "ofw/base/OFile.php"
-      ]
-    },
-    "4.7.2": {
-      "message": "4.7.2 - Corrección para OFile",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "ofw/base/OFile.php"
-      ]
-    },
-    "4.7.1": {
-      "message": "4.7.1 - Corrección para update y updateCheck",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/version.json",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php"
-      ]
-    },
-    "4.7.0": {
-      "message": "4.7.0 - Nueva clase OFile y cambios en actualizaciones",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/OConfig.php",
-        "ofw/base/VERSION",
-        "ofw/base/base.php",
-        "ofw/base/start.php",
-        "ofw/base/updates.json",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php",
-        "ofw/base/OFile.php",
-        "ofw/base/version.json"
-      ]
-    },
-    "4.6.3": {
-      "message": "4.6.3 - Corrección para OBase",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.6.2": {
-      "message": "4.6.2 - Corrección para OBase",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.6.1": {
-      "message": "4.6.1 - Corrección para OCrypt",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/start.php"
-      ]
-    },
-    "4.6.0": {
-      "message": "4.6.0 - Nueva clase OCrypt",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/OConfig.php",
-        "ofw/base/OCrypt.php"
-      ]
-    },
-    "4.5.1": {
-      "message": "4.5.1 - Correcciones en los datos de ejemplo",
-      "files": [
-        "CHANGELOG.md",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/base/start.php"
-      ]
-    },
-    "4.5.0": {
-      "message": "4.5.0 - Colores en CLI y correcciones estéticas en tasks",
-      "files": [
-        "CHANGELOG.md",
-        "ofw.php",
-        "ofw/base/VERSION",
-        "ofw/base/updates.json",
-        "ofw/task/composer.php",
-        "ofw/task/generateModel.php",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php",
-        "ofw/task/updateUrls.php",
-        "ofw/task/version.php",
-        "ofw/base/OColors.php"
-      ]
-    },
-    "4.4.0": {
-      "message": "4.4.0 - Nuevo OImage",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/base/OImage.php",
-        "ofw/base/start.php",
-        "CHANGELOG.md"
-      ],
-      "deletes": [
-        "ofw/lib/image/SimpleImage.php"
-      ]
-    },
-    "4.3.0": {
-      "message": "4.3.0 - Consultas de los modelos con Prepared Statements y limpieza de código obsoleto",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "CHANGELOG.md",
-        "ofw/base/OBase.php"
-      ]
-    },
-    "4.2.2": {
-      "message": "4.2.2 - Corrección en ODB al obtener el último id insertado",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "CHANGELOG.md",
-        "ofw/base/ODB.php"
-      ]
-    },
-    "4.2.1": {
-      "message": "4.2.1 - Nueva clase ODBContainer para unificar conexiones a bases de datos",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "CHANGELOG.md",
-        "ofw/base/ODB.php",
-        "ofw/base/start.php",
-        "web/index.php",
-        "ofw/base/ODBContainer.php"
-      ]
-    },
-    "4.2.0": {
-      "message": "4.2.0 - PDO por defecto",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/base/ODB.php",
-        "ofw/base/OConfig.php",
-        "ofw/base/start.php",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php",
-        "CHANGELOG.md"
-      ],
-      "deletes": [
-        "ofw/base/ODBp.php"
-      ]
-    },
-    "4.1.1": {
-      "message": "4.1.1 - Correcciones de estilo en tareas update",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php",
-        "CHANGELOG.md"
-      ]
-    },
-    "4.1.0": {
-      "message": "4.1.0 - Tarea update redefinida",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/base/base.php",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php",
-        "ofw/task/version.php",
-        "ofw.php",
-        "CHANGELOG.md"
-      ]
-    },
-    "4.0.3": {
-      "message": "4.0.3 - Nueva tarea updateCheck para comprobar actualizaciones del Framework",
-      "files": [
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/task/update.php",
-        "ofw/task/updateCheck.php"
-      ]
-    },
-    "4.0.2": {
-      "message": "4.0.2 - Nueva tarea update para actualizar el Framework",
-      "files": [
-        "ofw/base/base.php",
-        "ofw/base/updates.json",
-        "ofw/base/VERSION",
-        "ofw/task/update.php"
-      ]
-    }
-  }
+	"version": "4.20.0",
+	"updates": {
+		"4.20.0": {
+			"message": "4.20.0 - Refactorización y limpieza",
+			"files": [
+				"CHANGELOG.md",
+				"ofw.php",
+				"ofw/base/OBase.php",
+				"ofw/base/OCache.php",
+				"ofw/base/OCacheContainer.php",
+				"ofw/base/OConfig.php",
+				"ofw/base/OController.php",
+				"ofw/base/OCookie.php",
+				"ofw/base/ODB.php",
+				"ofw/base/ODBContainer.php",
+				"ofw/base/OForm.php",
+				"ofw/base/OLog.php",
+				"ofw/base/OPlugin.php",
+				"ofw/base/OService.php",
+				"ofw/base/OSession.php",
+				"ofw/base/OTemplate.php",
+				"ofw/base/OUrl.php",
+				"ofw/base/base.php",
+				"ofw/base/start.php",
+				"ofw/base/version.json",
+				"ofw/task/backupAll.php",
+				"ofw/task/backupDB.php",
+				"ofw/task/composer.php",
+				"ofw/task/generateModel.php",
+				"ofw/task/plugins.php",
+				"ofw/task/update.php",
+				"ofw/task/updateCheck.php",
+				"ofw/task/updateUrls.php",
+				"ofw/task/version.php",
+				"web/.htaccess",
+				"web/index.php"
+			]
+		},
+		"4.19.0": {
+			"message": "4.19.0 - Corrección en ODB para transacciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/ODB.php"
+			]
+		},
+		"4.18.1": {
+			"message": "4.18.1 - Corrección en cache container",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/OCacheContainer.php"
+			]
+		},
+		"4.18.0": {
+			"message": "4.18.0 - Nuevo cache container",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/base.php",
+				"ofw/base/OCacheContainer.php",
+				"ofw/base/start.php"
+			]
+		},
+		"4.17.1": {
+			"message": "4.17.1 - Corrección en ODB al lanzar la excepción",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/ODB.php"
+			]
+		},
+		"4.17.0": {
+			"message": "4.17.0 - Corrección en valores por defecto de la DB y gestión de errores SQL",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/OBase.php",
+				"ofw/base/ODB.php",
+				"ofw/base/ODBContainer.php"
+			]
+		},
+		"4.16.0": {
+			"message": "4.16.0 - Nuevo sistema de Plugins",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/OConfig.php",
+				"ofw/base/OTemplate.php",
+				"ofw/base/OUrl.php",
+				"ofw/base/base.php",
+				"ofw/base/start.php",
+				"ofw/base/OPlugin.php",
+				"ofw/plugins/.gitignore",
+				"ofw/plugins/plugins.txt",
+				"ofw/task/plugins.php"
+			],
+			"deletes": [
+				"ofw/base/OBrowser.php",
+				"ofw/base/OCrypt.php",
+				"ofw/base/OEmail.php",
+				"ofw/base/OFTP.php",
+				"ofw/base/OFile.php",
+				"ofw/base/OImage.php",
+				"ofw/base/OPDF.php",
+				"ofw/base/OToken.php",
+				"ofw/base/OTranslate.php",
+				"ofw/lib/email/.gitignore",
+				"ofw/lib/email/email.txt"
+			]
+		},
+		"4.15.0": {
+			"message": "4.15.0 - Cambio en collate por defecto a utf8mb4_unicode_ci y charset por defecto a utf8mb4",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/OConfig.php",
+				"ofw/base/OBase.php"
+			]
+		}
+	}
 }

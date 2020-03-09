@@ -1,36 +1,36 @@
 {
-  "urls": [
-    {
-      "id": "pages",
-      "module": "home",
-      "urls": [
-        {
-          "id": "page_start",
-          "url": "/",
-          "action": "start",
-          "comment": "Página de inicio"
-        },
-        {
-          "id": "page_user",
-          "url": "/user/:id",
-          "action": "user",
-          "comment": "Página de un usuario"
-        }
-      ]
-    },
-    {
-      "id": "api",
-      "module": "api",
-      "type": "json",
-      "prefix": "/api",
-      "urls": [
-        {
-          "id": "get_date",
-          "url": "/getDate",
-          "action": "getDate",
-          "comment": "Función para obtener la fecha"
-        }
-      ]
-    }
-  ]
+	"urls": [
+		{
+			"id": "pages",
+			"module": "home",
+			"urls": [
+				{
+					"id": "page_start",
+					"url": "/",
+					"action": "start",
+					"comment": "Página de inicio"
+				},
+				{
+					"id": "page_user",
+					"url": "/user/:id",
+					"action": "user",
+					"comment": "Página de un usuario"
+				}
+			]
+		},
+		{
+			"id": "api",
+			"module": "api",
+			"type": "json",
+			"prefix": "/api",
+			"urls": [
+				{
+					"id": "get_date",
+					"url": "/getDate",
+					"action": "getDate",
+					"comment": "Función para obtener la fecha"
+				}
+			]
+		}
+	]
 }

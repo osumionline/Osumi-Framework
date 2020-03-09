@@ -1,11 +1,11 @@
 <?php if (count($values['users'])>0): ?>
-  <ul class="users">
+	<ul class="users">
 <?php foreach ($values['users'] as $user): ?>
-    <li>
-      <a href="/user/<?php echo $user->get('id') ?>"><?php echo $user->get('user') ?></a>
-    </li>
+		<li>
+			<a href="/user/<?php echo $user->get('id') ?>"><?php echo $user->get('user') ?></a>
+		</li>
 <?php endforeach ?>
-  </ul>
+	</ul>
 <?php else: ?>
-  Todavía no hay ningún usuario.
+	Todavía no hay ningún usuario.
 <?php endif ?>
