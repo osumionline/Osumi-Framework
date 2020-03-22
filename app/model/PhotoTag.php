@@ -1,20 +1,20 @@
 <?php
-class PhotoTag extends OBase{
+class PhotoTag extends OModel{
 	function __construct(){
 		$table_name  = 'photo_tag';
 		$model = [
 			'id_photo' => [
-				'type'    => Base::PK,
+				'type'    => OCore::PK,
 				'comment' => 'Id de la foto',
 				'ref'     => 'photo.id'
 			],
 			'id_tag' => [
-				'type'    => Base::PK,
+				'type'    => OCore::PK,
 				'comment' => 'Id de la tag',
 				'ref'     => 'tag.id'
 			],
 			'created_at' => [
-				'type'    => Base::CREATED,
+				'type'    => OCore::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			]
 		];

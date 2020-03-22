@@ -1,0 +1,131 @@
+<?php
+/**
+ * OCookie - Class with methods to create/modify/delete cookies on clients
+ */
+class OCookie {
+	private $debug       = false;
+	private $l           = null;
+	private $config      = null;
+	private $cookie_list = [];
+
+	/**
+	 * Set up a logger for internal operations and get applications configuration (shortcut to $core->config)
+	 *
+	 * @return void
+	 */
+	function __construct() {
+		global $core;
+		$this->debug = ($core->config->getLog('level') == 'ALL');
+		if ($this->debug) {
+			$this->l = new OLog();
+		}
+		$this->config = $core->config;
+	}
+
+	/**
+	 * Logs internal information of the class
+	 *
+	 * @param string $str String to be logged
+	 *
+	 * @return void
+	 */
+	private function log($str) {
+		if ($this->debug) {
+			$this->l->debug($str);
+		}
+	}
+
+	/**
+	 * Set array of values stored in cookies
+	 *
+	 * @param string[] $l Array of values stored in cookies
+	 *
+	 * @return void
+	 */
+	public function setCookieList($l) {
+		$this->cookie_list = $l;
+	}
+
+	/**
+	 * Get array of values stored in cookies
+	 *
+	 * @return string[] Array of values stored in cookies
+	 */
+	public function getCookieList() {
+		return $this->cookie_list;
+	}
+
+	/**
+	 * Add a new cookie to the user and store it in the list
+	 *
+	 * @param string $key Key code for the cookie value
+	 *
+	 * @param string $value Value to be stored in the users cookies
+	 *
+	 * @return void
+	 */
+	public function add($key, $value) {
+		$this->cookie_list[$key] = $value;
+		setcookie ($this->config->getCookiePrefix().'['.$key.']', $value, time() + (3600*24*31), '/', $this->config->getCookieUrl());
+	}
+
+	/**
+	 * Get a cookies value from the previously loaded list
+	 *
+	 * @param string $key Key code for the cookie value
+	 *
+	 * @return string Value of the key in the users cookies
+	 */
+	public function get($key) {
+		return array_key_exists($key, $this->cookie_list) ? $this->cookie_list[$key] : null;
+	}
+
+	/**
+	 * Load users cookies into the loaded list
+	 *
+	 * @return void
+	 */
+	public function load() {
+		$this->log('[OCookie] - save');
+		$this->cookie_list = [];
+
+		if (isset($_COOKIE[$this->config->getCookiePrefix()])) {
+			foreach ($_COOKIE[$this->config->getCookiePrefix()] as $key => $value) {
+				$key = htmlspecialchars($key);
+				$value = htmlspecialchars($value);
+
+				$this->cookie_list[$key] = $value;
+			}
+		}
+
+		$this->log(var_export($this->cookie_list, true));
+	}
+
+	/**
+	 * Store all the values in the list into the users cookies
+	 *
+	 * @return void
+	 */
+	public function save() {
+		$this->log('[OCookie] - save');
+		$this->log(var_export($this->cookie_list, true));
+
+		foreach ($this->cookie_list as $key => $value) {
+			setcookie ($this->config->getCookiePrefix().'['.$key.']', $value, time() + (3600*24*31), '/', $this->config->getCookieUrl());
+		}
+	}
+
+	/**
+	 * Delete all user cookies
+	 *
+	 * @return void
+	 */
+	public function clean() {
+		$this->log('[OCookie] - clean');
+
+		foreach ($this->cookie_list as $key => $value){
+			setcookie ($this->config->getCookiePrefix().'['.$key.']', $value, 1, '/', $this->config->getCookieUrl());
+		}
+		$this->cookie_list = [];
+	}
+}

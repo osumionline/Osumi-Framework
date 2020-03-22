@@ -1,1 +1,1 @@
-En caso de necesitar la creación de archivos PDF, en está carpeta hay que incluir la librería TCPDF (https://github.com/tecnickcom/tcpdf)
+In case of needing PDF file creation, TCPDF library (https://github.com/tecnickcom/tcpdf) needs to be included in this folder. Plugin OPDF also needs to be loaded.

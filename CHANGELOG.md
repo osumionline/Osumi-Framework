@@ -1,6 +1,39 @@
 CHANGELOG
 =========
 
+## `5.0.0` (17/03/2020)
+
+¡Nueva versión 5.0!
+
+Esta es una nueva revisión mayor del Framework ya que incluye muchos cambios que rompen las aplicaciones anteriores que tendrán que ser adaptadas. Todo el código ha sido revisado, se ha incluido phpDoc en todas las clases y funciones para ayudar en la programación y se han localizado los mensajes (inglés y español, con más idiomas en próximas actualizaciones).
+
+#### Novedades
+
+* Clase `OCore`: agrupa toda la funcionalidad de carga e inicio de la aplicación. También contiene las variables `dbContainer` (donde se guardan todas las conexiones abiertas con bases de datos), `cacheContainer` (objeto donde se guardan todos los archivos cargados como cache) y las variables estáticas con las que definir la base de datos.
+* Clase `OModel`: la mayor parte de la anterior clase `OBase` se ha renombrado a esta nueva clase y se han efectuado refactorizaciones y limpieza.
+* Clase `OUpdate`: agrupa las funciones necesarias para actualizar el Framework a futuras versiones. Anteriormente, las tareas `updateCheck` y `update` se encargaban de las actualizaciones y esto hacía que hubiese mucho código duplicado. Ahora se ha agrupado todo el código en esta clase nueva y se ha añadido abundantes controles de errores.
+* Locales: en la carpeta `ofw/locale` ahora se incluyen dos archivos (`es.php` -Español- y `en.php` -Inglés-) con todos los mensajes que se muestran mediante el CLI. El idioma del Framework se define mediante la variable `lang` en el archivo `config.json`.
+* `phpDoc`: todas las clases y funciones que componen el Framework han sido documentadas para facilitar su uso desde IDEs. Todas las funciones tienen su descripción, parámetros de entrada (tipo de dato y una explicación) y datos de salida (tipo de dato y explicación).
+* Nueva página de error: en las versiones anteriores, las páginas de error para 403 o 404 simplemente mostraban un mensaje. Ahora se ha creado el archivo `error.php` con un toque de diseño para mostrar algo más... bonito :) Las páginas de error siguen siendo personalizables.
+* Las tareas `updateCheck` y `update` han tenido un lavado de cara (y de funcionalidades) y a partir de esta versión, se podrá incluir unos scripts llamados `postinstall` que realicen cambios en la aplicación (por ejemplo clases que antes heredaban de una clase que ya no va a existir, el script podrá actualizar todas las clases para que se realice este cambio automáticamente).
+
+#### Refactorizaciones
+
+* La clase `OBase` se ha dividido en varias partes pero el grueso ahora es la nueva clase `OModel`
+* Las clases `ODB` y `ODBContainer` estaban cada una en un archivo, pero siempre se usan juntas, de modo que se han unido en un solo archivo.
+* Las clases `OCache` y `OCacheContainer` estaban cada una en un archivo, pero siempre se usan juntas, de modo que se han unido en un solo archivo.
+* Limpieza de código: había muchos lugares en los que se creaban variables de un solo uso, llamadas a funciones que devolvían un solo valor...
+
+#### Breaking changes
+
+* La función `OBase::getCache` (ahora llamada `OTools::getCache`) antes devolvía el contenido en JSON, ahora devuelve un objeto `OCache`.
+* La función `OBase::bbcode` (ahora llamada `OTools::bbcode`) ya no tiene las etiquetas `[g]` y `[quote]` por que devolvían un HTML con unos estilos que había que definir a mano.
+* Las funciones `OBase::doPostRequest` y `OBase::doDeleteRequest` ya no existen. Ahora hay una función genérica para hacer llamadas mediante CURL llamada `OTools::curlRequest` que acepta como parámetro el tipo de método con el que hacer la llamada (get / post / delete).
+* La clase `OTemplate` ha perdido las funciones para añadir archivos CSS con `media queries`. En su lugar hay que añadir archivos CSS que contengan en su interior las `media queries` que se quieran usar.
+* Se ha eliminado el soporte para `packages`. Solo había creado uno (un panel de admin) y estaba muy desactualizado.
+* Se ha eliminado el soporte para `folder`. Antes se permitía que una aplicación estuviese en una subcarpeta del `DocumentRoot`, pero ahora es obligatorio que el `DocumentRoot` apunte a la carpeta `web`.
+* Se ha refactorizado el contenido de la clase `OBase` a la nueva clase `OModel`, de modo que todas las clases de modelo que antes heredaban de `OBase` tendrán que ser modificadas para que ahora hereden esta nueva clase `OModel`.
+
 ## `4.20.0` (09/03/2020)
 
 Refactorización y limpieza. Cambio tabulaciones de todo el Framework a tabuladores, había tabulaciones con espacios y con tabuladores y todas han sido igualadas.

@@ -1,103 +1,57 @@
 <?php
+/**
+ * Check if there are new updates on the Framework
+ */
 class updateCheckTask {
+	/**
+	 * Returns description of the task
+	 *
+	 * @return Description of the task
+	 */
 	public function __toString() {
-		return $this->colors->getColoredString("updateCheck", "light_green").": Función para comprobar si existen actualizaciones del Framework.";
+		return $this->colors->getColoredString("updateCheck", "light_green").": ".OTools::getMessage('TASK_UPDATE_CHECK');
 	}
 
 	private $colors = null;
 
+	/**
+	 * Loads class used to colorize messages
+	 *
+	 * @return void
+	 */
 	function __construct() {
 		$this->colors = new OColors();
 	}
 
-	private $repo_url     = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/master/';
-	private $version_file = null;
-
-	private function getVersionFile() {
-		if (is_null($this->version_file)){
-			$this->version_file = json_decode( file_get_contents($this->repo_url.'ofw/base/version.json'), true );
-		}
-		return $this->version_file;
-	}
-
-	private function getRepoVersion() {
-		$version = $this->getVersionFile();
-		return $version['version'];
-	}
-
-	private function doUpdateCheck($current_version) {
-		global $c;
-		$version = $this->getVersionFile();
-		$updates = $version['updates'];
-
-		$to_be_updated = [];
-		foreach ($updates as $update_version => $update){
-			if (version_compare($current_version, $update_version)==-1){
-				array_push($to_be_updated, $update_version);
-			}
-		}
-		asort($to_be_updated);
-		echo "  ".$this->colors->getColoredString("Se han encontrado ".count($to_be_updated)." actualizaciones pendientes", "light_green")."\n\n";
-
-		foreach ($to_be_updated as $repo_version){
-			echo "  ".$this->colors->getColoredString($updates[$repo_version]['message'], "black", "yellow")."\n";
-			echo "==============================================================================================================\n\n";
-
-			if (array_key_exists('deletes', $updates[$repo_version]) && count($updates[$repo_version]['deletes'])>0){
-				echo "  Archivos que serán eliminados:\n\n";
-				foreach ($updates[$repo_version]['deletes'] as $delete){
-					$local_delete = $c->getDir('base').$delete;
-					echo "    \"".$delete."\"";
-					if (!file_exists($local_delete)){
-						echo " ".$this->colors->getColoredString("(El archivo no existe)", "white", "red");
-					}
-					echo "\n";
-				}
-				echo "\n";
-			}
-			if (array_key_exists('files', $updates[$repo_version]) && count($updates[$repo_version]['files'])>0){
-				echo "  Archivos que serán actualizados:\n\n";
-				foreach ($updates[$repo_version]['files'] as $file){
-					$local_file = $c->getDir('base').$file;
-					if (file_exists($local_file)){
-						echo "    Actualización: \"".$file."\"\n";
-					}
-					else{
-						echo "    Nuevo: \"".$file."\"\n";
-					}
-				}
-				echo "\n";
-			}
-		}
-
-		echo "==============================================================================================================\n\n";
-		echo "  Para proceder a la actualización ejecuta el siguiente comando:\n\n";
-		echo "    ".$this->colors->getColoredString("php ofw.php update", "light_green")."\n\n";
-	}
-
+	/**
+	 * Run the task
+	 *
+	 * @return string Returns update information
+	 */
 	public function run() {
-		$current_version = trim( Base::getVersion() );
-		$repo_version = $this->getRepoVersion();
+		$update = new OUpdate();
+		$to_be_updated = $update->doUpdateCheck();
 
 		echo "\n";
 		echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
-		echo "  Versión instalada: ".$current_version."\n";
-		echo "  Versión actual:    ".$repo_version."\n\n";
+		echo OTools::getMessage('TASK_UPDATE_CHECK_INSTALLED_VERSION', [$update->getCurrentVersion()]);
+		echo OTools::getMessage('TASK_UPDATE_CHECK_CURRENT_VERSION', [$update->getRepoVersion()]);
 
-		$compare = version_compare($current_version, $repo_version);
-
-		switch ($compare){
+		switch ($update->getVersionCheck()) {
 			case -1: {
-				echo "  La actualización modificará los siguientes archivos:\n";
-				$this->doUpdateCheck($current_version);
+				echo OTools::getMessage('TASK_UPDATE_CHECK_LIST');
+				$update->showUpdates();
+
+				echo OTools::getMessage('TASK_UPDATE_CHECK_DO_UPDATE');
+				echo "    ".$this->colors->getColoredString("php ofw.php update", "light_green")."\n\n";
 			}
 			break;
 			case 0: {
-				echo "  ".$this->colors->getColoredString("La versión instalada está actualizada.", "light_green")."\n\n";
+				echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_CHECK_UPDATED'), "light_green")."\n\n";
 			}
 			break;
 			case 1: {
-				echo "  ".$this->colors->getColoredString("¡¡La versión instalada está MÁS actualizada que la del repositorio!!", "white", "red")."\n\n";
+				echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_CHECK_NEWER'), "white", "red")."\n\n";
 			}
 			break;
 		}

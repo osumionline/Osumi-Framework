@@ -1,3 +1,2 @@
-*
-!.gitignore
-!plugins.txt
+.gitignore
+plugins.txt

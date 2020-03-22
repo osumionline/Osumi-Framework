@@ -1,16 +1,4 @@
 {
-	"base_modules": {
-		"browser": false,
-		"email": true,
-		"email_smtp": false,
-		"ftp": false,
-		"image": false,
-		"pdf": false,
-		"translate": false,
-		"crypt": false,
-		"file": false
-	},
-	"packages": [],
 	"db": {
 		"host": "localhost",
 		"user": "user",
@@ -23,8 +11,8 @@
 		"prefix": "ofw",
 		"url": ".osumi.es"
 	},
-	"debug": false,
-	"base_url": "https://osumi.es/",
+	"log_level": "DEBUG",
+	"base_url": "https://demo.osumi.es/",
 	"admin_email": "igorosabel@osumi.es",
 	"default_title": "Osumi Framework",
 	"lang": "es",
@@ -34,9 +22,6 @@
 		"secure": "tls",
 		"user": "igorosabel@osumi.es",
 		"pass": "password"
-	},
-	"error_pages": {
-		"404": ""
 	},
 	"css": ["common"],
 	"ext_css": [],

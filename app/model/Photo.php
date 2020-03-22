@@ -1,28 +1,28 @@
 <?php
-class Photo extends OBase{
+class Photo extends OModel{
 	function __construct(){
 		$table_name  = 'photo';
 		$model = [
 			'id' => [
-				'type'    => Base::PK,
+				'type'    => OCore::PK,
 				'comment' => 'Id único de cada foto'
 			],
 			'id_user' => [
-				'type'    => Base::NUM,
+				'type'    => OCore::NUM,
 				'comment' => 'Id del usuario',
 				'ref'     => 'user.id'
 			],
 			'ext' => [
-				'type'    => Base::TEXT,
+				'type'    => OCore::TEXT,
 				'size'    => 5,
 				'comment' => 'Extensión de la foto'
 			],
 			'created_at' => [
-				'type'    => Base::CREATED,
+				'type'    => OCore::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => Base::UPDATED,
+				'type'    => OCore::UPDATED,
 				'comment' => 'Fecha de última modificación del registro'
 			]
 		];
