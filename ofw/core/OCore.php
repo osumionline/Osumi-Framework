@@ -182,7 +182,7 @@ class OCore {
 
 		if ($url_result['res']) {
 			// If the call method is OPTIONS, just return OK right away
-			if ($url_result['params']['method']==='options'){
+			if ($url_result['method']==='options'){
 				header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
 				exit;
 			}
