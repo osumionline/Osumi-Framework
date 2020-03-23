@@ -1,6 +1,14 @@
 {
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"updates": {
+		"5.0.1": {
+			"message": "5.0.1 - Corrección en filtros",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/base/version.json",
+				"ofw/base/ODB.php"
+			]
+		},
 		"5.0.0": {
 			"message": "5.0.0 - Versión 5.0",
 			"files": [

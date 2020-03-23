@@ -1,7 +1,17 @@
 CHANGELOG
 =========
 
-## `5.0.0` (17/03/2020)
+## `5.0.1` (23/03/2020)
+
+Corrección en filtros (y otro breaking change):
+
+A partir de esta versión, los `controllers` reciben un parámetro `$req` que es un array con dos o tres campos:
+
+* `params`: array con los parámetros recibidos (ya sea por la URL, por GET, POST, FILES o Body Content).
+* `headers`: array con las cabeceras enviadas por el usuario en la llamada.
+* Filtro: en caso de que se haya definido un filtro para una URL, habrá un tercer campo con el nombre del filtro y los datos que este mande. Por ejemplo, si una URL tiene un filtro llamado `loginFilter`, el array `$req` contendrá un campo llamado `loginFilter` con los datos que este haya devuelto.
+
+## `5.0.0` (22/03/2020)
 
 ¡Nueva versión 5.0!
 

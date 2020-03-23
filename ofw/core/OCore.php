@@ -189,12 +189,12 @@ class OCore {
 
 			// If there is a filter defined, apply it before the controller
 			if (array_key_exists('filter', $url_result)) {
-				$url_result['params'] = call_user_func($url_result['filter'], $url_result['params']);
+				$url_result[$url_result['filter']] = call_user_func($url_result['filter'], $url_result['params'], $url_result['headers']);
 
 				// If status is 'error', return 403 Forbidden
-				if ($url_result['params']['filter']['status']=='error') {
-					if (array_key_exists('return', $url_result['params']['filter'])) {
-						OUrl::goToUrl($url_result['params']['filter']['return']);
+				if ($url_result[$url_result['filter']]['status']=='error') {
+					if (array_key_exists('return', $url_result[$url_result['filter']])) {
+						OUrl::goToUrl($url_result[$url_result['filter']]['return']);
 					}
 					else {
 						OTools::showErrorPage($url_result, '403');
@@ -210,7 +210,7 @@ class OCore {
 
 				if (method_exists($controller, $url_result['action'])) {
 					$controller->loadController($url_result);
-					call_user_func(array($controller, $url_result['action']), $url_result['params']);
+					call_user_func(array($controller, $url_result['action']), OTools::getControllerParams($url_result));
 					echo $controller->getTemplate()->process();
 				}
 				else {

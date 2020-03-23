@@ -63,6 +63,24 @@ class OTools {
 	}
 
 	/**
+	 * Builds an array of parameters based on URL result, received parameters and filter result (if any)
+	 *
+	 * @param array Array of information created with the matched URL, received parameters and filter result
+	 *
+	 * @return array Clean array of parameters, headers and filter result
+	 */
+	public static function getControllerParams($url_result) {
+		$ret = [
+			'params' => $url_result['params'],
+			'headers' => $url_result['headers']
+		];
+		if (array_key_exists('filter', $url_result)) {
+			$ret[$url_result['filter']] = $url_result[$url_result['filter']];
+		}
+		return $ret;
+	}
+
+	/**
 	 * Find a value from a list and return a default value if not found
 	 *
 	 * @param string $key Name of the parameter to find
@@ -155,6 +173,45 @@ class OTools {
 		$data = explode(',', $base64_string);
 		fwrite($ifp, base64_decode($data[1]));
 		fclose($ifp);
+	}
+
+	/**
+	 * Encode data to Base64URL (credit to https://base64.guru/developers/php/examples/base64url)
+	 *
+	 * @param string $data Data to be encoded
+	 *
+	 * @return boolean|string Data encoded in Base64URL or false if there was an error
+	 */
+	public static function base64urlEncode($data) {
+		$b64 = base64_encode($data);
+
+		// Make sure you get a valid result, otherwise, return FALSE, as the base64_encode() function do
+		if ($b64 === false) {
+			return false;
+		}
+
+		// Convert Base64 to Base64URL by replacing “+” with “-” and “/” with “_”
+		$url = strtr($b64, '+/', '-_');
+
+		// Remove padding character from the end of line and return the Base64URL result
+		return rtrim($url, '=');
+	}
+
+	/**
+	 * Decode data from Base64URL (credit to https://base64.guru/developers/php/examples/base64url)
+	 *
+	 * @param string $data Data to be decoded
+	 *
+	 * @param boolean $strict Optional parameter for strict base64_decode
+	 *
+	 * @return boolean|string Data decoded or false if there was an error
+	 */
+	public static function base64urlDecode($data, $strict = false) {
+		// Convert Base64URL to Base64 by replacing “-” with “+” and “_” with “/”
+		$b64 = strtr($data, '-_', '+/');
+
+		// Decode Base64 string and return the original data
+		return base64_decode($b64, $strict);
 	}
 
 	/**
