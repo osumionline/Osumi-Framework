@@ -5,8 +5,8 @@
 class OUpdate {
 	private $colors          = null;
 	private $base_dir        = null;
-	//private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/';
-	private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework-Test/';
+	private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/';
+	//private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework-Test/';
 	private $version_file    = null;
 	private $current_version = null;
 	private $repo_version    = null;
