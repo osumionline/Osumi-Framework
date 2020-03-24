@@ -195,7 +195,7 @@ class OCache {
 		}
 
 		if (file_exists($this->cache_file)) {
-			$this->log('[OCache] - delete: '.$this-cache);
+			$this->log('[OCache] - delete: '.$this->cache);
 			unlink($this->cache_file);
 			return true;
 		}

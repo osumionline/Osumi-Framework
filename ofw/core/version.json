@@ -1,6 +1,14 @@
 {
-	"version": "5.0.3",
+	"version": "5.0.4",
 	"updates": {
+		"5.0.4": {
+			"message": "5.0.4 - Corrección en OCache",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OCache.php"
+			]
+		},
 		"5.0.3": {
 			"message": "5.0.3 - Corrección en OUpdate",
 			"files": [
