@@ -297,7 +297,9 @@ class OUpdate {
 				if (count($backups)>0) {
 					echo OTools::getMessage('TASK_UPDATE_DELETE_BACKUPS');
 					foreach ($backups as $backup) {
-						unlink($backup['backup']);
+						if (!is_null($backup['backup']) && file_exists($backup['backup'])){
+							unlink($backup['backup']);
+						}
 					}
 				}
 			}

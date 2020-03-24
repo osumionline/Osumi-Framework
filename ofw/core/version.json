@@ -1,6 +1,14 @@
 {
-	"version": "5.0.2",
+	"version": "5.0.3",
 	"updates": {
+		"5.0.3": {
+			"message": "5.0.3 - Corrección en OUpdate",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OUpdate.php"
+			]
+		},
 		"5.0.2": {
 			"message": "5.0.2 - Corrección en OModel y en OUrl",
 			"files": [

@@ -1,9 +1,13 @@
 CHANGELOG
 =========
 
+## `5.0.3` (24/03/2020)
+
+Corrección en `OUpdate`: intentaba borrar el backup de un archivo nuevo, cosa que no existe.
+
 ## `5.0.2` (24/03/2020)
 
-Corrección en OModel (no cogía bien las Primary Keys al actualizar un registro) y en OUrl (no cogía bien la configuración al usarse de manera estática).
+Corrección en `OModel` (no cogía bien las Primary Keys al actualizar un registro) y en `OUrl` (no cogía bien la configuración al usarse de manera estática).
 
 ## `5.0.1` (23/03/2020)
 
