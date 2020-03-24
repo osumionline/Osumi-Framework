@@ -203,7 +203,7 @@ class OModel {
 					$sql .= "AND ";
 				}
 				$sql .= "`".$pk_ind."` = ?";
-				array_push($query_params, $model[$pk_ind]['value']);
+				array_push($query_params, $this->model[$pk_ind]['value']);
 			}
 
 			$save_type = 'u';

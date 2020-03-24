@@ -1,6 +1,15 @@
 {
-	"version": "5.0.1",
+	"version": "5.0.2",
 	"updates": {
+		"5.0.2": {
+			"message": "5.0.2 - Corrección en OModel y en OUrl",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OModel.php",
+				"ofw/core/OUrl.php"
+			]
+		},
 		"5.0.1": {
 			"message": "5.0.1 - Corrección en filtros",
 			"files": [

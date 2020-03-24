@@ -33,16 +33,19 @@ class OUrl {
 	 * @return array Array of configured URLs
 	 */
 	public function loadUrls() {
-		$urls_cache_file = $this->config->getDir('app_cache').'urls.cache.json';
+		global $core;
+		$urls_cache_file = $core->config->getDir('app_cache').'urls.cache.json';
+
+		// If it doesn't exist, generate it
 		if (!file_exists($urls_cache_file)){
 			OTools::updateUrls(true);
 		}
 
 		// App urls
-		if (is_null($this->config->getUrlList())) {
-			$this->config->setUrlList(json_decode(file_get_contents($urls_cache_file), true));
+		if (is_null($core->config->getUrlList())) {
+			$core->config->setUrlList(json_decode(file_get_contents($urls_cache_file), true));
 		}
-		return $this->config->getUrlList();
+		return $core->config->getUrlList();
 	}
 
 	/**

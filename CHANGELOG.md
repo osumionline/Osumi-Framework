@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.0.2` (24/03/2020)
+
+Corrección en OModel (no cogía bien las Primary Keys al actualizar un registro) y en OUrl (no cogía bien la configuración al usarse de manera estática).
+
 ## `5.0.1` (23/03/2020)
 
 Corrección en filtros (y otro breaking change):
