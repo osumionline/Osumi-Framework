@@ -26,7 +26,7 @@ class OModel {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
-			$this->l = new OLog();
+			$this->l = new OLog('OModel');
 		}
 
 		$this->db         = new ODB();
@@ -196,6 +196,10 @@ class OModel {
 					array_push($query_params, $value);
 				}
 			}
+			// If there is nothing to update, just return
+			if (count($updated_fields)==0){
+				return false;
+			}
 			$sql .= implode($updated_fields, ", ");
 			$sql .= " WHERE ";
 			foreach ($this->pk as $i => $pk_ind) {
@@ -236,12 +240,17 @@ class OModel {
 			$save_type = 'i';
 		}
 
-		$this->log('[OBase] - save');
-		$this->log('Query: '.$sql);
-		$this->log('Params: '.var_export($query_params, true));
+		$this->log('save - Query: '.$sql);
+		$this->log('save - Params:');
+		$this->log(var_export($query_params, true));
 
 		// Run the query
-		$this->db->query($sql, $query_params);
+		try {
+			$this->db->query($sql, $query_params);
+		}
+		catch(Exception $ex) {
+			$this->log('ERROR: '.$ex->getMessage());
+		}
 
 		// If table has only a PK and it is incremental, save it
 		if ($save_type == 'i' && count($this->pk)==1 && $this->model[$this->pk[0]]['incr']) {
@@ -269,8 +278,7 @@ class OModel {
 		}
 		$sql .= implode($search_fields, "AND ");
 
-		$this->log('[OBase] - find');
-		$this->log('Query: '.$sql);
+		$this->log('find - Query: '.$sql);
 
 		$this->db->query($sql);
 		$res = $this->db->next();
@@ -339,8 +347,7 @@ class OModel {
 
 		$this->db->query($sql);
 
-		$this->log('[OBase] - delete');
-		$this->log('Query: '.$sql);
+		$this->log('delete - Query: '.$sql);
 	}
 
 	/**

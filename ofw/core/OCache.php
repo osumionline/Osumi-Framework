@@ -67,7 +67,7 @@ class OCache {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
-			$this->l = new OLog();
+			$this->l = new OLog('OCache');
 		}
 
 		$this->cache = $cache;
@@ -178,7 +178,7 @@ class OCache {
 		$this->cache_date = mktime();
 		$data = ['date' => $this->cache_date, 'data' => $this->cache_data];
 
-		$this->log('[OCache] - save: '.$this->cache);
+		$this->log('save - Cache file: '.$this->cache);
 		$this->log(var_export($data, true));
 
 		file_put_contents($this->cache_file, json_encode($data));
@@ -195,7 +195,7 @@ class OCache {
 		}
 
 		if (file_exists($this->cache_file)) {
-			$this->log('[OCache] - delete: '.$this->cache);
+			$this->log('delete - Cache file: '.$this->cache);
 			unlink($this->cache_file);
 			return true;
 		}

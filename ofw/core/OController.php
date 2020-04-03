@@ -23,7 +23,7 @@ class OController {
 		$this->config   = $core->config;
 		$this->db       = new ODB();
 		$this->template = new OTemplate();
-		$this->log      = new OLog();
+		$this->log      = new OLog(get_class($this));
 		$this->session  = new OSession();
 		$this->cookie   = new OCookie();
 

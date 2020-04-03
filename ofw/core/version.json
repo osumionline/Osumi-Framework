@@ -1,6 +1,20 @@
 {
-	"version": "5.0.4",
+	"version": "5.1.0",
 	"updates": {
+		"5.1.0": {
+			"message": "5.1.0 - Mejoras en OModel y logs internos",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OCache.php",
+				"ofw/core/OController.php",
+				"ofw/core/OCookie.php",
+				"ofw/core/OLog.php",
+				"ofw/core/OModel.php",
+				"ofw/core/OSession.php",
+				"ofw/core/OTemplate.php"
+			]
+		},
 		"5.0.4": {
 			"message": "5.0.4 - Corrección en OCache",
 			"files": [

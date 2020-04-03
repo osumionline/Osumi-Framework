@@ -3,6 +3,7 @@
  * OLog - Class to log information to a debug log file
  */
 class OLog {
+	private $class_name = null;
 	private $log_dir  = '';
 	private $log_level = 0;
 	private $levels = ['ALL',	'DEBUG', 'INFO', 'ERROR'];
@@ -12,10 +13,13 @@ class OLog {
 	 *
 	 * @return void
 	 */
-	function __construct() {
+	function __construct($class_name=null) {
 		global $core;
 		$this->log_dir = $core->config->getLog('dir');
 		$this->log_level = array_key_exists($core->config->getLog('level'), $this->levels) ? $core->config->getLog('level') : 'ALL';
+		if (!is_null($class_name)) {
+			$this->class_name = $class_name;
+		}
 	}
 
 	/**
@@ -65,7 +69,11 @@ class OLog {
 	 * @return boolean Returns if the message was written to the log file or not
 	 */
 	private function putLog($level, $str) {
-		$data = '['.date('Y-m-d H:i:s',time()).'] - ['.$level.'] - '.$str."\n";
+		$data = '['.date('Y-m-d H:i:s',time()).'] - ['.$level.'] - ';
+		if (!is_null($this->class_name)) {
+			$data .= '['.$this->class_name.'] - ';
+		}
+		$data .= $str."\n";
 		return file_put_contents($this->log_dir, $data, FILE_APPEND);
 	}
 }

@@ -17,7 +17,7 @@ class OCookie {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
-			$this->l = new OLog();
+			$this->l = new OLog('OCookie');
 		}
 		$this->config = $core->config;
 	}
@@ -86,7 +86,6 @@ class OCookie {
 	 * @return void
 	 */
 	public function load() {
-		$this->log('[OCookie] - save');
 		$this->cookie_list = [];
 
 		if (isset($_COOKIE[$this->config->getCookiePrefix()])) {
@@ -98,6 +97,7 @@ class OCookie {
 			}
 		}
 
+		$this->log('load - Cookie list:');
 		$this->log(var_export($this->cookie_list, true));
 	}
 
@@ -107,7 +107,7 @@ class OCookie {
 	 * @return void
 	 */
 	public function save() {
-		$this->log('[OCookie] - save');
+		$this->log('save - Cookie list:');
 		$this->log(var_export($this->cookie_list, true));
 
 		foreach ($this->cookie_list as $key => $value) {
@@ -121,7 +121,7 @@ class OCookie {
 	 * @return void
 	 */
 	public function clean() {
-		$this->log('[OCookie] - clean');
+		$this->log('clean - Cookies removed');
 
 		foreach ($this->cookie_list as $key => $value){
 			setcookie ($this->config->getCookiePrefix().'['.$key.']', $value, 1, '/', $this->config->getCookieUrl());

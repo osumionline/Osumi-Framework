@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `5.1.0` (03/04/2020)
+
+Mejoras en `OModel`: si se le llamaba a `save` en un objeto de modelo y este no contenía ningún cambio, la consulta `UPDATE` resultante estaba mal formada. Se ha corregido de modo que si no hay ningún campo que actualizar simplemente devuelve un valor `false`.
+
+Mejoras en logs internos: ahora la clase `OLog` acepta un string opcional en su constructor que indicaría el nombre de la clase desde donde se está ejecutando. Las clases internas del Framework ya uilizan esta nueva mejora de modo que si se indica como `log_level` el valor `ALL`, en los logs resultantes ya se verá el nombre de la clase desde donde se guarda la traza.
+
 ## `5.0.4` (24/03/2020)
 
 Corrección tipográfica en `Ocache`: faltaba un carácter ">".

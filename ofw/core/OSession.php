@@ -16,7 +16,7 @@ class OSession {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
-			$this->l = new OLog();
+			$this->l = new OLog('OSession');
 		}
 
 		if (isset($_SESSION['params'])) {
@@ -45,7 +45,7 @@ class OSession {
 	 * @return void
 	 */
 	public function setParams($p) {
-		$this->log('[OSession] - setParams');
+		$this->log('setParams - Params:');
 		$this->log(var_export($p, true));
 		$this->params = $p;
 		$_SESSION['params'] = serialize($p);

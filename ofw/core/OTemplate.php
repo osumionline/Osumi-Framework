@@ -35,7 +35,7 @@ class OTemplate {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
-			$this->l = new OLog();
+			$this->l = new OLog('OTemplate');
 		}
 
 		$this->templates_dir = $core->config->getDir('app_template');
@@ -307,8 +307,7 @@ class OTemplate {
 	 */
 	public function process() {
 		global $core;
-		$this->log('[OTemplate] - Process');
-		$this->log('Type: '.$this->type);
+		$this->log('process - Type: '.$this->type);
 		$this->template     = file_get_contents($this->templates_dir.$this->module.'/'.$this->action.'.php');
 		$this->css_list     = array_merge($this->css_list, $core->config->getCssList());
 		$this->ext_css_list = array_merge($this->ext_css_list, $core->config->getExtCssList());
@@ -325,14 +324,14 @@ class OTemplate {
 
 			// Add css
 			$str_css = '';
-			$this->log('CSS: '.count($this->css_list));
+			$this->log('process - CSS: '.count($this->css_list));
 
 			foreach ($this->css_list as $css_item) {
 				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="/css/'.$css_item.'.css" />'."\n";
 			}
 
 			// Add external css
-			$this->log('Ext CSS: '.count($this->ext_css_list));
+			$this->log('process - Ext CSS: '.count($this->ext_css_list));
 
 			foreach ($this->ext_css_list as $ext_css_item) {
 				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="'.$ext_css_item.'" />'."\n";
@@ -342,14 +341,14 @@ class OTemplate {
 
 			// Add js
 			$str_js = '';
-			$this->log('JS: '.count($this->js_list));
+			$this->log('process - JS: '.count($this->js_list));
 
 			foreach ($this->js_list as $js_item) {
 				$str_js .= '<script src="/js/'.$js_item.'.js"></script>'."\n";
 			}
 
 			// Add external js
-			$this->log('Ext JS: '.count($this->ext_js_list));
+			$this->log('process - Ext JS: '.count($this->ext_js_list));
 
 			foreach ($this->ext_js_list as $ext_js_item) {
 				$str_js .= '<script src="'.$ext_js_item.'"></script>'."\n";
@@ -359,7 +358,7 @@ class OTemplate {
 		}
 
 		// Add parameters to the body
-		$this->log('Params:');
+		$this->log('process - Params:');
 		$this->log(var_export($this->params, true));
 
 		foreach ($this->params as $param) {
