@@ -1,6 +1,14 @@
 {
-	"version": "5.2.0",
+	"version": "5.2.1",
 	"updates": {
+		"5.2.1": {
+			"message": "5.2.1 - Corrección en OService",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OService.php"
+			]
+		},
 		"5.2.0": {
 			"message": "5.2.0 - Nuevo OService",
 			"files": [

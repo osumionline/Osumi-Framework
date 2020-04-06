@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.2.1` (06/04/2020)
+
+Corrección en `OService`. He añadido métodos `getConfig` y `getLog` a la clase `OService` para igualar su funcionalidad a la de `OController`. Ahora en ambas clases se puede acceder de igual manera a la configuración o al objeto de `logger` genérico de la clase.
+
 ## `5.2.0` (06/04/2020)
 
 Cambios en `services`: hasta ahora se creaba una relación circular en la que los `controllers` instanciaban `services` y estos a su vez tenían una variable con la clase que les había instanciado de modo que se creaba una relación circular `controller -> service -> controller -> service...`
