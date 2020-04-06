@@ -1,7 +1,7 @@
 <?php
 class userService extends OService{
-	function __construct($controller){
-		$this->setController($controller);
+	function __construct(){
+		$this->loadService();
 	}
 
 	public function getLastUpdate(){
@@ -9,7 +9,7 @@ class userService extends OService{
 	}
 
 	public function getUsers(){
-		$db = $this->getController()->getDB();
+		$db = new ODB();
 		$sql = "SELECT * FROM `user`";
 		$db->query($sql);
 		$list = [];

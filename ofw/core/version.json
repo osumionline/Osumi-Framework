@@ -1,6 +1,16 @@
 {
-	"version": "5.1.0",
+	"version": "5.2.0",
 	"updates": {
+		"5.2.0": {
+			"message": "5.2.0 - Nuevo OService",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OController.php",
+				"ofw/core/OService.php"
+			],
+			"postinstall": true
+		},
 		"5.1.0": {
 			"message": "5.1.0 - Mejoras en OModel y logs internos",
 			"files": [

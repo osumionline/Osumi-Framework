@@ -11,7 +11,7 @@ class OController {
 	protected $cookie   = null;
 
 	/**
-	 * Load mathed URL configuration value into the controller
+	 * Load matched URL configuration value into the controller
 	 *
 	 * @param array $url_result Configuration array as in urls.json
 	 *

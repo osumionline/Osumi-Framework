@@ -3,7 +3,7 @@ class api extends OController{
 	private $user_service;
 
 	function __construct(){
-		$this->user_service  = new userService($this);
+		$this->user_service  = new userService();
 	}
 
 	/*

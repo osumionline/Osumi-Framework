@@ -4,8 +4,8 @@ class home extends OController{
 	private $photo_service;
 
 	function __construct(){
-		$this->user_service  = new userService($this);
-		$this->photo_service = new photoService($this);
+		$this->user_service  = new userService();
+		$this->photo_service = new photoService();
 	}
 
 	/*
@@ -22,7 +22,7 @@ class home extends OController{
 	 * Página de un usuario
 	 */
 	function user($req){
-		$user = $this->user_service->getUser($req['id']);
+		$user = $this->user_service->getUser($req['params']['id']);
 		$list = $this->photo_service->getPhotos($user->get('id'));
 
 		$this->getTemplate()->add('name', $user->get('user'));

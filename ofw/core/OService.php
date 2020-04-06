@@ -1,27 +1,20 @@
 <?php
 /**
- * OService - Base class for the service classes providing access to the controller it was invoked from
+ * OService - Base class for the service classes
  */
 class OService {
-	protected $controller = null;
+	protected $config = null;
+	protected $log    = null;
 
 	/**
-	 * Set the controller from wich the service was loaded (circular)
-	 *
-	 * @param OController Controller from wich the service was loaded
+	 * Load global configuration and logger to use in the service
 	 *
 	 * @return void
 	 */
-	public final function setController($controller) {
-		$this->controller = $controller;
-	}
+	public final function loadService() {
+		global $core;
 
-	/**
-	 * Get the controller from wich the service was loaded
-	 *
-	 * @return OController Controller from wich the service was loaded
-	 */
-	public final function getController() {
-		return $this->controller;
+		$this->config = $core->config;
+		$this->log    = new OLog(get_class($this));
 	}
 }

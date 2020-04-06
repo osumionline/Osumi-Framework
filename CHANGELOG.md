@@ -1,6 +1,20 @@
 CHANGELOG
 =========
 
+## `5.2.0` (06/04/2020)
+
+Cambios en `services`: hasta ahora se creaba una relación circular en la que los `controllers` instanciaban `services` y estos a su vez tenían una variable con la clase que les había instanciado de modo que se creaba una relación circular `controller -> service -> controller -> service...`
+
+Esto servía para que los servicios pudiesen acceder a la configuración, al acceso a la base de datos del `controller` o a otros `services`.
+
+Ahora, los `services` ya no cuentan con ese acceso de modo que se les ha dotado de accesos específicos a la configuración o su propio `logger`.
+
+En caso de necesitar acceder a la base de datos, tendrán que hacerlo instanciando sus propios `ODB`. Y si necesitan acceder a otros servicios podrán hacerlo del mismo modo que hacen los controladores, instanciandolos a una variable y tratarlos como un objeto.
+
+Este es un `breaking change` ya que habrá que adaptar los servicios y controladores ya en uso.
+
+NOTA: esta es la primera versión en la que se va a probar un script `postinstall`.
+
 ## `5.1.0` (03/04/2020)
 
 Mejoras en `OModel`: si se le llamaba a `save` en un objeto de modelo y este no contenía ningún cambio, la consulta `UPDATE` resultante estaba mal formada. Se ha corregido de modo que si no hay ningún campo que actualizar simplemente devuelve un valor `false`.

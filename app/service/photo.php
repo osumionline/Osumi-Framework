@@ -1,13 +1,13 @@
 <?php
 class photoService extends OService{
-	function __construct($controller){
-		$this->setController($controller);
+	function __construct(){
+		$this->loadService();
 	}
 
 	public function getPhotos($id){
-		$db = $this->getController()->getDB();
-		$sql = sprintf("SELECT * FROM `photo` WHERE `id_user` = %s", $id);
-		$db->query($sql);
+		$db = new ODB();
+		$sql = "SELECT * FROM `photo` WHERE `id_user` = ?";
+		$db->query($sql, [$id]);
 
 		$photos = [];
 		while ($res=$db->next()){
@@ -16,7 +16,8 @@ class photoService extends OService{
 
 			array_push($photos, $photo);
 		}
-
+		
+		$this->log->debug('Photos: '.count($photos));
 		return $photos;
 	}
 }
