@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.3.4` (15/04/2020)
+
+Corrección en `OConfig`. Nueva corrección por problemas de tipado. Esta vez en configuración de SMTP.
+
 ## `5.3.3` (15/04/2020)
 
 Corrección en `ODB`. Nueva corrección por problemas de tipado.

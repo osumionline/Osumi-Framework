@@ -1,6 +1,14 @@
 {
-	"version": "5.3.3",
+	"version": "5.3.4",
 	"updates": {
+		"5.3.4": {
+			"message": "5.3.4 - Corrección en OConfig (SMTP)",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OConfig.php"
+			]
+		},
 		"5.3.3": {
 			"message": "5.3.3 - Corrección en ODB",
 			"files": [

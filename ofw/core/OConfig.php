@@ -380,7 +380,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setSMTP(string $key, string $value): void {
+	public function setSMTP(string $key, $value): void {
 		$this->smtp[$key] = $value;
 	}
 
