@@ -512,6 +512,6 @@ class ODB {
 	 * @return int Last id of the inserted row
 	 */
 	public function lastId(): int {
-		return $this->getLink()->lastInsertId();
+		return intval($this->getLink()->lastInsertId());
 	}
 }
