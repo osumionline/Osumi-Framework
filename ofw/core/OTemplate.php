@@ -360,7 +360,7 @@ class OTemplate {
 		$this->log(var_export($this->params, true));
 
 		foreach ($this->params as $param) {
-			$sub_value = ($this->type!=='html') ? urlencode($param['value']) : $param['value'];
+			$sub_value = ($this->type!=='html') ? urlencode(strval($param['value'])) : $param['value'];
 			if (isset($param['extra']) && $param['extra'] === 'nourlencode') {
 				$sub_value = $param['value'];
 			}
