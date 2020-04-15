@@ -1,21 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OPlugin - Base class for the plugins with methods to load the required plugin
  */
 class OPlugin {
-	private $plugins_dir  = null;
-	private $name         = null;
-	private $version      = null;
-	private $description  = null;
-	private $file_name    = null;
-	private $dependencies = [];
+	private string $plugins_dir  = '';
+	private string $name         = '';
+	private string $version      = '';
+	private string $description  = '';
+	private string $file_name    = '';
+	private array  $dependencies = [];
 
 	/**
 	 * Start the object with the global configuration
 	 *
 	 * @param string $name Name of the plugin
-	 *
-	 * @return void
 	 */
 	function __construct($name) {
 		global $core;
@@ -30,7 +28,7 @@ class OPlugin {
 	 *
 	 * @return void
 	 */
-	public function setName($n) {
+	public function setName(string $n): void {
 		$this->name = $n;
 	}
 
@@ -39,7 +37,7 @@ class OPlugin {
 	 *
 	 * @return string Name of the plugin
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
@@ -50,7 +48,7 @@ class OPlugin {
 	 *
 	 * @return void
 	 */
-	public function setVersion($v) {
+	public function setVersion(string $v): void {
 		$this->version = $v;
 	}
 
@@ -59,7 +57,7 @@ class OPlugin {
 	 *
 	 * @return string Version number of the plugin (eg 1.0.3)
 	 */
-	public function getVersion() {
+	public function getVersion(): string {
 		return $this->version;
 	}
 
@@ -70,7 +68,7 @@ class OPlugin {
 	 *
 	 * @return void
 	 */
-	public function setDescription($d) {
+	public function setDescription(string $d): void {
 		$this->description = $d;
 	}
 
@@ -79,7 +77,7 @@ class OPlugin {
 	 *
 	 * @return string Description of the plugin
 	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		return $this->description;
 	}
 
@@ -90,7 +88,7 @@ class OPlugin {
 	 *
 	 * @return void
 	 */
-	public function setFileName($fn) {
+	public function setFileName(string $fn): void {
 		$this->file_name = $fn;
 	}
 
@@ -99,7 +97,7 @@ class OPlugin {
 	 *
 	 * @return string Name of the file of the plugin
 	 */
-	public function getFileName() {
+	public function getFileName(): string {
 		return $this->file_name;
 	}
 
@@ -110,7 +108,7 @@ class OPlugin {
 	 *
 	 * @return void
 	 */
-	public function setDependencies($d) {
+	public function setDependencies(array $d): void {
 		$this->dependencies = $d;
 	}
 
@@ -119,16 +117,16 @@ class OPlugin {
 	 *
 	 * @return string[] List of files
 	 */
-	public function getDependencies() {
+	public function getDependencies(): array {
 		return $this->dependencies;
 	}
 
 	/**
 	 * Load the plugins configuration from its json file
 	 *
-	 * @return string|void Returns a message in case the configuration file is not found or void if everything is ok
+	 * @return void Echoes a message in case the configuration file is not found or nothing if everything is ok
 	 */
-	public function loadConfig() {
+	public function loadConfig(): void {
 		$conf_route = $this->plugins_dir.$this->getName().'/'.$this->getName().'.json';
 		if (!file_exists($conf_route)) {
 			echo 'ERROR: '.$this->getName().' plugin configuration file not found in '.$conf_route.'.';
@@ -145,9 +143,9 @@ class OPlugin {
 	/**
 	 * Load the files of the plugin so it can be used in the application
 	 *
-	 * @return string|void Returns a message in case a file is not found or void if everything is ok
+	 * @return void Echoes a message in case a file is not found or nothing if everything is ok
 	 */
-	public function load() {
+	public function load(): void {
 		$this->loadConfig();
 
 		foreach ($this->getDependencies() as $dep) {

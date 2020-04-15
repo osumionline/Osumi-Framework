@@ -1,6 +1,42 @@
 {
-	"version": "5.2.1",
+	"version": "5.3.0",
 	"updates": {
+		"5.3.0": {
+			"message": "5.3.0 - Refactorización y tipado fuerte",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw.php",
+				"ofw/core/OCache.php",
+				"ofw/core/OColors.php",
+				"ofw/core/OConfig.php",
+				"ofw/core/OController.php",
+				"ofw/core/OCookie.php",
+				"ofw/core/OCore.php",
+				"ofw/core/ODB.php",
+				"ofw/core/OForm.php",
+				"ofw/core/OLog.php",
+				"ofw/core/OModel.php",
+				"ofw/core/OPlugin.php",
+				"ofw/core/OService.php",
+				"ofw/core/OSession.php",
+				"ofw/core/OTemplate.php",
+				"ofw/core/OTools.php",
+				"ofw/core/OUpdate.php",
+				"ofw/core/OUrl.php",
+				"ofw/locale/en.php",
+				"ofw/task/backupAll.php",
+				"ofw/task/backupDB.php",
+				"ofw/task/composer.php",
+				"ofw/task/generateModel.php",
+				"ofw/task/plugins.php",
+				"ofw/task/update.php",
+				"ofw/task/updateCheck.php",
+				"ofw/task/updateUrls.php",
+				"ofw/task/version.php",
+				"web/index.php"
+			]
+		},
 		"5.2.1": {
 			"message": "5.2.1 - Corrección en OService",
 			"files": [

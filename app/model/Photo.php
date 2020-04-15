@@ -1,6 +1,6 @@
-<?php
-class Photo extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class Photo extends OModel {
+	function __construct() {
 		$table_name  = 'photo';
 		$model = [
 			'id' => [
@@ -30,29 +30,29 @@ class Photo extends OModel{
 		parent::load($table_name, $model);
 	}
 
-	public function __toString(){
+	public function __toString() {
 		return $this->get('id').'.'.$this->get('ext');
 	}
 
-	private $tags = null;
+	private ?array $tags = null;
 
-	public function setTags($tags){
+	public function setTags(array $tags): void {
 		$this->tags = $tags;
 	}
 
-	public function getTags(){
-		if (is_null($this->tags)){
+	public function getTags(): array {
+		if (is_null($this->tags)) {
 			$this->loadTags();
 		}
 		return $this->tags;
 	}
 
-	private function loadTags(){
+	private function loadTags(): void {
 		$list = [];
-		$sql = sprintf( "SELECT * FROM `tag` WHERE `id` IN (SELECT `id_tag` FROM `photo_tag` WHERE `id_photo` = %s)", $this->get('id') );
-		$this->db->query($sql);
+		$sql = "SELECT * FROM `tag` WHERE `id` IN (SELECT `id_tag` FROM `photo_tag` WHERE `id_photo` = ?)";
+		$this->db->query($sql, [$this->get('id')]);
 
-		while($res=$this->db->next()){
+		while($res=$this->db->next()) {
 			$tag = new Tag();
 			$tag->update($res);
 

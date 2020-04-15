@@ -1,22 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Utilities for the update process
  */
 class OUpdate {
-	private $colors          = null;
-	private $base_dir        = null;
-	private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/';
-	//private $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework-Test/';
-	private $version_file    = null;
-	private $current_version = null;
-	private $repo_version    = null;
-	private $version_check   = null;
-	private $new_updates     = [];
+	private ?OColors $colors          = null;
+	private string   $base_dir        = '';
+	private string   $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework/';
+	//private string $repo_url        = 'https://raw.githubusercontent.com/igorosabel/Osumi-Framework-Test/';
+	private array    $version_file    = [];
+	private ?string  $current_version = null;
+	private ?string  $repo_version    = null;
+	private ?int     $version_check   = null;
+	private array    $new_updates     = [];
 
 	/**
 	 * Loads on start up current version and repo version and checks both
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		global $core;
@@ -32,7 +30,7 @@ class OUpdate {
 	 *
 	 * @return string Current version number
 	 */
-	public function getCurrentVersion() {
+	public function getCurrentVersion(): string {
 		return $this->current_version;
 	}
 
@@ -41,16 +39,16 @@ class OUpdate {
 	 *
 	 * @return string Repository version number
 	 */
-	public function getRepoVersion() {
+	public function getRepoVersion(): string {
 		return $this->repo_version;
 	}
 
 	/**
 	 * Get version check
 	 *
-	 * @return integer Get version check (-1 to be updated 0 current 1 newer)
+	 * @return int Get version check (-1 to be updated 0 current 1 newer)
 	 */
-	public function getVersionCheck() {
+	public function getVersionCheck(): int {
 		return $this->version_check;
 	}
 
@@ -59,8 +57,8 @@ class OUpdate {
 	 *
 	 * @return array Available updates list array
 	 */
-	private function getVersionFile() {
-		if (is_null($this->version_file)) {
+	private function getVersionFile(): array {
+		if (empty($this->version_file)) {
 			$this->version_file = json_decode( file_get_contents($this->repo_url.'master/ofw/core/version.json'), true );
 		}
 		return $this->version_file;
@@ -71,7 +69,7 @@ class OUpdate {
 	 *
 	 * @return string Current version number (eg 5.0.0)
 	 */
-	private function getVersion() {
+	private function getVersion(): string {
 		$version = $this->getVersionFile();
 		return $version['version'];
 	}
@@ -81,7 +79,7 @@ class OUpdate {
 	 *
 	 * @return array Array of "to be updated" versions. Includes version number, message and array of files with their status
 	 */
-	public function doUpdateCheck() {
+	public function doUpdateCheck(): array {
 		$version = $this->getVersionFile();
 		$updates = $version['updates'];
 
@@ -127,11 +125,13 @@ class OUpdate {
 	/**
 	 * Returns status message about a file
 	 *
-	 * @param array Array of information about a file to be updated
+	 * @param array $file Array of information about a file to be updated
+	 *
+	 * @param string $end Adds ending information (OK/ERROR) to the line
 	 *
 	 * @return string Information about the file
 	 */
-	private function getStatusMessage($file, $end='') {
+	private function getStatusMessage(array $file, string $end=''): string {
 		$ret = "    ";
 		switch ($file['status']) {
 			case 0: {
@@ -170,9 +170,9 @@ class OUpdate {
 	/**
 	 * Show information about available updates
 	 *
-	 * @return string Prints information about updates
+	 * @return void Echoes information about updates
 	 */
-	public function showUpdates() {
+	public function showUpdates(): void {
 		$to_be_updated = $this->doUpdateCheck();
 		echo "\n";
 
@@ -192,7 +192,7 @@ class OUpdate {
 	 *
 	 * @return void
 	 */
-	private function restoreBackups($backups) {
+	private function restoreBackups(array $backups): void {
 		foreach ($backups as $backup) {
 			if (file_exists($backup['new_file'])) {
 				unlink($backup['new_file']);
@@ -210,7 +210,7 @@ class OUpdate {
 	 *
 	 * @return string Content of the file
 	 */
-	private function getFile($url) {
+	private function getFile(string $url): string {
 		$file_headers = get_headers($url);
 		if ($file_headers[0] == 'HTTP/1.1 404 Not Found') {
 			return false;

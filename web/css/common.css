@@ -15,6 +15,10 @@ header{
 	padding-left: 16px;
 	font-size: 22px;
 	border-bottom: 1px solid #ccc;
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
 header a{
@@ -34,7 +38,7 @@ header a:hover{
 }
 
 section{
-
+	margin: 60px 0;
 }
 
 .box{
@@ -113,7 +117,7 @@ section{
 }
 
 footer{
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	line-height: 50px;
 	background-color: #fff;

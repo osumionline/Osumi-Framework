@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+## `5.3.0` (15/04/2020)
+
+¡Tipado fuerte en todo el Framework!
+
+PHP 7.4 ha introducido como novedad la posibilidad de añadir tipado a las variables de las clases y como ya se podía añadir al retorno de las funciones, he actualizado todas las clases que componen el Framework añadiéndoles tipado fuerte para hacer el framework mucho más robusto. He añadido en todos los archivos del Framework el llamado tipado estricto para forzar a que los datos tengan que ser correctos, de lo contrario la aplicación falla lanzando excepciones.
+
+Al hacer esto he hecho que sea obligatorio usar por lo menos la versión 7.4.0 de PHP para ejecutar el Framework y han aflorado numerosos errores que se han corregido.
+
+Los datos de ejemplo también han sido actualizados, pero no se descargarán al actualizar instalaciones ya existentes.
+
+La parte de la app que no corresponde al Framework no tiene por qué cumplir el tipado estricto, pero se aconseja para así mantener un mismo estilo.
+
 ## `5.2.1` (06/04/2020)
 
 Corrección en `OService`. He añadido métodos `getConfig` y `getLog` a la clase `OService` para igualar su funcionalidad a la de `OController`. Ahora en ambas clases se puede acceder de igual manera a la configuración o al objeto de `logger` genérico de la clase.

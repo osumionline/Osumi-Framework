@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 class OPostInstall {
-	private $config = null;
-	private $messages = [
+	private ?OConfig $config = null;
+	private array    $messages = [
 		'es' => [
 					'TITLE'                => "\n\nPOST INSTALL 5.2.0\n\n",
 					'SERVICES_UPDATING'    => "Actualizando services...\n",
@@ -22,12 +22,22 @@ class OPostInstall {
 				]
 	];
 
+	/**
+	 * Store global configuration locally
+	 */
 	public function __construct() {
 		global $core;
 		$this->config = $core->config;
 	}
 
-	private function updateService($service) {
+	/**
+	 * Updates a service replacing updated syntax
+	 *
+	 * @param string $service Name of the service file to be updated
+	 *
+	 * @return void
+	 */
+	private function updateService(string $service): void {
 		$path = $this->config->getDir('app_service').$service.'.php';
 		$content = file_get_contents($path);
 
@@ -45,7 +55,16 @@ class OPostInstall {
 		}
 	}
 
-	private function updateController($controller, $services) {
+	/**
+	 * Updates a controller replacing updated syntax
+	 *
+	 * @param string $controller Name of the controller file to be updated
+	 *
+	 * @param array $services List of all services, in case the controller uses them
+	 *
+	 * @return void
+	 */
+	private function updateController(string $controller, array $services): void {
 		$path = $this->config->getDir('app_controller').$controller.'.php';
 		$content = file_get_contents($path);
 
@@ -58,7 +77,12 @@ class OPostInstall {
 		echo sprintf($this->messages[$this->config->getLang()]['CONTROLLER_UPDATED'], $controller);
 	}
 
-	public function run() {
+	/**
+	 * Runs the v5.0.2 update post-installation tasks
+	 *
+	 * @return void
+	 */
+	public function run(): void {
 		echo $this->messages[$this->config->getLang()]['TITLE'];
 		$services = [];
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Performs a database backup using "mysqldump" CLI tool. Generates a file on ofw/export folder with the name of the database.
  */
@@ -6,18 +6,16 @@ class backupDBTask {
 	/**
 	 * Returns description of the task
 	 *
-	 * @return Description of the task
+	 * @return string Description of the task
 	 */
 	public function __toString() {
 		return $this->colors->getColoredString("backupDB", "light_green").": ".OTools::getMessage('TASK_BACKUP_DB');
 	}
 
-	private $colors = null;
+	private ?OColors $colors = null;
 
 	/**
 	 * Loads class used to colorize messages
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		$this->colors = new OColors();
@@ -26,13 +24,19 @@ class backupDBTask {
 	/**
 	 * Run the task
 	 *
-	 * @return string Returns messages generated while performing the backup
+	 * @param array $params If $params has one item and is true, generates the backup silently, else it echoes information messages
+	 *
+	 * @return void Echoes messages generated while performing the backup
 	 */
-	public function run($silent = false) {
+	public function run(array $params=[]): void {
 		global $core;
+		$silent = false;
+		if (count($params)==1 && $params[0]===true) {
+			$silent = true;
+		}
 		if ($core->config->getDB('host')=='' || $core->config->getDB('user')=='' || $core->config->getDB('pass')=='' || $core->config->getDB('name')=='') {
 			echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_BACKUP_DB_NO_DB'), "white", "red")."\n\n";
-			return false;
+			exit;
 		}
 		echo "\n";
 		if (!$silent) {

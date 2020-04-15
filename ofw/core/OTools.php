@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OTools - Utility class with auxiliary tools
  */
@@ -8,19 +8,19 @@ class OTools {
 	 *
 	 * @param string $key Name of the json cache file
 	 *
-	 * @param boolean $raw Sets if the cache file has expiration date and if it has to be checked
+	 * @param bool $raw Sets if the cache file has expiration date and if it has to be checked
 	 *
-	 * @return OCache|boolean Returns loaded OCache class object or false if there was an error
+	 * @return OCache|null Returns loaded OCache class object or null if there was an error
 	 */
-	public static function getCache($key, $raw=false) {
+	public static function getCache(string $key, bool $raw=false): ?OCache {
 		global $core;
-		if ($core->cacheContainer->get($key)!==false) {
+		if (!is_null($core->cacheContainer->get($key))) {
 			return $core->cacheContainer->get($key);
 		}
 
 		$cache = new OCache($key, $raw);
 		if ($cache->getStatus()!='ok') {
-			return false;
+			return null;
 		}
 
 		$core->cacheContainer->set($key, $cache);
@@ -34,7 +34,7 @@ class OTools {
 	 *
 	 * @return string Generated string based on given options
 	 */
-	public static function getRandomCharacters($options) {
+	public static function getRandomCharacters(array $options): string {
 		$num     = array_key_exists('num',     $options) ? $options['num']     : 5;
 	  $lower   = array_key_exists('lower',   $options) ? $options['lower']   : false;
 	  $upper   = array_key_exists('upper',   $options) ? $options['upper']   : false;
@@ -69,7 +69,7 @@ class OTools {
 	 *
 	 * @return array Clean array of parameters, headers and filter result
 	 */
-	public static function getControllerParams($url_result) {
+	public static function getControllerParams(array $url_result): array {
 		$ret = [
 			'params' => $url_result['params'],
 			'headers' => $url_result['headers']
@@ -87,9 +87,11 @@ class OTools {
 	 *
 	 * @param array $list List of parameters
 	 *
-	 * @param string|integer|float|boolean $default Default value if required key is not found
+	 * @param string|int|float|bool $default Default value if required key is not found
+	 *
+	 * @return string|int|float|bool Found value of the list or default value instead
 	 */
-	public static function getParam($key, $list, $default=false) {
+	public static function getParam(string $key, array $list, $default=false) {
 		if (array_key_exists($key, $list)) {
 			return $list[$key];
 		}
@@ -105,9 +107,9 @@ class OTools {
 	 *
 	 * @param array $list List of parameters
 	 *
-	 * @return string[]|boolean List of values if all the keys are found or false if anyone fails
+	 * @return string[]|bool List of values if all the keys are found or false if anyone fails
 	 */
-	public static function getParamList($key_list, $list) {
+	public static function getParamList(array $key_list, array $list) {
 		$params = [];
 		foreach ($key_list as $key) {
 			$check = self::getParam($key, $list, false);
@@ -123,7 +125,7 @@ class OTools {
 	/**
 	 * Render a template from a file or a given template with given parameters
 	 *
-	 * @param string $route Route to a template file
+	 * @param string $path Path to a template file
 	 *
 	 * @param string $html Template as a string
 	 *
@@ -131,9 +133,9 @@ class OTools {
 	 *
 	 * @return string Loaded template with rendered parameters
 	 */
-	public static function getTemplate($route, $html, $params) {
-		if ($route!='') {
-			$html = file_get_contents($route);
+	public static function getTemplate(string $path, string $html, array $params): string  {
+		if ($path!='') {
+			$html = file_get_contents($path);
 		}
 
 		foreach ($params as $param_name => $param) {
@@ -150,13 +152,13 @@ class OTools {
 	 *
 	 * @return string Content of the file as a Base64 string
 	 */
-	public static function fileToBase64($filename) {
+	public static function fileToBase64(string $filename): ?string {
 		if (file_exists($filename)) {
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
 			$filebinary = (filesize($filename)>0) ? fread(fopen($filename, 'r'), filesize($filename)) : '';
 			return 'data:' . finfo_file($finfo, $filename) . ';base64,' . base64_encode($filebinary);
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -168,7 +170,7 @@ class OTools {
 	 *
 	 * @return void
 	 */
-	public static function base64ToFile($base64_string, $filename) {
+	public static function base64ToFile(string $base64_string, string $filename): void {
 		$ifp = fopen($filename, 'wb');
 		$data = explode(',', $base64_string);
 		fwrite($ifp, base64_decode($data[1]));
@@ -180,14 +182,14 @@ class OTools {
 	 *
 	 * @param string $data Data to be encoded
 	 *
-	 * @return boolean|string Data encoded in Base64URL or false if there was an error
+	 * @return string Data encoded in Base64URL or null if there was an error
 	 */
-	public static function base64urlEncode($data) {
+	public static function base64urlEncode(string $data): ?string {
 		$b64 = base64_encode($data);
 
 		// Make sure you get a valid result, otherwise, return FALSE, as the base64_encode() function do
 		if ($b64 === false) {
-			return false;
+			return null;
 		}
 
 		// Convert Base64 to Base64URL by replacing “+” with “-” and “/” with “_”
@@ -202,11 +204,11 @@ class OTools {
 	 *
 	 * @param string $data Data to be decoded
 	 *
-	 * @param boolean $strict Optional parameter for strict base64_decode
+	 * @param bool $strict Optional parameter for strict base64_decode
 	 *
-	 * @return boolean|string Data decoded or false if there was an error
+	 * @return bool|string Data decoded or false if there was an error
 	 */
-	public static function base64urlDecode($data, $strict = false) {
+	public static function base64urlDecode(string $data, bool $strict = false) {
 		// Convert Base64URL to Base64 by replacing “-” with “+” and “_” with “/”
 		$b64 = strtr($data, '-_', '+/');
 
@@ -221,7 +223,7 @@ class OTools {
 	 *
 	 * @return string String with parsed bbcodes
 	 */
-	public static function bbcode($str) {
+	public static function bbcode(string $str): string {
 		$bbcode = [
 			"/\<(.*?)>/is",
 			"/\[i\](.*?)\[\/i\]/is",
@@ -255,7 +257,7 @@ class OTools {
 	 *
 	 * @return void
 	 */
-	public static function showErrorPage($res, $mode) {
+	public static function showErrorPage(array $res, string $mode): void {
 		global $core;
 		if (!is_null($core->config->getErrorPage($mode))) {
 			header('Location:'.$core->config->getErrorPage($mode));
@@ -282,11 +284,11 @@ class OTools {
 	 *
 	 * @return string Localized message with parameters rendered
 	 */
-	public static function getMessage($key, $params=null) {
+	public static function getMessage(string $key, array $params=null): string {
 		global $core;
 		if (is_null($core->locale)){
 			include($core->config->getDir('ofw_locale').$core->config->getLang().'.php');
-			$core-> locale = $locale;
+			$core->locale = $locale;
 		}
 
 		if (array_key_exists($key, $core->locale)){
@@ -313,7 +315,7 @@ class OTools {
 	 *
 	 * @return string Result of the curl request
 	 */
-	public static function curlRequest($method, $url, $data) {
+	public static function curlRequest(string $method, string $url, array $data): string {
 		$ch = curl_init();
 		if ($method=='get') {
 			$url .= '?';
@@ -350,7 +352,7 @@ class OTools {
 	 *
 	 * @return string Slug of the given text
 	 */
-	public static function slugify($text, $separator = '-') {
+	public static function slugify(string $text, string $separator = '-'): string {
 		$bad = [
 			'À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą',
 			'Ć','ć','Č','č','Ç','ç',
@@ -417,7 +419,7 @@ class OTools {
 	 *
 	 * @return array Array of model objects
 	 */
-	public static function getModelList() {
+	public static function getModelList(): array {
 		global $core;
 		$ret = [];
 
@@ -438,9 +440,9 @@ class OTools {
 	/**
 	 * Generates a SQL file to build the database based on models defined by the user
 	 *
-	 * @return string SQL string to build all the tables in the database (also echoed to ofw/export/model.sql)
+	 * @return void Echoes SQL string to build all the tables in the database (also written to ofw/export/model.sql)
 	 */
-	public static function generateModel() {
+	public static function generateModel(): void  {
 		global $core;
 		echo self::getMessage('TASK_GENERATE_MODEL_MODEL');
 		$sql = "/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n\n";
@@ -474,9 +476,11 @@ class OTools {
 	/**
 	 * Creates or updates cache file of flattened URLs based on user configured urls.json. Also calls to generate new modules/actions/templates that are new.
 	 *
+	 * @param bool $silent If set to true echoes messages about the update process
+	 *
 	 * @return void
 	 */
-	public static function updateUrls($silent=false) {
+	public static function updateUrls(bool $silent=false): void {
 		global $core;
 		$urls_file = json_decode( file_get_contents($core->config->getDir('app_config').'urls.json'), true);
 		$urls = self::getUrlList($urls_file);
@@ -494,9 +498,11 @@ class OTools {
 	/**
 	 * Returns flattened list of URLs from the user configured urls.json
 	 *
+	 * @param array $item $item of the URL list
+	 *
 	 * @return array Array of configured urls
 	 */
-	public static function getUrlList($item) {
+	public static function getUrlList(array $item): array {
 		$list = self::getUrls($item);
 		for ($i=0; $i<count($list); $i++){
 			$keys = array_keys($list[$i]);
@@ -516,7 +522,7 @@ class OTools {
 	 *
 	 * @param array Flattened array of a single urls.json element
 	 */
-	public static function getUrls($item) {
+	public static function getUrls(array $item): array {
 		$list = [];
 		if (array_key_exists('urls', $item)) {
 			foreach ($item['urls'] as $elem) {
@@ -539,11 +545,11 @@ class OTools {
 	/**
 	 * Update the controllers based on cached-flattened urls.json file. Creates the modules/controllers/templates that are configured but are not found.
 	 *
-	 * @param boolean $silent If true doesn't give an output and performs the actions silently
+	 * @param bool $silent If true doesn't give an output and performs the actions silently
 	 *
-	 * @return string|void Return result of performed actions or void if $silent parameter is true
+	 * @return void Echoes result of performed actions or void if $silent parameter is true
 	 */
-	public static function updateControllers($silent=false) {
+	public static function updateControllers(bool $silent=false): void {
 		global $core;
 		$colors = new OColors();
 		$urls   = json_decode( file_get_contents($core->config->getDir('app_cache').'urls.cache.json'), true);
@@ -647,18 +653,21 @@ class OTools {
 	 *
 	 * @param array $params Array of parameters passed to the task
 	 *
-	 * @return string|void Each task will return what they need
+	 * @return bool Returns true after the task is complete or false if task file doesn't exist
 	 */
-	public static function runTask($task_name, $params=[]) {
+	public static function runTask(string $task_name, array $params=[]): bool {
 		global $core;
 		$task_file = $core->config->getDir('app_task').$task_name.'.php';
 		if (!file_exists($task_file)) {
 			return false;
 		}
+
 		require_once $task_file;
 		$task_name .= 'Task';
 		$task = new $task_name();
 		$task->run($params);
+
+		return true;
 	}
 
 	/**
@@ -668,18 +677,21 @@ class OTools {
 	 *
 	 * @param array $params Array of parameters passed to the task
 	 *
-	 * @return string|void Each task will return what they need
+	 * @return bool Returns true after the task is complete or false if task file doesn't exist
 	 */
-	public static function runOFWTask($task_name, $params=[]) {
+	public static function runOFWTask(string $task_name, array $params=[]): bool {
 		global $core;
 		$task_file = $core->config->getDir('ofw_task').$task_name.'.php';
 		if (!file_exists($task_file)) {
 			return false;
 		}
+
 		require_once $task_file;
 		$task_name .= 'Task';
 		$task = new $task_name();
 		$task->run($params);
+
+		return true;
 	}
 
 	/**
@@ -687,7 +699,7 @@ class OTools {
 	 *
 	 * @return string Version number of the Framework (eg 5.0.0)
 	 */
-	public static function getVersion() {
+	public static function getVersion(): string {
 		global $core;
 		$version_file = $core->config->getDir('ofw_core').'version.json';
 		$version = json_decode( file_get_contents($version_file), true );
@@ -699,7 +711,7 @@ class OTools {
 	 *
 	 * @return string Current versions information message
 	 */
-	public static function getVersionInformation() {
+	public static function getVersionInformation(): string {
 		global $core;
 		$version_file = $core->config->getDir('ofw_core').'version.json';
 		$version = json_decode( file_get_contents($version_file), true );

@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OConfig - Class with all the configuration info for the framework
  */
 class OConfig {
-	private $log = [
+	private array $log = [
 		'dir' => null,
 		'level' => 'DEBUG'
 	];
-	private $allow_cross_origin = true;
+	private bool $allow_cross_origin = true;
 
-	private $plugins  = [];
+	private array $plugins  = [];
 
-	private $dirs = [];
-	private $db = [
+	private array $dirs = [];
+	private array $db = [
 		'driver'  => 'mysql',
 		'user'    => '',
 		'pass'    => '',
@@ -21,11 +21,11 @@ class OConfig {
 		'charset' => 'utf8mb4',
 		'collate' => 'utf8mb4_unicode_ci'
 	];
-	private $urls = [
+	private array $urls = [
 		'base'   => ''
 	];
 
-	private $smtp = [
+	private array $smtp = [
 		'host'   => '',
 		'port'   => null,
 		'secure' => 'tls',
@@ -33,38 +33,36 @@ class OConfig {
 		'pass'   => ''
 	];
 
-	private $cookie_prefix = '';
-	private $cookie_url    = '';
+	private string $cookie_prefix = '';
+	private string $cookie_url    = '';
 
-	private $url_list = null;
+	private ?array $url_list = null;
 
-	private $error_pages  = [
+	private array $error_pages  = [
 		'403' => null,
 		'404' => null,
 		'500' => null
 	];
 
-	private $css_list      = [];
-	private $ext_css_list  = [];
-	private $js_list       = [];
-	private $ext_js_list   = [];
-	private $default_title = '';
-	private $admin_email   = '';
-	private $mailing_from  = '';
-	private $lang          = 'es';
-	private $image_types   = [];
+	private array  $css_list      = [];
+	private array  $ext_css_list  = [];
+	private array  $js_list       = [];
+	private array  $ext_js_list   = [];
+	private string $default_title = '';
+	private string $admin_email   = '';
+	private string $mailing_from  = '';
+	private string $lang          = 'es';
+	private array  $image_types   = [];
 
-	private $libs = [];
-	private $extras = [];
+	private array $libs   = [];
+	private array $extras = [];
 
 	/**
 	 * Load app/config/config.json file into this class wich provides methods to access them
 	 *
 	 * @param string $bd Base directory of the application
-	 *
-	 * @return void
 	 */
-	function __construct($bd) {
+	function __construct(string $bd) {
 		$this->setBaseDir($bd);
 		$json_file = $this->getDir('app_config').'config.json';
 		if (!file_exists($json_file)) {
@@ -106,7 +104,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	private function loadConfig($config) {
+	private function loadConfig(array $config): void {
 		if (array_key_exists('db', $config)) {
 			$db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset', 'collate'];
 			foreach ($db_fields as $db_field) {
@@ -197,7 +195,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setLog($key, $value) {
+	public function setLog(string $key, string $value): void {
 		$this->log[$key] = $value;
 	}
 
@@ -206,29 +204,29 @@ class OConfig {
 	 *
 	 * @param string $key "dir" -log directory- of "level" -logging importance level-
 	 *
-	 * @return string Value of the logging configuration
+	 * @return ?string Value of the logging configuration
 	 */
-	public function getLog($key) {
-		return $this->log[$key];
+	public function getLog(string $key): ?string {
+		return array_key_exists($key, $this->log) ? $this->log[$key] : null;
 	}
 
 	/**
 	 * Set if Cross-Origin calls are allowed
 	 *
-	 * @param boolean $value Value of the Cross-Origin configuration
+	 * @param bool $value Value of the Cross-Origin configuration
 	 *
 	 * @return void
 	 */
-	public function setAllowCrossOrigin($value) {
+	public function setAllowCrossOrigin(string $value): void {
 		$this->allow_cross_origin = $value;
 	}
 
 	/**
 	 * Get if Cross-Origin calls are allowed
 	 *
-	 * @return boolean Value of the Cross-Origin configuration
+	 * @return bool Value of the Cross-Origin configuration
 	 */
-	public function getAllowCrossOrigin() {
+	public function getAllowCrossOrigin(): bool {
 		return $this->allow_cross_origin;
 	}
 
@@ -239,7 +237,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setPlugins($p) {
+	public function setPlugins(array $p): void {
 		$this->plugins = $p;
 	}
 
@@ -248,7 +246,7 @@ class OConfig {
 	 *
 	 * @return array List of installed plugins
 	 */
-	public function getPlugins() {
+	public function getPlugins(): array {
 		return $this->plugins;
 	}
 
@@ -257,9 +255,9 @@ class OConfig {
 	 *
 	 * @param string $p Code name of the plugin
 	 *
-	 * @return boolean Plugin is installed or not
+	 * @return bool Plugin is installed or not
 	 */
-	public function getPlugin($p) {
+	public function getPlugin(string $p): bool {
 		return in_array($p, $this->plugins);
 	}
 
@@ -272,7 +270,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setDir($dir, $value) {
+	public function setDir(string $dir, string $value): void {
 		$this->dirs[$dir] = $value;
 	}
 
@@ -283,7 +281,7 @@ class OConfig {
 	*
 	* @return string|array Path of requested directory or full list of configured directories
 	*/
-	public function getDir($dir=null) {
+	public function getDir(string $dir=null) {
 		if (is_null($dir)) {
 			return $this->dirs;
 		}
@@ -297,7 +295,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	private function setBaseDir($bd) {
+	private function setBaseDir(string $bd): void {
 		$this->setDir('base',           $bd);
 		$this->setDir('app',            $bd.'app/');
 		$this->setDir('app_cache',      $bd.'app/cache/');
@@ -334,7 +332,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setDB($key, $value) {
+	public function setDB(string $key, string $value): void {
 		$this->db[$key] = $value;
 	}
 
@@ -345,7 +343,7 @@ class OConfig {
 	 *
 	 * @return string Configuration value
 	 */
-	public function getDB($key) {
+	public function getDB(string $key): string {
 		return array_key_exists($key, $this->db) ? $this->db[$key] : null;
 	}
 
@@ -354,9 +352,11 @@ class OConfig {
 	 *
 	 * @param string $key Key code of a URL
 	 *
+	 * @param string $url URL to be stored
+	 *
 	 * @return void
 	 */
-	public function setUrl($key, $url) {
+	public function setUrl(string $key, string $url): void {
 		$this->urls[$key] = $url;
 	}
 
@@ -367,7 +367,7 @@ class OConfig {
 	*
 	* @return string Stored URL or null if key doesn't exist
 	*/
-	public function getUrl($key) {
+	public function getUrl(string $key): string {
 		return array_key_exists($key, $this->urls) ? $this->urls[$key] : null;
 	}
 
@@ -376,11 +376,11 @@ class OConfig {
 	 *
 	 * @param string $key Configuration key (host / port / secure / user / pass)
 	 *
-	 * @param string|integer $value Configuration value
+	 * @param string|int $value Configuration value
 	 *
 	 * @return void
 	 */
-	public function setSMTP($key, $value) {
+	public function setSMTP(string $key, string $value): void {
 		$this->smtp[$key] = $value;
 	}
 
@@ -389,9 +389,9 @@ class OConfig {
 	 *
 	 * @param string $key Configuration key (host / port / secure / user / pass)
 	 *
-	 * @return string|integer|array Required configuration value or whole configuration if key is ommitted
+	 * @return string|int|array Required configuration value or whole configuration if key is ommitted
 	 */
-	public function getSMTP($key=null) {
+	public function getSMTP(string $key=null) {
 		if (is_null($key)) {
 			return $this->smtp;
 		}
@@ -405,7 +405,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setCookiePrefix($cp) {
+	public function setCookiePrefix(string $cp): void {
 		$this->cookie_prefix = $cp;
 	}
 
@@ -414,7 +414,7 @@ class OConfig {
 	 *
 	 * @return string Cookie prefix (eg osumi-)
 	 */
-	public function getCookiePrefix() {
+	public function getCookiePrefix(): string {
 		return $this->cookie_prefix;
 	}
 
@@ -425,7 +425,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setCookieUrl($cu) {
+	public function setCookieUrl(string $cu): void {
 		$this->cookie_url = $cu;
 	}
 
@@ -434,7 +434,7 @@ class OConfig {
 	 *
 	 * @return string URL of the cookies
 	 */
-	public function getCookieUrl() {
+	public function getCookieUrl(): string {
 		return $this->cookie_url;
 	}
 
@@ -445,7 +445,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setUrlList($u) {
+	public function setUrlList(array $u): void {
 		$this->url_list = $u;
 	}
 
@@ -454,31 +454,31 @@ class OConfig {
 	 *
 	 * @return array Array of the application URLs and their configuration
 	 */
-	public function getUrlList() {
+	public function getUrlList(): ?array {
 		return $this->url_list;
 	}
 
 	/**
 	 * Set up a customized URL for a given error status (403, 404, 500)
 	 *
-	 * @param integer $status Status code where user has to be redirected (403, 404, 500)
+	 * @param int $status Status code where user has to be redirected (403, 404, 500)
 	 *
 	 * @param string $url URL where the user has to be redirected
 	 *
 	 * @return void
 	 */
-	public function setErrorPage($status, $url) {
+	public function setErrorPage(int $status, string $url): void {
 		$this->error_pages[$status] = $url;
 	}
 
 	/**
 	 * Get the URL where the user has to be redirected on a given HTTP status code or null if it hasn't been customized
 	 *
-	 * @param integer $num Status code to be checked
+	 * @param int $num Status code to be checked
 	 *
 	 * @return string URL where the user has to be redirected
 	 */
-	public function getErrorPage($num) {
+	public function getErrorPage(int $num): ?string {
 		if (array_key_exists($num, $this->error_pages)){
 			return $this->error_pages[$num];
 		}
@@ -492,7 +492,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setCssList($cl) {
+	public function setCssList(array $cl): void {
 		$this->css_list = $cl;
 	}
 
@@ -501,7 +501,7 @@ class OConfig {
 	 *
 	 * @return string[] Array of CSS file names to be included
 	 */
-	public function getCssList() {
+	public function getCssList(): array {
 		return $this->css_list;
 	}
 
@@ -512,7 +512,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function addCssList($item) {
+	public function addCssList(string $item): void {
 		array_push($this->css_list, $item);
 	}
 
@@ -523,7 +523,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setExtCssList($ecl) {
+	public function setExtCssList(array $ecl): void {
 		$this->ext_css_list = $ecl;
 	}
 
@@ -532,7 +532,7 @@ class OConfig {
 	 *
 	 * @return string[] Array of external CSS file URLs to be included
 	 */
-	public function getExtCssList() {
+	public function getExtCssList(): array {
 		return $this->ext_css_list;
 	}
 
@@ -543,7 +543,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function addExtCssList($item) {
+	public function addExtCssList(string $item): void {
 		array_push($this->ext_css_list, $item);
 	}
 
@@ -554,7 +554,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setJsList($jl) {
+	public function setJsList(array $jl): void {
 		$this->js_list = $jl;
 	}
 
@@ -563,7 +563,7 @@ class OConfig {
 	 *
 	 * @return string[] Array of JS file names to be included
 	 */
-	public function getJsList() {
+	public function getJsList(): array {
 		return $this->js_list;
 	}
 
@@ -574,7 +574,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function addJsList($item) {
+	public function addJsList(string $item): void {
 		array_push($this->js_list, $item);
 	}
 
@@ -585,7 +585,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setExtJsList($ejl) {
+	public function setExtJsList(array $ejl): void {
 		$this->ext_js_list = $ejl;
 	}
 
@@ -594,7 +594,7 @@ class OConfig {
 	 *
 	 * @return string[] Array of external JS file URLs to be included
 	 */
-	public function getExtJsList() {
+	public function getExtJsList(): array {
 		return $this->ext_js_list;
 	}
 
@@ -605,7 +605,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function addExtJsList($item) {
+	public function addExtJsList(string $item): void {
 		array_push($this->ext_js_list, $item);
 	}
 
@@ -616,7 +616,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setDefaultTitle($dt) {
+	public function setDefaultTitle(string $dt): void {
 		$this->default_title = $dt;
 	}
 
@@ -625,7 +625,7 @@ class OConfig {
 	 *
 	 * @return string Default title
 	 */
-	public function getDefaultTitle() {
+	public function getDefaultTitle(): string {
 		return $this->default_title;
 	}
 
@@ -636,7 +636,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setLang($l) {
+	public function setLang(string $l): void {
 		$this->lang = $l;
 	}
 
@@ -645,7 +645,7 @@ class OConfig {
 	 *
 	 * @return string Language code
 	 */
-	public function getLang() {
+	public function getLang(): string {
 		return $this->lang;
 	}
 
@@ -656,7 +656,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setMailingFrom($mf) {
+	public function setMailingFrom(string $mf): void {
 		$this->mailing_from = $mf;
 	}
 
@@ -665,7 +665,7 @@ class OConfig {
 	 *
 	 * @return string Senders email address
 	 */
-	public function getMailingFrom() {
+	public function getMailingFrom(): string {
 		return $this->mailing_from;
 	}
 
@@ -676,7 +676,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function setLibs($l) {
+	public function setLibs(array $l): void {
 		$this->libs = $l;
 	}
 
@@ -685,7 +685,7 @@ class OConfig {
 	 *
 	 * @return string[] Array of third-party library names
 	 */
-	public function getLibs() {
+	public function getLibs(): array {
 		return $this->libs;
 	}
 
@@ -696,7 +696,7 @@ class OConfig {
 	 *
 	 * @return void
 	 */
-	public function addLib($item) {
+	public function addLib(string $item): void {
 		array_push($this->libs, $item);
 	}
 
@@ -705,11 +705,11 @@ class OConfig {
 	 *
 	 * @param string $key Key of the item to be stored
 	 *
-	 * @param string|integer|float|boolean $value Value of the stored item
+	 * @param string|int|float|bool $value Value of the stored item
 	 *
 	 * @return void
 	 */
-	public function setExtra($key, $value) {
+	public function setExtra(string $key, $value): void {
 		$this->extras[$key] = $value;
 	}
 
@@ -718,9 +718,9 @@ class OConfig {
 	 *
 	 * @param string $key Key of the item to be retrieved
 	 *
-	 * @return string|integer|float|boolean Value of the stored item
+	 * @return string|int|float|bool Value of the stored item
 	 */
-	public function getExtra($key) {
+	public function getExtra(string $key) {
 		return array_key_exists($key, $this->extras) ? $this->extras[$key] : null;
 	}
 }

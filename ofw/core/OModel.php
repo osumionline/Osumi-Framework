@@ -1,17 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OModel - Base class for the model classes with all the methods necessary to interact with the database.
  */
 class OModel {
-	private $debug        = false;
-	private $l            = null;
-	protected $db         = null;
-	protected $model_name = '';
-	protected $table_name = '';
-	protected $model      = [];
-	protected $pk         = [];
-	protected $created    = null;
-	protected $updated    = null;
+	private   bool    $debug      = false;
+	private   ?OLog   $l          = null;
+	protected ?ODB    $db         = null;
+	protected string  $model_name = '';
+	protected string  $table_name = '';
+	protected array   $model      = [];
+	protected array   $pk         = [];
+	protected ?string $created    = null;
+	protected ?string $updated    = null;
 
 	/**
 	 * Load model information
@@ -22,7 +22,7 @@ class OModel {
 	 *
 	 * @return void
 	 */
-	function load($table_name, $model) {
+	function load(string $table_name, array $model): void {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
@@ -69,7 +69,7 @@ class OModel {
 	 *
 	 * @return void
 	 */
-	private function log($str) {
+	private function log(string $str): void {
 		if ($this->debug) {
 			$this->l->debug($str);
 		}
@@ -82,7 +82,7 @@ class OModel {
 	 *
 	 * @return array Whole model (array of arrays) or field model (single array)
 	 */
-	public function getModel($key=null) {
+	public function getModel(string $key=null): array {
 		if (is_null($key)) {
 			return $this->model;
 		}
@@ -101,11 +101,11 @@ class OModel {
 	 *
 	 * @param string $key Field name
 	 *
-	 * @param string|integer|float|boolean Field value
+	 * @param string|int|float|bool Field value
 	 *
-	 * @return boolean Field value was successfully updated or not
+	 * @return bool Field value was successfully updated or not
 	 */
-	public function set($key, $value) {
+	public function set(string $key, $value): bool {
 		if (array_key_exists($key, $this->model)){
 			$this->model[$key]['value'] = $value;
 			return true;
@@ -118,11 +118,11 @@ class OModel {
 	 *
 	 * @param string $key Field name
 	 *
-	 * @param string|integer $extra php date format for date field types or number to limit number of characters for string field types
+	 * @param string|int $extra php date format for date field types or number to limit number of characters for string field types
 	 *
-	 * @return string|integer|float|boolean Field value
+	 * @return string|int|float|bool Field value
 	 */
-	public function get($key, $extra=null) {
+	public function get(string $key, $extra=null) {
 		$field = $this->getModel($key);
 		if ($field) {
 			if (is_null($field['value'])) {
@@ -160,7 +160,7 @@ class OModel {
 	 *
 	 * @return string[] Array with the names of the fields that are Primary Keys
 	 */
-	public function getPks() {
+	public function getPks(): array {
 		$ret = [];
 
 		foreach ($this->model as $field_name => $row) {
@@ -174,7 +174,7 @@ class OModel {
 	/**
 	 * Function to save current model into the database
 	 *
-	 * @return void
+	 * @return bool Returns true if everything went OK or false if an error happened
 	 */
 	public function save() {
 		$save_type = '';
@@ -184,6 +184,7 @@ class OModel {
 		if (!is_null($this->updated)){
 			$this->model[$this->updated]['value'] = date('Y-m-d H:i:s', time());
 		}
+
 		// UPDATE
 		if (!is_null($this->model[$this->created]['value'])) {
 			$sql = "UPDATE `".$this->table_name."` SET ";
@@ -250,6 +251,7 @@ class OModel {
 		}
 		catch(Exception $ex) {
 			$this->log('ERROR: '.$ex->getMessage());
+			return false;
 		}
 
 		// If table has only a PK and it is incremental, save it
@@ -261,6 +263,8 @@ class OModel {
 		foreach($this->model as $field_name=>$field){
 			$this->model[$field_name]['original'] = $model[$field_name]['value'];
 		}
+
+		return true;
 	}
 
 	/**
@@ -268,9 +272,12 @@ class OModel {
 	 *
 	 * @param string[] $opt Fieldname / value pairs to look up in the database
 	 *
-	 * @return boolean Data found based on given parameters
+	 * @return bool Data found based on given parameters
 	 */
-	public function find($opt=[]) {
+	public function find(array $opt=[]): bool {
+		if (count($opt)==0) {
+			return false;
+		}
 		$sql = "SELECT * FROM `".$this->table_name."` WHERE ";
 		$search_fields = [];
 		foreach ($opt as $key => $value) {
@@ -298,7 +305,7 @@ class OModel {
 	 *
 	 * @return void
 	 */
-	public function update($res) {
+	public function update(array $res): void {
 		foreach ($this->model as $field_name => $field){
 			if (array_key_exists($field_name, $res)){
 				if (is_null($res[$field_name])) {
@@ -337,7 +344,7 @@ class OModel {
 	 *
 	 * @return void
 	 */
-	public function delete() {
+	public function delete(): void {
 		$sql = "DELETE FROM `".$this->table_name."` WHERE ";
 		$delete_fields = [];
 		foreach ($this->pk as $pk_field) {
@@ -357,7 +364,7 @@ class OModel {
 	 *
 	 * @return array|string Representation of the model
 	 */
-	public function generate($type='sql') {
+	public function generate(string $type='sql') {
 		global $core;
 		$ret = '';
 
@@ -449,7 +456,7 @@ class OModel {
 	 *
 	 * @return string SQL commands to create the Foreign Keys
 	 */
-	public function generateRefs() {
+	public function generateRefs(): string {
 		$sql         = '';
 		$has_refs    = false;
 		$indexes     = [];
@@ -486,9 +493,9 @@ class OModel {
 	/**
 	 * Function to return a safe string / numeric based representation of a value
 	 *
-	 * @param string|integer $value Value needed to be cleaned
+	 * @param string|int $value Value needed to be cleaned
 	 *
-	 * @return string|integer Safe representation of the given value
+	 * @return string|int Safe representation of the given value
 	 */
 	public function cleanValue($value) {
 		if (is_null($value)) {

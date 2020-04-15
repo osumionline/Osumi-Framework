@@ -1,6 +1,6 @@
-<?php
-class User extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class User extends OModel {
+	function __construct() {
 		$table_name  = 'user';
 		$model = [
 			'id' => [

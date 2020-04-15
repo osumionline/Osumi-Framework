@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OCore - Base class for the framework with methods to load required files and start the application
  */
@@ -28,22 +28,27 @@ class OCore {
 		self::FLOAT    => ['default'=>0,     'original'=>0,     'value'=>0,     'incr'=>false, 'size'=>0,  'nullable'=>false, 'comment'=>'', 'ref'=>'', 'by'=>'']
 	];
 
-	public $dbContainer = null;
-	public $cacheContainer = null;
-	public $config = null;
-	public $locale = null;
-	public $start_time = null;
+	public ?ODBContainer    $dbContainer = null;
+	public ?OCacheContainer $cacheContainer = null;
+	public ?OConfig         $config = null;
+	public ?array           $locale = null;
+	public ?float           $start_time = null;
 
-	public function __construct(){
+	/**
+	 * Get the start time in milliseconds to use in benchmarks
+	 */
+	public function __construct() {
 		$this->start_time = microtime(true);
 	}
 
 	/**
 	 * Include required files for the framework and start up some components like configuration, cache container or database connection container
 	 *
+	 * @param bool $from_cli Marks if the core is being loaded for use in web application or CLI application
+	 *
 	 * @return void
 	 */
-	public function load($from_cli=false) {
+	public function load(bool $from_cli=false): void {
 		session_start();
 		date_default_timezone_set('Europe/Madrid');
 
@@ -168,7 +173,7 @@ class OCore {
 	 *
 	 * @return void
 	 */
-	public function run() {
+	public function run(): void {
 		if ($this->config->getAllowCrossOrigin()) {
 			header('Access-Control-Allow-Origin: *');
 			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');

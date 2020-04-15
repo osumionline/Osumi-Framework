@@ -1,6 +1,6 @@
-<?php
-class Tag extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class Tag extends OModel {
+	function __construct() {
 		$table_name  = 'tag';
 		$model = [
 			'id' => [
@@ -33,7 +33,7 @@ class Tag extends OModel{
 		parent::load($table_name, $model);
 	}
 
-	public function __toString(){
+	public function __toString() {
 		return $this->get('name');
 	}
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Generate a SQL file to create all the tables in the database based on user defined models (file generated on ofw/export)
  */
@@ -6,18 +6,16 @@ class generateModelTask {
 	/**
 	 * Returns description of the task
 	 *
-	 * @return Description of the task
+	 * @return string Description of the task
 	 */
 	public function __toString() {
 		return $this->colors->getColoredString("generateModel", "light_green").": ".OTools::getMessage('TASK_GENERATE_MODEL');
 	}
 
-	private $colors = null;
+	private ?OColors $colors = null;
 
 	/**
 	 * Loads class used to colorize messages
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		$this->colors = new OColors();
@@ -26,9 +24,9 @@ class generateModelTask {
 	/**
 	 * Run the task
 	 *
-	 * @return string Returns SQL to create database tables
+	 * @return void Echoes SQL to create database tables and generates a SQL file in export folder
 	 */
-	public function run() {
+	public function run(): void {
 		OTools::generateModel();
 	}
 }

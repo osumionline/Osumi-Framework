@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OCacheContainer - Container for all json cache files
  */
 class OCacheContainer {
-	private $list = [];
+	private array $list = [];
 
 	/**
 	 * Save a cache folder json file in memory to reuse it in case it is needed
 	 *
 	 * @param string $key Name of the json file in the cache folder
 	 *
-	 * @param string $value Content of the json file
+	 * @param OCache $value OCache object to be stored
 	 *
 	 * @return void
 	 */
-	public function set($key, $value) {
+	public function set(string $key, OCache $value): void {
 		$this->list[$key] = $value;
 	}
 
@@ -23,10 +23,10 @@ class OCacheContainer {
 	 *
 	 * @param string $key Name of the json file in the cache folder
 	 *
-	 * @return string|boolean Content of the json file or false if the key is not found
+	 * @return ?OCache Stored OCache object or null if not found
 	 */
-	public function get($key) {
-		return array_key_exists($key, $this->list) ? $this->list[$key] : false;
+	public function get(string $key): ?OCache {
+		return array_key_exists($key, $this->list) ? $this->list[$key] : null;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class OCacheContainer {
 	 *
 	 * @return void
 	 */
-	public function remove($key) {
+	public function remove(string $key): void {
 		unset($this->list[$key]);
 	}
 }
@@ -45,25 +45,23 @@ class OCacheContainer {
  * OCache - Class to cache data and methods to access/modify/delete it
  */
 class OCache {
-	private $debug      = false;
-	private $l          = null;
-	private $cache      = null;
-	private $cache_file = null;
-	private $raw        = false;
-	private $cache_date = null;
-	private $cache_data = null;
-	private $status     = 'ok';
+	private bool   $debug      = false;
+	private ?OLog  $l          = null;
+	private string $cache      = '';
+	private string $cache_file = '';
+	private bool   $raw        = false;
+	private ?int   $cache_date = null;
+	private array  $cache_data = [];
+	private string $status     = 'ok';
 
 	/**
 	 * On startup the constructor checks if the required file exists, if the content is a parseable json and if hasn't expired (a week)
 	 *
 	 * @param string $cache Name of the cache file
 	 *
-	 * @param boolean $raw If set to true it doesn't check it's expiration date
-	 *
-	 * @return void
+	 * @param bool $raw If set to true it doesn't check it's expiration date
 	 */
-	function __construct($cache, $raw=false) {
+	function __construct(string $cache, bool $raw=false) {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
@@ -110,7 +108,7 @@ class OCache {
 	 *
 	 * @return void
 	 */
-	private function log($str) {
+	private function log(string $str): void {
 		if ($this->debug) {
 			$this->l->debug($str);
 		}
@@ -121,7 +119,7 @@ class OCache {
 	 *
 	 * @return string Status of the cache
 	 */
-	public function getStatus() {
+	public function getStatus(): string {
 		return $this->status;
 	}
 
@@ -130,7 +128,7 @@ class OCache {
 	 *
 	 * @return void
 	 */
-	public function start() {
+	public function start(): void {
 		$this->status = 'ok';
 		$this->cache_date = mktime();
 		$this->cache_data = [];
@@ -141,18 +139,18 @@ class OCache {
 	 *
 	 * @param string $key Key of the cached json data to be retrieved
 	 *
-	 * @return string|integer|boolean Returns required cache data or false if something failed
+	 * @return string|int|bool Returns required cache data or false if something failed
 	 */
-	public function get($key) {
+	public function get(string $key) {
 		if ($this->status!='ok') {
-			return false;
+			return null;
 		}
 
 		if (array_key_exists($key, $this->cache_data)) {
 			return $this->cache_data[$key];
 		}
 		else {
-			return false;
+			return null;
 		}
 	}
 
@@ -161,11 +159,11 @@ class OCache {
 	 *
 	 * @param string $key Key of the data to be saved
 	 *
-	 * @param string|integer|boolean Data to be saved
+	 * @param string|int|bool Data to be saved
 	 *
 	 * @return void
 	 */
-	public function set($key, $value) {
+	public function set(string $key, $value): void {
 		$this->cache_data[$key] = $value;
 	}
 
@@ -174,7 +172,7 @@ class OCache {
 	 *
 	 * @return void
 	 */
-	public function save() {
+	public function save(): void {
 		$this->cache_date = mktime();
 		$data = ['date' => $this->cache_date, 'data' => $this->cache_data];
 
@@ -187,9 +185,9 @@ class OCache {
 	/**
 	 * Delete a cache file
 	 *
-	 * @return boolean The file got deleted or not
+	 * @return bool The file got deleted or not
 	 */
-	public function delete() {
+	public function delete(): bool {
 		if ($this->status!='ok') {
 			return false;
 		}

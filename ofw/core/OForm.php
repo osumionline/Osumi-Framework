@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OForm - Class with methods to validate user sent forms
  */
@@ -14,14 +14,16 @@ class OForm {
 	const RADIO  = 6;
 
 	// Field: 'name' => ['value', 'type' , 'validation']
-	private $fields = [];
+	private array $fields = [];
 
 	/**
 	 * Set the fields to be validated
 	 *
 	 * @param array Field list to be validated (value, type, validation)
+	 *
+	 * @return void
 	 */
-	public function setFields($fields) {
+	public function setFields(array $fields): void {
 		$this->fields = $fields;
 	}
 
@@ -30,7 +32,7 @@ class OForm {
 	 *
 	 * @return array Field list to be validated (value, type, validation)
 	 */
-	public function getFields() {
+	public function getFields(): array {
 		return $this->fields;
 	}
 
@@ -40,8 +42,10 @@ class OForm {
 	 * @param string $name Key name of the field
 	 *
 	 * @param array $field Field to be validated (value, type, validation)
+	 *
+	 * @return void
 	 */
-	public function addField($name, $field) {
+	public function addField(string $name, array $field): void {
 		$this->fields[$name] = $field;
 	}
 
@@ -52,11 +56,11 @@ class OForm {
 	 *
 	 * @return array Field to be validated (value, type, validation)
 	 */
-	public function getField($name) {
+	public function getField(string $name): ?array {
 		if (array_key_exists($name, $this->fields)) {
 			return $this->fields[$name];
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -66,19 +70,19 @@ class OForm {
 	 *
 	 * @return string Value of the field as a string
 	 */
-	public function getFieldValue($name) {
+	public function getFieldValue(string $name): ?string {
 		if (array_key_exists($name, $this->fields)) {
 			return $this->fields[$name]['value'];
 		}
-		return false;
+		return null;
 	}
 
 	/**
 	 * Check if is a valid form by checking all the fields with their validation type
 	 *
-	 * @return boolean Returns if the form is valid or not
+	 * @return bool Returns if the form is valid or not
 	 */
-	public function isValid() {
+	public function isValid(): bool {
 		$is_valid = true;
 
 		foreach ($this->fields as $name => $field) {
@@ -115,7 +119,7 @@ class OForm {
 	 *
 	 * @return void
 	 */
-	public function loadValues($list) {
+	public function loadValues(array $list): void {
 		echo '<pre>';
 		var_dump($list);
 		echo '</pre>';

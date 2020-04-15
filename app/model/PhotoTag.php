@@ -1,6 +1,6 @@
-<?php
-class PhotoTag extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class PhotoTag extends OModel {
+	function __construct() {
 		$table_name  = 'photo_tag';
 		$model = [
 			'id_photo' => [

@@ -1,16 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OSession - Class with methods to get/set information into the users session
  */
 class OSession {
-	private $debug = false;
-	private $l = null;
-	private $params = [];
+	private bool  $debug  = false;
+	private ?OLog $l      = null;
+	private array $params = [];
 
 	/**
 	 * Load on startup the session information
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		global $core;
@@ -31,7 +29,7 @@ class OSession {
 	 *
 	 * @return void
 	 */
-	private function log($str) {
+	private function log(string $str): void {
 		if ($this->debug) {
 			$this->l->debug($str);
 		}
@@ -44,7 +42,7 @@ class OSession {
 	 *
 	 * @return void
 	 */
-	public function setParams($p) {
+	public function setParams(array $p): void {
 		$this->log('setParams - Params:');
 		$this->log(var_export($p, true));
 		$this->params = $p;
@@ -56,7 +54,7 @@ class OSession {
 	 *
 	 * @return array Array of key / value pairs
 	 */
-	public function getParams() {
+	public function getParams(): array {
 		return $this->params;
 	}
 
@@ -65,11 +63,11 @@ class OSession {
 	 *
 	 * @param string $key Key code of the parameter
 	 *
-	 * @param string|integer|float|boolean $value Value of the parameter
+	 * @param string|int|float|bool $value Value of the parameter
 	 *
 	 * @return void
 	 */
-	public function addParam($key, $value) {
+	public function addParam(string $key, $value): void {
 		$this->params[$key] = $value;
 		$this->setParams($this->params);
 	}
@@ -79,9 +77,9 @@ class OSession {
 	 *
 	 * @param string $key Key code of the parameter
 	 *
-	 * @return string|integer|float|boolean|void Value of the parameter or null if not found
+	 * @return string|int|float|bool|void Value of the parameter or null if not found
 	 */
-	public function getParam($key) {
+	public function getParam(string $key) {
 		if (array_key_exists($key, $this->params)) {
 			return $this->params[$key];
 		}
@@ -97,7 +95,7 @@ class OSession {
 	 *
 	 * @return void
 	 */
-	public function removeParam($key) {
+	public function removeParam(string $key): void {
 		unset($this->params[$key]);
 		$this->setParams($this->params);
 	}
@@ -107,7 +105,7 @@ class OSession {
 	 *
 	 * @return void
 	 */
-	public function cleanSession() {
+	public function cleanSession(): void {
 		unset($_SESSION['params']);
 		$this->setParams([]);
 	}

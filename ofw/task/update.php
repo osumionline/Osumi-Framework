@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Update Framework files to a newer version
  */
@@ -6,18 +6,16 @@ class updateTask {
 	/**
 	 * Returns description of the task
 	 *
-	 * @return Description of the task
+	 * @return string Description of the task
 	 */
 	public function __toString() {
 		return $this->colors->getColoredString("update", "light_green").": ".OTools::getMessage('TASK_UPDATE');
 	}
 
-	private $colors = null;
+	private ?OColors $colors = null;
 
 	/**
 	 * Loads class used to colorize messages
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		$this->colors = new OColors();
@@ -26,9 +24,9 @@ class updateTask {
 	/**
 	 * Run the task
 	 *
-	 * @return string Returns update information
+	 * @return void Echoes update information
 	 */
-	public function run() {
+	public function run(): void {
 		$update = new OUpdate();
 		$to_be_updated = $update->doUpdateCheck();
 

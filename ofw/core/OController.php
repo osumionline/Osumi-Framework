@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OController - Base class for the controller classes providing access to the framework configuration, database, template, logs, session or cookies
  */
 class OController {
-	protected $config   = null;
-	protected $db       = null;
-	protected $template = null;
-	protected $log      = null;
-	protected $session  = null;
-	protected $cookie   = null;
+	protected ?OConfig   $config   = null;
+	protected ?ODB       $db       = null;
+	protected ?OTemplate $template = null;
+	protected ?OLog      $log      = null;
+	protected ?OSession  $session  = null;
+	protected ?OCookie   $cookie   = null;
 
 	/**
 	 * Load matched URL configuration value into the controller
@@ -17,7 +17,7 @@ class OController {
 	 *
 	 * @return void
 	 */
-	public final function loadController($url_result) {
+	public final function loadController(array $url_result): void {
 		global $core;
 
 		$this->config   = $core->config;
@@ -45,7 +45,7 @@ class OController {
 	 *
 	 * @return OConfig Configuration class object
 	 */
-	public final function getConfig() {
+	public final function getConfig(): OConfig {
 		return $this->config;
 	}
 
@@ -54,7 +54,7 @@ class OController {
 	 *
 	 * @return ODB Database access object
 	 */
-	public final function getDB() {
+	public final function getDB(): ODB {
 		return $this->db;
 	}
 
@@ -63,7 +63,7 @@ class OController {
 	 *
 	 * @return OTemplate Template configuration class object
 	 */
-	public final function getTemplate() {
+	public final function getTemplate(): OTemplate {
 		return $this->template;
 	}
 
@@ -72,7 +72,7 @@ class OController {
 	 *
 	 * @return OLog Information logger object
 	 */
-	public final function getLog() {
+	public final function getLog(): OLog {
 		return $this->log;
 	}
 
@@ -81,7 +81,7 @@ class OController {
 	 *
 	 * @return OSession Session configuration class object
 	 */
-	public final function getSession() {
+	public final function getSession(): OSession {
 		return $this->session;
 	}
 
@@ -90,7 +90,7 @@ class OController {
 	 *
 	 * @return OCookie Cookie configuration class object
 	 */
-	public final function getCookie() {
+	public final function getCookie(): OCookie {
 		return $this->cookie;
 	}
 }

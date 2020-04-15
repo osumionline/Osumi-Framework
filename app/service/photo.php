@@ -1,10 +1,10 @@
-<?php
-class photoService extends OService{
-	function __construct(){
+<?php declare(strict_types=1);
+class photoService extends OService {
+	function __construct() {
 		$this->loadService();
 	}
 
-	public function getPhotos($id){
+	public function getPhotos(int $id): array {
 		$db = new ODB();
 		$sql = "SELECT * FROM `photo` WHERE `id_user` = ?";
 		$db->query($sql, [$id]);

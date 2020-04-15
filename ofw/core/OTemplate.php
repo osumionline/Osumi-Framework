@@ -1,26 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OTemplate - Class used by the controllers to show the required template and its data
  */
 class OTemplate {
-	private $debug         = false;
-	private $l             = null;
-	private $templates_dir = '';
-	private $template      = null;
-	private $action        = '';
-	private $module        = '';
-	private $type          = 'html';
-	private $layout        = '';
-	private $params        = [];
-	private $css_list      = [];
-	private $ext_css_list  = [];
-	private $js_list       = [];
-	private $ext_js_list   = [];
-	private $title         = '';
-	private $json          = false;
-	private $lang          = '';
-	private $translator    = null;
-	private $return_types  = [
+	private bool        $debug         = false;
+	private ?OLog       $l             = null;
+	private string      $templates_dir = '';
+	private ?string     $template      = null;
+	private string      $action        = '';
+	private string      $module        = '';
+	private string      $type          = 'html';
+	private string      $layout        = '';
+	private array       $params        = [];
+	private array       $css_list      = [];
+	private array       $ext_css_list  = [];
+	private array       $js_list       = [];
+	private array       $ext_js_list   = [];
+	private string      $title         = '';
+	private bool        $json          = false;
+	private string      $lang          = '';
+	private ?OTranslate $translator    = null;
+	private array       $return_types  = [
 		'html' => 'text/html',
 		'json' => 'application/json',
 		'xml'  => 'text/xml'
@@ -28,8 +28,6 @@ class OTemplate {
 
 	/**
 	 * Load on startup applications configuration and check if there are translations
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		global $core;
@@ -54,7 +52,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	private function log($str) {
+	private function log(string $str): void {
 		if ($this->debug) {
 			$this->l->debug($str);
 		}
@@ -67,7 +65,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setModule($m) {
+	public function setModule(string $m): void {
 		$this->module = $m;
 	}
 
@@ -78,7 +76,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setAction($a) {
+	public function setAction(string $a): void {
 		$this->action = $a;
 	}
 
@@ -89,18 +87,18 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setType($t) {
+	public function setType(string $t): void {
 		$this->type = $t;
 	}
 
 	/**
 	 * Set the content of the layout of a requested page or call
 	 *
-	 * @param string $l Content of the layout
+	 * @param string|bool $l Content of the layout or false if there is no layout
 	 *
 	 * @return void
 	 */
-	public function setLayout($l) {
+	public function setLayout($l): void {
 		if ($l === false) {
 			$l = '';
 		}
@@ -114,7 +112,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function loadLayout($layout) {
+	public function loadLayout(string $layout): void {
 		$this->setLayout( file_get_contents($this->templates_dir.'layout/'.$layout.'.php') );
 	}
 
@@ -125,7 +123,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setCssList($cl) {
+	public function setCssList(array $cl): void {
 		$this->css_list = $cl;
 	}
 
@@ -136,7 +134,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setExtCssList($ecl) {
+	public function setExtCssList(array $ecl): void {
 		$this->ext_css_list = $ecl;
 	}
 
@@ -147,7 +145,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setJsList($jl) {
+	public function setJsList(array $jl): void {
 		$this->js_list = $jl;
 	}
 
@@ -158,7 +156,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setExtJsList($ejl) {
+	public function setExtJsList(array $ejl): void {
 		$this->ext_js_list = $ejl;
 	}
 
@@ -169,7 +167,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setTitle($t) {
+	public function setTitle(string $t): void {
 		$this->title = $t;
 	}
 
@@ -180,7 +178,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function setLang($l) {
+	public function setLang(string $l): void {
 		$this->lang = $l;
 	}
 
@@ -189,13 +187,13 @@ class OTemplate {
 	 *
 	 * @param string $key Key value in the template that will get substituted (eg {{title}})
 	 *
-	 * @param string|integer|float $value Value to be substituted
+	 * @param string|int|float $value Value to be substituted
 	 *
-	 * @param string|integer $extra Optional information about the value ('nourlencode' in json files, cut strings if too long...)
+	 * @param string|int $extra Optional information about the value ('nourlencode' in json files, cut strings if too long...)
 	 *
 	 * @return void
 	 */
-	public function add($key, $value, $extra=null) {
+	public function add(string $key, $value, $extra=null): void {
 		$temp = ['name' => $key, 'value' => $value];
 		if (!is_null($extra)) {
 			$temp['extra'] = $extra;
@@ -210,7 +208,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addCss($item) {
+	public function addCss(string $item): void {
 		array_push($this->css_list, $item);
 	}
 
@@ -221,7 +219,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addExtCss($item) {
+	public function addExtCss(string $item): void {
 		array_push($this->ext_css_list, $item);
 	}
 
@@ -232,7 +230,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addJs($item) {
+	public function addJs(string $item): void {
 		array_push($this->js_list, $item);
 	}
 
@@ -243,7 +241,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addExtJs($item) {
+	public function addExtJs(string $item): void {
 		array_push($this->ext_js_list, $item);
 	}
 
@@ -258,7 +256,7 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addPartial($where, $name, $values=[]) {
+	public function addPartial(string $where, string $name, array $values=[]): void {
 		$partial_file = $this->templates_dir.'partials/'.$name.'.php';
 		if (file_exists($partial_file)) {
 			ob_start();
@@ -281,7 +279,7 @@ class OTemplate {
 	 *
 	 * @return string Returns the partial processed with given parameters
 	 */
-	public function readPartial($name, $values=[]) {
+	public function readPartial(string $name, array $values=[]): string {
 		$filename = $this->templates_dir.'partials/'.$name.'.php';
 		if (!file_exists($filename)) {
 			return '';
@@ -305,7 +303,7 @@ class OTemplate {
 	 *
 	 * @return string Returns the processed template with all the information
 	 */
-	public function process() {
+	public function process(): string {
 		global $core;
 		$this->log('process - Type: '.$this->type);
 		$this->template     = file_get_contents($this->templates_dir.$this->module.'/'.$this->action.'.php');

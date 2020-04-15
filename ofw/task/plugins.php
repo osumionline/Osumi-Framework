@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Task to manage plugins (list available / install / remove)
  */
@@ -6,19 +6,19 @@ class pluginsTask {
 	/**
 	 * Returns description of the task
 	 *
-	 * @return Description of the task
+	 * @return string Description of the task
 	 */
 	public function __toString() {
 		return $this->colors->getColoredString("plugins", "light_green").": ".OTools::getMessage('TASK_PLUGINS');
 	}
 
-	private $config = null;
-	private $colors = null;
+	private ?OConfig $config       = null;
+	private ?OColors $colors       = null;
+	private array    $plugins_file = [];
+	private string   $repo_url     = 'https://raw.githubusercontent.com/igorosabel/Osumi-Plugins/';
 
 	/**
 	 * Loads class used to colorize messages and global configuration
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		global $core;
@@ -26,16 +26,13 @@ class pluginsTask {
 		$this->colors = new OColors();
 	}
 
-	private $plugins_file = null;
-	private $repo_url = 'https://raw.githubusercontent.com/igorosabel/Osumi-Plugins/';
-
 	/**
 	 * Get available plugins list file from repository
 	 *
 	 * @return array Available plugin list array
 	 */
-	private function getPluginsFile() {
-		if (is_null($this->plugins_file)){
+	private function getPluginsFile(): array {
+		if (empty($this->plugins_file)){
 			$this->plugins_file = json_decode( file_get_contents($this->repo_url.'master/plugins.json'), true );
 		}
 		return $this->plugins_file;
@@ -44,9 +41,9 @@ class pluginsTask {
 	/**
 	 * List available plugins
 	 *
-	 * @return string Information about available plugins
+	 * @return void Echoes information about available plugins
 	 */
-	public function availablePlugins() {
+	public function availablePlugins(): void {
 		$plugins = $this->getPluginsFile();
 		echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_TITLE');
 
@@ -68,9 +65,9 @@ class pluginsTask {
 	 *
 	 * @param array Command line parameters, last parameter is the name of the plugin to install
 	 *
-	 * @return string Messages returned while installing a new plugin
+	 * @return void Echoes messages returned while installing a new plugin
 	 */
-	public function installPlugin($params) {
+	public function installPlugin(array $params): void {
 		if (count($params)<2) {
 			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_INSTALL_ERROR')."\n\n";
 			echo "      ".$this->colors->getColoredString("php ofw.php plugins install email", "light_green")."\n\n\n";
@@ -151,9 +148,9 @@ class pluginsTask {
 	/**
 	 * List installed plugins
 	 *
-	 * @return string Messages returned while checking installed plugins
+	 * @return void Echoes messages returned while checking installed plugins
 	 */
-	public function installedPlugins() {
+	public function installedPlugins(): void {
 		echo OTools::getMessage('TASK_PLUGINS_INSTALLED');
 		if (count($this->config->getPlugins())>0) {
 			foreach ($this->config->getPlugins() as $p) {
@@ -173,9 +170,9 @@ class pluginsTask {
 	 *
 	 * @param array Command line parameters, last parameter is the name of the plugin to remove
 	 *
-	 * @return string Messages returned while removing a plugin
+	 * @return void Echoes messages returned while removing a plugin
 	 */
-	public function removePlugin($params) {
+	public function removePlugin(array $params): void {
 		if (count($params)<2){
 			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_REMOVE_ERROR')."\n\n";
 			echo "      ".$this->colors->getColoredString("php ofw.php plugins remove email", "light_green")."\n\n\n";
@@ -248,9 +245,9 @@ class pluginsTask {
 	/**
 	 * Check for updates
 	 *
-	 * @return string Messages returned while checking updates
+	 * @return void Echoes messages returned while checking updates
 	 */
-	public function updateCheck() {
+	public function updateCheck(): void {
 		if (count($this->config->getPlugins())==0) {
 			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_NO_PLUGINS');
 			exit;
@@ -284,9 +281,9 @@ class pluginsTask {
 	/**
 	 * Perform the update
 	 *
-	 * @return string Messages returned while performing updates
+	 * @return void Echoes messages returned while performing updates
 	 */
-	public function update() {
+	public function update(): void {
 		if (count($this->config->getPlugins())==0) {
 			echo OTools::getMessage('TASK_PLUGINS_UPDATE_NO_PLUGINS');
 			exit;
@@ -362,9 +359,11 @@ class pluginsTask {
 	/**
 	 * Run the task
 	 *
-	 * @return string Returns messages generated while installing / updating / deleting plugins
+	 * @param array Command line parameters: option and plugin name
+	 *
+	 * @return void Echoes messages generated while installing / updating / deleting plugins
 	 */
-	public function run($params) {
+	public function run(array $params): void {
 		$option = (count($params)>0) ? $params[0] : 'none';
 		$this->getPluginsFile();
 

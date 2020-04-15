@@ -1,9 +1,9 @@
-<?php
-class home extends OController{
-	private $user_service;
-	private $photo_service;
+<?php declare(strict_types=1);
+class home extends OController {
+	private ?userService  $user_service;
+	private ?photoService $photo_service;
 
-	function __construct(){
+	function __construct() {
 		$this->user_service  = new userService();
 		$this->photo_service = new photoService();
 	}
@@ -11,7 +11,7 @@ class home extends OController{
 	/*
 	 * Página de inicio
 	 */
-	function start($req){
+	function start($req): void {
 		$users = $this->user_service->getUsers();
 
 		$this->getTemplate()->add('date', $this->user_service->getLastUpdate());
@@ -21,7 +21,7 @@ class home extends OController{
 	/*
 	 * Página de un usuario
 	 */
-	function user($req){
+	function user($req): void {
 		$user = $this->user_service->getUser($req['params']['id']);
 		$list = $this->photo_service->getPhotos($user->get('id'));
 

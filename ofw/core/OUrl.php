@@ -1,23 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OUrl - Class with methods to check required URL, get its data, generate new URLs or redirect the user to a new one
  */
 class OUrl {
-	private $config      = null;
-	private $urls        = null;
-	private $check_url   = '';
-	private $routing_dir = '';
-	private $url_params  = [];
-	private $method      = '';
+	private ?OConfig $config      = null;
+	private ?array   $urls        = null;
+	private string   $check_url   = '';
+	private string   $routing_dir = '';
+	private array    $url_params  = [];
+	private string   $method      = '';
 
 	/**
 	 * Loads user defined urls, used method to access and URL and path to the routing library
 	 *
 	 * @param string $method Method used to access the URL (get / post / delete)
-	 *
-	 * @return void
 	 */
-	function __construct($method) {
+	function __construct(string $method) {
 		global $core;
 		$this->config = $core->config;
 		$this->method = $method;
@@ -32,7 +30,7 @@ class OUrl {
 	 *
 	 * @return array Array of configured URLs
 	 */
-	public function loadUrls() {
+	public function loadUrls(): array {
 		global $core;
 		$urls_cache_file = $core->config->getDir('app_cache').'urls.cache.json';
 
@@ -61,7 +59,7 @@ class OUrl {
 	 *
 	 * @return void
 	 */
-	public function setCheckUrl($check_url, $get=null, $post=null, $files=null) {
+	public function setCheckUrl(string $check_url, array $get=null, array $post=null, array $files=null): void {
 		$this->check_url = $check_url;
 		$check_params = stripos($check_url, '?');
 		if ($check_params !== false) {
@@ -97,7 +95,7 @@ class OUrl {
 	 *
 	 * @return array Array of configuration information
 	 */
-	public function process($url=null) {
+	public function process(string $url=null): array {
 		if (!is_null($url)) {
 			$this->check_url = $url;
 		}
@@ -159,11 +157,11 @@ class OUrl {
 	 *
 	 * @param array $params Array of parameters to build the URL in case of a dynamic URL (eg /user/:id/:slug -> /user/1/igorosabel)
 	 *
-	 * @param boolean $absolute If true returns an absolute URL and if false returns a partial URL
+	 * @param bool $absolute If true returns an absolute URL and if false returns a partial URL
 	 *
 	 * @return string Generated URL with given parameters
 	 */
-	public static function generateUrl($id, $params=[], $absolute=null) {
+	public static function generateUrl(string $id, array $params=[], bool $absolute=false): string {
 		// Load URLs, as it's a static method it won't go through the constructor
 		global $core;
 		$urls = self::loadUrls();
@@ -206,7 +204,7 @@ class OUrl {
 	 *
 	 * @return void
 	 */
-	public static function goToUrl($url) {
+	public static function goToUrl(string $url): void {
 		header('Location:'.$url);
 		exit;
 	}

@@ -1,17 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OCookie - Class with methods to create/modify/delete cookies on clients
  */
 class OCookie {
-	private $debug       = false;
-	private $l           = null;
-	private $config      = null;
-	private $cookie_list = [];
+	private bool     $debug       = false;
+	private ?Olog    $l           = null;
+	private ?OConfig $config      = null;
+	private array    $cookie_list = [];
 
 	/**
 	 * Set up a logger for internal operations and get applications configuration (shortcut to $core->config)
-	 *
-	 * @return void
 	 */
 	function __construct() {
 		global $core;
@@ -29,7 +27,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	private function log($str) {
+	private function log(string $str): void {
 		if ($this->debug) {
 			$this->l->debug($str);
 		}
@@ -42,7 +40,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	public function setCookieList($l) {
+	public function setCookieList(array $l): void {
 		$this->cookie_list = $l;
 	}
 
@@ -51,7 +49,7 @@ class OCookie {
 	 *
 	 * @return string[] Array of values stored in cookies
 	 */
-	public function getCookieList() {
+	public function getCookieList(): array {
 		return $this->cookie_list;
 	}
 
@@ -64,7 +62,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	public function add($key, $value) {
+	public function add(string $key, string $value): void {
 		$this->cookie_list[$key] = $value;
 		setcookie ($this->config->getCookiePrefix().'['.$key.']', $value, time() + (3600*24*31), '/', $this->config->getCookieUrl());
 	}
@@ -76,7 +74,7 @@ class OCookie {
 	 *
 	 * @return string Value of the key in the users cookies
 	 */
-	public function get($key) {
+	public function get(string $key): ?string {
 		return array_key_exists($key, $this->cookie_list) ? $this->cookie_list[$key] : null;
 	}
 
@@ -85,7 +83,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	public function load() {
+	public function load(): void {
 		$this->cookie_list = [];
 
 		if (isset($_COOKIE[$this->config->getCookiePrefix()])) {
@@ -106,7 +104,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	public function save() {
+	public function save(): void {
 		$this->log('save - Cookie list:');
 		$this->log(var_export($this->cookie_list, true));
 
@@ -120,7 +118,7 @@ class OCookie {
 	 *
 	 * @return void
 	 */
-	public function clean() {
+	public function clean(): void {
 		$this->log('clean - Cookies removed');
 
 		foreach ($this->cookie_list as $key => $value){

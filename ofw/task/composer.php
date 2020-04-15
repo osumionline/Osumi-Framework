@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Function to export an application with all its files to a single self-extracting php file
  */
@@ -6,13 +6,13 @@ class composerTask {
 	/**
 	 * Returns description of the task
 	 *
-	 * @return Description of the task
+	 * @return string Description of the task
 	 */
 	public function __toString() {
 		return $this->colors->getColoredString("composer", "light_green").": ".OTools::getMessage('TASK_COMPOSER');
 	}
 
-	private $colors = null;
+	private ?OColors $colors = null;
 
 	/**
 	 * Loads class used to colorize messages
@@ -23,8 +23,8 @@ class composerTask {
 		$this->colors = new OColors();
 	}
 
-	private $base_dir;
-	private $folder_list = [
+	private ?string $base_dir;
+	private array $folder_list = [
 		'app'  => true,
 		'logs' => false,
 		'ofw'  => true,
@@ -40,7 +40,7 @@ class composerTask {
 	 *
 	 * @return string[] Array with file names
 	 */
-	private function scanFileNameRecursivly($path = '', &$name = []) {
+	private function scanFileNameRecursivly(string $path = '', array &$name = []): array {
 		$path = ($path == '') ? $this->base_dir : $path;
 		$lists = @scandir($path);
 
@@ -51,7 +51,7 @@ class composerTask {
 					$this->scanFileNameRecursivly($path.DIRECTORY_SEPARATOR.$f, $name);
 				}
 				else {
-					$name[] = $path.DIRECTORY_SEPARATOR.$f;
+					array_push($name, $path.DIRECTORY_SEPARATOR.$f);
 				}
 			}
 		}
@@ -61,12 +61,16 @@ class composerTask {
 	/**
 	 * Run the task
 	 *
-	 * @param boolean $silent If set to true, generates the export silently, else it gives information messages
+	 * @param array $params If $params has one item and is true, generates the backup silently, else it echoes information messages
 	 *
-	 * @return string Returns messages generated while performing the export
+	 * @return void Echoes messages generated while performing the export
 	 */
-	public function run($silent = false) {
+	public function run(array $params=[]): void {
 		global $core;
+		$silent = false;
+		if (count($params)==1 && $params[0]===true) {
+			$silent = true;
+		}
 		$this->base_dir = $core->config->getDir('base');
 
 		echo "\n";
@@ -89,7 +93,7 @@ class composerTask {
 
 		$files['ofw.php'] = OTools::fileToBase64($core->config->getDir('base') . 'ofw.php');
 
-		// TRaverse folders
+		// Traverse folders
 		foreach ($this->folder_list as $folder => $explore) {
 			// If folder has to be explored
 			if ($explore) {

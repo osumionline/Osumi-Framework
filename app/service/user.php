@@ -1,20 +1,20 @@
-<?php
-class userService extends OService{
-	function __construct(){
+<?php declare(strict_types=1);
+class userService extends OService {
+	function __construct() {
 		$this->loadService();
 	}
 
-	public function getLastUpdate(){
+	public function getLastUpdate(): string {
 		return date('d-m-Y H:i:s');
 	}
 
-	public function getUsers(){
+	public function getUsers(): array {
 		$db = new ODB();
 		$sql = "SELECT * FROM `user`";
 		$db->query($sql);
 		$list = [];
 
-		while ($res=$db->next()){
+		while ($res=$db->next()) {
 			$user = new User();
 			$user->update($res);
 
@@ -24,7 +24,7 @@ class userService extends OService{
 		return $list;
 	}
 
-	public function getUser($id){
+	public function getUser(int $id): User {
 		$user = new User();
 		$user->find(['id'=>$id]);
 

@@ -1,7 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 require dirname(__FILE__).'/ofw/core/OCore.php' ;
 $core = new OCore();
 $core->load(true);
+
+function taskOptions(array $task_list): string {
+	$ret = "";
+	$ret .= OTools::getMessage('OFW_OPTIONS');
+	asort($task_list);
+	foreach ($task_list as $task) {
+		$task_name = $task."Task";
+		$tsk = new $task_name();
+		$ret .= "  ·  ".$tsk."\n";
+	}
+	$ret .= "\n".OTools::getMessage('OFW_EXAMPLE').": php ofw.php ".$task_list[0]."\n\n";
+	return $ret;
+}
 
 $task_list = [];
 $colors = new OColors();
@@ -27,20 +40,7 @@ if ($model = opendir($core->config->getDir('app_task'))) {
 	closedir($model);
 }
 
-function taskOptions($task_list){
-	$ret = "";
-	$ret .= OTools::getMessage('OFW_OPTIONS');
-	asort($task_list);
-	foreach ($task_list as $task){
-		$task_name = $task."Task";
-		$tsk = new $task_name();
-		$ret .= "  ·  ".$tsk."\n";
-	}
-	$ret .= "\n".OTools::getMessage('OFW_EXAMPLE').": php ofw.php ".$task_list[0]."\n\n";
-	return $ret;
-}
-
-if (!array_key_exists(1, $argv)){
+if (!array_key_exists(1, $argv)) {
 	echo "\n  ".$colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
 	echo OTools::getMessage('OFW_INDICATE_OPTION');
 	echo taskOptions($task_list);
@@ -48,7 +48,7 @@ if (!array_key_exists(1, $argv)){
 }
 
 $option = $argv[1];
-if (!in_array($option, $task_list)){
+if (!in_array($option, $task_list)) {
 	echo OTools::getMessage('OFW_WRONG_OPTION', [$option]);
 	echo taskOptions($task_list);
 	exit;

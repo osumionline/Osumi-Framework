@@ -1,19 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * OLog - Class to log information to a debug log file
  */
 class OLog {
-	private $class_name = null;
-	private $log_dir  = '';
-	private $log_level = 0;
-	private $levels = ['ALL',	'DEBUG', 'INFO', 'ERROR'];
+	private ?string $class_name = null;
+	private string  $log_dir  = '';
+	private string  $log_level = 'ALL';
+	private array   $levels = ['ALL',	'DEBUG', 'INFO', 'ERROR'];
 
 	/**
 	 * Start up the object by getting the logging configuration from the global config
 	 *
-	 * @return void
+	 * @param string $class_name Name of the class where the logger is used
 	 */
-	function __construct($class_name=null) {
+	function __construct(string $class_name=null) {
 		global $core;
 		$this->log_dir = $core->config->getLog('dir');
 		$this->log_level = array_key_exists($core->config->getLog('level'), $this->levels) ? $core->config->getLog('level') : 'ALL';
@@ -27,12 +27,13 @@ class OLog {
 	 *
 	 * @param string $str String to be logged
 	 *
-	 * @return void
+	 * @return bool Returns if the message was written to the log file or not
 	 */
-	public function debug($str) {
+	public function debug(string $str): bool {
 		if (in_array($this->log_level, ['ALL', 'DEBUG'])) {
-			$this->putLog('DEBUG', $str);
+			return $this->putLog('DEBUG', $str);
 		}
+		return false;
 	}
 
 	/**
@@ -40,12 +41,13 @@ class OLog {
 	 *
 	 * @param string $str String to be logged
 	 *
-	 * @return void
+	 * @return bool Returns if the message was written to the log file or not
 	 */
-	public function info($str) {
+	public function info(string $str): bool {
 		if (in_array($this->log_level, ['ALL', 'DEBUG', 'INFO'])) {
-			$this->putLog('INFO', $str);
+			return $this->putLog('INFO', $str);
 		}
+		return false;
 	}
 
 	/**
@@ -53,10 +55,10 @@ class OLog {
 	 *
 	 * @param string $str String to be logged
 	 *
-	 * @return void
+	 * @return bool Returns if the message was written to the log file or not
 	 */
-	public function error($str) {
-		$this->putLog('ERROR', $str);
+	public function error(string $str): bool {
+		return $this->putLog('ERROR', $str);
 	}
 
 	/**
@@ -66,14 +68,14 @@ class OLog {
 	 *
 	 * @param string $str Message to be logged
 	 *
-	 * @return boolean Returns if the message was written to the log file or not
+	 * @return bool Returns if the message was written to the log file or not
 	 */
-	private function putLog($level, $str) {
+	private function putLog(string $level, string $str): bool {
 		$data = '['.date('Y-m-d H:i:s',time()).'] - ['.$level.'] - ';
 		if (!is_null($this->class_name)) {
 			$data .= '['.$this->class_name.'] - ';
 		}
 		$data .= $str."\n";
-		return file_put_contents($this->log_dir, $data, FILE_APPEND);
+		return (file_put_contents($this->log_dir, $data, FILE_APPEND) !== false);
 	}
 }
