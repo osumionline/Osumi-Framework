@@ -461,26 +461,26 @@ class OConfig {
 	/**
 	 * Set up a customized URL for a given error status (403, 404, 500)
 	 *
-	 * @param int $status Status code where user has to be redirected (403, 404, 500)
+	 * @param string $status Status code where user has to be redirected (403, 404, 500)
 	 *
 	 * @param string $url URL where the user has to be redirected
 	 *
 	 * @return void
 	 */
-	public function setErrorPage(int $status, string $url): void {
+	public function setErrorPage(string $status, string $url): void {
 		$this->error_pages[$status] = $url;
 	}
 
 	/**
 	 * Get the URL where the user has to be redirected on a given HTTP status code or null if it hasn't been customized
 	 *
-	 * @param int $num Status code to be checked
+	 * @param string $status Status code to be checked
 	 *
 	 * @return string URL where the user has to be redirected
 	 */
-	public function getErrorPage(int $num): ?string {
-		if (array_key_exists($num, $this->error_pages)){
-			return $this->error_pages[$num];
+	public function getErrorPage(string $status): ?string {
+		if (array_key_exists($status, $this->error_pages)){
+			return $this->error_pages[$status];
 		}
 		return null;
 	}
