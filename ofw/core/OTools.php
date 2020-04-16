@@ -36,30 +36,30 @@ class OTools {
 	 */
 	public static function getRandomCharacters(array $options): string {
 		$num     = array_key_exists('num',     $options) ? $options['num']     : 5;
-	  $lower   = array_key_exists('lower',   $options) ? $options['lower']   : false;
-	  $upper   = array_key_exists('upper',   $options) ? $options['upper']   : false;
-	  $numbers = array_key_exists('numbers', $options) ? $options['numbers'] : false;
-	  $special = array_key_exists('special', $options) ? $options['special'] : false;
+		$lower   = array_key_exists('lower',   $options) ? $options['lower']   : false;
+		$upper   = array_key_exists('upper',   $options) ? $options['upper']   : false;
+		$numbers = array_key_exists('numbers', $options) ? $options['numbers'] : false;
+		$special = array_key_exists('special', $options) ? $options['special'] : false;
 
-	  $seed = '';
-	  if ($lower) { $seed .= 'abcdefghijklmnopqrstuvwxyz'; }
-	  if ($upper) { $seed .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; }
-	  if ($numbers) { $seed .= '0123456789'; }
-	  if ($special) { $seed .= '!@#$%^&*()'; }
+		$seed = '';
+		if ($lower) { $seed .= 'abcdefghijklmnopqrstuvwxyz'; }
+		if ($upper) { $seed .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; }
+		if ($numbers) { $seed .= '0123456789'; }
+		if ($special) { $seed .= '!@#$%^&*()'; }
 
-	  $seed = str_split($seed);
-	  shuffle($seed);
-	  $rand = '';
-	  $list = array_rand($seed, $num);
-	  if (!is_array($list)){
-	    $list = [$list];
-	  }
+		$seed = str_split($seed);
+		shuffle($seed);
+		$rand = '';
+		$list = array_rand($seed, $num);
+		if (!is_array($list)){
+			$list = [$list];
+		}
 
-	  foreach ($list as $k) {
-	    $rand .= $seed[$k];
-	  }
+		foreach ($list as $k) {
+			$rand .= $seed[$k];
+		}
 
-	  return $rand;
+		return $rand;
 	}
 
 	/**
@@ -586,7 +586,7 @@ class OTools {
 
 			$route_controller = $core->config->getDir('app_controller') . $url['module'] . '.php';
 			if (!file_exists($route_controller)) {
-				file_put_contents($route_controller, "<"."?php\nclass ".$url['module']." extends OController{\n}");
+				file_put_contents($route_controller, "<"."?php declare(strict_types=1);\n\nclass ".$url['module']." extends OController {\n}");
 				if (!$silent) {
 					echo self::getMessage('TASK_UPDATE_URLS_NEW_CONTROLLER', [
 						$colors->getColoredString("\"" . $url['module'] . "\"", "light_green"),
@@ -612,8 +612,10 @@ class OTools {
 				$str = "\n";
 				$str .= "	/**\n";
 				$str .= "	 * ".$url['comment']."\n";
+				$str .= "	 *\n";
+				$str .= "	 * @return void\n";
 				$str .= "	 */\n";
-				$str .= "	function ".$url['action']."($"."req){}\n";
+				$str .= "	function ".$url['action']."($"."req): void {}\n";
 				file_put_contents($route_controller, $str."}", FILE_APPEND);
 
 				if (!$silent) {

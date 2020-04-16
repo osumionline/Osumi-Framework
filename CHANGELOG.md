@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.4.0` (16/04/2020)
+
+Con los cambios de la última versión donde añadí el tipado fuerte a todo el Framework, ahora al utilizar la tarea `updateUrls` para crear nuevos módulos y acciones, se les añadirá el tipado estricto y el retorno por defecto.
+
 ## `5.3.4` (15/04/2020)
 
 Corrección en `OConfig`. Nueva corrección por problemas de tipado. Esta vez en configuración de SMTP.

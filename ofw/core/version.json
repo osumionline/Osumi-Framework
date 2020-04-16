@@ -1,6 +1,14 @@
 {
-	"version": "5.3.4",
+	"version": "5.4.0",
 	"updates": {
+		"5.4.0": {
+			"message": "5.4.0 - Nuevos módulos y acciones tipados",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php"
+			]
+		},
 		"5.3.4": {
 			"message": "5.3.4 - Corrección en OConfig (SMTP)",
 			"files": [
