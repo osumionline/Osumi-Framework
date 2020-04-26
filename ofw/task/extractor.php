@@ -2,14 +2,14 @@
 /**
  * Function to export an application with all its files to a single self-extracting php file
  */
-class composerTask {
+class extractorTask {
 	/**
 	 * Returns description of the task
 	 *
 	 * @return string Description of the task
 	 */
 	public function __toString() {
-		return $this->colors->getColoredString("composer", "light_green").": ".OTools::getMessage('TASK_COMPOSER');
+		return $this->colors->getColoredString("extractor", "light_green").": ".OTools::getMessage('TASK_EXTRACTOR');
 	}
 
 	private ?OColors $colors = null;
@@ -78,10 +78,10 @@ class composerTask {
 			echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
 		}
 
-		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_COMPOSER_EXPORTING'), "light_green")."\n\n";
-		$destination = $core->config->getDir('ofw_export').'ofw_composer.php';
+		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_EXTRACTOR_EXPORTING'), "light_green")."\n\n";
+		$destination = $core->config->getDir('ofw_export').'ofw_extractor.php';
 		if (file_exists($destination)) {
-			echo OTools::getMessage('TASK_COMPOSER_EXISTS');
+			echo OTools::getMessage('TASK_EXTRACTOR_EXISTS');
 			unlink($destination);
 		}
 		$folders = [];
@@ -89,7 +89,7 @@ class composerTask {
 
 		file_put_contents($destination, "<?php\n");
 
-		echo OTools::getMessage('TASK_COMPOSER_GETTING_FILES');
+		echo OTools::getMessage('TASK_EXTRACTOR_GETTING_FILES');
 
 		$files['ofw.php'] = OTools::fileToBase64($core->config->getDir('base') . 'ofw.php');
 
@@ -132,7 +132,7 @@ class composerTask {
 			}
 		}
 
-		echo OTools::getMessage('TASK_COMPOSER_EXPORTING_FILES', [count($files)]);
+		echo OTools::getMessage('TASK_EXTRACTOR_EXPORTING_FILES', [count($files)]);
 		file_put_contents($destination, "$"."files = [\n", FILE_APPEND);
 		$content_array = [];
 		foreach ($files as $key => $content) {
@@ -144,14 +144,14 @@ class composerTask {
 		unset($files);
 		unset($content_array);
 
-		echo OTools::getMessage('TASK_COMPOSER_EXPORTING_FOLDERS', [count($folders)]);
+		echo OTools::getMessage('TASK_EXTRACTOR_EXPORTING_FOLDERS', [count($folders)]);
 		file_put_contents($destination, "$"."folders = ['", FILE_APPEND);
 		file_put_contents($destination, implode("','", $folders), FILE_APPEND);
 		file_put_contents($destination, "'];\n", FILE_APPEND);
 
 		unset($files);
 
-		echo OTools::getMessage('TASK_COMPOSER_GETTING_READY');
+		echo OTools::getMessage('TASK_EXTRACTOR_GETTING_READY');
 		$str = "\n";
 		$str .= "fun"."ction base64ToFile($"."base64_string, $"."filename){\n";
 		$str .= "	$"."ifp = fopen( $"."filename, 'wb' );\n";
@@ -161,14 +161,14 @@ class composerTask {
 		$str .= "}\n\n";
 
 		$str .= "$"."basedir = realpath(dirname(__FILE__));\n";
-		$str .= "echo \"".OTools::getMessage('TASK_COMPOSER_BASE_FOLDER').": \".$"."basedir.\"\\n\";\n";
-		$str .= "echo \"".OTools::getMessage('TASK_COMPOSER_CREATE_FOLDERS')." (\".count($"."folders).\")\\n\";\n";
+		$str .= "echo \"".OTools::getMessage('TASK_EXTRACTOR_BASE_FOLDER').": \".$"."basedir.\"\\n\";\n";
+		$str .= "echo \"".OTools::getMessage('TASK_EXTRACTOR_CREATE_FOLDERS')." (\".count($"."folders).\")\\n\";\n";
 		$str .= "foreach ($"."folders as $"."i => $"."folder){\n";
 		$str .= "	echo \"  \".($"."i+1).\"/\".count($"."folders).\" - \".$"."folder.\"\\n\";\n";
 		$str .= "	mkdir($"."basedir.\"/\".$"."folder);\n";
 		$str .= "}\n\n";
 
-		$str .= "echo \"".OTools::getMessage('TASK_COMPOSER_CREATE_FILES')." (\".count($"."files).\")\\n\";\n";
+		$str .= "echo \"".OTools::getMessage('TASK_EXTRACTOR_CREATE_FILES')." (\".count($"."files).\")\\n\";\n";
 		$str .= "$"."cont = 1;\n";
 		$str .= "foreach ($"."files as $"."key => $"."file){\n";
 		$str .= "	echo \"  \".$"."cont.\"/\".count($"."files).\" - \".$"."key.\"\\n\";\n";
@@ -177,6 +177,6 @@ class composerTask {
 		$str .= "}";
 		file_put_contents($destination, $str, FILE_APPEND);
 
-		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_COMPOSER_END'), "light_green")."\n";
+		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_EXTRACTOR_END'), "light_green")."\n";
 	}
 }

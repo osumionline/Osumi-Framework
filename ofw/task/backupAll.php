@@ -31,7 +31,7 @@ class backupAllTask {
 		echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
 
 		OTools::runOFWTask('backupDB', [true]);
-		OTools::runOFWTask('composer', [true]);
+		OTools::runOFWTask('extractor', [true]);
 
 		echo "\n  ".$this->colors->getColoredString(OTools::getMessage('TASK_BACKUP_ALL_DONE'), "light_green")."\n\n";
 	}

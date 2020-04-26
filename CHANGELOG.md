@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.5.0` (26/04/2020)
+
+Renombro tarea `composer` a `extractor` por que Composer es una herramienta muy conocida de PHP y no quiero que sean confundidas.
+
 ## `5.4.1` (26/04/2020)
 
 Corrección menor en tarea `plugins`: faltaba una frase por localizar.
