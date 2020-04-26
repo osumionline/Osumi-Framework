@@ -1,6 +1,16 @@
 {
-	"version": "5.4.0",
+	"version": "5.4.1",
 	"updates": {
+		"5.4.1": {
+			"message": "5.4.1 - Corrección en locales",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/locale/en.php",
+				"ofw/locale/es.php",
+				"ofw/task/plugins.php"
+			]
+		},
 		"5.4.0": {
 			"message": "5.4.0 - Nuevos módulos y acciones tipados",
 			"files": [

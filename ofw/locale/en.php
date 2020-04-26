@@ -36,6 +36,7 @@ $locale = [
 	'TASK_PLUGINS_INSTALL_NOT_AVAILABLE' => 'The indicated plugin does not exist in the list of installable plugins.',
 	'TASK_PLUGINS_INSTALL_CHECK_LIST' => "  Check the list by running the following command:\n\n",
 	'TASK_PLUGINS_INSTALL_FOLDER_EXISTS' => 'Folder "%s" already exists.',
+	'TASK_PLUGINS_INSTALL_CREATE_FOLDER' => "  New folder created: \"%s\"\n",
 	'TASK_PLUGINS_INSTALL_CREATE_CONFIG' => "  Creating plugin configuration file: \"%s/%s.json\"\n",
 	'TASK_PLUGINS_INSTALL_CREATE_FILE' => "  Plugin file created: \"%s/%s\"\n",
 	'TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS' => "  Downloading dependencies:\n",

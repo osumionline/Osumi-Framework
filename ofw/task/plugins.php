@@ -108,7 +108,9 @@ class pluginsTask {
 
 		// Create plugins folder
 		mkdir($new_plugin_route);
-		echo "  Nueva carpeta creada: \"".$new_plugin_route."\"\n";
+		echo OTools::getMessage('TASK_PLUGINS_INSTALL_CREATE_FOLDER', [
+			$new_plugin_route
+		]);
 
 		// Get plugins data
 		$plugin_repo = $this->repo_url.'master/'.$plugin->getName().'/'.$plugin->getName().'.json';

@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.4.1` (26/04/2020)
+
+Corrección menor en tarea `plugins`: faltaba una frase por localizar.
+
 ## `5.4.0` (16/04/2020)
 
 Con los cambios de la última versión donde añadí el tipado fuerte a todo el Framework, ahora al utilizar la tarea `updateUrls` para crear nuevos módulos y acciones, se les añadirá el tipado estricto y el retorno por defecto.
