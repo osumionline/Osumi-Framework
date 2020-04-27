@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `5.5.2` (27/04/2020)
+
+Corrección en parámetros de entrada. Las acciones de los métodos reciben un array `$req` con los parámetros enviados y las cabeceras de la llamada. He añadido (por que en algún momento lo quite...) el tipo de método de llamada (GET/POST...) en una variable `method` de ese array.
+
+Por otra parte, al haber añadido tipado fuerte y comprobaciones estrictas, el código de ejemplo fallaba por una función que recibía un string en vez de un int.
+
 ## `5.5.1` (27/04/2020)
 
 Corrección de tipado en `updateUrls`: las nuevas acciones creadas tenían tipado de retorno, pero el objeto `$req` que reciben no tenía.

@@ -71,8 +71,9 @@ class OTools {
 	 */
 	public static function getControllerParams(array $url_result): array {
 		$ret = [
-			'params' => $url_result['params'],
-			'headers' => $url_result['headers']
+			'params'  => $url_result['params'],
+			'headers' => $url_result['headers'],
+			'method'  => $url_result['method']
 		];
 		if (array_key_exists('filter', $url_result)) {
 			$ret[$url_result['filter']] = $url_result[$url_result['filter']];

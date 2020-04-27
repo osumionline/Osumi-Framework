@@ -1,6 +1,14 @@
 {
-	"version": "5.5.1",
+	"version": "5.5.2",
 	"updates": {
+		"5.5.2": {
+			"message": "5.5.2 - Corrección en parámetros de entrada y en código de ejemplo",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php"
+			]
+		},
 		"5.5.1": {
 			"message": "5.5.1 - Corrección de tipado en updateUrls",
 			"files": [

@@ -22,7 +22,7 @@ class home extends OController {
 	 * Página de un usuario
 	 */
 	function user($req): void {
-		$user = $this->user_service->getUser($req['params']['id']);
+		$user = $this->user_service->getUser(intval($req['params']['id']));
 		$list = $this->photo_service->getPhotos($user->get('id'));
 
 		$this->getTemplate()->add('name', $user->get('user'));
