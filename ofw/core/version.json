@@ -1,6 +1,14 @@
 {
-	"version": "5.5.0",
+	"version": "5.5.1",
 	"updates": {
+		"5.5.1": {
+			"message": "5.5.1 - Corrección de tipado en updateUrls",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php"
+			]
+		},
 		"5.5.0": {
 			"message": "5.5.0 - Renombro Composer a Extractor",
 			"files": [

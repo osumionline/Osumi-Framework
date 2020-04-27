@@ -1,9 +1,13 @@
 CHANGELOG
 =========
 
+## `5.5.1` (27/04/2020)
+
+Corrección de tipado en `updateUrls`: las nuevas acciones creadas tenían tipado de retorno, pero el objeto `$req` que reciben no tenía.
+
 ## `5.5.0` (26/04/2020)
 
-Renombro tarea `composer` a `extractor` por que Composer es una herramienta muy conocida de PHP y no quiero que sean confundidas.
+Renombro tarea `composer` a `extractor` ya que Composer es una herramienta muy conocida de PHP y no quiero que sean confundidas.
 
 ## `5.4.1` (26/04/2020)
 

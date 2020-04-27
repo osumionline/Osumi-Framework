@@ -615,7 +615,7 @@ class OTools {
 				$str .= "	 *\n";
 				$str .= "	 * @return void\n";
 				$str .= "	 */\n";
-				$str .= "	function ".$url['action']."($"."req): void {}\n";
+				$str .= "	function ".$url['action']."(array $"."req): void {}\n";
 				file_put_contents($route_controller, $str."}", FILE_APPEND);
 
 				if (!$silent) {
