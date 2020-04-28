@@ -81,6 +81,7 @@ class OCore {
 			require $this->config->getDir('ofw_core').'OTemplate.php';
 			require $this->config->getDir('ofw_core').'OSession.php';
 			require $this->config->getDir('ofw_core').'OCookie.php';
+			require $this->config->getDir('ofw_core').'ORequest.php';
 		}
 		else {
 			require $this->config->getDir('ofw_core').'OColors.php';
@@ -215,7 +216,7 @@ class OCore {
 
 				if (method_exists($controller, $url_result['action'])) {
 					$controller->loadController($url_result);
-					call_user_func(array($controller, $url_result['action']), OTools::getControllerParams($url_result));
+					call_user_func(array($controller, $url_result['action']), new ORequest($url_result));
 					echo $controller->getTemplate()->process();
 				}
 				else {

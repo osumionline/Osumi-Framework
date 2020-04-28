@@ -1,6 +1,17 @@
 {
-	"version": "5.5.2",
+	"version": "5.6.0",
 	"updates": {
+		"5.6.0": {
+			"message": "5.6.0 - Nuevo ORequest",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OCore.php",
+				"ofw/core/OSession.php",
+				"ofw/core/OTools.php",
+				"ofw/core/ORequest.php"
+			]
+		},
 		"5.5.2": {
 			"message": "5.5.2 - Corrección en parámetros de entrada y en código de ejemplo",
 			"files": [

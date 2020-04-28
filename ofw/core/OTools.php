@@ -63,67 +63,6 @@ class OTools {
 	}
 
 	/**
-	 * Builds an array of parameters based on URL result, received parameters and filter result (if any)
-	 *
-	 * @param array Array of information created with the matched URL, received parameters and filter result
-	 *
-	 * @return array Clean array of parameters, headers and filter result
-	 */
-	public static function getControllerParams(array $url_result): array {
-		$ret = [
-			'params'  => $url_result['params'],
-			'headers' => $url_result['headers'],
-			'method'  => $url_result['method']
-		];
-		if (array_key_exists('filter', $url_result)) {
-			$ret[$url_result['filter']] = $url_result[$url_result['filter']];
-		}
-		return $ret;
-	}
-
-	/**
-	 * Find a value from a list and return a default value if not found
-	 *
-	 * @param string $key Name of the parameter to find
-	 *
-	 * @param array $list List of parameters
-	 *
-	 * @param string|int|float|bool $default Default value if required key is not found
-	 *
-	 * @return string|int|float|bool Found value of the list or default value instead
-	 */
-	public static function getParam(string $key, array $list, $default=false) {
-		if (array_key_exists($key, $list)) {
-			return $list[$key];
-		}
-		else{
-			return $default;
-		}
-	}
-
-	/**
-	 * Get a selected list of values from a list, but all are required and if anyone fail it returns false
-	 *
-	 * @param string[] $key_list List of parameter names
-	 *
-	 * @param array $list List of parameters
-	 *
-	 * @return string[]|bool List of values if all the keys are found or false if anyone fails
-	 */
-	public static function getParamList(array $key_list, array $list) {
-		$params = [];
-		foreach ($key_list as $key) {
-			$check = self::getParam($key, $list, false);
-			if (!array_key_exists($key, $list)) {
-				return false;
-			}
-			$params[$key] = $check;
-		}
-
-		return $params;
-	}
-
-	/**
 	 * Render a template from a file or a given template with given parameters
 	 *
 	 * @param string $path Path to a template file

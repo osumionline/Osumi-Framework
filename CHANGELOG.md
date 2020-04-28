@@ -1,6 +1,26 @@
 CHANGELOG
 =========
 
+## `5.6.0` (28/04/2020)
+
+Nueva clase `ORequest`. Este es un `breaking change`.
+
+Hasta ahora los controllers recibían un array con varios campos como `method`, `params`, `headers` o `filters`. A partir de esta versión, los controllers recibirán un objeto de tipo `ORequest` que contiene toda esta información y varios métodos que permiten obtener la información concreta que se quiera.
+
+Estos son los métodos que tiene la clase `ORequest`:
+
+* `getMethod()`: devuelve el tipo de método empleado al hacer la llamada (GET/POST...). Devuelve el método en minúsculas.
+* `getParams()`: devuelve el array de parámetros que se han pasado al hacer la llamada. Es el equivalente a obtener los parámetros del array que se pasaba anteriormente.
+* `getParam($key, $default=null)`: anteriormente había que usar el método `OTools::getParam` para filtrar el parámetro que se quería obtener de la lista completa de parámetros. Ahora esa función se ha integrado dentro de la clase. Como parámetros recibe `$key` con la clave del parámetro a buscar y `$default` un valor por defecto en caso de que no exista la clave solicitada.
+* `getParamString($key, $default=null)`: como la anterior, pero este método fuerza a que el resultado obtenido sea una cadena de texto.
+* `getParamInt($key, $default=null)`: como `getParam`, pero fuerza a que el resultado sea un int.
+* `getParamFloat($key, $default=null)`: como `getParam`, pero fuerza a que el resultado sea un float.
+* `getParamBool($key, $default=null)`: como `getParam`, pero fuerza a que el resultado sea un booleano.
+* `getFilters()`: devuelve un array asociativo con todos los valores devueltos por los filtros.
+* `getFilter($key)`: devuelve un array con los valores devueltos por el filtro indicado.
+
+Al haber añadido estos métodos a esta nueva clase, los anteriores `OTools::getParam` y `OTools::getParamList` se han eliminado y puede causar que las aplicaciones fallen. Es un cambio importante que va a obligar a repasar todas las aplicaciones, pero merecerá en cuanto a limpieza, validaciones y casteos.
+
 ## `5.5.2` (27/04/2020)
 
 Corrección en parámetros de entrada. Las acciones de los métodos reciben un array `$req` con los parámetros enviados y las cabeceras de la llamada. He añadido (por que en algún momento lo quite...) el tipo de método de llamada (GET/POST...) en una variable `method` de ese array.

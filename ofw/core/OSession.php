@@ -80,12 +80,7 @@ class OSession {
 	 * @return string|int|float|bool|void Value of the parameter or null if not found
 	 */
 	public function getParam(string $key) {
-		if (array_key_exists($key, $this->params)) {
-			return $this->params[$key];
-		}
-		else {
-			return null;
-		}
+		return array_key_exists($key, $this->params) ? $this->params[$key] : null;
 	}
 
 	/**
