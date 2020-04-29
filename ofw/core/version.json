@@ -1,6 +1,15 @@
 {
-	"version": "5.6.0",
+	"version": "5.6.1",
 	"updates": {
+		"5.6.1": {
+			"message": "5.6.1 - Correcciones por ORequest y para tasks",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OCore.php",
+				"ofw/core/OTools.php"
+			]
+		},
 		"5.6.0": {
 			"message": "5.6.0 - Nuevo ORequest",
 			"files": [

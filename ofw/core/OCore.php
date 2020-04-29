@@ -117,19 +117,19 @@ class OCore {
 			}
 		}
 
-		if (!$from_cli) {
-			// User services
-			if (file_exists($this->config->getDir('app_service'))) {
-				if ($model = opendir($this->config->getDir('app_service'))) {
-					while (false !== ($entry = readdir($model))) {
-						if ($entry != '.' && $entry != '..') {
-							require $this->config->getDir('app_service').$entry;
-						}
+		// User services
+		if (file_exists($this->config->getDir('app_service'))) {
+			if ($model = opendir($this->config->getDir('app_service'))) {
+				while (false !== ($entry = readdir($model))) {
+					if ($entry != '.' && $entry != '..') {
+						require $this->config->getDir('app_service').$entry;
 					}
-					closedir($model);
 				}
+				closedir($model);
 			}
+		}
 
+		if (!$from_cli) {
 			// Filters
 			if (file_exists($this->config->getDir('app_filter'))) {
 				if ($model = opendir($this->config->getDir('app_filter'))) {

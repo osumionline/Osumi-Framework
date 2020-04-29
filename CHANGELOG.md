@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+## `5.6.1` (29/04/2020)
+
+Correcciones.
+
+Corrección al crear una nueva acción, seguía poniendo que las acciones recibían el array `$req` en lugar de la clase `ORequest`. También he añadido el PHPdoc asociado a este parámetro.
+
+Corrección en `OCore` para que se puedan usar los `services` desde las `tasks`.
+
 ## `5.6.0` (28/04/2020)
 
 Nueva clase `ORequest`. Este es un `breaking change`.

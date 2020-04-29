@@ -553,9 +553,11 @@ class OTools {
 				$str .= "	/**\n";
 				$str .= "	 * ".$url['comment']."\n";
 				$str .= "	 *\n";
+				$str .= "	 * @param ORequest $"."req Request object with method, headers, parameters and filters used\n";
+				$str .= "	 *\n";
 				$str .= "	 * @return void\n";
 				$str .= "	 */\n";
-				$str .= "	function ".$url['action']."(array $"."req): void {}\n";
+				$str .= "	function ".$url['action']."(ORequest $"."req): void {}\n";
 				file_put_contents($route_controller, $str."}", FILE_APPEND);
 
 				if (!$silent) {
