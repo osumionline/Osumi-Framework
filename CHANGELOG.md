@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.6.2` (05/05/2020)
+
+Corrección en `OModel` al actualizar un registro.
+
 ## `5.6.1` (29/04/2020)
 
 Correcciones.

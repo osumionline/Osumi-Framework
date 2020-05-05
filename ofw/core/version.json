@@ -1,6 +1,14 @@
 {
-	"version": "5.6.1",
+	"version": "5.6.2",
 	"updates": {
+		"5.6.2": {
+			"message": "5.6.2 - Corrección en OModel",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OModel.php"
+			]
+		},
 		"5.6.1": {
 			"message": "5.6.1 - Correcciones por ORequest y para tasks",
 			"files": [

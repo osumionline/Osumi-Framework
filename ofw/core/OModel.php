@@ -261,7 +261,7 @@ class OModel {
 
 		// Set every field in the model as saved (original = current)
 		foreach($this->model as $field_name=>$field){
-			$this->model[$field_name]['original'] = $model[$field_name]['value'];
+			$this->model[$field_name]['original'] = $this->model[$field_name]['value'];
 		}
 
 		return true;
