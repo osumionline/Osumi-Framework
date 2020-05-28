@@ -1,6 +1,14 @@
 {
-	"version": "5.6.2",
+	"version": "5.6.3",
 	"updates": {
+		"5.6.3": {
+			"message": "5.6.3 - Corrección en OTools-updateUrls",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php"
+			]
+		},
 		"5.6.2": {
 			"message": "5.6.2 - Corrección en OModel",
 			"files": [

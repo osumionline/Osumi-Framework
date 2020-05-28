@@ -491,11 +491,11 @@ class OTools {
 	 */
 	public static function updateControllers(bool $silent=false): void {
 		global $core;
-		$colors = new OColors();
 		$urls   = json_decode( file_get_contents($core->config->getDir('app_cache').'urls.cache.json'), true);
 		$errors = false;
 
 		if (!$silent) {
+			$colors = new OColors();
 			echo "\n";
 			echo "  ".$colors->getColoredString('Osumi Framework', 'white', 'blue')."\n\n";
 			echo self::getMessage('TASK_UPDATE_URLS_UPDATING');
