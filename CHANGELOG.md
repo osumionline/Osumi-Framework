@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.6.4` (29/05/2020)
+
+Corrección en `OModel`: en la función `getModel` había un caso en el que devolvía un tipo incorrecto.
+
 ## `5.6.3` (28/05/2020)
 
 Corrección en `OTools` al actualizar la cache de URLS. Si se hacía automáticamente en una llamada web, la clase `OColors` no estaba incluida y fallaba.
