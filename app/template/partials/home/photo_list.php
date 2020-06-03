@@ -10,5 +10,5 @@
 <?php endforeach ?>
 	</ul>
 <?php else: ?>
-	El usuario todavía no tiene ninguna foto.
+	The user does not have any photo yet.
 <?php endif ?>

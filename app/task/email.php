@@ -1,37 +1,47 @@
 <?php declare(strict_types=1);
 class emailTask {
+	/**
+	 * Returns task's name
+	 */
 	public function __toString() {
-		return "email: Función para enviar emails de prueba";
+		return "email: Task to send test emails";
 	}
 
 	private array $email_list = [
-		'welcome'              => 'Email que se envía a un nuevo cliente al registrarse.',
-		'lost-password'        => 'Email que se envía a un cliente al solicitar una nueva contraseña.',
-		'order-ok'             => 'Email que se envía a un cliente que ha hecho un pedido.',
-		'payment-received'     => 'Email que se nos envía al recibir un pedido.',
-		'order-shipped'        => 'Email que se envía al cliente cuando el pedido ya se ha enviado.',
-		'order-address-change' => 'Email que se nos envía cuando un cliente cambia la dirección de entrega.',
-		'contact'              => 'Email que se nos envía cuando un usuario escribe desde contacto.'
+		'welcome'              => 'Email sent to new customers on registration.',
+		'lost-password'        => 'Email sent to a customer that requests a new password.',
+		'order-ok'             => 'Email sent to a customer when a purchase is done.',
+		'payment-received'     => 'Email sent to a customer when the payment of the purchase is received.',
+		'order-shipped'        => 'Email sent to a customer when the order is shipped.',
+		'order-address-change' => 'Email sent to a customer when the shipping address is changed.',
+		'contact'              => 'Email sent to us when a customer uses the contact form.'
 	];
 
+	/**
+	 * Runs the task, checks given parameters and sends the appropiate email
+	 *
+	 * @param array Parameter list given to the task
+	 *
+	 * @return void
+	 */
 	public function run(array $options=[]): void {
 		if (count($options)==0) {
-			echo "\nTienes que indicar por lo menos una opción.\n\n";
-			echo "  Opciones:\n";
+			echo "\nYou have to choose (at least) an option.\n\n";
+			echo "  Options:\n";
 			foreach ($this->email_list as $option => $text) {
 				echo "  ·  ".$option.": ".$text."\n";
 			}
-			echo "\nPor ejemplo: php ofw.php email welcome contact\n\n";
+			echo "\nExample: php ofw.php email welcome contact\n\n";
 			exit;
 		}
 		foreach ($options as $option) {
 			if (!array_key_exists($option, $this->email_list)) {
 				echo "---------------------------------------\n";
-				echo "ERROR: La opción ".$option." no existe.\n";
+				echo "ERROR: Option ".$option." does not exist.\n";
 				echo "---------------------------------------\n";
 				continue;
 			}
-			echo "Enviando ".$option.": ".$this->email_list[$option]."\n";
+			echo "Sending ".$option.": ".$this->email_list[$option]."\n";
 			switch ($option) {
 				case 'welcome': $this->sendWelcome();
 				case 'lost-password': $this->sendLostPassword();

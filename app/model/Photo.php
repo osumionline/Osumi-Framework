@@ -1,45 +1,63 @@
 <?php declare(strict_types=1);
 class Photo extends OModel {
+	/**
+	 * Configures current model object based on data-base table structure
+	 */
 	function __construct() {
 		$table_name  = 'photo';
 		$model = [
 			'id' => [
 				'type'    => OCore::PK,
-				'comment' => 'Id único de cada foto'
+				'comment' => 'Unique Id for each photo'
 			],
 			'id_user' => [
 				'type'    => OCore::NUM,
-				'comment' => 'Id del usuario',
+				'comment' => 'User Id',
 				'ref'     => 'user.id'
 			],
 			'ext' => [
 				'type'    => OCore::TEXT,
 				'size'    => 5,
-				'comment' => 'Extensión de la foto'
+				'comment' => 'Photo extension'
 			],
 			'created_at' => [
 				'type'    => OCore::CREATED,
-				'comment' => 'Fecha de creación del registro'
+				'comment' => 'Register creation date'
 			],
 			'updated_at' => [
 				'type'    => OCore::UPDATED,
-				'comment' => 'Fecha de última modificación del registro'
+				'comment' => 'Last date register was modified'
 			]
 		];
 
 		parent::load($table_name, $model);
 	}
 
+	/**
+	 * Get photo's full name
+	 */
 	public function __toString() {
 		return $this->get('id').'.'.$this->get('ext');
 	}
 
 	private ?array $tags = null;
 
+	/**
+	 * Save photo's tag list
+	 *
+	 * @param array $tags Tag list
+	 *
+	 * @return void
+	 */
 	public function setTags(array $tags): void {
 		$this->tags = $tags;
 	}
 
+	/**
+	 * Get photo's tag list
+	 *
+	 * @return array Photo's tag list
+	 */
 	public function getTags(): array {
 		if (is_null($this->tags)) {
 			$this->loadTags();
@@ -47,6 +65,11 @@ class Photo extends OModel {
 		return $this->tags;
 	}
 
+	/**
+	 * Load photo's tag list
+	 *
+	 * @return void
+	 */
 	private function loadTags(): void {
 		$list = [];
 		$sql = "SELECT * FROM `tag` WHERE `id` IN (SELECT `id_tag` FROM `photo_tag` WHERE `id_photo` = ?)";

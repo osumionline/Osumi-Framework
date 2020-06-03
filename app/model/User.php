@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
 class User extends OModel {
+	/**
+	 * Configures current model object based on data-base table structure
+	 */
 	function __construct() {
 		$table_name  = 'user';
 		$model = [
