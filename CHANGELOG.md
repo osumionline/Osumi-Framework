@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.6.5` (08/06/2020)
+
+Corrección en `OModel`: en la función `generate` había un error al generar el SQL de modelo en caso de que una columna no tuviese comentario.
+
 ## `5.6.4` (29/05/2020)
 
 Corrección en `OModel`: en la función `getModel` había un caso en el que devolvía un tipo incorrecto.

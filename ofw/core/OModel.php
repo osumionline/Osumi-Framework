@@ -437,7 +437,9 @@ class OModel {
 					if ($field['comment']!='') {
 						$sql .= " COMMENT '".$field['comment']."' ";
 					}
-					$sql = substr($sql, 0, strlen($sql)-1);
+					if (substr($sql, -1)==' ') {
+						$sql = substr($sql, 0, strlen($sql)-1);
+					}
 					$sql .= ",\n";
 				}
 				$sql .= "  PRIMARY KEY (`".implode('`,`',$this->pk)."`)\n";
