@@ -15,19 +15,19 @@ ROADMAP
 
 Por ejemplo:
 
-app
--- config
--- module
----- api
------- api.php
------- template
--------- login.json
--------- register.json
----- home
------- home.php
------- template
--------- home.html
--------- register.html
+* app
+  * config
+  * module
+    * api
+      * api.php
+      * template
+        * login.json
+        * register.json
+    * home
+      * home.php
+      * template
+        * home.html
+        * register.html
 
 Y dejar carpeta `app/template` para `layout` y `partials`
 
