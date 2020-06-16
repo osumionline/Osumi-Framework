@@ -1,6 +1,51 @@
 {
-	"version": "5.6.5",
+	"version": "5.7.0",
 	"updates": {
+		"5.7.0": {
+			"message": "5.7.0 - Funciones getPartial en OTools y refactorización de tasks",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw.php",
+				"ofw/core/OConfig.php",
+				"ofw/core/OCore.php",
+				"ofw/core/OTemplate.php",
+				"ofw/core/OTools.php",
+				"ofw/core/OUpdate.php",
+				"ofw/core/OTask.php",
+				"ofw/locale/en.php",
+				"ofw/locale/es.php",
+				"ofw/task/backupAll.php",
+				"ofw/task/backupDB.php",
+				"ofw/task/extractor.php",
+				"ofw/task/generateModel.php",
+				"ofw/task/plugins.php",
+				"ofw/task/update.php",
+				"ofw/task/updateCheck.php",
+				"ofw/task/updateUrls.php",
+				"ofw/task/version.php",
+				"ofw/template/backupAll/backupAll.php",
+				"ofw/template/backupDB/backupDB.php",
+				"ofw/template/extractor/extractor.php",
+				"ofw/template/generateModel/generateModel.php",
+				"ofw/template/plugins/availablePlugins.php",
+				"ofw/template/plugins/installedPlugins.php",
+				"ofw/template/plugins/installPlugin.php",
+				"ofw/template/plugins/plugins.php",
+				"ofw/template/plugins/removePlugin.php",
+				"ofw/template/plugins/update.php",
+				"ofw/template/plugins/updateCheck.php",
+				"ofw/template/update/update.php",
+				"ofw/template/updateCheck/updateCheck.php",
+				"ofw/template/updateUrls/updateUrls.php",
+				"ofw/template/version/version.php",
+				"ofw/template/error.php"
+			],
+			"deletes": [
+				"ofw/core/error.php"
+			],
+			"postinstall": true
+		},
 		"5.6.5": {
 			"message": "5.6.5 - Corrección en OModel-generate",
 			"files": [

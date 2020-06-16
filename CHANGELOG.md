@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+## `5.7.0` (16/06/2020)
+
+Nuevas funciones `getTemplate` y `getPartial` en `OTools`. Estas funciones antes eran parte de `OTemplate`, pero al sacarlas a `OTools` se pueden usar desde cualquier parte de la aplicación.
+
+Usando estas nuevas funciones he remodelado las `task`. Ahora todas las task heredan de la clase `OTask` y así tienen acceso a varias funciones:
+
+* `getColors`: si la `task` es llamada desde el CLI `ofw.php`, tendrá acceso a este método que le permite colorear el resultado de salida usando la clase `OColors`.
+* `getConfig`: acceso a la configuración global.
+* `getLog`: acceso a un objeto `OLog` generico.
+
+Esta actualización tiene una tarea `postinstall` que actualiza automáticamente todas las `task` que haya en la aplicación.
+
 ## `5.6.5` (08/06/2020)
 
 Corrección en `OModel`: en la función `generate` había un error al generar el SQL de modelo en caso de que una columna no tuviese comentario.

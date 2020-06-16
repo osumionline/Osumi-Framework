@@ -69,20 +69,46 @@ class OTools {
 	 *
 	 * @param string $html Template as a string
 	 *
-	 * @param array $params Key / value pair array to be rendered
+	 * @param array $values Key / value pair array to be rendered
 	 *
 	 * @return string Loaded template with rendered parameters
 	 */
-	public static function getTemplate(string $path, string $html, array $params): string  {
+	public static function getTemplate(string $path, string $html, array $values): ?string  {
 		if ($path!='') {
-			$html = file_get_contents($path);
+			if (file_exists($path)) {
+				$html = file_get_contents($path);
+			}
+			else{
+				return null;
+			}
 		}
 
-		foreach ($params as $param_name => $param) {
-			$html = str_ireplace('{{'.$param_name.'}}', $param, $html);
+		foreach ($values as $key => $value) {
+			$html = str_ireplace('{{'.$key.'}}', $value, $html);
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Interprets and renders a template from a file with given parameters
+	 *
+	 * @param string $path Path to a template file
+	 *
+	 * @param array $values Key / value pair array to be rendered
+	 *
+	 * @return string Loaded template with rendered parameters
+	 */
+	public static function getPartial(string $path, array $values): ?string {
+		if (file_exists($path)) {
+			ob_start();
+			include($path);
+			$output = ob_get_contents();
+			ob_end_clean();
+
+			return $output;
+		}
+		return null;
 	}
 
 	/**
@@ -204,14 +230,23 @@ class OTools {
 			exit;
 		}
 
-		if ($mode=='403') { header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden"); }
-		if ($mode=='404') { header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found"); }
-		$version = self::getVersion();
-		$title = $core->config->getDefaultTitle();
-		if ($title=='') {
-			$title = 'Osumi Framework';
+		$params = [
+			'mode'    => $mode,
+			'version' => self::getVersion(),
+			'title'   => $core->config->getDefaultTitle(),
+			'message' => $res['message'],
+			'res'     => $res
+		];
+
+		if ($params['title']=='') {
+			$params['title'] = 'Osumi Framework';
 		}
-		include($core->config->getDir('ofw_core').'error.php');
+		$path = $core->config->getDir('ofw_template').'error.php';
+
+		if ($mode=='403') { header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden'); }
+		if ($mode=='404') { header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found'); }
+
+		echo self::getPartial($path, $params);
 		exit;
 	}
 
@@ -380,11 +415,10 @@ class OTools {
 	/**
 	 * Generates a SQL file to build the database based on models defined by the user
 	 *
-	 * @return void Echoes SQL string to build all the tables in the database (also written to ofw/export/model.sql)
+	 * @return string SQL string to build all the tables in the database (also written to ofw/export/model.sql)
 	 */
-	public static function generateModel(): void  {
+	public static function generateModel(): string  {
 		global $core;
-		echo self::getMessage('TASK_GENERATE_MODEL_MODEL');
 		$sql = "/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n\n";
 		$models = self::getModelList();
 
@@ -403,7 +437,6 @@ class OTools {
 		}
 
 		$sql .= "/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;\n";
-		echo $sql;
 
 		$sql_file = $core->config->getDir('ofw_export').'model.sql';
 		if (file_exists($sql_file)) {
@@ -411,6 +444,8 @@ class OTools {
 		}
 
 		file_put_contents($sql_file, $sql);
+
+		return $sql;
 	}
 
 	/**
@@ -418,9 +453,9 @@ class OTools {
 	 *
 	 * @param bool $silent If set to true echoes messages about the update process
 	 *
-	 * @return void
+	 * @return ?string Information about the update if silent is false
 	 */
-	public static function updateUrls(bool $silent=false): void {
+	public static function updateUrls(bool $silent=false): ?string {
 		global $core;
 		$urls_file = json_decode( file_get_contents($core->config->getDir('app_config').'urls.json'), true);
 		$urls = self::getUrlList($urls_file);
@@ -432,7 +467,7 @@ class OTools {
 
 		file_put_contents($urls_cache_file, json_encode($urls, JSON_UNESCAPED_UNICODE ));
 
-		self::updateControllers($silent);
+		return self::updateControllers($silent);
 	}
 
 	/**
@@ -487,27 +522,27 @@ class OTools {
 	 *
 	 * @param bool $silent If true doesn't give an output and performs the actions silently
 	 *
-	 * @return void Echoes result of performed actions or void if $silent parameter is true
+	 * @return ?string Result of performed actions or null if $silent parameter is true
 	 */
-	public static function updateControllers(bool $silent=false): void {
+	public static function updateControllers(bool $silent=false): ?string {
 		global $core;
+		$ret = null;
 		$urls   = json_decode( file_get_contents($core->config->getDir('app_cache').'urls.cache.json'), true);
 		$errors = false;
+		$all_updated = true;
 
 		if (!$silent) {
 			$colors = new OColors();
-			echo "\n";
-			echo "  ".$colors->getColoredString('Osumi Framework', 'white', 'blue')."\n\n";
-			echo self::getMessage('TASK_UPDATE_URLS_UPDATING');
+			$ret = "";
 		}
 
 		$reserved_modules = ['private', 'protected', 'public'];
 		foreach ($urls as $url) {
 			if (in_array($url['module'], $reserved_modules)) {
 				if (!$silent) {
-					echo $colors->getColoredString('ERROR', 'white', 'red').": ".self::getMessage('TASK_UPDATE_URLS_RESERVED')."\n";
+					$ret .= $colors->getColoredString('ERROR', 'white', 'red').": ".self::getMessage('TASK_UPDATE_URLS_RESERVED')."\n";
 					foreach ($reserved_modules as $module) {
-						echo "  · ".$module."\n";
+						$ret .= "  · ".$module."\n";
 					}
 					$errors = true;
 				}
@@ -516,9 +551,9 @@ class OTools {
 
 			if ($url['action']==$url['module']) {
 				if (!$silent) {
-					echo $colors->getColoredString('ERROR', 'white', 'red').": ".self::getMessage('TASK_UPDATE_URLS_ACTION_MODULE')."\n";
-					echo "  Módulo: ".$url['module']."\n";
-					echo "  Acción: ".$url['action']."\n";
+					$ret .= $colors->getColoredString('ERROR', 'white', 'red').": ".self::getMessage('TASK_UPDATE_URLS_ACTION_MODULE')."\n";
+					$ret .= "  ".self::getMessage('TASK_UPDATE_URLS_MODULE').": ".$url['module']."\n";
+					$ret .= "  ".self::getMessage('TASK_UPDATE_URLS_ACTION').": ".$url['action']."\n";
 					$errors = true;
 				}
 				continue;
@@ -526,27 +561,30 @@ class OTools {
 
 			$route_controller = $core->config->getDir('app_controller') . $url['module'] . '.php';
 			if (!file_exists($route_controller)) {
+				$all_updated = false;
 				file_put_contents($route_controller, "<"."?php declare(strict_types=1);\n\nclass ".$url['module']." extends OController {\n}");
 				if (!$silent) {
-					echo self::getMessage('TASK_UPDATE_URLS_NEW_CONTROLLER', [
-						$colors->getColoredString("\"" . $url['module'] . "\"", "light_green"),
-						$colors->getColoredString("\"" . $route_controller . "\"", "light_green")
-					]);
+					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_CONTROLLER', [
+						$colors->getColoredString($url['module'], 'light_green'),
+						$colors->getColoredString($route_controller, 'light_green')
+					])."\n";
 				}
 			}
 
 			$route_templates = $core->config->getDir('app_template') . $url['module'];
 			if (!file_exists($route_templates) && !is_dir($route_templates)) {
+				$all_updated = false;
 				mkdir($route_templates);
 				if (!$silent) {
-					echo self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER', [
-						$colors->getColoredString("\"" . $route_templates . "\"", "light_green")
-					]);
+					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER', [
+						$colors->getColoredString($route_templates, 'light_green')
+					])."\n";
 				}
 			}
 
 			$controller_str = file_get_contents($route_controller);
 			if (stripos($controller_str, "function ".$url['action']) === false) {
+				$all_updated = false;
 				file_put_contents($route_controller, substr_replace($controller_str, '', strrpos($controller_str, '}'), 1));
 
 				$str = "\n";
@@ -561,33 +599,35 @@ class OTools {
 				file_put_contents($route_controller, $str."}", FILE_APPEND);
 
 				if (!$silent) {
-					echo self::getMessage('TASK_UPDATE_URLS_NEW_ACTION', [
-						$colors->getColoredString("\"" . $url['action'] . "\"", "light_green"),
-						$colors->getColoredString("\"" . $url['module'] . "\"", "light_green")
-					]);
+					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_ACTION', [
+						$colors->getColoredString($url['action'], 'light_green'),
+						$colors->getColoredString($url['module'], 'light_green')
+					])."\n";
 				}
 
 				$route_template = $core->config->getDir('app_template') . $url['module'] . '/' . $url['action'] . '.php';
 				if (!file_exists($route_template)) {
 					file_put_contents($route_template, '');
 					if (!$silent) {
-						echo self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE', [
-							$colors->getColoredString("\"" . $route_template . "\"", "light_green")
-						]);
+						$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE', [
+							$colors->getColoredString($route_template, 'light_green')
+						])."\n";
 					}
 				}
 			}
 		}
 
 		if ($errors && !$silent) {
-			echo "\n";
-			echo $colors->getColoredString("----------------------------------------------------------------------------------------------------------------------", "white", "red")."\n";
-			echo $colors->getColoredString(self::getMessage('TASK_UPDATE_URLS_ERROR'), "white", "red")."\n";
-			echo $colors->getColoredString("----------------------------------------------------------------------------------------------------------------------", "white", "red")."\n";
+			$ret .= "\n";
+			$ret .= $colors->getColoredString('----------------------------------------------------------------------------------------------------------------------', 'white', 'red')."\n";
+			$ret .= $colors->getColoredString(self::getMessage('TASK_UPDATE_URLS_ERROR'), 'white', 'red')."\n";
+			$ret .= $colors->getColoredString('----------------------------------------------------------------------------------------------------------------------', 'white', 'red')."\n";
 		}
-		if (!$silent) {
-			echo "\n";
+		if (!$silent && $all_updated) {
+			$ret .= "\n  ".self::getMessage('TASK_UPDATE_URLS_ALL_UPDATED');
 		}
+
+		return $ret;
 	}
 
 	/**
@@ -621,21 +661,37 @@ class OTools {
 	 *
 	 * @param array $params Array of parameters passed to the task
 	 *
-	 * @return bool Returns true after the task is complete or false if task file doesn't exist
+	 * @param bool $return Lets the task echo or captures everything and returns it
+	 *
+	 * @return array Returns the status ok/error if task was run and it's return messages if $return is set to true
 	 */
-	public static function runOFWTask(string $task_name, array $params=[]): bool {
+	public static function runOFWTask(string $task_name, array $params=[], bool $return=false): array {
 		global $core;
+		$ret = [
+			'status' => 'ok',
+			'return' => ''
+		];
 		$task_file = $core->config->getDir('ofw_task').$task_name.'.php';
 		if (!file_exists($task_file)) {
-			return false;
+			$ret['status'] = 'error';
+			return $ret;
 		}
 
 		require_once $task_file;
 		$task_name .= 'Task';
 		$task = new $task_name();
-		$task->run($params);
+		$task->loadTask();
+		if (!$return) {
+			$task->run($params);
+		}
+		else {
+			ob_start();
+			$task->run($params);
+			$ret['return'] = ob_get_contents();
+			ob_end_clean();
+		}
 
-		return true;
+		return $ret;
 	}
 
 	/**

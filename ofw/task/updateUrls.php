@@ -2,23 +2,9 @@
 /**
  * Creates new modules / actions / templates based on user configured urls.json
  */
-class updateUrlsTask {
-	/**
-	 * Returns description of the task
-	 *
-	 * @return string Description of the task
-	 */
+class updateUrlsTask extends OTask {
 	public function __toString() {
-		return $this->colors->getColoredString("updateUrls", "light_green").": ".OTools::getMessage('TASK_UPDATE_URLS');
-	}
-
-	private ?OColors $colors = null;
-
-	/**
-	 * Loads class used to colorize messages
-	 */
-	function __construct() {
-		$this->colors = new OColors();
+		return $this->getColors()->getColoredString('updateUrls', 'light_green').': '.OTools::getMessage('TASK_UPDATE_URLS');
 	}
 
 	/**
@@ -27,6 +13,12 @@ class updateUrlsTask {
 	 * @return void Echoes messages generated while performing the update
 	 */
 	public function run(): void {
-		OTools::updateUrls();
+		$path   = $this->getConfig()->getDir('ofw_template').'updateUrls/updateUrls.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'messages' => OTools::updateUrls()
+		];
+
+		echo OTools::getPartial($path, $values);
 	}
 }

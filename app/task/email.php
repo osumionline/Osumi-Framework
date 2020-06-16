@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-class emailTask {
+class emailTask extends OTask {
 	/**
 	 * Returns task's name
 	 */
 	public function __toString() {
-		return "email: Task to send test emails";
+		return 'email: Task to send test emails';
 	}
 
 	private array $email_list = [

@@ -2,25 +2,9 @@
 /**
  * Function to export an application with all its files to a single self-extracting php file
  */
-class extractorTask {
-	/**
-	 * Returns description of the task
-	 *
-	 * @return string Description of the task
-	 */
+class extractorTask extends OTask {
 	public function __toString() {
-		return $this->colors->getColoredString("extractor", "light_green").": ".OTools::getMessage('TASK_EXTRACTOR');
-	}
-
-	private ?OColors $colors = null;
-
-	/**
-	 * Loads class used to colorize messages
-	 *
-	 * @return void
-	 */
-	function __construct() {
-		$this->colors = new OColors();
+		return $this->getColors()->getColoredString('extractor', 'light_green').': '.OTools::getMessage('TASK_EXTRACTOR');
 	}
 
 	private ?string $base_dir;
@@ -66,44 +50,42 @@ class extractorTask {
 	 * @return void Echoes messages generated while performing the export
 	 */
 	public function run(array $params=[]): void {
-		global $core;
 		$silent = false;
 		if (count($params)==1 && $params[0]===true) {
 			$silent = true;
 		}
-		$this->base_dir = $core->config->getDir('base');
+		$this->base_dir = $this->getConfig()->getDir('base');
+		$destination    = $this->getConfig()->getDir('ofw_export').'ofw_extractor.php';
 
-		echo "\n";
-		if (!$silent) {
-			echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
-		}
+		$path   = $this->getConfig()->getDir('ofw_template').'extractor/extractor.php';
+		$values = [
+			'colors'      => $this->getColors(),
+			'file_exists' => file_exists($destination),
+			'num_files'   => 0,
+			'num_folders' => 0
+		];
 
-		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_EXTRACTOR_EXPORTING'), "light_green")."\n\n";
-		$destination = $core->config->getDir('ofw_export').'ofw_extractor.php';
-		if (file_exists($destination)) {
-			echo OTools::getMessage('TASK_EXTRACTOR_EXISTS');
+		if ($values['file_exists']) {
 			unlink($destination);
 		}
 		$folders = [];
-		$files = [];
+		$files   = [];
 
 		file_put_contents($destination, "<?php\n");
 
-		echo OTools::getMessage('TASK_EXTRACTOR_GETTING_FILES');
-
-		$files['ofw.php'] = OTools::fileToBase64($core->config->getDir('base') . 'ofw.php');
+		$files['ofw.php'] = OTools::fileToBase64($this->getConfig()->getDir('base') . 'ofw.php');
 
 		// Traverse folders
 		foreach ($this->folder_list as $folder => $explore) {
 			// If folder has to be explored
 			if ($explore) {
 				// Get the file list recursively
-				$file_names = $this->scanFileNameRecursivly($core->config->getDir('base') . $folder);
+				$file_names = $this->scanFileNameRecursivly($this->getConfig()->getDir('base') . $folder);
 
 				// Traverse files
 				foreach ($file_names as $file_name) {
 					// Relative folder and file name
-					$key = str_ireplace($core->config->getDir('base'), '', $file_name);
+					$key = str_ireplace($this->getConfig()->getDir('base'), '', $file_name);
 					// Add to the array the content of the file
 					$files[$key] = OTools::fileToBase64($file_name);
 
@@ -132,7 +114,8 @@ class extractorTask {
 			}
 		}
 
-		echo OTools::getMessage('TASK_EXTRACTOR_EXPORTING_FILES', [count($files)]);
+		$values['num_files'] = count($files);
+
 		file_put_contents($destination, "$"."files = [\n", FILE_APPEND);
 		$content_array = [];
 		foreach ($files as $key => $content) {
@@ -144,14 +127,14 @@ class extractorTask {
 		unset($files);
 		unset($content_array);
 
-		echo OTools::getMessage('TASK_EXTRACTOR_EXPORTING_FOLDERS', [count($folders)]);
+		$values['num_folders'] = count($folders);
+
 		file_put_contents($destination, "$"."folders = ['", FILE_APPEND);
 		file_put_contents($destination, implode("','", $folders), FILE_APPEND);
 		file_put_contents($destination, "'];\n", FILE_APPEND);
 
 		unset($files);
 
-		echo OTools::getMessage('TASK_EXTRACTOR_GETTING_READY');
 		$str = "\n";
 		$str .= "fun"."ction base64ToFile($"."base64_string, $"."filename){\n";
 		$str .= "	$"."ifp = fopen( $"."filename, 'wb' );\n";
@@ -177,6 +160,8 @@ class extractorTask {
 		$str .= "}";
 		file_put_contents($destination, $str, FILE_APPEND);
 
-		echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_EXTRACTOR_END'), "light_green")."\n";
+		if (!$silent) {
+			echo OTools::getPartial($path, $values);
+		}
 	}
 }

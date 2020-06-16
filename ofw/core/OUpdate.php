@@ -152,7 +152,7 @@ class OUpdate {
 			break;
 		}
 		$ret .= " - ".$file['rel'];
-		
+
 		if ($end=='ok') {
 			$ret = str_pad($ret, 120, ' ');
 			$ret .= "[ ".$this->colors->getColoredString("OK", "light_green")." ]";
@@ -161,7 +161,7 @@ class OUpdate {
 			$ret = str_pad($ret, 120, ' ');
 			$ret .= "[ ".$this->colors->getColoredString("ERROR", "light_red")." ]";
 		}
-		
+
 		$ret .= "\n";
 
 		return $ret;
@@ -170,19 +170,21 @@ class OUpdate {
 	/**
 	 * Show information about available updates
 	 *
-	 * @return void Echoes information about updates
+	 * @return string Information about updates
 	 */
-	public function showUpdates(): void {
+	public function showUpdates(): string {
+		$ret = '';
 		$to_be_updated = $this->doUpdateCheck();
-		echo "\n";
 
 		foreach ($to_be_updated as $version => $update) {
-			echo str_pad("==[ ".$update['message']." ]", 110, "=")."\n\n";
+			$ret .= str_pad("==[ ".$update['message']." ]", 110, "=")."\n\n";
 			foreach ($update['files'] as $file) {
-				echo $this->getStatusMessage($file);
+				$ret .= $this->getStatusMessage($file);
 			}
-			echo "\n".str_pad('', 109, '=')."\n\n";
+			$ret .= "\n".str_pad('', 109, '=')."\n\n";
 		}
+
+		return $ret;
 	}
 
 	/**
@@ -216,7 +218,7 @@ class OUpdate {
 			return false;
 		}
 		return file_get_contents($url);
-		
+
 	}
 
 	/**
@@ -224,13 +226,13 @@ class OUpdate {
 	 *
 	 * @return string Prints information about updates
 	 */
-	public function doUpdate() {
+	public function doUpdate(): string {
+		$ret = '';
 		$to_be_updated = $this->doUpdateCheck();
-		echo "\n";
 
 		$result = true;
 		foreach ($to_be_updated as $version => $update) {
-			echo str_pad("==[ ".$update['message']." ]", 110, "=")."\n\n";
+			$ret .= str_pad("==[ ".$update['message']." ]", 110, "=")."\n\n";
 			$backups = [];
 			foreach ($update['files'] as $file) {
 				// Update or delete -> make backup
@@ -244,9 +246,9 @@ class OUpdate {
 					$file_url = $this->repo_url.'v'.$version.'/'.$file['rel'];
 					$file_content = $this->getFile($file_url);
 					if ($file_content===false) {
-						echo "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
+						$ret .= "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
 						$this->restoreBackups($backups);
-						exit;
+						return $ret;
 					}
 
 					$dir = dirname($file['file']);
@@ -256,7 +258,7 @@ class OUpdate {
 
 					$result_file = file_put_contents($file['file'], $file_content);
 					if ($result_file===false) {
-						echo $this->getStatusMessage($file, 'error');
+						$ret .= $this->getStatusMessage($file, 'error');
 						$result = false;
 						break;
 					}
@@ -266,8 +268,8 @@ class OUpdate {
 						}
 					}
 				}
-				
-				echo $this->getStatusMessage($file, 'ok');
+
+				$ret .= $this->getStatusMessage($file, 'ok');
 			}
 
 			if ($update['postinstall']) {
@@ -275,27 +277,27 @@ class OUpdate {
 				$file_url = $this->repo_url.'v'.$version.'/'.$file;
 				$file_content = $this->getFile($file_url);
 				if ($file_content===false) {
-					echo "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
+					$ret .= "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
 					$this->restoreBackups($backups);
-					exit;
+					return $ret;
 				}
 
 				if (file_exists($this->base_dir.$file)){
 					unlink($this->base_dir.$file);
 				}
 				$result_file = file_put_contents($this->base_dir.$file, $file_content);
-				
+
 				include $this->base_dir.$file;
-				
+
 				$postinstall = new OPostInstall();
-				$postinstall->run();
+				$ret .= $postinstall->run();
 				unlink($this->base_dir.$file);
 			}
 
 			if ($result) {
-				echo "\n  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_ALL_UPDATED', [$version]), "light_green")."\n";
+				$ret .= "\n  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_ALL_UPDATED', [$version]), "light_green")."\n";
 				if (count($backups)>0) {
-					echo OTools::getMessage('TASK_UPDATE_DELETE_BACKUPS');
+					$ret .= "\n  ".OTools::getMessage('TASK_UPDATE_DELETE_BACKUPS');
 					foreach ($backups as $backup) {
 						if (!is_null($backup['backup']) && file_exists($backup['backup'])){
 							unlink($backup['backup']);
@@ -304,11 +306,12 @@ class OUpdate {
 				}
 			}
 			else {
-				echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_UPDATE_ERROR'), "white", "red")."\n";
+				$ret .= "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_UPDATE_ERROR'), "white", "red")."\n";
 				$this->restoreBackups($backups);
 			}
-			
-			echo "\n".str_pad('', 109, '=')."\n\n";
+
+			$ret .= "\n".str_pad('', 109, '=')."\n\n";
 		}
+		return $ret;
 	}
 }

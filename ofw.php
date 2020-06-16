@@ -9,8 +9,9 @@ function taskOptions(array $task_list): string {
 	asort($task_list);
 	foreach ($task_list as $task) {
 		$task_name = $task."Task";
-		$tsk = new $task_name();
-		$ret .= "  ·  ".$tsk."\n";
+		$task = new $task_name();
+		$task->loadTask();
+		$ret .= "  ·  ".$task."\n";
 	}
 	$ret .= "\n".OTools::getMessage('OFW_EXAMPLE').": php ofw.php ".$task_list[0]."\n\n";
 	return $ret;
@@ -58,5 +59,6 @@ array_shift($argv);
 array_shift($argv);
 
 $task_name = $option.'Task';
-$tsk = new $task_name();
-$tsk->run($argv);
+$task = new $task_name();
+$task->loadTask();
+$task->run($argv);

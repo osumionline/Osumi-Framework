@@ -76,6 +76,7 @@ class OCore {
 		require $this->config->getDir('ofw_core').'OForm.php';
 		require $this->config->getDir('ofw_core').'OPlugin.php';
 		require $this->config->getDir('ofw_core').'OTools.php';
+		require $this->config->getDir('ofw_core').'OTask.php';
 
 		if (!$from_cli) {
 			require $this->config->getDir('ofw_core').'OTemplate.php';

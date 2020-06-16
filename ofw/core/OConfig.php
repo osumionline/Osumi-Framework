@@ -312,6 +312,7 @@ class OConfig {
 		$this->setDir('ofw_plugins',    $bd.'ofw/plugins/');
 		$this->setDir('ofw_task',       $bd.'ofw/task/');
 		$this->setDir('ofw_export',     $bd.'ofw/export/');
+		$this->setDir('ofw_template',   $bd.'ofw/template/');
 		$this->setDir('ofw_tmp',        $bd.'ofw/tmp/');
 		$this->setDir('logs',           $bd.'logs/');
 		$this->setDir('debug_log',      $bd.'logs/debug.log');

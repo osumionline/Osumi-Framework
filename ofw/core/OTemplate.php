@@ -258,44 +258,12 @@ class OTemplate {
 	 */
 	public function addPartial(string $where, string $name, array $values=[]): void {
 		$partial_file = $this->templates_dir.'partials/'.$name.'.php';
-		if (file_exists($partial_file)) {
-			ob_start();
-			include($partial_file);
-			$output = ob_get_contents();
-			ob_end_clean();
-		}
-		else {
+		$output = OTools::getPartial($partial_file, $values);
+
+		if (is_null($output)) {
 			$output = 'ERROR: No existe el archivo '.$name;
 		}
 		$this->add($where, $output, array_key_exists('extra', $values) ? $values['extra'] : null);
-	}
-
-	/**
-	 * Similar to addPartial but instead of making a substitution on the template this function returns the processed partial
-	 *
-	 * @param string $name Name of the partial file that will be loaded
-	 *
-	 * @param array $values Array of information that will be loaded into the partial
-	 *
-	 * @return string Returns the partial processed with given parameters
-	 */
-	public function readPartial(string $name, array $values=[]): string {
-		$filename = $this->templates_dir.'partials/'.$name.'.php';
-		if (!file_exists($filename)) {
-			return '';
-		}
-		ob_start();
-		include($filename);
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		foreach ($values as $key => $value) {
-			if (!is_object($value) && !is_array($value)) {
-				$output = str_replace(['{{'.$key.'}}'], $value, $output);
-			}
-		}
-
-		return $output;
 	}
 
 	/**

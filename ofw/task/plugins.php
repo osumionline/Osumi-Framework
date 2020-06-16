@@ -2,29 +2,13 @@
 /**
  * Task to manage plugins (list available / install / remove)
  */
-class pluginsTask {
-	/**
-	 * Returns description of the task
-	 *
-	 * @return string Description of the task
-	 */
+class pluginsTask extends OTask {
 	public function __toString() {
-		return $this->colors->getColoredString("plugins", "light_green").": ".OTools::getMessage('TASK_PLUGINS');
+		return $this->getColors()->getColoredString('plugins', 'light_green').': '.OTools::getMessage('TASK_PLUGINS');
 	}
 
-	private ?OConfig $config       = null;
-	private ?OColors $colors       = null;
-	private array    $plugins_file = [];
-	private string   $repo_url     = 'https://raw.githubusercontent.com/igorosabel/Osumi-Plugins/';
-
-	/**
-	 * Loads class used to colorize messages and global configuration
-	 */
-	function __construct() {
-		global $core;
-		$this->config = $core->config;
-		$this->colors = new OColors();
-	}
+	private array  $plugins_file = [];
+	private string $repo_url     = 'https://raw.githubusercontent.com/igorosabel/Osumi-Plugins/';
 
 	/**
 	 * Get available plugins list file from repository
@@ -44,20 +28,18 @@ class pluginsTask {
 	 * @return void Echoes information about available plugins
 	 */
 	public function availablePlugins(): void {
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/availablePlugins.php';
 		$plugins = $this->getPluginsFile();
-		echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_TITLE');
+		$params = [
+			'colors' => $this->getColors(),
+			'list' => []
+		];
 
 		foreach ($plugins['plugins'] as $plugin) {
-			echo "  · ".$this->colors->getColoredString($plugin['name'], "light_green")." (".$plugin['version']."): ".$plugin['description']."\n";
+			array_push($params['list'], $plugin);
 		}
 
-		echo "\n\n";
-		echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_INSTALL');
-		echo "      ".$this->colors->getColoredString("php ofw.php plugins install (".OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').")", "light_green")."\n\n";
-		echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_LIST');
-		echo "      ".$this->colors->getColoredString("php ofw.php plugins list", "light_green")."\n\n";
-		echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_DELETE');
-		echo "      ".$this->colors->getColoredString("php ofw.php plugins remove (".OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').")", "light_green")."\n\n";
+		echo OTools::getPartial($path, $params);
 	}
 
 	/**
@@ -68,9 +50,20 @@ class pluginsTask {
 	 * @return void Echoes messages returned while installing a new plugin
 	 */
 	public function installPlugin(array $params): void {
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/installPlugin.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'error' => 0,
+			'error_path' => '',
+			'plugin_path' => '',
+			'plugin_name' => '',
+			'plugin_file' => '',
+			'deps' => []
+		];
+
 		if (count($params)<2) {
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_INSTALL_ERROR')."\n\n";
-			echo "      ".$this->colors->getColoredString("php ofw.php plugins install email", "light_green")."\n\n\n";
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
@@ -83,14 +76,13 @@ class pluginsTask {
 			}
 		}
 		if (is_null($found)) {
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_INSTALL_NOT_AVAILABLE')."\n\n";
-			echo OTools::getMessage('TASK_PLUGINS_INSTALL_CHECK_LIST');
-			echo "      ".$this->colors->getColoredString("php ofw.php plugins", "light_green")."\n\n\n";
+			$values['error'] = 2;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
 		$plugin = new OPlugin($params[1]);
-		$plugins_file = $this->config->getDir('app_config').'plugins.json';
+		$plugins_file = $this->getConfig()->getDir('app_config').'plugins.json';
 		if (file_exists($plugins_file)) {
 			$plugins_list = json_decode( file_get_contents($plugins_file), true );
 		}
@@ -100,51 +92,43 @@ class pluginsTask {
 
 		array_push($plugins_list['plugins'], $params[1]);
 
-		$new_plugin_route = $this->config->getDir('ofw_plugins').$plugin->getName();
+		$new_plugin_route = $this->getConfig()->getDir('ofw_plugins').$plugin->getName();
 		if (file_exists($new_plugin_route)) {
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_INSTALL_FOLDER_EXISTS', [$new_plugin_route])."\n\n";
+			$values['error'] = 3;
+			$values['error_path'] = $new_plugin_route;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
 		// Create plugins folder
 		mkdir($new_plugin_route);
-		echo OTools::getMessage('TASK_PLUGINS_INSTALL_CREATE_FOLDER', [
-			$new_plugin_route
-		]);
+		$values['plugin_path'] = $new_plugin_route;
 
 		// Get plugins data
 		$plugin_repo = $this->repo_url.'master/'.$plugin->getName().'/'.$plugin->getName().'.json';
 		$plugin_config_file = file_get_contents($plugin_repo);
 		$repo_data = json_decode( $plugin_config_file, true);
 		file_put_contents($new_plugin_route.'/'.$plugin->getName().'.json', $plugin_config_file);
-		echo OTools::getMessage('TASK_PLUGINS_INSTALL_CREATE_CONFIG', [
-			$new_plugin_route, $plugin->getName()
-		]);
+		$values['plugin_name'] = $plugin->getName();
 
 		// Plugin file
 		$plugin_file = file_get_contents($this->repo_url.'master/'.$plugin->getName().'/'.$repo_data['file_name']);
 		file_put_contents($new_plugin_route.'/'.$repo_data['file_name'], $plugin_file);
-		echo OTools::getMessage('TASK_PLUGINS_INSTALL_CREATE_FILE', [
-			$new_plugin_route, $repo_data['file_name']
-		]);
+		$values['plugin_file'] = $repo_data['file_name'];
 
 		// Dependencies
 		if (array_key_exists('dependencies', $repo_data)) {
-			echo OTools::getMessage('TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS');
 			mkdir($new_plugin_route.'/dependencies');
 			foreach ($repo_data['dependencies'] as $dep) {
 				$dep_file = file_get_contents($this->repo_url.'master/'.$plugin->getName().'/'.$dep);
 				file_put_contents($new_plugin_route.'/dependencies/'.$dep, $dep_file);
-				echo OTools::getMessage('TASK_PLUGINS_INSTALL_NEW_DEP', [
-					$new_plugin_route, $dep
-				]);
+				array_push($values['deps'], $dep);
 			}
 		}
 
 		// Plugins configuration file
 		file_put_contents($plugins_file, json_encode($plugins_list));
-		echo OTools::getMessage('TASK_PLUGINS_INSTALL_UPDATED');
-		echo OTools::getMessage('TASK_PLUGINS_INSTALL_DONE');
+		echo OTools::getPartial($path, $values);
 	}
 
 	/**
@@ -153,18 +137,20 @@ class pluginsTask {
 	 * @return void Echoes messages returned while checking installed plugins
 	 */
 	public function installedPlugins(): void {
-		echo OTools::getMessage('TASK_PLUGINS_INSTALLED');
-		if (count($this->config->getPlugins())>0) {
-			foreach ($this->config->getPlugins() as $p) {
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/installedPlugins.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'plugins' => []
+		];
+
+		if (count($this->getConfig()->getPlugins())>0) {
+			foreach ($this->getConfig()->getPlugins() as $p) {
 				$plugin = new OPlugin($p);
 				$plugin->loadConfig();
-				echo "  · ".$this->colors->getColoredString($plugin->getName(), "light_green")." (".$plugin->getVersion()."): ".$plugin->getDescription()."\n";
+				array_push($values['plugins'], $plugin);
 			}
-			echo "\n";
 		}
-		else {
-			echo OTools::getMessage('TASK_PLUGINS_INSTALLED_NONE');
-		}
+		echo OTools::getPartial($path, $values);
 	}
 
 	/**
@@ -175,73 +161,83 @@ class pluginsTask {
 	 * @return void Echoes messages returned while removing a plugin
 	 */
 	public function removePlugin(array $params): void {
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/removePlugin.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'error' => 0,
+			'plugin_path' => '',
+			'plugin_name' => '',
+			'plugin_file_name' => '',
+			'dep_path' => '',
+			'deps' => [],
+			'plugins_file' => '',
+			'num_plugins' => 0
+		];
+
 		if (count($params)<2){
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_REMOVE_ERROR')."\n\n";
-			echo "      ".$this->colors->getColoredString("php ofw.php plugins remove email", "light_green")."\n\n\n";
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 		$found = null;
-		foreach ($this->config->getPlugins() as $p) {
+		foreach ($this->getConfig()->getPlugins() as $p) {
 			if ($p==$params[1]) {
 				$found = $p;
 				break;
 			}
 		}
 		if (is_null($found)) {
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_REMOVE_NOT_INSTALLED')."\n\n";
-			echo OTools::getMessage('TASK_PLUGINS_REMOVE_CHECK_LIST');
-			echo "      ".$this->colors->getColoredString("php ofw.php plugins list", "light_green")."\n\n\n";
+			$values['error'] = 2;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
 		$plugin = new OPlugin($params[1]);
 		$plugin->loadConfig();
 
-		$plugins_file = $this->config->getDir('app_config').'plugins.json';
+		$plugins_file = $this->getConfig()->getDir('app_config').'plugins.json';
+		$values['plugins_file'] = $plugins_file;
+		$values['plugin_name'] = $plugin->getName();
+		$values['plugin_file_name'] = $plugin->getFileName();
 		$plugins_list = json_decode( file_get_contents($plugins_file), true );
 
 		$plugin_index = array_search($plugin->getName(), $plugins_list['plugins']);
 		array_splice($plugins_list['plugins'], $plugin_index, 1);
 
-		$plugin_route = $this->config->getDir('ofw_plugins').$plugin->getName();
+		$plugin_route = $this->getConfig()->getDir('ofw_plugins').$plugin->getName();
+		$values['plugin_path'] = $plugin_route;
 		if (!file_exists($plugin_route)) {
-			echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_REMOVE_FOLDER_NOT_FOUND', [$plugin_route])."\n\n";
+			$values['error'] = 3;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
 		unlink($plugin_route.'/'.$plugin->getName().'.json');
-		echo OTools::getMessage('TASK_PLUGINS_REMOVE_CONF_REMOVED', [
-			$plugin_route, $plugin->getName()
-		]);
 		unlink($plugin_route.'/'.$plugin->getFileName());
-		echo OTools::getMessage('TASK_PLUGINS_REMOVE_PLUGIN_REMOVED', [
-			$plugin_route, $plugin->getFileName()
-		]);
 
 		if (count($plugin->getDependencies())>0) {
-			echo OTools::getMessage('TASK_PLUGINS_REMOVE_REMOVING_DEPS');
+			$dep_path = $plugin_route.'/dependencies';
+			$values['dep_path']= $dep_path;
 			foreach ($plugin->getDependencies() as $dep) {
-				$dep_route = $plugin_route.'/dependencies/'.$dep;
+				$dep_route = $dep_path.'/'.$dep;
 				unlink($dep_route);
-				echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_REMOVED', [$dep_route]);
+				array_push($values['deps'], $dep_route);
 			}
-			rmdir($plugin_route.'/dependencies');
-			echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED', [$plugin_route]);
+
+			rmdir($dep_path);
 		}
 
 		rmdir($plugin_route);
-		echo OTools::getMessage('TASK_PLUGINS_REMOVE_FOLDER_REMOVED', [$plugin_route]);
+		$values['num_plugins'] = count($plugins_list['plugins']);
 
-		if (count($plugins_list['plugins'])>0) {
+		if ($values['num_plugins']>0) {
 			file_put_contents($plugins_file, json_encode($plugins_list));
-			echo OTools::getMessage('TASK_PLUGINS_REMOVE_LIST_UPDATED');
 		}
 		else {
 			unlink($plugins_file);
-			echo OTools::getMessage('TASK_PLUGINS_REMOVE_PLUGINS_REMOVED', [$plugins_file]);
 		}
 
-		echo OTools::getMessage('TASK_PLUGINS_REMOVE_DONE');
+		echo OTools::getPartial($path, $values);
 	}
 
 	/**
@@ -250,34 +246,42 @@ class pluginsTask {
 	 * @return void Echoes messages returned while checking updates
 	 */
 	public function updateCheck(): void {
-		if (count($this->config->getPlugins())==0) {
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_NO_PLUGINS');
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/updateCheck.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'error' => 0,
+			'plugins' => [],
+			'updates' => false
+		];
+
+		if (count($this->getConfig()->getPlugins())==0) {
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
-		echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_CHECKING');
 		$updates = false;
 
-		foreach ($this->config->getPlugins() as $p) {
+		foreach ($this->getConfig()->getPlugins() as $p) {
 			$plugin = new OPlugin($p);
 			$plugin->loadConfig();
-
-			echo "  · ".$this->colors->getColoredString($plugin->getName(), "light_green")."\n";
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_VERSION', [$plugin->getVersion()]);
+			$plugin_update = [
+				'plugin' => $plugin,
+				'update' => false,
+				'repo_version' => ''
+			];
 
 			$repo_check = json_decode( file_get_contents($this->repo_url.'master/'.$plugin->getName().'/'.$plugin->getName().'.json'), true );
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_CURRENT_VERSION', [$repo_check['version']]);
+			$plugin_update['repo_version'] = $repo_check['version'];
+
 			if (version_compare($plugin->getVersion(), $repo_check['version'])==-1) {
-				echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_AVAILABLE');
-				$updates = true;
+				$plugin_update['update'] = true;
+				$values['updates'] = true;
 			}
-			echo "\n";
+			array_push($values['plugins'], $plugin_update);
 		}
 
-		if ($updates) {
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_UPDATE');
-			echo "    ".$this->colors->getColoredString("php ofw.php plugins update", "light_green")."\n\n\n";
-		}
+		echo OTools::getPartial($path, $values);
 	}
 
 	/**
@@ -286,39 +290,59 @@ class pluginsTask {
 	 * @return void Echoes messages returned while performing updates
 	 */
 	public function update(): void {
-		if (count($this->config->getPlugins())==0) {
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_NO_PLUGINS');
+		$path = $this->getConfig()->getDir('ofw_template').'plugins/update.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'error' => 0,
+			'plugins' => []
+		];
+		if (count($this->getConfig()->getPlugins())==0) {
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
 			exit;
 		}
 
-		echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECKING');
-
-		foreach ($this->config->getPlugins() as $p) {
+		foreach ($this->getConfig()->getPlugins() as $p) {
 			$plugin = new OPlugin($p);
 			$plugin->loadConfig();
 			$deletes = [];
 			$backups = [];
 			$updates = [];
-
-			echo "  · ".$this->colors->getColoredString($plugin->getName(), "light_green")."\n";
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_INSTALLED_VERSION', [$plugin->getVersion()]);
+			$plugin_update = [
+				'plugin' => $plugin,
+				'repo_version' => '',
+				'update' => false,
+				'update_message' => '',
+				'deletes' => [],
+				'files' => []
+			];
 
 			$repo_version_file = file_get_contents($this->repo_url.'master/'.$plugin->getName().'/'.$plugin->getName().'.json');
 			$repo_check = json_decode( $repo_version_file, true );
-			echo OTools::getMessage('TASK_PLUGINS_UPDATE_CURRENT_VERSION', [$repo_check['version']]);
+			$plugin_update['repo_version'] = $repo_check['version'];
+
 			if (version_compare($plugin->getVersion(), $repo_check['version'])==-1) {
-				echo OTools::getMessage('TASK_PLUGINS_UPDATE_UPDATING');
+				$plugin_update['update'] = true;
 				$update = $repo_check['updates'][$repo_check['version']];
-				echo "      ".$update['message']."\n";
+				$plugin_update['update_message'] = $update['message'];
+
 				if (array_key_exists('deletes', $update)) {
 					foreach ($update['deletes'] as $delete) {
-						$delete_file = $this->config->getDir('ofw_plugins').$plugin->getName().'/'.$delete;
+						$delete_file = $this->getConfig()->getDir('ofw_plugins').$plugin->getName().'/'.$delete;
+						$plugin_update_delete = [
+							'delete' => $delete,
+							'file' => $delete_file,
+							'error' => false
+						];
+
 						if (file_exists($delete_file)) {
-							echo OTools::getMessage('TASK_PLUGINS_UPDATE_TO_BE_DELETED', [$delete]);
 							array_push($deletes, $delete_file);
 						}
 						else {
-							echo "    ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_UPDATE_FILE_NOT_FOUND', [$delete_file])."\n\n\n";
+							$plugin_update_delete['error'] = true;
+							array_push($plugin_update['deletes'], $plugin_update_delete);
+							array_push($values['plugins'], $plugin_update);
+							echo OTools::getPartial($path, $values);
 							exit;
 						}
 					}
@@ -326,21 +350,22 @@ class pluginsTask {
 
 				foreach ($update['files'] as $file) {
 					$file_url = $this->repo_url.'master/'.$plugin->getName().'/'.$file;
-					echo OTools::getMessage('TASK_PLUGINS_UPDATE_DOWNLOADING', [$file_url]);
+					$plugin_update_file = [
+						'url' => $file_url,
+						'exists' => false
+					];
+
 					$file_content = file_get_contents($file_url);
 
-					$local_file = $this->config->getDir('ofw_plugins').$plugin->getName().'/'.$file;
+					$local_file = $this->getConfig()->getDir('ofw_plugins').$plugin->getName().'/'.$file;
 					if (file_exists($local_file)) {
-						echo OTools::getMessage('TASK_PLUGINS_UPDATE_FILE_EXISTS');
+						$plugin_update_file['exists'] = true;
 						$backup_file = $local_file.'_backup';
 						rename($local_file, $backup_file);
 						array_push($backups, ['new_file'=>$local_file, 'backup'=>$backup_file]);
-						echo OTools::getMessage('TASK_PLUGINS_UPDATE_FILE_UPDATED');
-					}
-					else {
-						echo OTools::getMessage('TASK_PLUGINS_UPDATE_NEW_FILE');
 					}
 					file_put_contents($local_file, $file_content);
+					array_push($plugin_update['files'], $plugin_update_file);
 				}
 
 				foreach ($deletes as $delete) {
@@ -350,12 +375,13 @@ class pluginsTask {
 					unlink($backup['backup']);
 				}
 
-				echo OTools::getMessage('TASK_PLUGINS_UPDATE_VERSION_UPDATED');
-				file_put_contents($this->config->getDir('ofw_plugins').$plugin->getName().'/'.$plugin->getName().'.json', $repo_version_file);
-
-				echo OTools::getMessage('TASK_PLUGINS_UPDATE_DONE');
+				file_put_contents($this->getConfig()->getDir('ofw_plugins').$plugin->getName().'/'.$plugin->getName().'.json', $repo_version_file);
 			}
+
+			array_push($values['plugins'], $plugin_update);
 		}
+
+		echo OTools::getPartial($path, $values);
 	}
 
 	/**
@@ -368,9 +394,6 @@ class pluginsTask {
 	public function run(array $params): void {
 		$option = (count($params)>0) ? $params[0] : 'none';
 		$this->getPluginsFile();
-
-		echo "\n";
-		echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
 
 		switch ($option) {
 			case 'none': {
@@ -398,12 +421,11 @@ class pluginsTask {
 			}
 			break;
 			default: {
-				echo "  ".$this->colors->getColoredString("ERROR", "red").": ".OTools::getMessage('TASK_PLUGINS_DEFAULT_NOT_VALID')."\n\n";
-				echo OTools::getMessage('TASK_PLUGINS_DEFAULT_AVAILABLE_OPTIONS');
-				echo "  · ".$this->colors->getColoredString("list", "light_green").": ".OTools::getMessage('TASK_PLUGINS_DEFAULT_LIST')."\n";
-				echo "  · ".$this->colors->getColoredString("install", "light_green").": ".OTools::getMessage('TASK_PLUGINS_DEFAULT_INSTALL')."\n";
-				echo "  · ".$this->colors->getColoredString("remove", "light_green").": ".OTools::getMessage('TASK_PLUGINS_DEFAULT_REMOVE')."\n\n";
-				echo OTools::getMessage('TASK_PLUGINS_DEFAULT_NO_OPTION');
+				$path = $this->getConfig()->getDir('ofw_template').'plugins/plugins.php';
+				$values = [
+					'colors' => $this->getColors()
+				];
+				echo OTools::getPartial($path, $values);
 			}
 		}
 	}

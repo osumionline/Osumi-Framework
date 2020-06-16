@@ -2,23 +2,9 @@
 /**
  * Generate a backup file (composer file) of the whole application (database and code). Calls internally to "backupDB" and "composer" tasks.
  */
-class backupAllTask {
-	/**
-	 * Returns description of the task
-	 *
-	 * @return string Description of the task
-	 */
+class backupAllTask extends OTask {
 	public function __toString() {
-		return $this->colors->getColoredString("backupAll", "light_green").": ".OTools::getMessage('TASK_BACKUP_ALL');
-	}
-
-	private ?OColors $colors = null;
-
-	/**
-	 * Loads class used to colorize messages
-	 */
-	function __construct() {
-		$this->colors = new OColors();
+		return $this->getColors()->getColoredString("backupAll", "light_green").": ".OTools::getMessage('TASK_BACKUP_ALL');
 	}
 
 	/**
@@ -27,12 +13,16 @@ class backupAllTask {
 	 * @return void Echoes messages generated while performing the backup
 	 */
 	public function run(): void {
-		echo "\n";
-		echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
+		$path             = $this->getConfig()->getDir('ofw_template').'backupAll/backupAll.php';
+		$backupdb_result  = OTools::runOFWTask('backupDB',  [true, true], true);
+		$extractor_result = OTools::runOFWTask('extractor', [true], true);
 
-		OTools::runOFWTask('backupDB', [true]);
-		OTools::runOFWTask('extractor', [true]);
+		$params = [
+			'colors'           => $this->getColors(),
+			'backupdb_result'  => $backupdb_result['return'],
+			'extractor_result' => $extractor_result['return']
+		];
 
-		echo "\n  ".$this->colors->getColoredString(OTools::getMessage('TASK_BACKUP_ALL_DONE'), "light_green")."\n\n";
+		echo OTools::getPartial($path, $params);
 	}
 }

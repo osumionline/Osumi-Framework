@@ -2,56 +2,32 @@
 /**
  * Check if there are new updates on the Framework
  */
-class updateCheckTask {
-	/**
-	 * Returns description of the task
-	 *
-	 * @return string Description of the task
-	 */
+class updateCheckTask extends OTask {
 	public function __toString() {
-		return $this->colors->getColoredString("updateCheck", "light_green").": ".OTools::getMessage('TASK_UPDATE_CHECK');
-	}
-
-	private ?OColors $colors = null;
-
-	/**
-	 * Loads class used to colorize messages
-	 */
-	function __construct() {
-		$this->colors = new OColors();
+		return $this->getColors()->getColoredString('updateCheck', 'light_green').': '.OTools::getMessage('TASK_UPDATE_CHECK');
 	}
 
 	/**
 	 * Run the task
 	 *
-	 * @return void Echoes update information
+	 * @return void Echoes update check information
 	 */
 	public function run(): void {
 		$update = new OUpdate();
 		$to_be_updated = $update->doUpdateCheck();
 
-		echo "\n";
-		echo "  ".$this->colors->getColoredString("Osumi Framework", "white", "blue")."\n\n";
-		echo OTools::getMessage('TASK_UPDATE_CHECK_INSTALLED_VERSION', [$update->getCurrentVersion()]);
-		echo OTools::getMessage('TASK_UPDATE_CHECK_CURRENT_VERSION', [$update->getRepoVersion()]);
+		$path   = $this->getConfig()->getDir('ofw_template').'update/update.php';
+		$values = [
+			'colors' => $this->getColors(),
+			'current_version' => $update->getCurrentVersion(),
+			'repo_version' => $update->getRepoVersion(),
+			'check' => $update->getVersionCheck(),
+			'messages' => ''
+		];
 
-		switch ($update->getVersionCheck()) {
-			case -1: {
-				echo OTools::getMessage('TASK_UPDATE_CHECK_LIST');
-				$update->showUpdates();
-
-				echo OTools::getMessage('TASK_UPDATE_CHECK_DO_UPDATE');
-				echo "    ".$this->colors->getColoredString("php ofw.php update", "light_green")."\n\n";
-			}
-			break;
-			case 0: {
-				echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_CHECK_UPDATED'), "light_green")."\n\n";
-			}
-			break;
-			case 1: {
-				echo "  ".$this->colors->getColoredString(OTools::getMessage('TASK_UPDATE_CHECK_NEWER'), "white", "red")."\n\n";
-			}
-			break;
+		if ($values['check']==-1) {
+			$values['messages'] = $update->showUpdates();
 		}
+		echo OTools::getPartial($path, $values);
 	}
 }
