@@ -1,14 +1,6 @@
 ROADMAP
 =======
 
-## 5.7
-
-* Funciones `getTemplate` y `getPartial` en `OTools`
-* Hacer que `OTemplate` use esas funciones
-* Carpeta `ofw/template`
-* Mover `error.php` a `ofw/template` y adaptarlo para ser usado con `getPartial`
-* Hacer templates para todas las `task`
-
 ## 5.8
 
 * Estructura `app/module` en vez de `controller + template`
