@@ -45,14 +45,18 @@
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_DOWNLOADING', [
 	  $values['colors']->getColoredString($plugin_update_file['url'], 'light_green')
   ]) ?>
+
 <?php if ($plugin_update_file['exists']): ?>
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_FILE_EXISTS') ?>
+
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_FILE_UPDATED') ?>
+
 <?php else: ?>
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_NEW_FILE') ?>
 <?php endif ?>
 <?php endforeach ?>
 <?php if ($plugin_update['update']): ?>
+
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_VERSION_UPDATED') ?>
 
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_DONE') ?>

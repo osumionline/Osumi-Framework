@@ -1,6 +1,14 @@
 {
-	"version": "5.7.0",
+	"version": "5.7.1",
 	"updates": {
+		"5.7.1": {
+			"message": "5.7.1 - Corrección de estilo en template plugins-update",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/template/plugins/update.php"
+			]
+		},
 		"5.7.0": {
 			"message": "5.7.0 - Funciones getPartial en OTools y refactorización de tasks",
 			"files": [

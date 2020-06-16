@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `5.7.1` (16/06/2020)
+
+Corrección de estilo en nueva template de la `task` `plugins/update`.
+
 ## `5.7.0` (16/06/2020)
 
 Nuevas funciones `getTemplate` y `getPartial` en `OTools`. Estas funciones antes eran parte de `OTemplate`, pero al sacarlas a `OTools` se pueden usar desde cualquier parte de la aplicación.
