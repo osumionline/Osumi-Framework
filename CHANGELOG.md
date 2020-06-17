@@ -1,6 +1,45 @@
 CHANGELOG
 =========
 
+## `5.8.0` (17/06/2020)
+
+Reestructuración en carpetas de módulos/acciones para unificar sintaxis. Hasta ahora, el archivo `urls.json` hacía referencia a módulos y acciones, al crear nuevas funciones se hablaba de módulos y acciones... pero luego el código se guardaba en la carpeta `controller` y las clases de esa carpeta heredaban la clase `OController`.
+
+En esta nueva versión desaparece por completo el termino `controller` para pasar a hablar unicamente de `modulos` y `acciones`. Hasta ahora todo el código de la aplicación se encontraba en varios archivos php en la carpeta `app/controller` y sus `templates` asociados se encontraban en una carpeta con el nombre de ese controller en la carpeta `app/template`.
+
+Esto último creaba otro problema a su vez, ya que al estar los `template` de los módulos en la carpeta `app/template`, hacía que no se pudiese crear módulos con nombre `layout` o `partials` ya que habría colisión con las carpetas propias del Framework.
+
+Ahora los módulos están más "autocontenidos", todos los módulos se guardan en la carpeta `app/module` y dentro de esta carpeta se creará una carpeta para cada módulo. Dentro de la carpeta de cada módulo hay un archivo php con la clase del módulo y una carpeta `template` con los `templates` de las acciones de ese módulo. Además los archivos de los `templates` tendrán como extensión el tipo de archivo que son, no todos php como hasta ahora.
+
+Por ejemplo, antes la estructura sería esta:
+
+* app
+  * controller
+    * api.php
+	* home.php
+  * template
+    * api
+	  * getUser.php
+	* home
+	  * start.php
+	  * user.php
+
+Y la nueva estructura sería esta:
+
+* app
+  * module
+    * api
+	  * api.php
+	  * template
+	    * getUser.json
+    * home
+	  * home.php
+	  * template
+	    * start.html
+		* user.html
+
+Esta actualización tiene una tarea `postinstall` que actualiza automáticamente la estructura de toda la aplicación.
+
 ## `5.7.1` (16/06/2020)
 
 Corrección de estilo en nueva template de la `task` `plugins/update`.

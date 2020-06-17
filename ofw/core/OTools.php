@@ -559,19 +559,23 @@ class OTools {
 				continue;
 			}
 
-			$route_controller = $core->config->getDir('app_controller') . $url['module'] . '.php';
-			if (!file_exists($route_controller)) {
+			$route_module = $core->config->getDir('app_module').$url['module'].'/'.$url['module'].'.php';
+			if (!file_exists($route_module)) {
 				$all_updated = false;
-				file_put_contents($route_controller, "<"."?php declare(strict_types=1);\n\nclass ".$url['module']." extends OController {\n}");
+				$route_module_folder = $core->config->getDir('app_module').$url['module'];
+				if (!file_exists($route_module_folder)){
+					mkdir($route_module_folder);
+				}
+				file_put_contents($route_module, "<"."?php declare(strict_types=1);\n\nclass ".$url['module']." extends OModule {\n}");
 				if (!$silent) {
-					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_CONTROLLER', [
+					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_MODULE', [
 						$colors->getColoredString($url['module'], 'light_green'),
-						$colors->getColoredString($route_controller, 'light_green')
+						$colors->getColoredString($route_module, 'light_green')
 					])."\n";
 				}
 			}
 
-			$route_templates = $core->config->getDir('app_template') . $url['module'];
+			$route_templates = $core->config->getDir('app_module').$url['module'].'/template';
 			if (!file_exists($route_templates) && !is_dir($route_templates)) {
 				$all_updated = false;
 				mkdir($route_templates);
@@ -582,10 +586,10 @@ class OTools {
 				}
 			}
 
-			$controller_str = file_get_contents($route_controller);
-			if (stripos($controller_str, "function ".$url['action']) === false) {
+			$module_str = file_get_contents($route_module);
+			if (stripos($module_str, "function ".$url['action']) === false) {
 				$all_updated = false;
-				file_put_contents($route_controller, substr_replace($controller_str, '', strrpos($controller_str, '}'), 1));
+				file_put_contents($route_module, substr_replace($module_str, '', strrpos($module_str, '}'), 1));
 
 				$str = "\n";
 				$str .= "	/**\n";
@@ -596,7 +600,7 @@ class OTools {
 				$str .= "	 * @return void\n";
 				$str .= "	 */\n";
 				$str .= "	function ".$url['action']."(ORequest $"."req): void {}\n";
-				file_put_contents($route_controller, $str."}", FILE_APPEND);
+				file_put_contents($route_module, $str."}", FILE_APPEND);
 
 				if (!$silent) {
 					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_ACTION', [
@@ -605,7 +609,8 @@ class OTools {
 					])."\n";
 				}
 
-				$route_template = $core->config->getDir('app_template') . $url['module'] . '/' . $url['action'] . '.php';
+				$type = array_key_exists('type', $url) ? $url['type'] : 'html';
+				$route_template = $core->config->getDir('app_module').$url['module'].'/template/'.$url['action'].'.'.$type;
 				if (!file_exists($route_template)) {
 					file_put_contents($route_template, '');
 					if (!$silent) {

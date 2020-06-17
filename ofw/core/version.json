@@ -1,6 +1,24 @@
 {
-	"version": "5.7.1",
+	"version": "5.8.0",
 	"updates": {
+		"5.8.0": {
+			"message": "5.8.0 - Reestructuración de modulos/acciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OConfig.php",
+				"ofw/core/OCore.php",
+				"ofw/core/OModule.php",
+				"ofw/core/OTemplate.php",
+				"ofw/core/OTools.php",
+				"ofw/locale/en.php",
+				"ofw/locale/es.php"
+			],
+			"deletes": [
+				"ofw/core/OController.php"
+			],
+			"postinstall": true
+		},
 		"5.7.1": {
 			"message": "5.7.1 - Corrección de estilo en template plugins-update",
 			"files": [

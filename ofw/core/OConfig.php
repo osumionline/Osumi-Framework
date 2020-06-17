@@ -300,9 +300,9 @@ class OConfig {
 		$this->setDir('app',            $bd.'app/');
 		$this->setDir('app_cache',      $bd.'app/cache/');
 		$this->setDir('app_config',     $bd.'app/config/');
-		$this->setDir('app_controller', $bd.'app/controller/');
 		$this->setDir('app_filter',     $bd.'app/filter/');
 		$this->setDir('app_model',      $bd.'app/model/');
+		$this->setDir('app_module',     $bd.'app/module/');
 		$this->setDir('app_service',    $bd.'app/service/');
 		$this->setDir('app_template',   $bd.'app/template/');
 		$this->setDir('app_task',       $bd.'app/task/');

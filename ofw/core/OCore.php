@@ -67,7 +67,7 @@ class OCore {
 
 		// Core
 		require $this->config->getDir('ofw_core').'OModel.php';
-		require $this->config->getDir('ofw_core').'OController.php';
+		require $this->config->getDir('ofw_core').'OModule.php';
 		require $this->config->getDir('ofw_core').'OService.php';
 		require $this->config->getDir('ofw_core').'ODB.php';
 		require $this->config->getDir('ofw_core').'OLog.php';
@@ -209,16 +209,16 @@ class OCore {
 				}
 			}
 
-			$module = $this->config->getDir('app_controller').$url_result['module'].'.php';
+			$module_path = $this->config->getDir('app_module').'/'.$url_result['module'].'/'.$url_result['module'].'.php';
 
-			if (file_exists($module)) {
-				require_once $module;
-				$controller = new $url_result['module']();
+			if (file_exists($module_path)) {
+				require_once $module_path;
+				$module = new $url_result['module']();
 
-				if (method_exists($controller, $url_result['action'])) {
-					$controller->loadController($url_result);
-					call_user_func(array($controller, $url_result['action']), new ORequest($url_result));
-					echo $controller->getTemplate()->process();
+				if (method_exists($module, $url_result['action'])) {
+					$module->loadModule($url_result);
+					call_user_func(array($module, $url_result['action']), new ORequest($url_result));
+					echo $module->getTemplate()->process();
 				}
 				else {
 					OTools::showErrorPage($url_result, 'action');

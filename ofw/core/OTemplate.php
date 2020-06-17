@@ -6,6 +6,7 @@ class OTemplate {
 	private bool        $debug         = false;
 	private ?OLog       $l             = null;
 	private string      $templates_dir = '';
+	private string      $modules_dir   = '';
 	private ?string     $template      = null;
 	private string      $action        = '';
 	private string      $module        = '';
@@ -37,6 +38,7 @@ class OTemplate {
 		}
 
 		$this->templates_dir = $core->config->getDir('app_template');
+		$this->modules_dir = $core->config->getDir('app_module');
 		$this->title = $core->config->getDefaultTitle();
 
 		if ($core->config->getPlugin('translate')) {
@@ -274,7 +276,7 @@ class OTemplate {
 	public function process(): string {
 		global $core;
 		$this->log('process - Type: '.$this->type);
-		$this->template     = file_get_contents($this->templates_dir.$this->module.'/'.$this->action.'.php');
+		$this->template     = file_get_contents($this->modules_dir.$this->module.'/template/'.$this->action.'.'.$this->type);
 		$this->css_list     = array_merge($this->css_list, $core->config->getCssList());
 		$this->ext_css_list = array_merge($this->ext_css_list, $core->config->getExtCssList());
 		$this->js_list      = array_merge($this->js_list, $core->config->getJsList());
