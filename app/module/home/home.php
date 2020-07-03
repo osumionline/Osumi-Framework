@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-class home extends OController {
+class home extends OModule {
 	private ?userService  $user_service;
 	private ?photoService $photo_service;
 
@@ -11,11 +11,11 @@ class home extends OController {
 	/**
 	 * Página de inicio
 	 *
+	 * @url /
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
-	function start(ORequest $req): void {
+	public function start(ORequest $req): void {
 		$users = $this->user_service->getUsers();
 
 		$this->getTemplate()->add('date', $this->user_service->getLastUpdate());
@@ -25,11 +25,11 @@ class home extends OController {
 	/**
 	 * Página de un usuario
 	 *
+	 * @url /user/:id
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
-	function user(ORequest $req): void {
+	public function user(ORequest $req): void {
 		$user = $this->user_service->getUser($req->getParamInt('id'));
 		$list = $this->photo_service->getPhotos($user->get('id'));
 

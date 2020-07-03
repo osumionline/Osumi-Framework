@@ -44,14 +44,12 @@
   <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS') ?>
 
 <?php foreach ($values['deps'] as $dep): ?>
-	<?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_NEW_DEP', [
+    <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_NEW_DEP', [
 		$values['colors']->getColoredString($values['plugin_path'].'/dependencies/'.$dep, 'light_green')
 	]) ?>
 
 <?php endforeach ?>
 <?php endif ?>
-
-  <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_UPDATED') ?>
 
   <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_DONE') ?>
 

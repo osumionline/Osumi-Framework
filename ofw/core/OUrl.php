@@ -32,7 +32,7 @@ class OUrl {
 	 */
 	public function loadUrls(): array {
 		global $core;
-		$urls_cache_file = $core->config->getDir('app_cache').'urls.cache.json';
+		$urls_cache_file = $core->config->getDir('ofw_cache').'urls.cache.json';
 
 		// If it doesn't exist, generate it
 		if (!file_exists($urls_cache_file)){
@@ -103,7 +103,6 @@ class OUrl {
 		$found = false;
 		$i     = 0;
 		$ret   = [
-			'id'      => '',
 			'module'  => '',
 			'action'  => '',
 			'type'    => 'html',
@@ -115,7 +114,7 @@ class OUrl {
 		];
 
 		// Include Symfony routing
-		require_once($this->routing_dir.'sfRoute.class.php');
+		require_once $this->routing_dir.'sfRoute.class.php';
 		while (!$found && $i<count($this->urls)) {
 			$route = new sfRoute($this->urls[$i]['url']);
 			$chk = $route->matchesUrl($this->check_url);
@@ -123,7 +122,6 @@ class OUrl {
 			// If there is a match, return urls.json values plus the parameters in the route
 			if ($chk !== false) {
 				$found         = true;
-				$ret['id']     = $this->urls[$i]['id'];
 				$ret['module'] = $this->urls[$i]['module'];
 				$ret['action'] = $this->urls[$i]['action'];
 				$ret['res']    = true;
@@ -153,7 +151,9 @@ class OUrl {
 	/**
 	 * Static method to generate a URL for a user configured URL
 	 *
-	 * @param string $id Id of the URL in the urls.json file
+	 * @param string $module Module of the action
+	 *
+	 * @param string $action Action whose url has to be generated
 	 *
 	 * @param array $params Array of parameters to build the URL in case of a dynamic URL (eg /user/:id/:slug -> /user/1/igorosabel)
 	 *
@@ -161,7 +161,7 @@ class OUrl {
 	 *
 	 * @return string Generated URL with given parameters
 	 */
-	public static function generateUrl(string $id, array $params=[], bool $absolute=false): string {
+	public static function generateUrl(string $module, string $action, array $params=[], bool $absolute=false): string {
 		// Load URLs, as it's a static method it won't go through the constructor
 		global $core;
 		$urls = self::loadUrls();
@@ -171,17 +171,14 @@ class OUrl {
 		$url = '';
 
 		while (!$found && $i<count($urls)) {
-			if ($urls[$i]['id'] == $id) {
+			if ($urls[$i]['module']==$module && $urls[$i]['action']==$action) {
 				$url = $urls[$i]['url'];
 				$found = true;
 			}
 			$i++;
 		}
 
-		if (!$found) {
-			$url = '';
-		}
-		else {
+		if ($found) {
 			foreach ($params as $key => $value) {
 				$url = str_replace(':'.$key, $value, $url);
 			}

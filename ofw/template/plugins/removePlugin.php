@@ -31,29 +31,22 @@
 
 <?php if (count($values['deps'])>0): ?>
   <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_REMOVING_DEPS') ?>
+
 <?php foreach ($values['deps'] as $dep): ?>
-  <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_REMOVED', [
+    <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_REMOVED', [
 	  $values['colors']->getColoredString($dep, 'light_green')
   ]) ?>
 
 <?php endforeach ?>
-
-  <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED', [
+    <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED', [
 	  $values['colors']->getColoredString($values['dep_path'], 'light_green')
   ]) ?>
+
 <?php endif ?>
 
   <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_FOLDER_REMOVED', [
 	  $values['colors']->getColoredString($values['plugin_path'], 'light_green')
   ]) ?>
-
-<?php if ($values['num_plugins']>0): ?>
-  <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_LIST_UPDATED') ?>
-<?php else: ?>
-  <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_PLUGINS_REMOVED', [
-	  $values['colors']->getColoredString($values['plugins_file'], 'light_green')
-  ]) ?>
-<?php endif ?>
 
   <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DONE') ?>
 <?php endif ?>

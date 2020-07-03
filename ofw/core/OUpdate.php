@@ -212,10 +212,10 @@ class OUpdate {
 	 *
 	 * @return string Content of the file
 	 */
-	private function getFile(string $url): string {
+	private function getFile(string $url): ?string {
 		$file_headers = get_headers($url);
 		if ($file_headers[0] == 'HTTP/1.1 404 Not Found') {
-			return false;
+			return null;
 		}
 		return file_get_contents($url);
 
@@ -245,7 +245,7 @@ class OUpdate {
 				if ($file['status']==0 || $file['status']==1) {
 					$file_url = $this->repo_url.'v'.$version.'/'.$file['rel'];
 					$file_content = $this->getFile($file_url);
-					if ($file_content===false) {
+					if (is_null($file_content)) {
 						$ret .= "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
 						$this->restoreBackups($backups);
 						return $ret;
@@ -276,7 +276,7 @@ class OUpdate {
 				$file = 'ofw/core/postinstall-'.$version.'.php';
 				$file_url = $this->repo_url.'v'.$version.'/'.$file;
 				$file_content = $this->getFile($file_url);
-				if ($file_content===false) {
+				if (is_null($file_content)) {
 					$ret .= "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
 					$this->restoreBackups($backups);
 					return $ret;
@@ -300,7 +300,12 @@ class OUpdate {
 					$ret .= "\n  ".OTools::getMessage('TASK_UPDATE_DELETE_BACKUPS');
 					foreach ($backups as $backup) {
 						if (!is_null($backup['backup']) && file_exists($backup['backup'])){
-							unlink($backup['backup']);
+							if (is_file($backup['backup'])) {
+								unlink($backup['backup']);
+							}
+							if (is_dir($backup['backup'])) {
+								rmdir($backup['backup']);
+							}
 						}
 					}
 				}

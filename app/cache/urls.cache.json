@@ -1,1 +1,0 @@
-[{"id":"page_start","url":"\/","action":"start","comment":"Página de inicio","module":"home"},{"id":"page_user","url":"\/user\/:id","action":"user","comment":"Página de un usuario","module":"home"},{"id":"get_date","url":"\/api\/getDate","action":"getDate","comment":"Función para obtener la fecha","module":"api","type":"json"}]

@@ -195,7 +195,7 @@ class OCore {
 			}
 
 			// If there is a filter defined, apply it before the controller
-			if (array_key_exists('filter', $url_result)) {
+			if (array_key_exists('filter', $url_result) && !is_null($url_result['filter'])) {
 				$url_result[$url_result['filter']] = call_user_func($url_result['filter'], $url_result['params'], $url_result['headers']);
 
 				// If status is 'error', return 403 Forbidden

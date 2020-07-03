@@ -1,7 +1,108 @@
 CHANGELOG
 =========
 
-## `5.8.0` (17/06/2020)
+## `6.0.0` (03/07/2020)
+
+¡Nueva versión 6.0!
+
+Esta es una nueva versión mayor por que introduce cambios que rompen la estructura  y la filosofía de URLs actual.
+
+Esta nueva versión tiene cuatro puntos principales:
+
+* Nuevo sistema de URLs
+* Menos archivos de configuración
+* Configuración de los plugins
+* Nueva tarea `add`
+
+### Nuevo sistema de URLs
+
+Hasta ahora la configuración de las URLs se basaba en el archivo `urls.json`. Este archivo contenía una relación de URLs y los módulos/acciones que se debían ejecutar. En este archivo también se indicaba si una URL debía ejecutar un filtro o el tipo de retorno que debía devolver.
+
+A partir de ahora, este archivo desaparece y son las propias acciones, en su documentación phpDoc, las que definen toda esta información. Por ejemplo:
+
+```php
+/**
+ * API para la aplicación prueba
+ *
+ * @prefix /api
+ * @type json
+ */
+class api extends OModule {
+	/**
+	 * Función para obtener un usuario
+	 *
+	 * @url /getUser
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 * @return void
+	 */
+	 function getUser(ORequest $req): void { ... }
+
+	 /**
+ 	 * Función para obtener la lista completa de usuarios, pero en XML
+ 	 *
+ 	 * @url /getUserList
+	 * @type xml
+	 * @filter userFilter
+ 	 * @param ORequest $req Request object with method, headers, parameters and filters used
+ 	 * @return void
+ 	 */
+ 	 function getUserList(ORequest $req): void { ... }
+}
+```
+
+### Menos archivos de configuración
+
+Con el nuevo sistema de URLs, el archivo de configuración `urls.json` desaparece. A su vez, ahora se prescinde del archivo `plugins.json` que se creaba y mantenía automáticamente al instalar plugins. Ahora el propio Framework lee la carpeta donde están instalados los plugins y ya no es necesario este archivo.
+
+El archivo `translations.json` se incluía en cada instalación, a pesar de ser solo necesario en el caso de que se instalase el plugin `OTranslate`.
+
+De este modo se ha pasado de cuatro archivos de configuración a uno solo: `config.json`
+
+### Configuración de los plugins
+
+El plugin `OEmailSMTP` se configuraba mediante valores en el archivo `config.json`, y estos valores eran almacenados como parte de la configuración del Framework. A partir de esta versión, el Framework prescinde de todo tipo de configuración o valores externos y la configuración de los plugins se realiza con el archivo `config.json` solo en caso de que el plugin lo requiera.
+
+Por ejemplo, al instalar el plugin `OEmailSMTP` (llamado `email_smtp` en el repositorio de Plugins), automáticamente se creará un apartado llamado `plugins` en el archivo `config.json`, que a su vez contendrá un apartado llamado `email_smtp` con todos los valores de configuración del plugin.
+
+En caso de desinstalar el plugin, este apartado de configuración se eliminará automáticamente.
+
+De este modo el Framework solo contendrá la configuración del propio Framework y el resto serán valores extra auxiliares.
+
+### Nueva tarea `add`
+
+La nueva tarea `add` sirve para crear nuevos módulos, acciones, servicios o tareas. En lugar de escribir manualmente nuevos archivos `php`, usando esta nueva tarea el trabajo se reduce a un solo comando, reduciendo el trabajo y la posibilidad de introducir errores.
+
+**Nuevo módulo**
+
+Comando: `php ofw.php add module (nombre del módulo)`
+
+Este comando crea un nuevo módulo en la carpeta `modules`, su archivo php y su carpeta para `templates`. Se comprueba que no exista un módulo con el nombre indicado antes de crear el nuevo.
+
+**Nueva acción**
+
+Comando: `php ofw.php add action (módulo) (nombre de la acción) (URL)`
+
+Opcionalmente, también se puede indicar un último parámetro indicando el tipo (por defecto es `html`).
+
+Este comando crea una nueva acción en el módulo indicado. Crea su función, su configuración en su respectivo apartado phpDoc y el archivo `template` necesario. Se comprueba que el módulo indicado exista y que la acción indicada no exista.
+
+**Nuevo servicio**
+
+Comando: `php ofw.php add service (nombre del servicio)`
+
+Este comando crea un nuevo servicio vacío que puede ser usado en cualquier módulo. Crea su archivo php en la carpeta `services`.
+
+**Nueva tarea**
+
+Comando: `php ofw.php add task (nombre de la tarea)`
+
+Este comando crea una nueva tarea vacía que puede ser usada tanto en las acciones como desde el CLI. Crea su archivo php en la carpeta `task`.
+
+
+*Esta actualización tiene una tarea `postinstall` que actualiza automáticamente todas las acciones para que usen el nuevo sistema de URLs.*
+
+
+## `5.8.0` (16/06/2020)
 
 Reestructuración en carpetas de módulos/acciones para unificar sintaxis. Hasta ahora, el archivo `urls.json` hacía referencia a módulos y acciones, al crear nuevas funciones se hablaba de módulos y acciones... pero luego el código se guardaba en la carpeta `controller` y las clases de esa carpeta heredaban la clase `OController`.
 

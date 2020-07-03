@@ -17,12 +17,12 @@ class versionTask extends OTask {
 	 */
 	public function run(): void {
 		$path   = $this->getConfig()->getDir('ofw_template').'version/version.php';
-		$params = [
+		$values = [
 			'colors'      => $this->getColors(),
 			'repo_url'    => $this->repo_url,
 			'twitter_url' => $this->twitter_url
 		];
 
-		echo OTools::getPartial($path, $params);
+		echo OTools::getPartial($path, $values);
 	}
 }

@@ -457,10 +457,9 @@ class OTools {
 	 */
 	public static function updateUrls(bool $silent=false): ?string {
 		global $core;
-		$urls_file = json_decode( file_get_contents($core->config->getDir('app_config').'urls.json'), true);
-		$urls = self::getUrlList($urls_file);
+		$urls = self::getModuleUrls();
 
-		$urls_cache_file = $core->config->getDir('app_cache').'urls.cache.json';
+		$urls_cache_file = $core->config->getDir('ofw_cache').'urls.cache.json';
 		if (file_exists($urls_cache_file)) {
 			unlink($urls_cache_file);
 		}
@@ -470,51 +469,317 @@ class OTools {
 		return self::updateControllers($silent);
 	}
 
+	public static function getModuleDocumentation(string $module): ?string {
+		global $core;
+
+		require_once $core->config->getDir('app_module').$module.'/'.$module.'.php';
+		$class = new ReflectionClass($module);
+		$class_doc = $class->getDocComment();
+		if ($class_doc !== false) {
+			return $class_doc;
+		}
+
+		return null;
+	}
+
 	/**
-	 * Returns flattened list of URLs from the user configured urls.json
+	 * Get module methods phpDoc information
 	 *
-	 * @param array $item $item of the URL list
+	 * @param string $inspectclass Module name
 	 *
-	 * @return array Array of configured urls
+	 * @return array List of items with module name, method name and associated phpDoc information
 	 */
-	public static function getUrlList(array $item): array {
-		$list = self::getUrls($item);
-		for ($i=0; $i<count($list); $i++){
-			$keys = array_keys($list[$i]);
-			foreach ($keys as $key) {
-				if (is_null($list[$i][$key])) {
-					unset($list[$i][$key]);
+	public static function getDocumentation(string $inspectclass): array {
+		$class = new ReflectionClass($inspectclass);
+
+		$class_params = [
+			'module' => $inspectclass,
+			'action' => null,
+			'type'   => 'html',
+			'prefix' => null,
+			'filter' => null,
+			'doc'    => null
+		];
+		$class_doc = self::getModuleDocumentation($inspectclass);
+		if (!is_null($class_doc)) {
+			$class_params['doc'] = $class_doc;
+			$class_params = self::parseAnnotations($class_params);
+		}
+
+		$methods = [];
+		foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+		    if ($method->class == $class->getName() && $method->name != '__construct') {
+		         array_push($methods, $method->name);
+			}
+		}
+
+	    $arr = [];
+	    foreach($methods as $method) {
+	        $ref = new ReflectionMethod($inspectclass, $method);
+	        array_push($arr, [
+				'module' => $class_params['module'],
+				'action' => $method,
+				'type'   => $class_params['type'],
+				'prefix' => $class_params['prefix'],
+				'filter' => $class_params['filter'],
+				'doc' => $ref->getDocComment()
+			]);
+	    }
+	    return $arr;
+	}
+
+	/**
+	 * Get OFW annotations from a method's phpDoc information block
+	 *
+	 * @param array $item getDocumentation return element with name of the module, name of the method and associated phpDoc information
+	 *
+	 * @return array Received method information and new information gathered from the phpDoc block
+	 */
+	function parseAnnotations(array $item): array {
+		$docs = explode("\n", $item['doc']);
+		$info = [
+			'module' => $item['module'],
+			'action' => $item['action'],
+			'type'   => $item['type'],
+			'prefix' => $item['prefix'],
+			'filter' => $item['filter']
+		];
+		foreach ($docs as $line) {
+			$line = trim($line);
+			if ($line!='/**' && $line!='*' && $line!='*/') {
+				if (substr($line, 0, 2)=='* ') {
+					$line = substr($line, 2);
+				}
+				if (substr($line, 0, 1)!='@') {
+					$info['comment'] = $line;
+				}
+				else {
+					$words = explode(' ', $line);
+					$command = substr(array_shift($words), 1);
+					$command_list = ['url', 'type', 'prefix', 'filter'];
+					if (in_array($command, $command_list)) {
+						$info[$command] = implode(' ', $words);
+					}
 				}
 			}
 		}
+
+		return $info;
+	}
+
+	/**
+	 * Get information from all the modules and actions to build the url cache file
+	 *
+	 * @return array List of every action with it's information: module, action, type, url, prefix and filter
+	 */
+	public static function getModuleUrls(): array {
+		global $core;
+		$modules = [];
+		if (file_exists($core->config->getDir('app_module'))) {
+			if ($model = opendir($core->config->getDir('app_module'))) {
+				while (false !== ($entry = readdir($model))) {
+					if ($entry != '.' && $entry != '..') {
+						array_push($modules, $entry);
+						require_once $core->config->getDir('app_module').$entry.'/'.$entry.'.php';
+					}
+				}
+				closedir($model);
+			}
+		}
+
+		$list = [];
+		foreach ($modules as $module) {
+			$methods = self::getDocumentation($module);
+			foreach ($methods as $method) {
+				$info = self::parseAnnotations($method);
+				if (!is_null($info['prefix'])) {
+					$info['url'] = $info['prefix'].$info['url'];
+				}
+				unset($info['prefix']);
+				array_push($list, $info);
+			}
+		}
+
 		return $list;
 	}
 
 	/**
-	 * Returns list of URLs of a given element, used in conjunction with getUrlList
+	 * Creates a new empty module with the given name
 	 *
-	 * @param array $item Item of the urls.json that can have many "sub-URLs"
+	 * @param string $name Name of the new module
 	 *
-	 * @param array Flattened array of a single urls.json element
+	 * @return array Status of the operation (status and module name)
 	 */
-	public static function getUrls(array $item): array {
-		$list = [];
-		if (array_key_exists('urls', $item)) {
-			foreach ($item['urls'] as $elem) {
-				$list = array_merge($list, self::getUrls($elem));
+	public static function addModule(string $name): array {
+		global $core;
+
+		$module_path      = $core->config->getDir('app_module').$name;
+		$module_templates = $module_path.'/template';
+		$module_file      = $module_path.'/'.$name.'.php';
+
+		if (file_exists($module_path) || file_exists($module_file)) {
+			return ['status' => 'exists', 'name' => $name];
+		}
+		mkdir($module_path);
+		mkdir($module_templates);
+		$str_module = "<"."?php declare(strict_types=1);\n";
+		$str_module .= "class ".$name." extends OModule {}";
+		file_put_contents($module_file, $str_module);
+
+		return ['status' => 'ok', 'name' => $name];
+	}
+
+	/**
+	 * Creates a new empty action with the given name, URL and type into the given module
+	 *
+	 * @param string $module Name of the module where the action should go
+	 *
+	 * @param string $action Name of the new action
+	 *
+	 * @param string $url URL of the new action
+	 *
+	 * @param string $type Type of the return the new action will make
+	 *
+	 * @return array Status of the operation (status, module name, action name, action url and action type)
+	 */
+	public static function addAction(string $module, string $action, string $url, string $type=null): array {
+		global $core;
+
+		$module_path      = $core->config->getDir('app_module').$module;
+		$module_templates = $module_path.'/template';
+		$module_file      = $module_path.'/'.$module.'.php';
+		$status           = [
+			'status' => 'ok',
+			'module' => $module,
+			'action' => $action,
+			'url'    => $url,
+			'type'   => $type
+		];
+
+		if (!file_exists($module_path) || !file_exists($module_file)) {
+			$status['status'] = 'no-module';
+			return $status;
+		}
+		$module_content = file_get_contents($module_file);
+		if (stripos($module_content, 'function '.$action)!==false) {
+			$status['status'] = 'action-exists';
+			return $status;
+		}
+
+		$module_type = false;
+		$class_doc = self::getModuleDocumentation($module);
+		if (!is_null($class_doc)) {
+			$class_params = [
+				'module' => $module,
+				'action' => null,
+				'type'   => $type,
+				'prefix' => null,
+				'filter' => null,
+				'doc'    => $class_doc
+			];
+			$class_params = self::parseAnnotations($class_params);
+			if (!is_null($class_params['prefix'])) {
+				if (stripos($url, $class_params['prefix'])!==false) {
+					$url = str_ireplace($class_params['prefix'], '', $url);
+				}
 			}
-			for ($i=0;$i<count($list);$i++) {
-				$list[$i]['url']    = ((array_key_exists('prefix', $item) && !is_null($item['prefix'])) ? $item['prefix'] : '') . $list[$i]['url'];
-				$list[$i]['layout'] = (array_key_exists('layout', $list[$i])  && !is_null($list[$i]['layout'])) ? $list[$i]['layout'] : ( (array_key_exists('layout', $item) && !is_null($item['layout'])) ? $item['layout'] : null);
-				$list[$i]['module'] = (array_key_exists('module', $list[$i])  && !is_null($list[$i]['module'])) ? $list[$i]['module'] : ( (array_key_exists('module', $item) && !is_null($item['module'])) ? $item['module'] : null);
-				$list[$i]['filter'] = (array_key_exists('filter', $list[$i])  && !is_null($list[$i]['filter'])) ? $list[$i]['filter'] : ( (array_key_exists('filter', $item) && !is_null($item['filter'])) ? $item['filter'] : null);
-				$list[$i]['type']   = (array_key_exists('type',   $list[$i])  && !is_null($list[$i]['type']))   ? $list[$i]['type']   : ( (array_key_exists('type',   $item) && !is_null($item['type']))   ? $item['type']   : null);
+			if (is_null($type) && !is_null($class_params['type'])) {
+				$type = $class_params['type'];
+				$module_type = true;
 			}
 		}
-		else {
-			array_push($list, $item);
+		if (is_null($type)) {
+			$type = 'html';
 		}
-		return $list;
+		$status['type'] = $type;
+
+		$action_template  = $module_templates.'/'.$action.'.'.$type;
+		if (file_exists($action_template)) {
+			$status['status'] = 'template-exists';
+			return $status;
+		}
+
+		$module_content = substr($module_content, 0, -1);
+
+		$str_action = "\n	/**\n";
+		$str_action .= "	 * ".self::getMessage('TASK_ADD_ACTION_MESSAGE', [$action])."\n";
+		$str_action .= "	 *\n";
+		$str_action .= "	 * @url ".$url."\n";
+		if (!$module_type) {
+			$str_action .= "	 * @type ".$type."\n";
+		}
+		$str_action .= "	 * @param ORequest $"."req Request object with method, headers, parameters and filters used\n";
+		$str_action .= "	 * @return void\n";
+		$str_action .= "	 */\n";
+		$str_action .= "	public function ".$action."(ORequest $"."req): void {}\n";
+		$str_action .= "}";
+
+		file_put_contents($module_file, $module_content.$str_action);
+
+		$str_template = self::getMessage('TASK_ADD_ACTION_TEMPLATE', [$action]);
+
+		file_put_contents($action_template, $str_template);
+
+		self::updateUrls(true);
+
+		return $status;
+	}
+
+	/**
+	 * Creates a new empty service with the given name
+	 *
+	 * @param string $name Name of the new service
+	 *
+	 * @return array Status of the operation (status and service name)
+	 */
+	public static function addService(string $name): array {
+		global $core;
+
+		$service_file = $core->config->getDir('app_service').$name.'.php';
+
+		if (file_exists($service_file)) {
+			return ['status' => 'exists', 'name' => $name];
+		}
+		$str_service = "<"."?php declare(strict_types=1);\n";
+		$str_service .= "class ".$name." extends OService {\n";
+		$str_service .= "	function __construct() {\n";
+		$str_service .= "		$"."this->loadService();\n";
+		$str_service .= "	}\n";
+		$str_service .= "}";
+		file_put_contents($service_file, $str_service);
+
+		return ['status' => 'ok', 'name' => $name];
+	}
+
+	/**
+	 * Creates a new empty task with the given name
+	 *
+	 * @param string $name Name of the new task
+	 *
+	 * @return array Status of the operation (status and task name)
+	 */
+	public static function addTask(string $name): array {
+		global $core;
+
+		$task_file = $core->config->getDir('app_task').$name.'.php';
+		$ofw_task_file = $core->config->getDir('ofw_task').$name.'.php';
+
+		if (file_exists($task_file)) {
+			return ['status' => 'exists', 'name' => $name];
+		}
+		if (file_exists($ofw_task_file)) {
+			return ['status' => 'ofw-exists', 'name' => $name];
+		}
+		$str_task = "<"."?php declare(strict_types=1);\n";
+		$str_task .= "class ".$name."Task extends OTask {\n";
+		$str_task .= "	public function __toString() {\n";
+		$str_task .= "		return \"".$name.": ".self::getMessage('TASK_ADD_TASK_MESSAGE', [$name])."\";\n";
+		$str_task .= "	}\n\n";
+		$str_task .= "	public function run(array $"."options=[]): void {}\n";
+		$str_task .= "}";
+		file_put_contents($task_file, $str_task);
+
+		return ['status' => 'ok', 'name' => $name];
 	}
 
 	/**
@@ -527,7 +792,7 @@ class OTools {
 	public static function updateControllers(bool $silent=false): ?string {
 		global $core;
 		$ret = null;
-		$urls   = json_decode( file_get_contents($core->config->getDir('app_cache').'urls.cache.json'), true);
+		$urls   = json_decode( file_get_contents($core->config->getDir('ofw_cache').'urls.cache.json'), true);
 		$errors = false;
 		$all_updated = true;
 
@@ -559,65 +824,32 @@ class OTools {
 				continue;
 			}
 
-			$route_module = $core->config->getDir('app_module').$url['module'].'/'.$url['module'].'.php';
-			if (!file_exists($route_module)) {
+			$status = self::addModule($url['module']);
+			if ($status=='ok') {
 				$all_updated = false;
-				$route_module_folder = $core->config->getDir('app_module').$url['module'];
-				if (!file_exists($route_module_folder)){
-					mkdir($route_module_folder);
-				}
-				file_put_contents($route_module, "<"."?php declare(strict_types=1);\n\nclass ".$url['module']." extends OModule {\n}");
 				if (!$silent) {
 					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_MODULE', [
 						$colors->getColoredString($url['module'], 'light_green'),
 						$colors->getColoredString($route_module, 'light_green')
 					])."\n";
-				}
-			}
-
-			$route_templates = $core->config->getDir('app_module').$url['module'].'/template';
-			if (!file_exists($route_templates) && !is_dir($route_templates)) {
-				$all_updated = false;
-				mkdir($route_templates);
-				if (!$silent) {
 					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER', [
 						$colors->getColoredString($route_templates, 'light_green')
 					])."\n";
 				}
+
 			}
 
-			$module_str = file_get_contents($route_module);
-			if (stripos($module_str, "function ".$url['action']) === false) {
+			$status = self::addAction($url['module'], $url['action'], $url['url'], $url['type']);
+			if ($status=='ok') {
 				$all_updated = false;
-				file_put_contents($route_module, substr_replace($module_str, '', strrpos($module_str, '}'), 1));
-
-				$str = "\n";
-				$str .= "	/**\n";
-				$str .= "	 * ".$url['comment']."\n";
-				$str .= "	 *\n";
-				$str .= "	 * @param ORequest $"."req Request object with method, headers, parameters and filters used\n";
-				$str .= "	 *\n";
-				$str .= "	 * @return void\n";
-				$str .= "	 */\n";
-				$str .= "	function ".$url['action']."(ORequest $"."req): void {}\n";
-				file_put_contents($route_module, $str."}", FILE_APPEND);
-
 				if (!$silent) {
 					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_ACTION', [
 						$colors->getColoredString($url['action'], 'light_green'),
 						$colors->getColoredString($url['module'], 'light_green')
 					])."\n";
-				}
-
-				$type = array_key_exists('type', $url) ? $url['type'] : 'html';
-				$route_template = $core->config->getDir('app_module').$url['module'].'/template/'.$url['action'].'.'.$type;
-				if (!file_exists($route_template)) {
-					file_put_contents($route_template, '');
-					if (!$silent) {
-						$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE', [
+					$ret .= "    ".self::getMessage('TASK_UPDATE_URLS_NEW_TEMPLATE', [
 							$colors->getColoredString($route_template, 'light_green')
 						])."\n";
-					}
 				}
 			}
 		}

@@ -9,7 +9,7 @@ class ORequest {
 		$this->setMethod($url_result['method']);
 		$this->setHeaders($url_result['headers']);
 		$this->setParams($url_result['params']);
-		if (array_key_exists('filter', $url_result)) {
+		if (array_key_exists('filter', $url_result) && !is_null($url_result['filter'])) {
 			$this->setFilter($url_result['filter'], $url_result[$url_result['filter']]);
 		}
 	}

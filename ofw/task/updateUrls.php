@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * Creates new modules / actions / templates based on user configured urls.json
+ * Updates URLs cache file
  */
 class updateUrlsTask extends OTask {
 	public function __toString() {

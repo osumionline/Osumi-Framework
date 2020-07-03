@@ -28,11 +28,11 @@ class pluginsTask extends OTask {
 	 * @return void Echoes information about available plugins
 	 */
 	public function availablePlugins(): void {
-		$path = $this->getConfig()->getDir('ofw_template').'plugins/availablePlugins.php';
+		$path    = $this->getConfig()->getDir('ofw_template').'plugins/availablePlugins.php';
 		$plugins = $this->getPluginsFile();
-		$params = [
+		$params  = [
 			'colors' => $this->getColors(),
-			'list' => []
+			'list'   => []
 		];
 
 		foreach ($plugins['plugins'] as $plugin) {
@@ -82,15 +82,6 @@ class pluginsTask extends OTask {
 		}
 
 		$plugin = new OPlugin($params[1]);
-		$plugins_file = $this->getConfig()->getDir('app_config').'plugins.json';
-		if (file_exists($plugins_file)) {
-			$plugins_list = json_decode( file_get_contents($plugins_file), true );
-		}
-		else {
-			$plugins_list = ['plugins'=>[]];
-		}
-
-		array_push($plugins_list['plugins'], $params[1]);
 
 		$new_plugin_route = $this->getConfig()->getDir('ofw_plugins').$plugin->getName();
 		if (file_exists($new_plugin_route)) {
@@ -126,8 +117,20 @@ class pluginsTask extends OTask {
 			}
 		}
 
-		// Plugins configuration file
-		file_put_contents($plugins_file, json_encode($plugins_list));
+		// Plugin configuration
+		if (array_key_exists('config', $repo_data)) {
+			$config_file = $this->getConfig()->getDir('app_config').'config.json';
+			$config = json_decode( file_get_contents( $config_file ), true);
+			if (!array_key_exists('plugins', $config)) {
+				$config['plugins'] = [];
+			}
+			$config['plugins'][$plugin->getName()] = [];
+			foreach ($repo_data['config'] as $item) {
+				$config['plugins'][$plugin->getName()][$item] = null;
+			}
+			file_put_contents($config_file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+		}
+
 		echo OTools::getPartial($path, $values);
 	}
 
@@ -163,15 +166,13 @@ class pluginsTask extends OTask {
 	public function removePlugin(array $params): void {
 		$path = $this->getConfig()->getDir('ofw_template').'plugins/removePlugin.php';
 		$values = [
-			'colors' => $this->getColors(),
-			'error' => 0,
-			'plugin_path' => '',
-			'plugin_name' => '',
+			'colors'           => $this->getColors(),
+			'error'            => 0,
+			'plugin_path'      => '',
+			'plugin_name'      => '',
 			'plugin_file_name' => '',
-			'dep_path' => '',
-			'deps' => [],
-			'plugins_file' => '',
-			'num_plugins' => 0
+			'dep_path'         => '',
+			'deps'             => []
 		];
 
 		if (count($params)<2){
@@ -195,14 +196,8 @@ class pluginsTask extends OTask {
 		$plugin = new OPlugin($params[1]);
 		$plugin->loadConfig();
 
-		$plugins_file = $this->getConfig()->getDir('app_config').'plugins.json';
-		$values['plugins_file'] = $plugins_file;
 		$values['plugin_name'] = $plugin->getName();
 		$values['plugin_file_name'] = $plugin->getFileName();
-		$plugins_list = json_decode( file_get_contents($plugins_file), true );
-
-		$plugin_index = array_search($plugin->getName(), $plugins_list['plugins']);
-		array_splice($plugins_list['plugins'], $plugin_index, 1);
 
 		$plugin_route = $this->getConfig()->getDir('ofw_plugins').$plugin->getName();
 		$values['plugin_path'] = $plugin_route;
@@ -228,13 +223,19 @@ class pluginsTask extends OTask {
 		}
 
 		rmdir($plugin_route);
-		$values['num_plugins'] = count($plugins_list['plugins']);
 
-		if ($values['num_plugins']>0) {
-			file_put_contents($plugins_file, json_encode($plugins_list));
-		}
-		else {
-			unlink($plugins_file);
+		if (count($plugin->getConfig())>0) {
+			$config_file = $this->getConfig()->getDir('app_config').'config.json';
+			$config = json_decode( file_get_contents( $config_file ), true);
+			if (array_key_exists('plugins', $config)) {
+				if (array_key_exists($plugin->getName(), $config['plugins'])) {
+					unset($config['plugins'][$plugin->getName()]);
+				}
+				if (count($config['plugins'])==0) {
+					unset($config['plugins']);
+				}
+				file_put_contents($config_file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+			}
 		}
 
 		echo OTools::getPartial($path, $values);
@@ -376,6 +377,37 @@ class pluginsTask extends OTask {
 				}
 
 				file_put_contents($this->getConfig()->getDir('ofw_plugins').$plugin->getName().'/'.$plugin->getName().'.json', $repo_version_file);
+
+				// Plugin configuration
+				if (array_key_exists('config', $repo_check) || count($plugin->getConfig())>0) {
+					$config_file = $this->getConfig()->getDir('app_config').'config.json';
+					$config = json_decode( file_get_contents( $config_file ), true);
+					$conf_list = [];
+
+					// If there are configuration parameters on the plugin
+					if (array_key_exists('config', $repo_check)) {
+						if (!array_key_exists('plugins', $config)) {
+							$config['plugins'] = [];
+						}
+						if (!array_key_exists($plugin->getName(), $config['plugins'])) {
+							$config['plugins'][$plugin->getName()] = [];
+						}
+						foreach ($repo_check['config'] as $item) {
+							array_push($conf_list, $item);
+							if (!array_key_exists($item, $config['plugins'][$plugin->getName()])) {
+								$config['plugins'][$plugin->getName()][$item] = null;
+							}
+						}
+					}
+
+					// Remove configuration parameters no longer needed
+					foreach ($config['plugins'][$plugin->getName()] as $key => $c) {
+						if (!in_array($key, $conf_list)) {
+							unset($config['plugins'][$plugin->getName()][$key]);
+						}
+					}
+					file_put_contents($config_file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+				}
 			}
 
 			array_push($values['plugins'], $plugin_update);

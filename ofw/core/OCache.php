@@ -69,7 +69,7 @@ class OCache {
 		}
 
 		$this->cache = $cache;
-		$this->cache_file = $core->config->getDir('app_cache').$cache.'.json';
+		$this->cache_file = $core->config->getDir('ofw_cache').$cache.'.json';
 		if (!file_exists($this->cache_file)) {
 			$this->status = 'error_file';
 		}

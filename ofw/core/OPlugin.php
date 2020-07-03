@@ -9,6 +9,7 @@ class OPlugin {
 	private string $description  = '';
 	private string $file_name    = '';
 	private array  $dependencies = [];
+	private array  $config       = [];
 
 	/**
 	 * Start the object with the global configuration
@@ -122,6 +123,26 @@ class OPlugin {
 	}
 
 	/**
+	 * Set the list of configurations the plugin has
+	 *
+	 * @param string[] $d List of configuration parameters
+	 *
+	 * @return void
+	 */
+	public function setConfig(array $c): void {
+		$this->config = $c;
+	}
+
+	/**
+	 * Get the list of configurations the plugin has¡
+	 *
+	 * @return string[] List of configuration parameters
+	 */
+	public function getConfig(): array {
+		return $this->config;
+	}
+
+	/**
 	 * Load the plugins configuration from its json file
 	 *
 	 * @return void Echoes a message in case the configuration file is not found or nothing if everything is ok
@@ -138,6 +159,7 @@ class OPlugin {
 		$this->setDescription($config['description']);
 		$this->setFileName($config['file_name']);
 		$this->setDependencies(array_key_exists('dependencies', $config) ? $config['dependencies'] : []);
+		$this->setConfig(array_key_exists('config', $config) ? $config['config'] : []);
 	}
 
 	/**

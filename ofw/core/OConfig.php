@@ -25,13 +25,7 @@ class OConfig {
 		'base'   => ''
 	];
 
-	private array $smtp = [
-		'host'   => '',
-		'port'   => null,
-		'secure' => 'tls',
-		'user'   => '',
-		'pass'   => ''
-	];
+	private array $plugin_config = [];
 
 	private string $cookie_prefix = '';
 	private string $cookie_url    = '';
@@ -88,13 +82,7 @@ class OConfig {
 			}
 			$this->loadConfig($config_env);
 		}
-		$plugins_file = $this->getDir('app_config').'plugins.json';
-		if (file_exists($plugins_file)) {
-			$plugins = json_decode( file_get_contents($plugins_file), true );
-			if (array_key_exists('plugins', $plugins) && is_array($plugins['plugins'])) {
-				$this->setPlugins($plugins['plugins']);
-			}
-		}
+		$this->setPlugins($this->getInstalledPlugins());
 	}
 
 	/**
@@ -136,12 +124,9 @@ class OConfig {
 		if (array_key_exists('lang', $config)) {
 			$this->setLang($config['lang']);
 		}
-		if (array_key_exists('smtp', $config)) {
-			$smtp_fields = ['host', 'port', 'secure', 'user', 'pass'];
-			foreach ($smtp_fields as $smtp_field) {
-				if (array_key_exists($smtp_field, $config['smtp'])) {
-					$this->setSMTP($smtp_field, $config['smtp'][$smtp_field]);
-				}
+		if (array_key_exists('plugins', $config)) {
+			foreach ($config['plugins'] as $key => $plugin_conf) {
+				$this->setPluginConfig($key, $plugin_conf);
 			}
 		}
 		if (array_key_exists('error_pages', $config)) {
@@ -231,6 +216,24 @@ class OConfig {
 	}
 
 	/**
+	 * Reads installed plugins directory and returns a list
+	 *
+	 * @return array List of installed plugins
+	 */
+	public function getInstalledPlugins(): array {
+		$list = [];
+		if ($model = opendir($this->getDir('ofw_plugins'))) {
+			while (false !== ($entry = readdir($model))) {
+				if ($entry != '.' && $entry != '..' && is_dir($this->getDir('ofw_plugins').$entry)) {
+					array_push($list, $entry);
+				}
+			}
+			closedir($model);
+		}
+		return $list;
+	}
+
+	/**
 	 * Set list of installed plugins
 	 *
 	 * @param array $p Installed plugin list
@@ -259,6 +262,30 @@ class OConfig {
 	 */
 	public function getPlugin(string $p): bool {
 		return in_array($p, $this->plugins);
+	}
+
+	/**
+	 * Set configuration fields of a plugin
+	 *
+	 * @param string $plugin Name of the plugin
+	 *
+	 * @param array $plugin_conf Array of configuration fields for the plugin
+	 *
+	 * @return void
+	 */
+	public function setPluginConfig(string $plugin, array $plugin_conf): void {
+		$this->plugin_config[$plugin] = $plugin_conf;
+	}
+
+	/**
+	 * Get configuration fields of a plugin
+	 *
+	 * @param string $plugin Name of the plugin
+	 *
+	 * @return array Array of configuration fields for the plugin or null if not found
+	 */
+	public function getPluginConfig(string $plugin): ?array {
+		return array_key_exists($plugin, $this->plugin_config) ? $this->plugin_config[$plugin] : null;
 	}
 
 	/**
@@ -298,7 +325,6 @@ class OConfig {
 	private function setBaseDir(string $bd): void {
 		$this->setDir('base',           $bd);
 		$this->setDir('app',            $bd.'app/');
-		$this->setDir('app_cache',      $bd.'app/cache/');
 		$this->setDir('app_config',     $bd.'app/config/');
 		$this->setDir('app_filter',     $bd.'app/filter/');
 		$this->setDir('app_model',      $bd.'app/model/');
@@ -306,6 +332,8 @@ class OConfig {
 		$this->setDir('app_service',    $bd.'app/service/');
 		$this->setDir('app_template',   $bd.'app/template/');
 		$this->setDir('app_task',       $bd.'app/task/');
+		$this->setDir('ofw',            $bd.'ofw/');
+		$this->setDir('ofw_cache',      $bd.'ofw/cache/');
 		$this->setDir('ofw_core',       $bd.'ofw/core/');
 		$this->setDir('ofw_lib',        $bd.'ofw/lib/');
 		$this->setDir('ofw_locale',     $bd.'ofw/locale/');
@@ -370,33 +398,6 @@ class OConfig {
 	*/
 	public function getUrl(string $key): string {
 		return array_key_exists($key, $this->urls) ? $this->urls[$key] : null;
-	}
-
-	/**
-	 * Set up configuration for SMTP based email sendings
-	 *
-	 * @param string $key Configuration key (host / port / secure / user / pass)
-	 *
-	 * @param string|int $value Configuration value
-	 *
-	 * @return void
-	 */
-	public function setSMTP(string $key, $value): void {
-		$this->smtp[$key] = $value;
-	}
-
-	/**
-	 * Get SMTP configuration based on a given key or get all the configuration values if ommitted
-	 *
-	 * @param string $key Configuration key (host / port / secure / user / pass)
-	 *
-	 * @return string|int|array Required configuration value or whole configuration if key is ommitted
-	 */
-	public function getSMTP(string $key=null) {
-		if (is_null($key)) {
-			return $this->smtp;
-		}
-		return array_key_exists($key, $this->smtp) ? $this->smtp[$key] : null;
 	}
 
 	/**

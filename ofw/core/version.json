@@ -1,6 +1,39 @@
 {
-	"version": "5.8.0",
+	"version": "6.0.0",
 	"updates": {
+		"6.0.0": {
+			"message": "6.0.0 - Versión 6.0",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OCache.php",
+				"ofw/core/OConfig.php",
+				"ofw/core/OCore.php",
+				"ofw/core/OPlugin.php",
+				"ofw/core/ORequest.php",
+				"ofw/core/OTools.php",
+				"ofw/core/OUpdate.php",
+				"ofw/core/OUrl.php",
+				"ofw/locale/en.php",
+				"ofw/locale/es.php",
+				"ofw/task/add.php",
+				"ofw/task/plugins.php",
+				"ofw/task/updateUrls.php",
+				"ofw/task/version.php",
+				"ofw/template/add/add.php",
+				"ofw/template/add/createAction.php",
+				"ofw/template/add/createModule.php",
+				"ofw/template/add/createService.php",
+				"ofw/template/add/createTask.php",
+				"ofw/template/plugins/installPlugin.php",
+				"ofw/template/plugins/removePlugin.php"
+			],
+			"deletes": [
+				"app/config/plugins.json",
+				"app/config/translations.json"
+			],
+			"postinstall": true
+		},
 		"5.8.0": {
 			"message": "5.8.0 - Reestructuración de modulos/acciones",
 			"files": [
