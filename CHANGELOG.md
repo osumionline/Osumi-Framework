@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `6.0.1` (07/07/2020)
+
+Corrección al crear una nueva acción. Al realizar la comprobación para ver si una acción ya existía previamente, si había una acción que tuviese un nombre que empezase igual fallaba.
+
+Por ejemplo, al intentar crear la acción `sync`, si ya existía una acción llamada `syncStock` fallaba por que la acción existente empieza igual que la nueva que se quiere crear.
+
 ## `6.0.0` (03/07/2020)
 
 ¡Nueva versión 6.0!

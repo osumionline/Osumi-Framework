@@ -661,7 +661,7 @@ class OTools {
 			return $status;
 		}
 		$module_content = file_get_contents($module_file);
-		if (stripos($module_content, 'function '.$action)!==false) {
+		if (stripos($module_content, 'function '.$action.'(')!==false) {
 			$status['status'] = 'action-exists';
 			return $status;
 		}
