@@ -20,6 +20,16 @@ class Photo extends OModel {
 				'size'    => 5,
 				'comment' => 'Photo extension'
 			],
+			'alt' => [
+				'type'    => OCore::TEXT,
+				'size'    => 100,
+				'comment' => 'alt text for the photo'
+			],
+			'url' => [
+				'type'    => OCore::TEXT,
+				'size'    => 100,
+				'comment' => 'URL for the photo'
+			],
 			'created_at' => [
 				'type'    => OCore::CREATED,
 				'comment' => 'Register creation date'

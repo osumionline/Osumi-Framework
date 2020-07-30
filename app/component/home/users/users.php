@@ -7,5 +7,5 @@
 <?php endforeach ?>
 	</ul>
 <?php else: ?>
-	There aren't any users yet.
+	There are no users, yet.
 <?php endif ?>

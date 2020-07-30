@@ -13,14 +13,14 @@
 	},
 	"log_level": "DEBUG",
 	"base_url": "https://demo.osumi.es/",
-	"admin_email": "igorosabel@osumi.es",
+	"admin_email": "inigo.gorosabel@gmail.com",
 	"default_title": "Osumi Framework",
 	"lang": "es",
 	"smtp": {
 		"host": "smtp.gmail.com",
 		"port": 587,
 		"secure": "tls",
-		"user": "igorosabel@osumi.es",
+		"user": "inigo.gorosabel@gmail.com",
 		"pass": "password"
 	},
 	"css": ["common"],
@@ -33,7 +33,7 @@
 	},
 	"libs": ["another/library"],
 	"dir": {
-		"test": "{{app_controller}}test/"
+		"test": "{{web}}test/"
 	},
 	"environment": "dev"
 }

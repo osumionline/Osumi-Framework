@@ -1,6 +1,64 @@
 CHANGELOG
 =========
 
+## `6.1.0` (30/07/2020)
+
+Nuevos componentes web. Inspirandome en los WebComponents, he cambiado la forma y estructura de los partials para mejorarlos y vitaminarlos. Este es un breaking change ya que cambia la estructura de las carpetas del Framework.
+
+La carpeta `app/template`, que incluía las carpetas `layout` y `partials`, desaparece:
+
+* app
+  * template
+    * layout
+	* partials
+
+Así queda su nueva estructura:
+
+* app
+  * component
+  * layout
+
+Dentro de la carpeta `component` se crean los nuevos componentes reutilizables de la siguiente manera: una carpeta para cada componente y dentro un archivo php con el mismo nombre del componente. Pero ahora se puede añadir opcionalmente un archivo `config.json` con el que indicar archivos `css` y `js` que acompañarán al componente:
+
+```json
+{
+	"css": ["css1", "css2"],
+	"js": ["js1", "js2"]
+}
+```
+
+Por lo que para un `component` llamado `header`, por ejemplo, que tuviese ese archivo `config.json` la estructura sería la siguiente:
+
+* app
+  * component
+    * header
+	  * header.php
+	  * config.json
+	  * css1.css
+	  * css2.css
+	  * js1.js
+	  * js2.js
+
+Estos archivos CSS y JS, ya que no están accesibles desde una llamada web, al usar un `component` se incluyen embebidos directamente en el HTML resultante:
+
+```html
+<html>
+  <head>
+    <style type="text/css">
+		header { ... }
+	</style>
+	<script>
+      ...
+	</script>
+```
+
+En el caso de que un componente se utilice varias veces, el framework lo comprueba y no incluye los archivos CSS/JS repetidos, los incluye una sola vez.
+
+He aprovechado para mejorar al aplicación demo que acompaña al Framework y ahora Lighthouse le da una puntuación de 100 en cada apartado.
+
+![Lighthouse](https://framework.osumi.es/img/ofw-6.1.0.png)
+
+
 ## `6.0.1` (07/07/2020)
 
 Corrección al crear una nueva acción. Al realizar la comprobación para ver si una acción ya existía previamente, si había una acción que tuviese un nombre que empezase igual fallaba.

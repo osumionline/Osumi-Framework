@@ -5,7 +5,8 @@
 class OTemplate {
 	private bool        $debug         = false;
 	private ?OLog       $l             = null;
-	private string      $templates_dir = '';
+	private string      $component_dir = '';
+	private string      $layout_dir    = '';
 	private string      $modules_dir   = '';
 	private ?string     $template      = null;
 	private string      $action        = '';
@@ -37,7 +38,8 @@ class OTemplate {
 			$this->l = new OLog('OTemplate');
 		}
 
-		$this->templates_dir = $core->config->getDir('app_template');
+		$this->component_dir = $core->config->getDir('app_component');
+		$this->layout_dir = $core->config->getDir('app_layout');
 		$this->modules_dir = $core->config->getDir('app_module');
 		$this->title = $core->config->getDefaultTitle();
 
@@ -115,7 +117,7 @@ class OTemplate {
 	 * @return void
 	 */
 	public function loadLayout(string $layout): void {
-		$this->setLayout( file_get_contents($this->templates_dir.'layout/'.$layout.'.php') );
+		$this->setLayout( file_get_contents($this->layout_dir.$layout.'.php') );
 	}
 
 	/**
@@ -126,7 +128,11 @@ class OTemplate {
 	 * @return void
 	 */
 	public function setCssList(array $cl): void {
-		$this->css_list = $cl;
+		$list = [];
+		foreach ($cl as $item) {
+			array_push($list, ['file' => $item, 'inline' => false]);
+		}
+		$this->css_list = $list;
 	}
 
 	/**
@@ -148,7 +154,11 @@ class OTemplate {
 	 * @return void
 	 */
 	public function setJsList(array $jl): void {
-		$this->js_list = $jl;
+		$list = [];
+		foreach ($jl as $item) {
+			array_push($list, ['file' => $item, 'inline' => false]);
+		}
+		$this->js_list = $list;
 	}
 
 	/**
@@ -208,10 +218,15 @@ class OTemplate {
 	 *
 	 * @param string $item Name of a CSS file to be included
 	 *
+	 * @param bool $inline Set if CSS file will be linked or embedded on the resulting HTML
+	 *
 	 * @return void
 	 */
-	public function addCss(string $item): void {
-		array_push($this->css_list, $item);
+	public function addCss(string $item, bool $inline=false): void {
+		$key = array_search($item, array_column($this->css_list, 'file'));
+		if ($key===false) {
+			array_push($this->css_list, ['file' => $item, 'inline' => $inline]);
+		}
 	}
 
 	/**
@@ -230,10 +245,15 @@ class OTemplate {
 	 *
 	 * @param string $item Name of a JS file to be included
 	 *
+	 * @param bool $inline Set if JS file will be linked or embedded on the resulting HTML
+	 *
 	 * @return void
 	 */
-	public function addJs(string $item): void {
-		array_push($this->js_list, $item);
+	public function addJs(string $item, bool $inline=false): void {
+		$key = array_search($item, array_column($this->js_list, 'file'));
+		if ($key===false) {
+			array_push($this->js_list,  ['file' => $item, 'inline' => $inline]);
+		}
 	}
 
 	/**
@@ -258,9 +278,29 @@ class OTemplate {
 	 *
 	 * @return void
 	 */
-	public function addPartial(string $where, string $name, array $values=[]): void {
-		$partial_file = $this->templates_dir.'partials/'.$name.'.php';
-		$output = OTools::getPartial($partial_file, $values);
+	public function addComponent(string $where, string $name, array $values=[]): void {
+		$component_name = $name;
+		if (stripos($component_name, '/')!==false) {
+			$component_name = array_pop(explode('/', $component_name));
+		}
+
+		$component_config_file = $this->component_dir.$name.'/config.json';
+		if (file_exists($component_config_file)) {
+			$component_config = json_decode(file_get_contents($component_config_file), true);
+			if (array_key_exists('css', $component_config)) {
+				foreach ($component_config['css'] as $css) {
+					$this->addCss($this->component_dir.$name.'/'.$css.'.css', true);
+				}
+			}
+			if (array_key_exists('js', $component_config)) {
+				foreach ($component_config['js'] as $js) {
+					$this->addJs($this->component_dir.$name.'/'.$js.'.js', true);
+				}
+			}
+		}
+
+		$component_file = $this->component_dir.$name.'/'.$component_name.'.php';
+		$output = OTools::getPartial($component_file, $values);
 
 		if (is_null($output)) {
 			$output = 'ERROR: No existe el archivo '.$name;
@@ -277,9 +317,13 @@ class OTemplate {
 		global $core;
 		$this->log('process - Type: '.$this->type);
 		$this->template     = file_get_contents($this->modules_dir.$this->module.'/template/'.$this->action.'.'.$this->type);
-		$this->css_list     = array_merge($this->css_list, $core->config->getCssList());
+		foreach ($core->config->getCssList() as $css) {
+			$this->addCss($css);
+		}
 		$this->ext_css_list = array_merge($this->ext_css_list, $core->config->getExtCssList());
-		$this->js_list      = array_merge($this->js_list, $core->config->getJsList());
+		foreach ($core->config->getJsList() as $js) {
+			$this->addJs($js);
+		}
 		$this->ext_js_list  = array_merge($this->ext_js_list, $core->config->getExtJsList());
 
 		$layout   = $this->layout;
@@ -295,14 +339,19 @@ class OTemplate {
 			$this->log('process - CSS: '.count($this->css_list));
 
 			foreach ($this->css_list as $css_item) {
-				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="/css/'.$css_item.'.css" />'."\n";
+				if (!$css_item['inline']) {
+					$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="/css/'.$css_item['file'].'.css">'."\n";
+				}
+				else {
+					$str_css .= '<style type="text/css">'.file_get_contents($css_item['file']).'</style>'."\n";
+				}
 			}
 
 			// Add external css
 			$this->log('process - Ext CSS: '.count($this->ext_css_list));
 
 			foreach ($this->ext_css_list as $ext_css_item) {
-				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="'.$ext_css_item.'" />'."\n";
+				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="'.$ext_css_item.'">'."\n";
 			}
 
 			$layout = str_replace(['{{css}}'], $str_css, $layout);
@@ -312,7 +361,12 @@ class OTemplate {
 			$this->log('process - JS: '.count($this->js_list));
 
 			foreach ($this->js_list as $js_item) {
-				$str_js .= '<script src="/js/'.$js_item.'.js"></script>'."\n";
+				if (!$js_item['inline']) {
+					$str_js .= '<script src="/js/'.$js_item['file'].'.js"></script>'."\n";
+				}
+				else {
+					$str_js .= '<script>'.file_get_contents($js_item['file']).'</script>'."\n";
+				}
 			}
 
 			// Add external js

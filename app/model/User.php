@@ -8,52 +8,52 @@ class User extends OModel {
 		$model = [
 			'id' => [
 				'type'    => OCore::PK,
-				'comment' => 'Id único de un usuario'
+				'comment' => 'Unique id for each user'
 			],
 			'user' => [
 				'type'     => OCore::TEXT,
 				'size'     => 50,
 				'nullable' => false,
-				'comment'  => 'Nombre de usuario'
+				'comment'  => 'Users name'
 			],
 			'pass' => [
 				'type'     => OCore::TEXT,
 				'size'     => 100,
 				'nullable' => false,
-				'comment'  => 'Contraseña del usuario'
+				'comment'  => 'Users password'
 			],
 			'num_photos' => [
 				'type'     => OCore::NUM,
 				'default'  => 0,
 				'nullable' => false,
-				'comment'  =>'Número de fotos de un usuario'
+				'comment'  =>'Number of photos a user has'
 			],
 			'score' => [
 				'type'    => OCore::FLOAT,
-				'comment' => 'Puntuación del usuario'
+				'comment' => 'Users score'
 			],
 			'active' => [
 				'type'     => OCore::BOOL,
 				'default'  => true,
 				'nullable' => false,
-				'comment'  => 'Usuario activo 1 o no 0'
+				'comment'  => 'User is active 1 or not 0'
 			],
 			'last_login' => [
 				'type'     => OCore::DATE,
 				'nullable' => false,
-				'comment'  => 'Fecha de la última vez que inició sesión'
+				'comment'  => 'Last date a user signed in'
 			],
 			'notes' => [
 				'type'    => OCore::LONGTEXT,
-				'comment' => 'Notas sobre el usuario'
+				'comment' => 'Notes on the user'
 			],
 			'created_at' => [
 				'type'    => OCore::CREATED,
-				'comment' => 'Fecha de creación del registro'
+				'comment' => 'Register creation date'
 			],
 			'updated_at' => [
 				'type'    => OCore::UPDATED,
-				'comment' => 'Fecha de última modificación del registro'
+				'comment' => 'Registers last update date'
 			]
 		];
 
