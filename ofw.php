@@ -31,7 +31,7 @@ if ($model = opendir($core->config->getDir('ofw_task'))) {
 }
 
 // App Tasks
-if (file_exists($this->config->getDir('app_task'))) {
+if (file_exists($core->config->getDir('app_task'))) {
 	if ($model = opendir($core->config->getDir('app_task'))) {
 		while (false !== ($entry = readdir($model))) {
 			if ($entry != "." && $entry != "..") {
