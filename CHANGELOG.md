@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `6.2.0` (16/09/2020)
+
+Nueva función `getEnvironment` en `OConfig` para obtener el entorno en el que se está ejecutando la aplicación.
+
+Puede servir para configurar variables dependiendo del entorno, mostrar u ocultar trazas o valores...
+
 ## `6.1.0` (30/07/2020)
 
 Nuevos componentes web. Inspirandome en los WebComponents, he cambiado la forma y estructura de los partials para mejorarlos y vitaminarlos. Este es un breaking change ya que cambia la estructura de las carpetas del Framework.

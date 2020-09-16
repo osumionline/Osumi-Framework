@@ -1,6 +1,14 @@
 {
-	"version": "6.1.0",
+	"version": "6.2.0",
 	"updates": {
+		"6.2.0": {
+			"message": "6.2.0 - Funcion getEnvironment en OConfig",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OConfig.php"
+			]
+		},
 		"6.1.0": {
 			"message": "6.1.0 - Nuevos components",
 			"files": [

@@ -3,6 +3,7 @@
  * OConfig - Class with all the configuration info for the framework
  */
 class OConfig {
+	private string $environment = '';
 	private array $log = [
 		'dir' => null,
 		'level' => 'DEBUG'
@@ -70,6 +71,8 @@ class OConfig {
 		}
 		$this->loadConfig($config);
 		if (array_key_exists('environment', $config)) {
+			$this->setEnvironment($config['environment']);
+
 			$json_env_file = $this->getDir('app_config').'config.'.$config['environment'].'.json';
 			if (!file_exists($json_env_file)) {
 				echo "ERROR: config.".$config['environment'].".json file not found.\n";
@@ -169,6 +172,24 @@ class OConfig {
 		if (array_key_exists('libs', $config)) {
 			$this->setLibs($config['libs']);
 		}
+	}
+
+	/**
+	 * Set the environment name, if any
+	 *
+	 * @return void
+	 */
+	public function setEnvironment(string $environment): void {
+		$this->environment = $environment;
+	}
+
+	/**
+	 * Get environment name
+	 *
+	 * @return string Environment name
+	 */
+	public function getEnvironment(): string {
+		return $this->environment;
 	}
 
 	/**
