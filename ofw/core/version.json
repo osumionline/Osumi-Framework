@@ -1,12 +1,13 @@
 {
-	"version": "6.2.0",
+	"version": "6.3.0",
 	"updates": {
 		"6.2.0": {
-			"message": "6.2.0 - Funcion getEnvironment en OConfig",
+			"message": "6.3.0 - Datos de sesión en core",
 			"files": [
 				"CHANGELOG.md",
 				"ofw/core/version.json",
-				"ofw/core/OConfig.php"
+				"ofw/core/OCore.php",
+				"ofw/core/OModule.php"
 			]
 		},
 		"6.1.0": {

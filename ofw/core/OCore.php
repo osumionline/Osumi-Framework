@@ -31,6 +31,7 @@ class OCore {
 	public ?ODBContainer    $dbContainer = null;
 	public ?OCacheContainer $cacheContainer = null;
 	public ?OConfig         $config = null;
+	public ?OSession        $session = null;
 	public ?array           $locale = null;
 	public ?float           $start_time = null;
 
@@ -83,6 +84,8 @@ class OCore {
 			require $this->config->getDir('ofw_core').'OSession.php';
 			require $this->config->getDir('ofw_core').'OCookie.php';
 			require $this->config->getDir('ofw_core').'ORequest.php';
+
+			$this->session  = new OSession();
 		}
 		else {
 			require $this->config->getDir('ofw_core').'OColors.php';

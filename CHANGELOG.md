@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `6.3.0` (24/09/2020)
+
+Ahora los datos de la sesión del navegador se encuentran dentro de la variable global `$core`, accesibles desde cualquier parte usando `$core->session`. Al igual que antes, se sigue pudiendo crear nuevas instancias del objeto sesión usando `$session = new OSession();` pero de este modo todos los componentes tienen acceso a esta variable ya inicializada.
+
 ## `6.2.0` (16/09/2020)
 
 Nueva función `getEnvironment` en `OConfig` para obtener el entorno en el que se está ejecutando la aplicación.

@@ -21,10 +21,10 @@ class OModule {
 		global $core;
 
 		$this->config   = $core->config;
+		$this->session  = $core->session;
 		$this->db       = new ODB();
 		$this->template = new OTemplate();
 		$this->log      = new OLog(get_class($this));
-		$this->session  = new OSession();
 		$this->cookie   = new OCookie();
 
 		// Current and previous module
