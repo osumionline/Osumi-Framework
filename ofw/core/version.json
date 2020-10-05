@@ -1,6 +1,14 @@
 {
-	"version": "6.3.0",
+	"version": "6.3.1",
 	"updates": {
+		"6.3.1": {
+			"message": "6.3.1 - Corrección en ORequest para valores booleanos",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/ORequest.php"
+			]
+		},
 		"6.3.0": {
 			"message": "6.3.0 - Datos de sesión en core",
 			"files": [

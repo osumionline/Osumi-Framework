@@ -149,7 +149,7 @@ class ORequest {
 	 */
 	public function getParamBool(string $key, $default=null): ?bool {
 		$param = $this->getParam($key, $default);
-		return !is_null($param) ? boolval($param) : null;
+		return !is_null($param) ? filter_var($param, FILTER_VALIDATE_BOOLEAN) : null;
 	}
 
 	/**
