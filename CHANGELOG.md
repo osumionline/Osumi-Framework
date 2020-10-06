@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `6.3.2` (06/10/2020)
+
+Corrección en `ORequest` para los valores numéricos. He añadido una validación más, en caso de que se envíase `"null"` como número, se devolvía el valor `0` en lugar de `null`.
+
+
 ## `6.3.1` (05/10/2020)
 
 Corrección en `ORequest` para los valores booleanos. He cambiado la función usada para comprobar si un valor es booleano ya que la anterior daba como verdadero el valor `"false"`.
