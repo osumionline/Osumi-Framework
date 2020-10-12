@@ -1,6 +1,14 @@
 {
-	"version": "6.3.2",
+	"version": "6.3.3",
 	"updates": {
+		"6.3.3": {
+			"message": "6.3.3 - Corrección en ORequest para enteros con valor cero",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/ORequest.php"
+			]
+		},
 		"6.3.2": {
 			"message": "6.3.2 - Corrección en ORequest para valores nulos en int",
 			"files": [

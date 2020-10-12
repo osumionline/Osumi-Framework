@@ -121,7 +121,7 @@ class ORequest {
 	 */
 	public function getParamInt(string $key, $default=null): ?int {
 		$param = $this->getParam($key, $default);
-		return (!is_null($param) && $param!='null') ? intval($param) : null;
+		return (!is_null($param) && $param!=='null') ? intval($param) : null;
 	}
 
 	/**

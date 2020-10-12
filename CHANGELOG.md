@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `6.3.3` (12/10/2020)
+
+Corrección en `ORequest` para los valores numéricos. La comprobación de valores nulos no era estricta y los valores `0` los devolvía como `null`.
+
 ## `6.3.2` (06/10/2020)
 
 Corrección en `ORequest` para los valores numéricos. He añadido una validación más, en caso de que se envíase `"null"` como número, se devolvía el valor `0` en lugar de `null`.
