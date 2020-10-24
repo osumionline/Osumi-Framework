@@ -886,6 +886,7 @@ class OTools {
 		require_once $task_file;
 		$task_name .= 'Task';
 		$task = new $task_name();
+		$task->loadTask();
 		$task->run($params);
 
 		return true;

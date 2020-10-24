@@ -1,6 +1,14 @@
 {
-	"version": "6.3.3",
+	"version": "6.3.4",
 	"updates": {
+		"6.3.4": {
+			"message": "6.3.4 - Corrección en runTask de OTools",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php"
+			]
+		},
 		"6.3.3": {
 			"message": "6.3.3 - Corrección en ORequest para enteros con valor cero",
 			"files": [
