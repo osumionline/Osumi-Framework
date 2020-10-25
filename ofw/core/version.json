@@ -1,6 +1,15 @@
 {
-	"version": "6.3.4",
+	"version": "6.4.0",
 	"updates": {
+		"6.4.0": {
+			"message": "6.4.0 - Nueva función getComponent",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php",
+				"ofw/core/OTemplate.php"
+			]
+		},
 		"6.3.4": {
 			"message": "6.3.4 - Corrección en runTask de OTools",
 			"files": [

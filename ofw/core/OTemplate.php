@@ -272,9 +272,9 @@ class OTemplate {
 	 *
 	 * @param string $where Key value in the template that will get substituted (eg {{users}})
 	 *
-	 * @param string $name Name of the partial file that will be loaded
+	 * @param string $name Name of the component file that will be loaded
 	 *
-	 * @param array $values Array of information that will be loaded into the partial
+	 * @param array $values Array of information that will be loaded into the component
 	 *
 	 * @return void
 	 */
@@ -303,7 +303,7 @@ class OTemplate {
 		$output = OTools::getPartial($component_file, $values);
 
 		if (is_null($output)) {
-			$output = 'ERROR: No existe el archivo '.$name;
+			$output = 'ERROR: File '.$name.' not found';
 		}
 		$this->add($where, $output, array_key_exists('extra', $values) ? $values['extra'] : null);
 	}

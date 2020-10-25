@@ -112,6 +112,32 @@ class OTools {
 	}
 
 	/**
+	 * Get a component's content anywhere, even in a template-less execution
+	 *
+	 * @param string $name Name of the component file that will be loaded
+	 *
+	 * @param array $values Array of information that will be loaded into the component
+	 *
+	 * @return string Loaded component with rendered parameters
+	 */
+	public static function getComponent(string $name, array $values=[]): ?string {
+		global $core;
+		$component_name = $name;
+		if (stripos($component_name, '/')!==false) {
+			$component_name = array_pop(explode('/', $component_name));
+		}
+
+		$component_file = $core->config->getDir('app_component').$name.'/'.$component_name.'.php';
+		$output = self::getPartial($component_file, $values);
+
+		if (is_null($output)) {
+			$output = 'ERROR: File '.$name.' not found';
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Get a files content as a Base64 string
 	 *
 	 * @param string $filename Route of the filename to be loaded
@@ -508,15 +534,15 @@ class OTools {
 
 		$methods = [];
 		foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-		    if ($method->class == $class->getName() && $method->name != '__construct') {
-		         array_push($methods, $method->name);
+			if ($method->class == $class->getName() && $method->name != '__construct') {
+				 array_push($methods, $method->name);
 			}
 		}
 
-	    $arr = [];
-	    foreach($methods as $method) {
-	        $ref = new ReflectionMethod($inspectclass, $method);
-	        array_push($arr, [
+		$arr = [];
+		foreach($methods as $method) {
+			$ref = new ReflectionMethod($inspectclass, $method);
+			array_push($arr, [
 				'module' => $class_params['module'],
 				'action' => $method,
 				'type'   => $class_params['type'],
@@ -524,8 +550,8 @@ class OTools {
 				'filter' => $class_params['filter'],
 				'doc' => $ref->getDocComment()
 			]);
-	    }
-	    return $arr;
+		}
+		return $arr;
 	}
 
 	/**
