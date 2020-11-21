@@ -74,16 +74,14 @@ class OConfig {
 			$this->setEnvironment($config['environment']);
 
 			$json_env_file = $this->getDir('app_config').'config.'.$config['environment'].'.json';
-			if (!file_exists($json_env_file)) {
-				echo "ERROR: config.".$config['environment'].".json file not found.\n";
-				exit;
+			if (file_exists($json_env_file)) {
+				$config_env = json_decode( file_get_contents($json_env_file), true );
+				if (!$config_env) {
+					echo "ERROR: config.".$config['environment'].".json file is malformed.\n";
+					exit;
+				}
+				$this->loadConfig($config_env);
 			}
-			$config_env = json_decode( file_get_contents($json_env_file), true );
-			if (!$config_env) {
-				echo "ERROR: config.".$config['environment'].".json file is malformed.\n";
-				exit;
-			}
-			$this->loadConfig($config_env);
 		}
 		$this->setPlugins($this->getInstalledPlugins());
 	}

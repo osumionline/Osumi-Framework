@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `6.5.1` (21/11/2020)
+
+Si se define un entorno, por ejemplo `prod`, ahora ya no es obligatorio que haya un archivo de configuración para ese entorno.
+
+De este modo se puede definir que una aplicación está en producción y así aprovecharse de la minimización de los resultados de las llamadas JSON.
+
 ## `6.5.0` (21/11/2020)
 
 Si el entorno está definido como `prod` (producción), el resultado de las llamas de tipo JSON será minimizado.

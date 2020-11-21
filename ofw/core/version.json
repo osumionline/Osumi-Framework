@@ -1,6 +1,14 @@
 {
-	"version": "6.5.0",
+	"version": "6.5.1",
 	"updates": {
+		"6.5.1": {
+			"message": "6.5.1 - Archivo de configuración de entorno no obligatorio",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OConfig.php"
+			]
+		},
 		"6.5.0": {
 			"message": "6.5.0 - Minimizar resultado de llamadas JSON en entornos de producción",
 			"files": [
