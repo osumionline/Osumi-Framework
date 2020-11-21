@@ -1,6 +1,15 @@
 {
-	"version": "6.4.0",
+	"version": "6.5.0",
 	"updates": {
+		"6.5.0": {
+			"message": "6.5.0 - Minimizar resultado de llamadas JSON en entornos de producción",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php",
+				"ofw/core/OTemplate.php"
+			]
+		},
 		"6.4.0": {
 			"message": "6.4.0 - Nueva función getComponent",
 			"files": [

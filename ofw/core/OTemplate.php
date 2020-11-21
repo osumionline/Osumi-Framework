@@ -3,6 +3,7 @@
  * OTemplate - Class used by the controllers to show the required template and its data
  */
 class OTemplate {
+	private string      $environment   = '';
 	private bool        $debug         = false;
 	private ?OLog       $l             = null;
 	private string      $component_dir = '';
@@ -33,6 +34,7 @@ class OTemplate {
 	 */
 	function __construct() {
 		global $core;
+		$this->environment = $core->config->getEnvironment();
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
 			$this->l = new OLog('OTemplate');
@@ -421,6 +423,11 @@ class OTemplate {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		}
+		// If the request is a JSON and we are in production environment, minify it before sending
+		if ($this->environment=='prod' && $this->type=='json') {
+			$layout = OTools::minifyJSON($layout);
+		}
+
 		header('Content-type: '.$this->return_types[$this->type]);
 
 		return $layout;

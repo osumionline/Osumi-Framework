@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `6.5.0` (21/11/2020)
+
+Si el entorno está definido como `prod` (producción), el resultado de las llamas de tipo JSON será minimizado.
+
+Para hacer esto, se ha incluido una nueva función llamada `OTools::minimifyJSON` a la que con pasar cualquier JSON, devuelve el mismo pero minimizado.
+
 ## `6.4.0` (25/10/2020)
 
 Nueva función `OTools::getComponent`. Con esta función se puede acceder a los componentes (no a sus estilos o scripts) desde cualquier parte: un service, un task, desde otro componente...
