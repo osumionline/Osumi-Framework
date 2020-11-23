@@ -136,6 +136,21 @@ class OTools {
 
 		return $output;
 	}
+	
+	/**
+	 * Function to get a model object's JSON representstion
+	 *
+	 * @param any $obj Model object
+	 *
+	 * @param array $exclude List of fields to be excluded
+	 *
+	 * @param array $empty List of fields to be returned empty
+	 *
+	 * @return string JSON string representation of the object or null if given object was null or not a model object
+	 */
+	public static function getModelComponent($obj, array $exclude=[], array $empty=[]): string {
+		return (!is_null($obj) && method_exists($obj, 'generate')) ? $obj->generate('json', $exclude, $empty) : 'null';
+	}
 
 	/**
 	 * Get a files content as a Base64 string

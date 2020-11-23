@@ -1,6 +1,16 @@
 {
-	"version": "6.5.1",
+	"version": "6.6.0",
 	"updates": {
+		"6.6.0": {
+			"message": "6.6.0 - Funciones modelComponent para obtener un JSON de un objeto de modelo",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/core/OTools.php",
+				"ofw/core/OTemplate.php",
+				"ofw/core/OModel.php
+			]
+		},
 		"6.5.1": {
 			"message": "6.5.1 - Archivo de configuración de entorno no obligatorio",
 			"files": [

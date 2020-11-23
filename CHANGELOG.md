@@ -1,6 +1,65 @@
 CHANGELOG
 =========
 
+## `6.6.0` (23/11/2020)
+
+Nuevas funciones `modelComponent` y `modelComponentList` para obtener una representación JSON de un objeto de modelo.
+
+Estas funciones se han incluido en `OTemplate` para ser usadas directamente en templates. Por ejemplo:
+
+```
+En el módulo API (app/modules/api):
+
+$user = new User();
+$user->find(['id' => 42]);
+
+$this->getTemplate()->addModelComponent('user', $user);
+
+O para mostrar una lista:
+
+$users = $this->user_service->getUsers();
+
+$this->getTemplate()->addModelComponentList('users', $users);
+
+El template sería:
+
+{
+  "users": {{users}}
+}
+```
+
+En la clase de utilidades `OTools` también se ha incluido esta función, llamada `OTools::getModelComponent`, de modo que puede ser usada desde cualquier parte de la aplicación.
+
+Las funciones `addModelComponent` y `addModelComponentList` admiten 4 parámetros:
+
+```
+addModelComponent(
+  $where -> Clave en la que se reemplazará el resultado en el template,
+  $object -> Objeto de modelo,
+  $exclude -> Lista de campos del objeto que deben excluirse (por ejemplo el campo contraseña al obtener un listado de usuarios),
+  $empty -> Lista de campos que sí que se devolverán, pero su valor será nulo (por ejemplo para obtener una representación de la tabla usuarios, pero sin obtener las contraseñas de los usuarios)
+)
+
+addModelComponentList(
+  $where,
+  $list -> lista con objetos de modelo (no tienen por que ser iguales),
+  $eclude,
+  $empty
+)
+```
+
+La función `OTools::getModelComponent` admite 3 parámetros:
+
+```
+getModelComponent(
+  $object,
+  $exclude,
+  $empty
+)
+```
+
+Usando estas funciones se evitará tener que crear componentes para cada modelo de la base de datos.
+
 ## `6.5.1` (21/11/2020)
 
 Si se define un entorno, por ejemplo `prod`, ahora ya no es obligatorio que haya un archivo de configuración para ese entorno.

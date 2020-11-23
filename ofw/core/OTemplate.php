@@ -309,6 +309,49 @@ class OTemplate {
 		}
 		$this->add($where, $output, array_key_exists('extra', $values) ? $values['extra'] : null);
 	}
+	
+	/**
+	 * Add a model object's JSON representation into a substitution key on the template
+	 *
+	 * @param string $where Key value in the template that will get substituted (eg {{users}})
+	 *
+	 * @param any $obj Model object
+	 *
+	 * @param array $exclude List of fields to be excluded
+	 *
+	 * @param array $empty List of fields to be returned empty
+	 *
+	 * @return void
+	 */
+	public function addModelComponent(string $where, $obj, array $exclude=[], array $empty=[]): void {
+		$this->add($where, OTools::getModelComponent($obj, $exclude, $empty), 'nourlencode');
+	}
+
+	/**
+	 * Add a list of model object's JSON representations into a substitution key on the template
+	 *
+	 * @param string $where Key value in the template that will get substituted (eg {{users}})
+	 *
+	 * @param array $list Model object list
+	 *
+	 * @param array $exclude List of fields to be excluded
+	 *
+	 * @param array $empty List of fields to be returned empty
+	 *
+	 * @return void
+	 */
+	public function addModelComponentList(string $where, array $list, array $exclude=[], array $empty=[]): void {
+		$result = '[';
+		$result_list = [];
+
+		foreach ($list as $i => $item) {
+			array_push($result_list, OTools::getModelComponent($item, $exclude, $empty));
+		}
+		$result .= implode(',', $result_list);
+		$result .= ']';
+
+		$this->add($where, $result, 'nourlencode');
+	}
 
 	/**
 	 * Loads all the information (css, js, given parameters, translations) into the module/actions template

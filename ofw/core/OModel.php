@@ -362,19 +362,50 @@ class OModel {
 	 *
 	 * @param string $type Type of return wanted (array / json / sql)
 	 *
+	 * $param array $exclude List of fields to be excluded on generation (works for array and json options)
+	 *
+	 * @param array $empty List of fields to be returned empty (works for array and json options)
+	 *
 	 * @return array|string Representation of the model
 	 */
-	public function generate(string $type='sql') {
+	public function generate(string $type='sql', array $exclude=[], array $empty=[]) {
 		global $core;
 		$ret = '';
 
 		switch ($type) {
 			case 'array': {
-				$ret = $this->model;
+				$ret = [];
+				foreach ($this->model as $field_name => $field){
+					if (in_array($field_name, $exclude)) {
+						continue;
+					}
+					$value = $this->get($field_name);
+					if (in_array($field_name, $empty)) {
+						$value = null;
+					}
+					if (!is_null($value) && ($field['type']==OCore::TEXT || $field['type']==OCore::LONGTEXT)) {
+						$value = urlencode($value);
+					}
+					$ret[$field_name] =  $value;
+				}
 			}
 			break;
 			case 'json': {
-				$ret = json_encode($this->model);
+				$fields = [];
+				foreach ($this->model as $field_name => $field){
+					if (in_array($field_name, $exclude)) {
+						continue;
+					}
+					$value = $this->get($field_name);
+					if (in_array($field_name, $empty)) {
+						$value = null;
+					}
+					if (!is_null($value) && ($field['type']==OCore::TEXT || $field['type']==OCore::LONGTEXT)) {
+						$value = urlencode($value);
+					}
+					$fields[$field_name] =  $value;
+				}
+				$ret = json_encode($fields);
 			}
 			break;
 			case 'sql': {
