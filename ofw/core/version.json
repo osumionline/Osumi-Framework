@@ -8,7 +8,7 @@
 				"ofw/core/version.json",
 				"ofw/core/OTools.php",
 				"ofw/core/OTemplate.php",
-				"ofw/core/OModel.php
+				"ofw/core/OModel.php"
 			]
 		},
 		"6.5.1": {
