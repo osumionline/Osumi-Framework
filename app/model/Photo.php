@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class Photo extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,35 +12,35 @@ class Photo extends OModel {
 		$table_name  = 'photo';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Unique Id for each photo'
 			],
 			'id_user' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'comment' => 'User Id',
 				'ref'     => 'user.id'
 			],
 			'ext' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'size'    => 5,
 				'comment' => 'Photo extension'
 			],
 			'alt' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'size'    => 100,
 				'comment' => 'alt text for the photo'
 			],
 			'url' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'size'    => 100,
 				'comment' => 'URL for the photo'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Register creation date'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Last date register was modified'
 			]
 		];

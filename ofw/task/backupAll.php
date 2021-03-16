@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Generate a backup file (composer file) of the whole application (database and code). Calls internally to "backupDB" and "composer" tasks.
  */
@@ -15,7 +21,7 @@ class backupAllTask extends OTask {
 	public function run(): void {
 		$path             = $this->getConfig()->getDir('ofw_template').'backupAll/backupAll.php';
 		$backupdb_result  = OTools::runOFWTask('backupDB',  [true, true], true);
-		$extractor_result = OTools::runOFWTask('extractor', [true], true);
+		$extractor_result = OTools::runOFWTask('extractor', [], true);
 
 		$params = [
 			'colors'           => $this->getColors(),

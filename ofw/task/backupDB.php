@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Performs a database backup using "mysqldump" CLI tool. Generates a file on ofw/export folder with the name of the database.
  */

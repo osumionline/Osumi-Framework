@@ -10,11 +10,11 @@ Options +FollowSymLinks +ExecCGI
 	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
-	# Descomentar para redirigir todas las llamadas a https
-	RewriteCond %{SERVER_PORT} 80
-	RewriteRule ^(.*)$ https://ofw.osumi.es/$1 [R,L]
+	# Uncomment to redirect every call to https
+	# RewriteCond %{SERVER_PORT} 80
+	# RewriteRule ^(.*)$ https://demo.osumi.es//$1 [R,L]
 
 	RewriteCond %{REQUEST_FILENAME} !-f
-	# Redirigimos todo al controlador frontal
+	# Redirect everything to the front controller
 	RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

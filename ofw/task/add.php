@@ -1,4 +1,11 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\OFW\DB\OModel;
+
 /**
  * Add new modules, actions, services or tasks
  */
@@ -182,6 +189,95 @@ class addTask extends OTask {
 	}
 
 	/**
+	 * Creates a new model component with the given parameters
+	 *
+	 * @param array Array with the action "modelComponent" and the name of the model whose component should be created
+	 *
+	 * @return void
+	 */
+	private function createModelComponent(array $params): void {
+		$path = $this->getConfig()->getDir('ofw_template').'add/createModelComponent.php';
+		$values = [
+			'colors'           => $this->getColors(),
+			'model_name'       => '',
+			'model_file'       => '',
+			'model'            => null,
+			'list_folder'      => '',
+			'list_file'        => '',
+			'component_folder' => '',
+			'component_file'   => '',
+			'error'            => 0
+		];
+
+		if (count($params)<2) {
+			$values['error'] = 1;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
+		$values['model_name'] = $params[1];
+		$values['model_file'] = $this->getConfig()->getDir('app_model').$values['model_name'].'.php';
+		if (!file_exists($values['model_file'])) {
+			$values['error'] = 2;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
+		$model_name = "\\OsumiFramework\\App\\Model\\".$values['model_name'];
+		$model = new $model_name;
+		$values['model'] = $model->getModel();
+		$values['list_folder'] = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'_list/';
+		$values['list_file'] = strtolower($values['model_name']).'_list.php';
+		$values['component_folder'] = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'/';
+		$values['component_file'] = strtolower($values['model_name']).'.php';
+		
+		$add = OTools::addModelComponent($values);
+		if ($add=='list-folder-exists') {
+			$values['error'] = 3;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='list-file-exists') {
+			$values['error'] = 4;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='component-folder-exists') {
+			$values['error'] = 5;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='component-file-exists') {
+			$values['error'] = 6;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='list-folder-cant-create') {
+			$values['error'] = 7;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='component-folder-cant-create') {
+			$values['error'] = 8;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='list-file-cant-create') {
+			$values['error'] = 9;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+		if ($add=='component-file-cant-create') {
+			$values['error'] = 10;
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
+		echo OTools::getPartial($path, $values);
+		exit;
+	}
+
+	/**
 	 * Run the task
 	 *
 	 * @param array Command line parameters: option and name
@@ -189,7 +285,7 @@ class addTask extends OTask {
 	 * @return void Echoes framework information
 	 */
 	public function run(array $params): void {
-		$available_options = ['module', 'action', 'service', 'task'];
+		$available_options = ['module', 'action', 'service', 'task', 'modelComponent'];
 		$option = (count($params)>0) ? $params[0] : 'none';
 		$option = in_array($option, $available_options) ? $option : 'none';
 
@@ -208,6 +304,10 @@ class addTask extends OTask {
 			break;
 			case 'task': {
 				$this->createTask($params);
+			}
+			break;
+			case 'modelComponent': {
+				$this->createModelComponent($params);
 			}
 			break;
 			case 'none': {

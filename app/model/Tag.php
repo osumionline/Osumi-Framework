@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class Tag extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,28 +12,28 @@ class Tag extends OModel {
 		$table_name  = 'tag';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Unique Id for each tag'
 			],
 			'name' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 20,
 				'nullable' => false,
 				'comment'  => 'Tag name'
 			],
 			'id_user' => [
-				'type'     => OCore::NUM,
+				'type'     => OModel::NUM,
 				'nullable' => true,
 				'default'  => null,
 				'comment'  => 'User Id',
 				'ref'      => 'user.id'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Register creation date'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Last date register was modified'
 			]
 		];

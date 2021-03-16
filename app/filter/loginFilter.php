@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Filter;
+
+use OsumiFramework\OFW\Plugins\OToken;
+
 /**
  * Security filter for clients
  *

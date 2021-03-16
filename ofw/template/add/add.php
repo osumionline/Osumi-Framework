@@ -1,3 +1,4 @@
+<?php use OsumiFramework\OFW\Tools\OTools; ?>
 
   <?php echo $values['colors']->getColoredString('Osumi Framework', 'white', 'blue') ?>
 
@@ -14,5 +15,7 @@
   · <?php echo $values['colors']->getColoredString('service', 'light_green') ?>: <?php echo OTools::getMessage('TASK_ADD_DEFAULT_SERVICE') ?>
 
   · <?php echo $values['colors']->getColoredString('task', 'light_green') ?>: <?php echo OTools::getMessage('TASK_ADD_DEFAULT_TASK') ?>
+  
+  · <?php echo $values['colors']->getColoredString('modelComponent', 'light_green') ?>: <?php echo OTools::getMessage('TASK_ADD_DEFAULT_MODEL_COMPONENT') ?>
 
 

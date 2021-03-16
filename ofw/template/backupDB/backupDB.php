@@ -1,3 +1,5 @@
+<?php use OsumiFramework\OFW\Tools\OTools; ?>
+
 <?php if (!$values['hasDB']): ?>
 
   <?php echo $values['colors']->getColoredString(OTools::getMessage('TASK_BACKUP_DB_NO_DB'), 'white', 'red') ?>

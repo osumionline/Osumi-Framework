@@ -1,4 +1,11 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Core\OPlugin;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Task to manage plugins (list available / install / remove)
  */

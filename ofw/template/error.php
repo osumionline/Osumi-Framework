@@ -1,3 +1,5 @@
+<?php use OsumiFramework\OFW\Tools\OTools; ?>
+
 <!DOCTYPE html>
 <html>
 	<head>

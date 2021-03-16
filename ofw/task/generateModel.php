@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Generate a SQL file to create all the tables in the database based on user defined models (file generated on ofw/export)
  */

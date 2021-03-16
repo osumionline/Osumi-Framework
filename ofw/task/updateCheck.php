@@ -1,4 +1,11 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Core\OUpdate;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Check if there are new updates on the Framework
  */

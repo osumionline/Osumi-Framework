@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+
 class emailTask extends OTask {
 	/**
 	 * Returns task's name
@@ -31,7 +36,7 @@ class emailTask extends OTask {
 			foreach ($this->email_list as $option => $text) {
 				echo "  ·  ".$option.": ".$text."\n";
 			}
-			echo "\nExample: php ofw.php email welcome contact\n\n";
+			echo "\Eg: php ofw.php email welcome contact\n\n";
 			exit;
 		}
 		foreach ($options as $option) {

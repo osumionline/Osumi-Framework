@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\OFW\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * Function to export an application with all its files to a single self-extracting php file
  */
