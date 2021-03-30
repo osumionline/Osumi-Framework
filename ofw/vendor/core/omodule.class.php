@@ -30,7 +30,9 @@ class OModule {
 
 		$this->config   = $core->config;
 		$this->session  = $core->session;
-		$this->db       = new ODB();
+		if (!is_null($core->dbContainer)) {
+			$this->db   = new ODB();
+		}
 		$this->template = new OTemplate();
 		$this->log      = new OLog(get_class($this));
 		$this->cookie   = new OCookie();

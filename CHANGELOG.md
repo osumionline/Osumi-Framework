@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+## `7.0.1` (30/03/2021)
+
+Correcciones menores:
+
+* Corrección para sitios que no usan base de datos: se intentaba inicializar el ODB por defecto para los módulos y la clase no estaba cargada al no tener base de datos.
+* Corrección al generar cache de URLs: la función `loadUrls` de la clase `OURL` debería ser estática y no lo era.
+
 ## `7.0.0` (16/03/2021)
 
 ¡Nueva versión 7.0!

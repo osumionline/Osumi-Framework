@@ -32,7 +32,7 @@ class OUrl {
 	 *
 	 * @return array Array of configured URLs
 	 */
-	public function loadUrls(): array {
+	public static function loadUrls(): array {
 		global $core;
 		$urls_cache_file = $core->cacheContainer->getItem('urls');
 

@@ -1,6 +1,15 @@
 {
-	"version": "7.0.0",
+	"version": "7.0.1",
 	"updates": {
+		"7.0.1": {
+			"message": "7.0.1 - Correcciones para sitios sin DB y sistema de URLs",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/core/version.json",
+				"ofw/vendor/core/omodule.class.php",
+				"ofw/vendor/routing/ourl.class.php"
+			]
+		},
 		"7.0.0": {
 			"message": "7.0.0 - Versión 7.0",
 			"files": [
