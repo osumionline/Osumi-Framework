@@ -23,7 +23,7 @@ class updateCheckTask extends OTask {
 		$update = new OUpdate();
 		$to_be_updated = $update->doUpdateCheck();
 
-		$path   = $this->getConfig()->getDir('ofw_template').'update/update.php';
+		$path   = $this->getConfig()->getDir('ofw_template').'updateCheck/updateCheck.php';
 		$values = [
 			'colors' => $this->getColors(),
 			'current_version' => $update->getCurrentVersion(),

@@ -65,7 +65,7 @@ class OUpdate {
 	 */
 	private function getVersionFile(): array {
 		if (empty($this->version_file)) {
-			$this->version_file = json_decode( file_get_contents($this->repo_url.'master/ofw/core/version.json'), true );
+			$this->version_file = json_decode( file_get_contents($this->repo_url.'master/ofw/vendor/version.json'), true );
 		}
 		return $this->version_file;
 	}

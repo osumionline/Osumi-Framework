@@ -5,9 +5,17 @@
 			"message": "7.0.1 - Correcciones para sitios sin DB y sistema de URLs",
 			"files": [
 				"CHANGELOG.md",
-				"ofw/core/version.json",
+				"ofw/vendor/version.json",
 				"ofw/vendor/core/omodule.class.php",
-				"ofw/vendor/routing/ourl.class.php"
+				"ofw/vendor/core/oupdate.class.php",
+				"ofw/vendor/routing/ourl.class.php",
+				"ofw/task/updateCheck.php",
+				"ofw/template/update/update.php"
+			],
+			"deletes": [
+				"ofw/core/postinstall-7.0.0.php",
+				"ofw/core/version.json",
+				"ofw/template/update/update_7.php"
 			]
 		},
 		"7.0.0": {
