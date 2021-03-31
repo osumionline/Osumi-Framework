@@ -11,10 +11,6 @@
 				"ofw/vendor/tools/otools.class.php",
 				"ofw/locale/en.po",
 				"ofw/locale/es.po"
-			],
-			"deletes": [
-				"ofw/locale/en.php",
-				"ofw/locale/es.php"
 			]
 		},
 		"7.0.1": {
