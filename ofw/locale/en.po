@@ -1,0 +1,504 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 7.1\n"
+"POT-Creation-Date: 2021-03-30\n"
+"PO-Revision-Date: 2021-03-30\n"
+"Last-Translator: igorosabel\n"
+"Language-Team: Osumi\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "ERROR_TITLE"
+msgstr "Error"
+
+msgid "ERROR_403_LABEL"
+msgstr "403 Authentication error"
+
+msgid "ERROR_404_LABEL"
+msgstr "404 Page not found"
+
+msgid "ERROR_NO_MODULE_LABEL"
+msgstr "Module <strong>%s</strong> not found"
+
+msgid "ERROR_NO_ACTION_LABEL"
+msgstr "Function <strong>%s</strong> not found on <strong>%s</strong> module"
+
+msgid "ERROR_SEE_MORE_LABEL"
+msgstr "See more details"
+
+msgid "TASK_BACKUP_ALL"
+msgstr "Generate a backup file (extractor file) of the whole application (database and code). Calls internally to "backupDB" and "extractor" tasks."
+
+msgid "TASK_BACKUP_ALL_DONE"
+msgstr "Backup complete"
+
+msgid "TASK_BACKUP_DB"
+msgstr "Performs a database backup using "mysqldump" CLI tool. Generates a file on ofw/export folder with the name of the database."
+
+msgid "TASK_BACKUP_DB_NO_DB"
+msgstr "There is no database configured."
+
+msgid "TASK_BACKUP_DB_EXPORTING"
+msgstr "Exporting "%s" database to file "%s""
+
+msgid "TASK_BACKUP_DB_EXISTS"
+msgstr "Destiny file already existed, it has been deleted."
+
+msgid "TASK_BACKUP_DB_SUCCESS"
+msgstr "Database successfully exported."
+
+msgid "TASK_EXTRACTOR"
+msgstr "Function to export an application with all its files to a single self-extracting php file"
+
+msgid "TASK_EXTRACTOR_EXPORTING"
+msgstr "Exporting project"
+
+msgid "TASK_EXTRACTOR_EXISTS"
+msgstr "Destiny file already existed, it has been deleted."
+
+msgid "TASK_EXTRACTOR_GETTING_FILES"
+msgstr "Getting folders and files to export..."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FILES"
+msgstr "Exporting %s files."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FOLDERS"
+msgstr "Exporting %s folders."
+
+msgid "TASK_EXTRACTOR_GETTING_READY"
+msgstr "Preparing extractor..."
+
+msgid "TASK_EXTRACTOR_BASE_FOLDER"
+msgstr "BASE PATH"
+
+msgid "TASK_EXTRACTOR_CREATE_FOLDERS"
+msgstr "CREATING FOLDERS"
+
+msgid "TASK_EXTRACTOR_CREATE_FILES"
+msgstr "CREATING FILES"
+
+msgid "TASK_EXTRACTOR_END"
+msgstr "Project has been exported."
+
+msgid "TASK_GENERATE_MODEL"
+msgstr "Generate a SQL file to create all the tables in the database based on user defined models (file generated on ofw/export)."
+
+msgid "TASK_GENERATE_MODEL_MODEL"
+msgstr "Model"
+
+msgid "TASK_GENERATE_MODEL_EXISTS"
+msgstr "Destiny file already existed, it has been deleted."
+
+msgid "TASK_GENERATE_MODEL_GENERATED"
+msgstr "Model file generated: %s"
+
+msgid "TASK_PLUGINS"
+msgstr "Task to manage plugins (list available / install / remove)"
+
+msgid "TASK_PLUGINS_AVAILABLE_TITLE"
+msgstr "Available plugin list:"
+
+msgid "TASK_PLUGINS_AVAILABLE_INSTALL"
+msgstr "To install any of the plugins run the following command:"
+
+msgid "TASK_PLUGINS_AVAILABLE_LIST"
+msgstr "You can also see the plugin list that are currently installed running the following command:"
+
+msgid "TASK_PLUGINS_AVAILABLE_DELETE"
+msgstr "To remove a plugin that is currently installed run the following command:"
+
+msgid "TASK_PLUGINS_AVAILABLE_NAME"
+msgstr "name"
+
+msgid "TASK_PLUGINS_INSTALL_ERROR"
+msgstr "You must indicate the name of the plugin you want to install, for example:"
+
+msgid "TASK_PLUGINS_INSTALL_NOT_AVAILABLE"
+msgstr "The indicated plugin does not exist in the list of installable plugins."
+
+msgid "TASK_PLUGINS_INSTALL_CHECK_LIST"
+msgstr "Check the list by running the following command:"
+
+msgid "TASK_PLUGINS_INSTALL_FOLDER_EXISTS"
+msgstr "Folder "%s" already exists."
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FOLDER"
+msgstr "New folder created: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_CONFIG"
+msgstr "Creating plugin configuration file: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FILE"
+msgstr "Plugin file created: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS"
+msgstr "Downloading dependencies:"
+
+msgid "TASK_PLUGINS_INSTALL_NEW_DEP"
+msgstr "New file created: "%s/""
+
+msgid "TASK_PLUGINS_INSTALL_DONE"
+msgstr "Installation complete."
+
+msgid "TASK_PLUGINS_INSTALLED"
+msgstr "Installed plugins:"
+
+msgid "TASK_PLUGINS_INSTALLED_NONE"
+msgstr "There are no plugins installed."
+
+msgid "TASK_PLUGINS_REMOVE_ERROR"
+msgstr "You must indicate the name of the plugin you want to uninstall, for example:"
+
+msgid "TASK_PLUGINS_REMOVE_NOT_INSTALLED"
+msgstr "Indicated plugin is not installed."
+
+msgid "TASK_PLUGINS_REMOVE_CHECK_LIST"
+msgstr "Check the list by running the following command:"
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_NOT_FOUND"
+msgstr "Folder "%s" does not exist."
+
+msgid "TASK_PLUGINS_REMOVE_CONF_REMOVED"
+msgstr "Configuration file "%s" deleted."
+
+msgid "TASK_PLUGINS_REMOVE_PLUGIN_REMOVED"
+msgstr "Plugin file "%s" deleted."
+
+msgid "TASK_PLUGINS_REMOVE_REMOVING_DEPS"
+msgstr "Deleting dependencies..."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_REMOVED"
+msgstr "File "%s" deleted."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED"
+msgstr "Dependencies folder "%s/dependencies" deleted."
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_REMOVED"
+msgstr "Plugin folder "%s" deleted."
+
+msgid "TASK_PLUGINS_REMOVE_DONE"
+msgstr "Remove complete."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_NO_PLUGINS"
+msgstr "There is no plugin installed."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CHECKING"
+msgstr "Looking for updates..."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_VERSION"
+msgstr "Installed version: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Current version: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_AVAILABLE"
+msgstr "Update available!"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_UPDATE"
+msgstr "To update your plugins to the current version run the following command:"
+
+msgid "TASK_PLUGINS_UPDATE_NO_PLUGINS"
+msgstr "There is no plugin installed."
+
+msgid "TASK_PLUGINS_UPDATE_CHECKING"
+msgstr "Looking for updates..."
+
+msgid "TASK_PLUGINS_UPDATE_INSTALLED_VERSION"
+msgstr "Installed version: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CURRENT_VERSION"
+msgstr "Current version: %s"
+
+msgid "TASK_PLUGINS_UPDATE_UPDATING"
+msgstr "Preparing update..."
+
+msgid "TASK_PLUGINS_UPDATE_TO_BE_DELETED"
+msgstr "File "%s" will be deleted."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_NOT_FOUND"
+msgstr "File "%s" does not exist."
+
+msgid "TASK_PLUGINS_UPDATE_DOWNLOADING"
+msgstr "Downloading "%s""
+
+msgid "TASK_PLUGINS_UPDATE_FILE_EXISTS"
+msgstr "File already exists, creating backup."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_UPDATED"
+msgstr "File updated."
+
+msgid "TASK_PLUGINS_UPDATE_NEW_FILE"
+msgstr "New file created."
+
+msgid "TASK_PLUGINS_UPDATE_VERSION_UPDATED"
+msgstr "Updating version file."
+
+msgid "TASK_PLUGINS_UPDATE_DONE"
+msgstr "Update complete."
+
+msgid "TASK_PLUGINS_DEFAULT_NOT_VALID"
+msgstr "Indicated command is not a valid option."
+
+msgid "TASK_PLUGINS_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Available options are:"
+
+msgid "TASK_PLUGINS_DEFAULT_LIST"
+msgstr "Installed plugin list."
+
+msgid "TASK_PLUGINS_DEFAULT_INSTALL"
+msgstr "To install a new plugin."
+
+msgid "TASK_PLUGINS_DEFAULT_REMOVE"
+msgstr "To remove a currently installed plugin."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE_CHECK"
+msgstr "To check if there are any updates of the installed plugins."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE"
+msgstr "To update installed plugins."
+
+msgid "TASK_PLUGINS_DEFAULT_NO_OPTION"
+msgstr "If you don't indicate any parameter the available plugin list is shown."
+
+msgid "TASK_UPDATE"
+msgstr "Update Framework files to a newer version."
+
+msgid "TASK_UPDATE_AVAILABLE"
+msgstr "%s new updates have been found. Installation will begin in order."
+
+msgid "TASK_UPDATE_FILE_DELETE"
+msgstr "File "%s" will be deleted."
+
+msgid "TASK_UPDATE_NOT_FOUND"
+msgstr "File "%s" can't be found."
+
+msgid "TASK_UPDATE_DOWNLOADING"
+msgstr "Downloading "%s""
+
+msgid "TASK_UPDATE_FILE_EXISTS"
+msgstr "File already exists, creating backup."
+
+msgid "TASK_UPDATE_NEW_FILE"
+msgstr "Creating new file."
+
+msgid "TASK_UPDATE_ALL_UPDATED"
+msgstr "All files have been updated. The new installed version is: %s"
+
+msgid "TASK_UPDATE_DELETE_BACKUPS"
+msgstr "Created backups will be deleted."
+
+msgid "TASK_UPDATE_UPDATE_ERROR"
+msgstr "An error has ocurred while updating the files, backups will be restored."
+
+msgid "TASK_UPDATE_INSTALLED_VERSION"
+msgstr "Installed version: %s"
+
+msgid "TASK_UPDATE_CURRENT_VERSION"
+msgstr "Current version:    %s"
+
+msgid "TASK_UPDATE_UPDATING"
+msgstr "Update will begin."
+
+msgid "TASK_UPDATE_UPDATED"
+msgstr "Installed version is up to date."
+
+msgid "TASK_UPDATE_NEWER"
+msgstr "Installed version is NEWER than the one in the repository!!"
+
+msgid "TASK_UPDATE_CHECK"
+msgstr "Check if there are new updates on the Framework"
+
+msgid "TASK_UPDATE_CHECK_DO_UPDATE"
+msgstr "To proceed to the update run the following command:"
+
+msgid "TASK_UPDATE_CHECK_INSTALLED_VERSION"
+msgstr "Installed version: %s"
+
+msgid "TASK_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Current version:   %s"
+
+msgid "TASK_UPDATE_CHECK_LIST"
+msgstr "Update will modify the following files:"
+
+msgid "TASK_UPDATE_CHECK_UPDATED"
+msgstr "Installed version is up to date."
+
+msgid "TASK_UPDATE_CHECK_NEWER"
+msgstr "Installed version is NEWER than the one in the repository!!"
+
+msgid "TASK_UPDATE_URLS"
+msgstr "Updates URLs cache file"
+
+msgid "TASK_UPDATE_URLS_UPDATING"
+msgstr "Updating modules/actions..."
+
+msgid "TASK_UPDATE_URLS_RESERVED"
+msgstr "The name you picked for the module is a reserved word (%s). The module can't have these names:"
+
+msgid "TASK_UPDATE_URLS_MODULE"
+msgstr "Module"
+
+msgid "TASK_UPDATE_URLS_ACTION"
+msgstr "Action"
+
+msgid "TASK_UPDATE_URLS_ACTION_MODULE"
+msgstr "An action can't have the same name as the module it is contained in:"
+
+msgid "TASK_UPDATE_URLS_NEW_MODULE"
+msgstr "New module "%s" created on file "%s"."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER"
+msgstr "New template folder "%s" created."
+
+msgid "TASK_UPDATE_URLS_NEW_ACTION"
+msgstr "New action "%s" created on module "%s"."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE"
+msgstr "New template "%s" created."
+
+msgid "TASK_UPDATE_URLS_ERROR"
+msgstr "There were errors updating modules and actions. Check the errors and run again the "updateUrls" task"
+
+msgid "TASK_UPDATE_URLS_ALL_UPDATED"
+msgstr "Everything is up to date."
+
+msgid "TASK_VERSION"
+msgstr "Get Frameworks current version information."
+
+msgid "TASK_ADD"
+msgstr "Add new modules, actions, services or tasks."
+
+msgid "TASK_ADD_DEFAULT_NOT_VALID"
+msgstr "Indicated command is not a valid option."
+
+msgid "TASK_ADD_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Available options are:"
+
+msgid "TASK_ADD_DEFAULT_MODULE"
+msgstr "Create a new module"
+
+msgid "TASK_ADD_DEFAULT_ACTION"
+msgstr "Create a new action in a module"
+
+msgid "TASK_ADD_DEFAULT_SERVICE"
+msgstr "Create a new service"
+
+msgid "TASK_ADD_DEFAULT_TASK"
+msgstr "Create a new task"
+
+msgid "TASK_ADD_DEFAULT_MODEL_COMPONENT"
+msgstr "Create a component for a model"
+
+msgid "TASK_ADD_MODULE_ERROR"
+msgstr "You must indicate the name of the module you want to create, for example:"
+
+msgid "TASK_ADD_MODULE_EXISTS"
+msgstr "Module file "%s" already exists."
+
+msgid "TASK_ADD_MODULE_NEW_MODULE"
+msgstr "New module "%s" created:"
+
+msgid "TASK_ADD_MODULE_NEW_FOLDER"
+msgstr "New folder "%s" created."
+
+msgid "TASK_ADD_MODULE_NEW_FILE"
+msgstr "New file "%s" created."
+
+msgid "TASK_ADD_ACTION_MESSAGE"
+msgstr "New action %s"
+
+msgid "TASK_ADD_ACTION_TEMPLATE"
+msgstr "New action <strong>%s</strong> works!"
+
+msgid "TASK_ADD_ACTION_ERROR"
+msgstr "You must indicate the name of the module where the action should go, the name of the action you want to create and it's URL. For example:"
+
+msgid "TASK_ADD_ACTION_OPTIONAL"
+msgstr "OPTIONAL: You can indicate the type of the return the new action will do (default type is html), for example:"
+
+msgid "TASK_ADD_ACTION_NO_MODULE"
+msgstr "Required module "%s" could not be found on "%s""
+
+msgid "TASK_ADD_ACTION_EXISTS"
+msgstr "Action "%s" already exists."
+
+msgid "TASK_ADD_ACTION_TEMPLATE_EXISTS"
+msgstr "Template file "%s" already exists."
+
+msgid "TASK_ADD_ACTION_NEW_ACTION"
+msgstr "New action "%s" created on module "%s"."
+
+msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
+msgstr "New template file "%s" created."
+
+msgid "TASK_ADD_ACTION_URLS_UPDATED"
+msgstr "URLs cache file has been updated."
+
+msgid "TASK_ADD_SERVICE_ERROR"
+msgstr "You must indicate the name of the service you want to create, for example:"
+
+msgid "TASK_ADD_SERVICE_EXISTS"
+msgstr "Service file "%s" already exists."
+
+msgid "TASK_ADD_SERVICE_NEW_SERVICE"
+msgstr "New service "%s" created:"
+
+msgid "TASK_ADD_SERVICE_NEW_FILE"
+msgstr "New file "%s" created."
+
+msgid "TASK_ADD_TASK_MESSAGE"
+msgstr "New task %s"
+
+msgid "TASK_ADD_TASK_ERROR"
+msgstr "You must indicate the name of the task you want to create, for example:"
+
+msgid "TASK_ADD_TASK_EXISTS"
+msgstr "Task file "%s" already exists."
+
+msgid "TASK_ADD_TASK_NEW_TASK"
+msgstr "New task "%s" created:"
+
+msgid "TASK_ADD_TASK_NEW_FILE"
+msgstr "New file "%s" created."
+
+msgid "TASK_ADD_MODEL_COMPONENT_ERROR"
+msgstr "You must indicate the name of the model whose component you want to create, for example:"
+
+msgid "TASK_ADD_MODEL_COMPONENT_NO_MODEL"
+msgstr "Required model "%s" could not be found."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_EXISTS"
+msgstr "Folder "%s" already exists."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_EXISTS"
+msgstr "File "%s" already exists."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CANT_CREATE"
+msgstr "Can't create folder "%s"."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CANT_CREATE"
+msgstr "Can't create file "%s"."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CREATED"
+msgstr "New folder "%s" created."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CREATED"
+msgstr "New file "%s" created."
+
+msgid "TASK_ADD_MODEL_COMPONENT_USE"
+msgstr "New model component "%s" created. Use it with:"
+
+msgid "OFW_INDICATE_OPTION"
+msgstr "  You have to indicate an option.\n"
+
+msgid "OFW_OPTIONS"
+msgstr "  Options:\n\n"
+
+msgid "OFW_EXAMPLE"
+msgstr "For example"
+
+msgid "OFW_WRONG_OPTION"
+msgstr "Option "%s" is wrong."
+

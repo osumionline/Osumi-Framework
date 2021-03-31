@@ -1,0 +1,504 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 7.1\n"
+"POT-Creation-Date: 2021-03-30\n"
+"PO-Revision-Date: 2021-03-30\n"
+"Last-Translator: igorosabel\n"
+"Language-Team: Osumi\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "ERROR_TITLE"
+msgstr "Error"
+
+msgid "ERROR_403_LABEL"
+msgstr "403 Error de autenticación"
+
+msgid "ERROR_404_LABEL"
+msgstr "404 Página no encontrada"
+
+msgid "ERROR_NO_MODULE_LABEL"
+msgstr "Módulo <strong>%s</strong> no encontrado"
+
+msgid "ERROR_NO_ACTION_LABEL"
+msgstr "Función <strong>%s</strong> no encontrada en módulo <strong>%s</strong>"
+
+msgid "ERROR_SEE_MORE_LABEL"
+msgstr "Ver más detalles"
+
+msgid "TASK_BACKUP_ALL"
+msgstr "Función para crear una copia de seguridad de TODA la aplicación (base de datos más archivos)."
+
+msgid "TASK_BACKUP_ALL_DONE"
+msgstr "Copia de seguridad completada."
+
+msgid "TASK_BACKUP_DB"
+msgstr "Función para crear una copia de seguridad de la base de datos."
+
+msgid "TASK_BACKUP_DB_NO_DB"
+msgstr "No hay ninguna base de datos configurada."
+
+msgid "TASK_BACKUP_DB_EXPORTING"
+msgstr "Exportando base de datos "%s" al archivo "%s""
+
+msgid "TASK_BACKUP_DB_EXISTS"
+msgstr "Archivo destino ya existía, se ha borrado."
+
+msgid "TASK_BACKUP_DB_SUCCESS"
+msgstr "Base de datos exportada con éxito."
+
+msgid "TASK_EXTRACTOR"
+msgstr "Función para exportar una aplicación con todos sus archivos a un solo archivo autoextraíble."
+
+msgid "TASK_EXTRACTOR_EXPORTING"
+msgstr "Exportando proyecto"
+
+msgid "TASK_EXTRACTOR_EXISTS"
+msgstr "Archivo destino ya existía, se ha borrado."
+
+msgid "TASK_EXTRACTOR_GETTING_FILES"
+msgstr "Obteniendo carpetas y archivos a exportar..."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FILES"
+msgstr "Exportando %s archivos."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FOLDERS"
+msgstr "Exportando %s carpetas."
+
+msgid "TASK_EXTRACTOR_GETTING_READY"
+msgstr "Preparando extractor..."
+
+msgid "TASK_EXTRACTOR_BASE_FOLDER"
+msgstr "RUTA BASE"
+
+msgid "TASK_EXTRACTOR_CREATE_FOLDERS"
+msgstr "CREANDO CARPETAS"
+
+msgid "TASK_EXTRACTOR_CREATE_FILES"
+msgstr "CREANDO ARCHIVOS"
+
+msgid "TASK_EXTRACTOR_END"
+msgstr "Proyecto exportado."
+
+msgid "TASK_GENERATE_MODEL"
+msgstr "Función para generar el script con el que crear la base de datos a partir del modelo."
+
+msgid "TASK_GENERATE_MODEL_MODEL"
+msgstr "Modelo"
+
+msgid "TASK_GENERATE_MODEL_EXISTS"
+msgstr "El archivo ya existía y ha sido borrado."
+
+msgid "TASK_GENERATE_MODEL_GENERATED"
+msgstr "Archivo de modelo generado: %s"
+
+msgid "TASK_PLUGINS"
+msgstr "Función para obtener el listado de plugins disponibles."
+
+msgid "TASK_PLUGINS_AVAILABLE_TITLE"
+msgstr "Listado de plugins disponibles:"
+
+msgid "TASK_PLUGINS_AVAILABLE_INSTALL"
+msgstr "Para instalar cualquiera de estos plugins ejecuta el siguiente comando:"
+
+msgid "TASK_PLUGINS_AVAILABLE_LIST"
+msgstr "También puedes ver el listado de plugins que tienes actualmente instalados ejecutando el siguiente comando:"
+
+msgid "TASK_PLUGINS_AVAILABLE_DELETE"
+msgstr "Para borrar un plugin instalado actualmente ejecuta el siguiente comando:"
+
+msgid "TASK_PLUGINS_AVAILABLE_NAME"
+msgstr "nombre"
+
+msgid "TASK_PLUGINS_INSTALL_ERROR"
+msgstr "Debes indicar el nombre del plugin que quieres instalar, por ejemplo:"
+
+msgid "TASK_PLUGINS_INSTALL_NOT_AVAILABLE"
+msgstr "El plugin indicado no existe en la lista de plugins instalables."
+
+msgid "TASK_PLUGINS_INSTALL_CHECK_LIST"
+msgstr "Comprueba la lista ejecutando el siguiente comando:"
+
+msgid "TASK_PLUGINS_INSTALL_FOLDER_EXISTS"
+msgstr "La carpeta "%s" ya existe."
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FOLDER"
+msgstr "Nueva carpeta creada: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_CONFIG"
+msgstr "Creado archivo de configuración del plugin: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FILE"
+msgstr "Creado archivo del plugin: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS"
+msgstr "Descargando dependencias:"
+
+msgid "TASK_PLUGINS_INSTALL_NEW_DEP"
+msgstr "Nuevo archivo creado: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_DONE"
+msgstr "Instalación finalizada."
+
+msgid "TASK_PLUGINS_INSTALLED"
+msgstr "Plugins instalados:"
+
+msgid "TASK_PLUGINS_INSTALLED_NONE"
+msgstr "No tienes instalado ningún plugin."
+
+msgid "TASK_PLUGINS_REMOVE_ERROR"
+msgstr "Debes indicar el nombre del plugin que quieres desinstalar, por ejemplo:"
+
+msgid "TASK_PLUGINS_REMOVE_NOT_INSTALLED"
+msgstr "El plugin indicado no está instalado."
+
+msgid "TASK_PLUGINS_REMOVE_CHECK_LIST"
+msgstr "Comprueba la lista ejecutando el siguiente comando:"
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_NOT_FOUND"
+msgstr "La carpeta "%s" no existe."
+
+msgid "TASK_PLUGINS_REMOVE_CONF_REMOVED"
+msgstr "Archivo de configuración "%s" borrado."
+
+msgid "TASK_PLUGINS_REMOVE_PLUGIN_REMOVED"
+msgstr "Archivo de plugin "%s" borrado."
+
+msgid "TASK_PLUGINS_REMOVE_REMOVING_DEPS"
+msgstr "Borrando dependencias..."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_REMOVED"
+msgstr "Archivo "%s" borrado."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED"
+msgstr "Carpeta de dependencias "%s/dependencies" borrada."
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_REMOVED"
+msgstr "Carpeta de plugin "%s" borrada."
+
+msgid "TASK_PLUGINS_REMOVE_DONE"
+msgstr "Borrado finalizado."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_NO_PLUGINS"
+msgstr "No hay ningún plugin instalado."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CHECKING"
+msgstr "Buscando actualizaciones..."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_VERSION"
+msgstr "Versión instalada: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Versión actual: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_AVAILABLE"
+msgstr "¡Actualización disponible!"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_UPDATE"
+msgstr "Para actualizar tus plugins a la versión actual ejecuta el siguiente comando:"
+
+msgid "TASK_PLUGINS_UPDATE_NO_PLUGINS"
+msgstr "No hay ningún plugin instalado."
+
+msgid "TASK_PLUGINS_UPDATE_CHECKING"
+msgstr "Buscando actualizaciones..."
+
+msgid "TASK_PLUGINS_UPDATE_INSTALLED_VERSION"
+msgstr "Versión instalada: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CURRENT_VERSION"
+msgstr "Versión actual: %s"
+
+msgid "TASK_PLUGINS_UPDATE_UPDATING"
+msgstr "Preparando actualización..."
+
+msgid "TASK_PLUGINS_UPDATE_TO_BE_DELETED"
+msgstr "El archivo "%s" será eliminado."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_NOT_FOUND"
+msgstr "El archivo "%s" no existe."
+
+msgid "TASK_PLUGINS_UPDATE_DOWNLOADING"
+msgstr "Descargando "%s""
+
+msgid "TASK_PLUGINS_UPDATE_FILE_EXISTS"
+msgstr "El archivo ya existe, creando copia de seguridad."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_UPDATED"
+msgstr "Archivo actualizado."
+
+msgid "TASK_PLUGINS_UPDATE_NEW_FILE"
+msgstr "Nuevo archivo creado."
+
+msgid "TASK_PLUGINS_UPDATE_VERSION_UPDATED"
+msgstr "Actualizando archivo de versión."
+
+msgid "TASK_PLUGINS_UPDATE_DONE"
+msgstr "Actualización terminada."
+
+msgid "TASK_PLUGINS_DEFAULT_NOT_VALID"
+msgstr "El comando indicado no es una opción válida."
+
+msgid "TASK_PLUGINS_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Las opciones disponibles son:"
+
+msgid "TASK_PLUGINS_DEFAULT_LIST"
+msgstr "Lista de plugins instalados."
+
+msgid "TASK_PLUGINS_DEFAULT_INSTALL"
+msgstr "Para instalar un nuevo plugin."
+
+msgid "TASK_PLUGINS_DEFAULT_REMOVE"
+msgstr "Para borrar un plugin instalado."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE_CHECK"
+msgstr "Para comprobar si existen actualizaciones de los plugins instalados."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE"
+msgstr "Para actualizar los plugins instalados."
+
+msgid "TASK_PLUGINS_DEFAULT_NO_OPTION"
+msgstr "En caso de no indicar ningún parámetro se muestra la lista de plugins que se pueden instalar."
+
+msgid "TASK_UPDATE"
+msgstr "Función para actualizar el Framework."
+
+msgid "TASK_UPDATE_AVAILABLE"
+msgstr "Se han encontrado %s actualizaciones pendientes. Se procede a la instalación ordenada."
+
+msgid "TASK_UPDATE_FILE_DELETE"
+msgstr "El archivo "%s" será eliminado."
+
+msgid "TASK_UPDATE_NOT_FOUND"
+msgstr "El archivo "%s" no se encuentra."
+
+msgid "TASK_UPDATE_DOWNLOADING"
+msgstr "Descargando "%s""
+
+msgid "TASK_UPDATE_FILE_EXISTS"
+msgstr "El archivo ya existe, creando copia de seguridad."
+
+msgid "TASK_UPDATE_NEW_FILE"
+msgstr "Creando nuevo archivo."
+
+msgid "TASK_UPDATE_ALL_UPDATED"
+msgstr "Todos los archivos han sido actualizados. La nueva versión instalada es: %s"
+
+msgid "TASK_UPDATE_DELETE_BACKUPS"
+msgstr "Se procede a eliminar las copias de seguridad realizadas."
+
+msgid "TASK_UPDATE_UPDATE_ERROR"
+msgstr "Ocurrió un error al actualizar los archivos, se procede a restaurar las copias de seguridad."
+
+msgid "TASK_UPDATE_INSTALLED_VERSION"
+msgstr "Versión instalada: %s"
+
+msgid "TASK_UPDATE_CURRENT_VERSION"
+msgstr "Versión actual:    %s"
+
+msgid "TASK_UPDATE_UPDATING"
+msgstr "Se procede a la actualización."
+
+msgid "TASK_UPDATE_UPDATED"
+msgstr "La versión instalada está actualizada."
+
+msgid "TASK_UPDATE_NEWER"
+msgstr "¡¡La versión instalada está MÁS actualizada que la del repositorio!!"
+
+msgid "TASK_UPDATE_CHECK"
+msgstr "Función para comprobar si existen actualizaciones del Framework."
+
+msgid "TASK_UPDATE_CHECK_DO_UPDATE"
+msgstr "Para proceder a la actualización ejecuta el siguiente comando:"
+
+msgid "TASK_UPDATE_CHECK_INSTALLED_VERSION"
+msgstr "Versión instalada: %s"
+
+msgid "TASK_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Versión actual:    %s"
+
+msgid "TASK_UPDATE_CHECK_LIST"
+msgstr "La actualización modificará los siguientes archivos:"
+
+msgid "TASK_UPDATE_CHECK_UPDATED"
+msgstr "La versión instalada está actualizada."
+
+msgid "TASK_UPDATE_CHECK_NEWER"
+msgstr "¡¡La versión instalada está MÁS actualizada que la del repositorio!!"
+
+msgid "TASK_UPDATE_URLS"
+msgstr "Función para crear nuevos módulos, acciones y plantillas a partir del archivo de urls."
+
+msgid "TASK_UPDATE_URLS_UPDATING"
+msgstr "Actualizando módulos/acciones..."
+
+msgid "TASK_UPDATE_URLS_RESERVED"
+msgstr "El nombre del módulo es una palabra reservada (%s). El módulo no puede llamarse de las siguientes maneras:"
+
+msgid "TASK_UPDATE_URLS_MODULE"
+msgstr "Módulo"
+
+msgid "TASK_UPDATE_URLS_ACTION"
+msgstr "Acción"
+
+msgid "TASK_UPDATE_URLS_ACTION_MODULE"
+msgstr "Una acción no puede llamarse igual que el módulo que la contiene:"
+
+msgid "TASK_UPDATE_URLS_NEW_MODULE"
+msgstr "Nuevo módulo %s creado en el archivo %s."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER"
+msgstr "Nueva carpeta para plantillas %s creada."
+
+msgid "TASK_UPDATE_URLS_NEW_ACTION"
+msgstr "Nueva acción "%s" creada en el módulo "%s"."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE"
+msgstr "Nueva plantilla "%s" creado."
+
+msgid "TASK_UPDATE_URLS_ERROR"
+msgstr "Ocurrieron errores al actualizar módulos y acciones. Revisa los errores y vuelve a ejecutar la tarea "updateUrls""
+
+msgid "TASK_UPDATE_URLS_ALL_UPDATED"
+msgstr "Todo está actualizado."
+
+msgid "TASK_VERSION"
+msgstr "Función para obtener el número de versión actual del Framework."
+
+msgid "TASK_ADD"
+msgstr "Añade nuevos módulos, acciones, servicios o tareas."
+
+msgid "TASK_ADD_DEFAULT_NOT_VALID"
+msgstr "El comando indicado no es una opción válida."
+
+msgid "TASK_ADD_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Las opciones disponibles son:"
+
+msgid "TASK_ADD_DEFAULT_MODULE"
+msgstr "Crea un nuevo módulo"
+
+msgid "TASK_ADD_DEFAULT_ACTION"
+msgstr "Crea una nueva acción en un módulo"
+
+msgid "TASK_ADD_DEFAULT_SERVICE"
+msgstr "Crea un nuevo servicio"
+
+msgid "TASK_ADD_DEFAULT_TASK"
+msgstr "Crea una nueva tarea"
+
+msgid "TASK_ADD_DEFAULT_MODEL_COMPONENT"
+msgstr "Crea un componente para un modelo"
+
+msgid "TASK_ADD_MODULE_ERROR"
+msgstr "Debes indicar el nombre del módulo que quieres crear, por ejemplo:"
+
+msgid "TASK_ADD_MODULE_EXISTS"
+msgstr "El archivo de módulo "%s" ya existe."
+
+msgid "TASK_ADD_MODULE_NEW_MODULE"
+msgstr "Nuevo módulo "%s" creado:"
+
+msgid "TASK_ADD_MODULE_NEW_FOLDER"
+msgstr "Nueva carpeta "%s" creada."
+
+msgid "TASK_ADD_MODULE_NEW_FILE"
+msgstr "Nuevo archivo "%s" creado."
+
+msgid "TASK_ADD_ACTION_MESSAGE"
+msgstr "Nueva acción %s"
+
+msgid "TASK_ADD_ACTION_TEMPLATE"
+msgstr "¡La nueva acción <strong>%s</strong> funciona!"
+
+msgid "TASK_ADD_ACTION_ERROR"
+msgstr "Debes indicar el nombre del módulo donde debe ir la acción, el nombre de la acción que quieres crear y su URL. Por ejemplo:"
+
+msgid "TASK_ADD_ACTION_OPTIONAL"
+msgstr "OPCIONAL: Puedes indicar el tipo de retorno que la acción tendrá (por defecto es html), por ejemplo:"
+
+msgid "TASK_ADD_ACTION_NO_MODULE"
+msgstr "El módulo "%s" indicado no se pudo hallar en "%s""
+
+msgid "TASK_ADD_ACTION_EXISTS"
+msgstr "La acción "%s" ya existe."
+
+msgid "TASK_ADD_ACTION_TEMPLATE_EXISTS"
+msgstr "El archivo de plantilla "%s" ya existe."
+
+msgid "TASK_ADD_ACTION_NEW_ACTION"
+msgstr "Nueva acción "%s" creada en el módulo "%s"."
+
+msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
+msgstr "Nuevo archivo de plantilla "%s" creado."
+
+msgid "TASK_ADD_ACTION_URLS_UPDATED"
+msgstr "El archivo de cache de URLs ha sido actualizado."
+
+msgid "TASK_ADD_SERVICE_ERROR"
+msgstr "Debes indicar el nombre del servicio que quieres crear, por ejemplo:"
+
+msgid "TASK_ADD_SERVICE_EXISTS"
+msgstr "El archivo de servicio "%s" ya existe."
+
+msgid "TASK_ADD_SERVICE_NEW_SERVICE"
+msgstr "Nuevo servicio "%s" creado:"
+
+msgid "TASK_ADD_SERVICE_NEW_FILE"
+msgstr "Nuevo archivo "%s" creado."
+
+msgid "TASK_ADD_TASK_MESSAGE"
+msgstr "Nueva tarea %s"
+
+msgid "TASK_ADD_TASK_ERROR"
+msgstr "Debes indicar el nombre de la tarea que quieres crear, por ejemplo:"
+
+msgid "TASK_ADD_TASK_EXISTS"
+msgstr "El archivo de tarea "%s" ya existe."
+
+msgid "TASK_ADD_TASK_NEW_TASK"
+msgstr "Nueva tarea "%s" creada:"
+
+msgid "TASK_ADD_TASK_NEW_FILE"
+msgstr "Nuevo archivo "%s" creado."
+
+msgid "TASK_ADD_MODEL_COMPONENT_ERROR"
+msgstr "Debes indicar el nombre del modelo cuyo componente quieres crear, por ejemplo:"
+
+msgid "TASK_ADD_MODEL_COMPONENT_NO_MODEL"
+msgstr "El modelo indicado "%s" no se ha encontrado."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_EXISTS"
+msgstr "La carpeta "%s" ya existe."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_EXISTS"
+msgstr "El archivo "%s" ya existe."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CANT_CREATE"
+msgstr "No se pudo crear la carpeta "%s"."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CANT_CREATE"
+msgstr "No se pudo crear el archivo "%s"."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CREATED"
+msgstr "Nueva carpeta "%s" creada."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CREATED"
+msgstr "Nuevo archivo "%s" creado."
+
+msgid "TASK_ADD_MODEL_COMPONENT_USE"
+msgstr "Nuevo componente de modelo "%s" creado. Se puede usar de la siguiente manera:"
+
+msgid "OFW_INDICATE_OPTION"
+msgstr "  Tienes que indicar una opción.\n"
+
+msgid "OFW_OPTIONS"
+msgstr "  Opciones:\n\n"
+
+msgid "OFW_EXAMPLE"
+msgstr "Por ejemplo"
+
+msgid "OFW_WRONG_OPTION"
+msgstr "La opción "%s" no es correcta."
+

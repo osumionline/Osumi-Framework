@@ -1,6 +1,22 @@
 {
-	"version": "7.0.1",
+	"version": "7.1.0",
 	"updates": {
+		"7.1.0": {
+			"message": "7.1.0 - Nuevo sistema de traducciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/otranslate.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/locale/en.po",
+				"ofw/locale/es.po"
+			],
+			"deletes": [
+				"ofw/locale/en.php",
+				"ofw/locale/es.php"
+			]
+		},
 		"7.0.1": {
 			"message": "7.0.1 - Correcciones para sitios sin DB y sistema de URLs",
 			"files": [

@@ -122,7 +122,7 @@ class OTools {
 
 		return $output;
 	}
-	
+
 	/**
 	 * Function to get a model object's JSON representstion
 	 *
@@ -288,21 +288,17 @@ class OTools {
 	 */
 	public static function getMessage(string $key, array $params=null): string {
 		global $core;
-		if (is_null($core->locale)){
-			include($core->config->getDir('ofw_locale').$core->config->getLang().'.php');
-			$core->locale = $locale;
+
+		$translation = $core->translate->getTranslation($key);
+		if (is_null($translation)) {
+			return null;
 		}
 
-		if (array_key_exists($key, $core->locale)){
-			if (is_null($params)){
-				return $core->locale[$key];
-			}
-			else{
-				return vsprintf($core->locale[$key], $params);
-			}
+		if (is_null($params)){
+			return $translation;
 		}
 		else{
-			return null;
+			return vsprintf($translation, $params);
 		}
 	}
 
@@ -502,7 +498,7 @@ class OTools {
 	 */
 	public static function getDocumentation(string $inspectclass): array {
 		$class_name = "\\OsumiFramework\\App\Module\\".$inspectclass;
-		$class = new $class_name;		
+		$class = new $class_name;
 		$reflector = new ReflectionClass($class::class);
 		$reflector->getAttributes();
 
@@ -796,7 +792,7 @@ class OTools {
 	 *
 	 * @param array $values Information about the files that have to be created
 	 *
-	 * @return string Status of the operation 
+	 * @return string Status of the operation
 	 */
 	public static function addModelComponent(array $values): string {
 		if (file_exists($values['list_folder'])) {

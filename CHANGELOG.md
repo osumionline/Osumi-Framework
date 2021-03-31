@@ -1,6 +1,44 @@
 CHANGELOG
 =========
 
+## `7.1.0` (31/03/2021)
+
+Nuevo sistema de traducciones. Hasta ahora la clase `OTranslate` era un plugin externo, pero ahora se ha integrado en el propio Framework ya que pasa a ser el sistema por defecto para todos los mensajes internos.
+
+Este nuevo sistema de traducciones usa archivos `po` para gestionar sus traducciones en lugar de usar archivos `php`. De esta forma se estandariza el uso de mensajes y se facilita sus traducciones.
+
+# Nueva clase `OTranslate`
+
+La clase `OTranslate` no solo se ha integrado en el Framework, sino que se ha modificado su funcionamiento. La versión anterior dependía de un archivo `json` que se alojaba en la carpeta `config`. Ahora se pueden ubicar los archivos de las traducciones donde se quiera y el método `load` de esta clase se encarga de cargar y parsear sus datos.
+
+Su funcionamiento para obtener una traducción sería esta:
+
+```php
+$tr = new OTranslate();
+$tr->load('/ruta/a/archivo.po');
+
+echo $tr->getTranslation('CLAVE_A_BUSCAR');
+```
+
+La clase `OTranslate` ahora también tiene métodos para crear un nuevo archivo de traducción, añadir textos y guardarlo. También se puede cargar un archivo ya existente y modificar su contenido:
+
+```php
+// Nuevo archivo
+$tr = new OTranslate();
+$tr->new('/ruta/a/archivo_es.po', 'es'); // Ruta donde guardar el archivo y código de idioma
+$tr->setTranslation('CLAVE', 'Texto traducido');
+$tr->save();
+
+// Modificar archivo
+$tr = new OTranslate();
+$tr->load('/ruta/a/archivo.po');
+$tr->setTranslation('CLAVE', 'Texto traducido modificado');
+$tr->save();
+
+// Guardar el archivo en una nueva ubicación
+$tr->save('/ruta/a/nuevo_archivo.po');
+```
+
 ## `7.0.1` (30/03/2021)
 
 Correcciones menores:

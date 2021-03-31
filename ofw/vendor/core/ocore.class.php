@@ -18,7 +18,7 @@ class OCore {
 	public ?OCacheContainer $cacheContainer = null;
 	public ?OConfig         $config = null;
 	public ?OSession        $session = null;
-	public ?array           $locale = null;
+	public ?OTranslate      $translate = null;
 	public ?float           $start_time = null;
 
 	/**
@@ -46,7 +46,7 @@ class OCore {
 		$this->config = new OConfig($basedir);
 
 		// Check locale file
-		$locale_file = $this->config->getDir('ofw_locale').$this->config->getLang().'.php';
+		$locale_file = $this->config->getDir('ofw_locale').$this->config->getLang().'.po';
 		if (!file_exists($locale_file)){
 			echo "ERROR: locale file ".$this->config->getLang()." not found.";
 			exit;
@@ -60,11 +60,16 @@ class OCore {
 		require $this->config->getDir('ofw_vendor').'core/oservice.class.php';
 		require $this->config->getDir('ofw_vendor').'core/oplugin.class.php';
 		require $this->config->getDir('ofw_vendor').'core/otask.class.php';
+		require $this->config->getDir('ofw_vendor').'core/otranslate.class.php';
 		require $this->config->getDir('ofw_vendor').'routing/oroute.class.php';
 		require $this->config->getDir('ofw_vendor').'routing/oroutecheck.class.php';
 		require $this->config->getDir('ofw_vendor').'routing/ourl.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/oform.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/otools.class.php';
+
+		// Load framework translations
+		$this->translate = new OTranslate();
+		$this->translate->load($this->config->getDir('ofw_locale').$this->config->getLang().'.po');
 
 		// If there is a DB connection configured, check drivers and load required classes
 		if ($this->config->getDB('user')!=='' || $this->config->getDB('pass')!=='' || $this->config->getDB('host')!=='' || $this->config->getDB('name')!=='') {
