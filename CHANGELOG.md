@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.1.1` (05/04/2021)
+
+Corrección al minimizar la salida de JSON en entornos de producción. Parece que la función que usaba para minimizar el resultado tenía algún bug y en alguna ocasión se quedaba atascada en un bucle infinito. He quitado esa función y he sustituido la funcionalidad por las funciones nativas `json_decode` / `json_encode` de `PHP`.
+
 ## `7.1.0` (31/03/2021)
 
 Nuevo sistema de traducciones. Hasta ahora la clase `OTranslate` era un plugin externo, pero ahora se ha integrado en el propio Framework ya que pasa a ser el sistema por defecto para todos los mensajes internos.

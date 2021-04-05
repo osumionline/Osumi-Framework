@@ -1,6 +1,15 @@
 {
-	"version": "7.1.0",
+	"version": "7.1.1",
 	"updates": {
+		"7.1.1": {
+			"message": "7.1.1 - Corrección al minimizar JSON devueltos",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/otemplate.class.php",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"7.1.0": {
 			"message": "7.1.0 - Nuevo sistema de traducciones",
 			"files": [

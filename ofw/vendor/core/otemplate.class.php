@@ -476,9 +476,9 @@ class OTemplate {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		}
-		// If the request is a JSON and we are in production environment, minify it before sending
+		// If the request is a JSON and we are in production environment, encode and decode it to send minified
 		if ($this->environment=='prod' && $this->type=='json') {
-			$layout = OTools::minifyJSON($layout);
+			$layout = json_encode(json_decode($layout));
 		}
 
 		header('Content-type: '.$this->return_types[$this->type]);
