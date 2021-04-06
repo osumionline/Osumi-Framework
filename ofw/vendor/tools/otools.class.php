@@ -294,6 +294,8 @@ class OTools {
 			return null;
 		}
 
+		$translation = str_ireplace("\\n", "\n", $translation);
+
 		if (is_null($params)){
 			return $translation;
 		}

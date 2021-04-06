@@ -482,6 +482,7 @@ class OTemplate {
 		}
 
 		header('Content-type: '.$this->return_types[$this->type]);
+		header('X-Powered-By: Osumi Framework '.OTools::getVersion());
 
 		return $layout;
 	}

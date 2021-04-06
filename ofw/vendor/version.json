@@ -1,6 +1,18 @@
 {
-	"version": "7.1.1",
+	"version": "7.2.0",
 	"updates": {
+		"7.2.0": {
+			"message": "7.2.0 - Nuevo idioma Euskara, corrección en las traducciones y cabecera con la versión",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/otemplate.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/locale/en.po",
+				"ofw/locale/es.po",
+				"ofw/locale/eu.po"
+			]
+		},
 		"7.1.1": {
 			"message": "7.1.1 - Corrección al minimizar JSON devueltos",
 			"files": [

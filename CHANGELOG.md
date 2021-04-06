@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+## `7.2.0` (06/04/2021)
+
+Nuevo idioma para el Framework: **Euskara**.
+
+Eskerrik asko [Aitorri](https://mastodon.eus/@altzaporru) itzulpena egiteagatik eta [Librezale](https://telegram.me/librezale) taldeari laguntzeagatik.
+
+También se ha hecho una pequeña corrección por las traducciones que tuviesen saltos de línea y no se estaban interpretando correctamente.
+
+Se ha añadido una cabecera `X-Powered-By` para indicar la versión del Framework.
+
 ## `7.1.1` (05/04/2021)
 
 Corrección al minimizar la salida de JSON en entornos de producción. Parece que la función que usaba para minimizar el resultado tenía algún bug y en alguna ocasión se quedaba atascada en un bucle infinito. He quitado esa función y he sustituido la funcionalidad por las funciones nativas `json_decode` / `json_encode` de `PHP`.

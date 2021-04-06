@@ -1,0 +1,503 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 7.2\n"
+"POT-Creation-Date: 2021-04-06\n"
+"PO-Revision-Date: 2021-04-06\n"
+"Last-Translator: aitor\n"
+"Language-Team: \n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "ERROR_TITLE"
+msgstr "Errorea"
+
+msgid "ERROR_403_LABEL"
+msgstr "403 Autentifikazio errorea"
+
+msgid "ERROR_404_LABEL"
+msgstr "404 Orria ez da aurkitu"
+
+msgid "ERROR_NO_MODULE_LABEL"
+msgstr "<strong>%s</strong> modulua ez da aurkitu"
+
+msgid "ERROR_NO_ACTION_LABEL"
+msgstr "<strong>%s</strong> funtzioa ez da aurkitu <strong>%s</strong> moduluan"
+
+msgid "ERROR_SEE_MORE_LABEL"
+msgstr "Xehetasun gehiago ikusi"
+
+msgid "TASK_BACKUP_ALL"
+msgstr "Aplikazioaren (datu-base eta kodea) babeskopia-fitxategi (erauzgailu-fitxategia) bat sortu. Barneki "backupDB" eta "extractor" zereginei deitzen da."
+
+msgid "TASK_BACKUP_ALL_DONE"
+msgstr "Babeskopia egina"
+
+msgid "TASK_BACKUP_DB"
+msgstr "Datu-basearen babeskopia egiten du "mysqldump" CLI herraminta erabiliz. ofw/export karpetan, datu-basearen izena duelarik, fitxategi bat sortzen da."
+
+msgid "TASK_BACKUP_DB_NO_DB"
+msgstr "Ez dago konfiguratua dagoen datu-baserik."
+
+msgid "TASK_BACKUP_DB_EXPORTING"
+msgstr ""%s" datu-basea "%s" fitxategira esportatzen."
+
+msgid "TASK_BACKUP_DB_EXISTS"
+msgstr "Helburu-fitxategia jada bazegoen, ezabatua izan da."
+
+msgid "TASK_BACKUP_DB_SUCCESS"
+msgstr "Datu-basea arrakastaz esportatu da."
+
+msgid "TASK_EXTRACTOR"
+msgstr "Aplikazio bat bere fitxategi guztiekin automatikoki erauzten den PHP fitxategi bakar batera esportatzeko funtzioa"
+
+msgid "TASK_EXTRACTOR_EXPORTING"
+msgstr "Proiektua esportatzen"
+
+msgid "TASK_EXTRACTOR_EXISTS"
+msgstr "Helburu-fitxategia jada bazegoen, ezabatua izan da."
+
+msgid "TASK_EXTRACTOR_GETTING_FILES"
+msgstr "Karpetak eta fitxategiak lortzen esportatzeko..."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FILES"
+msgstr "%s fitxategia esportatzen."
+
+msgid "TASK_EXTRACTOR_EXPORTING_FOLDERS"
+msgstr "%s karpeta esportatzen."
+
+msgid "TASK_EXTRACTOR_GETTING_READY"
+msgstr "Erauzgailua prestatzen..."
+
+msgid "TASK_EXTRACTOR_BASE_FOLDER"
+msgstr "OINARRIZKO HELBIDEA"
+
+msgid "TASK_EXTRACTOR_CREATE_FOLDERS"
+msgstr "KARPETAK SORTZEN"
+
+msgid "TASK_EXTRACTOR_CREATE_FILES"
+msgstr "FITXATEGIAK SORTZEN"
+
+msgid "TASK_EXTRACTOR_END"
+msgstr "Proiektua esportatua izan da."
+
+msgid "TASK_GENERATE_MODEL"
+msgstr "SQL fitxategi bat sortu erabiltzaileak definitutako modulutan oinarritutako datu-baseko taula guztiak sortzeko (fitxategia ofw/export-en sortua)."
+
+msgid "TASK_GENERATE_MODEL_MODEL"
+msgstr "Eredua"
+
+msgid "TASK_GENERATE_MODEL_EXISTS"
+msgstr "Helburu-fitxategia jada bazegoen, ezabatua izan da."
+
+msgid "TASK_GENERATE_MODEL_GENERATED"
+msgstr "Eredu-fitxategia sortua: %s"
+
+msgid "TASK_PLUGINS"
+msgstr "Pluginak manipulatzeko zeregina (zerrendatu erabilgarriak / instalatu / ezabatu)"
+
+msgid "TASK_PLUGINS_AVAILABLE_TITLE"
+msgstr "Erabilgarri dauden pluginen zerrenda:"
+
+msgid "TASK_PLUGINS_AVAILABLE_INSTALL"
+msgstr "Edozein plugin instalatzeko sakatu hurrengo komandoa:"
+
+msgid "TASK_PLUGINS_AVAILABLE_LIST"
+msgstr "Baita ere, instalatuta dauden pluginen zerrenda ikusteko komando hau sakatu:"
+
+msgid "TASK_PLUGINS_AVAILABLE_DELETE"
+msgstr "Instalatuta dagoen plugin bat ezabatzeko sakatu hurrengo komandoa:"
+
+msgid "TASK_PLUGINS_AVAILABLE_NAME"
+msgstr "izena"
+
+msgid "TASK_PLUGINS_INSTALL_ERROR"
+msgstr "Instalatu nahi duzun pluginaren izena zehaztu behar duzu, adibidez:"
+
+msgid "TASK_PLUGINS_INSTALL_NOT_AVAILABLE"
+msgstr "Adierazitako plugina ez da ageri instalagarri dauden pluginen zerrendan."
+
+msgid "TASK_PLUGINS_INSTALL_CHECK_LIST"
+msgstr "Ikusi zerrenda hurrengo komandoa sakatuz:"
+
+msgid "TASK_PLUGINS_INSTALL_FOLDER_EXISTS"
+msgstr ""%s" karpeta jada badago."
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FOLDER"
+msgstr "Karpeta berria sortua: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_CONFIG"
+msgstr "Pluginak konfiguratzeko fitxategia sortzen: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_CREATE_FILE"
+msgstr "Plugin-fitxategia sortua: "%s""
+
+msgid "TASK_PLUGINS_INSTALL_DOWNLOAD_DEPS"
+msgstr "Mendekotasunak jaisten:"
+
+msgid "TASK_PLUGINS_INSTALL_NEW_DEP"
+msgstr "Fitxategi berria sortua: "%s/""
+
+msgid "TASK_PLUGINS_INSTALL_DONE"
+msgstr "Instalazioa burutu da."
+
+msgid "TASK_PLUGINS_INSTALLED"
+msgstr "Instalatutako pluginak:"
+
+msgid "TASK_PLUGINS_INSTALLED_NONE"
+msgstr "Ez dago pluginik instalatua."
+
+msgid "TASK_PLUGINS_REMOVE_ERROR"
+msgstr "Desinstalatu nahi duzun pluginaren izena zehaztu behar duzu, adibidez:"
+
+msgid "TASK_PLUGINS_REMOVE_NOT_INSTALLED"
+msgstr "Adierazitako plugina ez dago instalatua."
+
+msgid "TASK_PLUGINS_REMOVE_CHECK_LIST"
+msgstr "Ikusi zerrenda hurrengo komandoa sakatuz:"
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_NOT_FOUND"
+msgstr ""%s" karpeta ez dago."
+
+msgid "TASK_PLUGINS_REMOVE_CONF_REMOVED"
+msgstr ""%s" konfigurazio-fitxategia ezabatua."
+
+msgid "TASK_PLUGINS_REMOVE_PLUGIN_REMOVED"
+msgstr ""%s" plugin-fitxategia ezabatua."
+
+msgid "TASK_PLUGINS_REMOVE_REMOVING_DEPS"
+msgstr "Mendekotasunak ezabatzen..."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_REMOVED"
+msgstr ""%s" fitxategia ezabatua."
+
+msgid "TASK_PLUGINS_REMOVE_DEP_FOLDER_REMOVED"
+msgstr ""%s/dependencies" mendekotasunen karpeta ezabatua."
+
+msgid "TASK_PLUGINS_REMOVE_FOLDER_REMOVED"
+msgstr ""%s" pluginen karpeta ezabatua."
+
+msgid "TASK_PLUGINS_REMOVE_DONE"
+msgstr "Ezabapena burutu da."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_NO_PLUGINS"
+msgstr "Ez dago pluginik instalatua."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CHECKING"
+msgstr "Eguneratzeen bila..."
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_VERSION"
+msgstr "Instalatutako bertsioa: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Oraingo bertsioa: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_AVAILABLE"
+msgstr "Eguneraketa eskuragarri!"
+
+msgid "TASK_PLUGINS_UPDATE_CHECK_UPDATE"
+msgstr "Zure pluginak oraingo bertsiora eguneratzeko hurrengo komandoa saka ezazu:"
+
+msgid "TASK_PLUGINS_UPDATE_NO_PLUGINS"
+msgstr "Ez dago pluginik instalatua."
+
+msgid "TASK_PLUGINS_UPDATE_CHECKING"
+msgstr "Eguneraketen bila..."
+
+msgid "TASK_PLUGINS_UPDATE_INSTALLED_VERSION"
+msgstr "Instalatutako bertsioa: %s"
+
+msgid "TASK_PLUGINS_UPDATE_CURRENT_VERSION"
+msgstr "Oraingo bertsioa: %s"
+
+msgid "TASK_PLUGINS_UPDATE_UPDATING"
+msgstr "Eguneraketa prestatzen..."
+
+msgid "TASK_PLUGINS_UPDATE_TO_BE_DELETED"
+msgstr ""%s" fitxategia ezabatua izango da."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_NOT_FOUND"
+msgstr ""%s" fitxategia ez dago."
+
+msgid "TASK_PLUGINS_UPDATE_DOWNLOADING"
+msgstr ""%s" jaisten..."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_EXISTS"
+msgstr "Fitxategia jada badago, babeskopia sortzen."
+
+msgid "TASK_PLUGINS_UPDATE_FILE_UPDATED"
+msgstr "Fitxategia eguneratua."
+
+msgid "TASK_PLUGINS_UPDATE_NEW_FILE"
+msgstr "Fitxategi berria sortua."
+
+msgid "TASK_PLUGINS_UPDATE_VERSION_UPDATED"
+msgstr "Fitxategiaren bertsioa eguneratzen."
+
+msgid "TASK_PLUGINS_UPDATE_DONE"
+msgstr "Eguneraketa burutu da."
+
+msgid "TASK_PLUGINS_DEFAULT_NOT_VALID"
+msgstr "Adierazitako komandoa ez da onartutako aukera bat."
+
+msgid "TASK_PLUGINS_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Eskuragarri dauden aukerak:"
+
+msgid "TASK_PLUGINS_DEFAULT_LIST"
+msgstr "Instalatutako pluginen zerrenda."
+
+msgid "TASK_PLUGINS_DEFAULT_INSTALL"
+msgstr "Plugin berri bat instalatzeko."
+
+msgid "TASK_PLUGINS_DEFAULT_REMOVE"
+msgstr "Instalatutako plugin bat ezabatzeko."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE_CHECK"
+msgstr "Ea instalatutako pluginek eguneratzeak dituzten konprobatzeko."
+
+msgid "TASK_PLUGINS_DEFAULT_UPDATE"
+msgstr "Instalatutako pluginak eguneratzeko."
+
+msgid "TASK_PLUGINS_DEFAULT_NO_OPTION"
+msgstr "Ez baduzu parametrorik adierazten, eskuragarri dauden pluginen zerrenda erakutsiko da."
+
+msgid "TASK_UPDATE"
+msgstr "Framework-a bertsio berri batera eguneratzeko."
+
+msgid "TASK_UPDATE_AVAILABLE"
+msgstr "%s eguneraketa berri aurkitu dira. Instalazioa behar bezala hasiko da."
+
+msgid "TASK_UPDATE_FILE_DELETE"
+msgstr ""%s" fitxategia ezabatuko da."
+
+msgid "TASK_UPDATE_NOT_FOUND"
+msgstr "Ezin da "%s" fitxategia aurkitu."
+
+msgid "TASK_UPDATE_DOWNLOADING"
+msgstr ""%s" jaisten"
+
+msgid "TASK_UPDATE_FILE_EXISTS"
+msgstr "Fitxategia jada badago, babeskopia sortzen."
+
+msgid "TASK_UPDATE_NEW_FILE"
+msgstr "Fitxategi berria sortzen."
+
+msgid "TASK_UPDATE_ALL_UPDATED"
+msgstr "Fitxategi guztiak eguneratu dira. Instalatutako bertsio berria hauxe da: %s"
+
+msgid "TASK_UPDATE_DELETE_BACKUPS"
+msgstr "Sortutako babeskopiak ezabatuak izango dira."
+
+msgid "TASK_UPDATE_UPDATE_ERROR"
+msgstr "Errore bat jazo da fitxategiak eguneratu bitartean, babeskopiak berreskuratuko dira."
+
+msgid "TASK_UPDATE_INSTALLED_VERSION"
+msgstr "Instalatutako bertsioa: %s"
+
+msgid "TASK_UPDATE_CURRENT_VERSION"
+msgstr "Oraingo bertsioa:    %s"
+
+msgid "TASK_UPDATE_UPDATING"
+msgstr "Eguneraketa hasiko da."
+
+msgid "TASK_UPDATE_UPDATED"
+msgstr "Instalatutako bertsioa eguneratua dago."
+
+msgid "TASK_UPDATE_NEWER"
+msgstr "Instalatutako bertsioa biltegian dagoena baino BERRIAGOA da!!"
+
+msgid "TASK_UPDATE_CHECK"
+msgstr "Konprobatu ea eguneraketarik dagoen Frameworkean"
+
+msgid "TASK_UPDATE_CHECK_DO_UPDATE"
+msgstr "Eguneraketarekin jarraitzeko sakatu hurrengo komandoa:"
+
+msgid "TASK_UPDATE_CHECK_INSTALLED_VERSION"
+msgstr "Instalatutako bertsioa: %s"
+
+msgid "TASK_UPDATE_CHECK_CURRENT_VERSION"
+msgstr "Oraingo bertsioa:   %s"
+
+msgid "TASK_UPDATE_CHECK_LIST"
+msgstr "Eguneraketak hurrengo fitxategiak aldatuko ditu:"
+
+msgid "TASK_UPDATE_CHECK_UPDATED"
+msgstr "Instalatutako bertsioa eguneratua dago."
+
+msgid "TASK_UPDATE_CHECK_NEWER"
+msgstr "Instalatutako bertsioa biltegian dagoena baino BERRIAGOA da!!"
+
+msgid "TASK_UPDATE_URLS"
+msgstr "URLen cache-fitxategiak eguneratzen ditu"
+
+msgid "TASK_UPDATE_URLS_UPDATING"
+msgstr "Moduluak/ekintzak eguneratzen..."
+
+msgid "TASK_UPDATE_URLS_RESERVED"
+msgstr "Modulurako aukeratu duzun izena erreserbatutako hitz bat da (%s). Moduluak ezin ditu izen hauek eduki:"
+
+msgid "TASK_UPDATE_URLS_MODULE"
+msgstr "Modulua"
+
+msgid "TASK_UPDATE_URLS_ACTION"
+msgstr "Ekintza"
+
+msgid "TASK_UPDATE_URLS_ACTION_MODULE"
+msgstr "Ekintza batek ezin du dagoen moduluko izen bera eduki:"
+
+msgid "TASK_UPDATE_URLS_NEW_MODULE"
+msgstr ""%s" modulu berria "%s" fitxategian sortua."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE_FOLDER"
+msgstr ""%s" txantiloi-karpeta berria sortua."
+
+msgid "TASK_UPDATE_URLS_NEW_ACTION"
+msgstr ""%s" ekintza berria "%s" moduluan sortua."
+
+msgid "TASK_UPDATE_URLS_NEW_TEMPLATE"
+msgstr ""%s" txantiloi berria sortua."
+
+msgid "TASK_UPDATE_URLS_ERROR"
+msgstr "Moduluak eta ekintzak eguneratzerakoan errore hauek jazo dira. Konprobatu erroreak eta exekutatu berriro "updateUrls" zeregina"
+
+msgid "TASK_UPDATE_URLS_ALL_UPDATED"
+msgstr "Dena eguneratua dago."
+
+msgid "TASK_VERSION"
+msgstr "Frameworkaren oraingo bertsioaren informazioa jaso."
+
+msgid "TASK_ADD"
+msgstr "Modulu, ekintza, zerbitzu edo zeregin berriak gehitu."
+
+msgid "TASK_ADD_DEFAULT_NOT_VALID"
+msgstr "Adierazitako komandoa ez da onartutako aukera bat."
+
+msgid "TASK_ADD_DEFAULT_AVAILABLE_OPTIONS"
+msgstr "Eskuragarri dauden aukerak hauexek dira:"
+
+msgid "TASK_ADD_DEFAULT_MODULE"
+msgstr "Modulu berri bat sortu"
+
+msgid "TASK_ADD_DEFAULT_ACTION"
+msgstr "Ekintza berri bat sortu modulu batean"
+
+msgid "TASK_ADD_DEFAULT_SERVICE"
+msgstr "Zerbitzu berri bat sortu"
+
+msgid "TASK_ADD_DEFAULT_TASK"
+msgstr "Ataza berri bat sortu"
+
+msgid "TASK_ADD_DEFAULT_MODEL_COMPONENT"
+msgstr "Modulurako osagai berri bat sortu"
+
+msgid "TASK_ADD_MODULE_ERROR"
+msgstr "Sortu nahi duzun moduluaren izena adierazi behar duzu, adibidez:"
+
+msgid "TASK_ADD_MODULE_EXISTS"
+msgstr ""%s" modulu-fitxategia jada badago."
+
+msgid "TASK_ADD_MODULE_NEW_MODULE"
+msgstr ""%s" modulu berria sortua:"
+
+msgid "TASK_ADD_MODULE_NEW_FOLDER"
+msgstr ""%s" karpeta berria sortua."
+
+msgid "TASK_ADD_MODULE_NEW_FILE"
+msgstr ""%s" fitxategi berria sortua."
+
+msgid "TASK_ADD_ACTION_MESSAGE"
+msgstr "%s ekintza berria"
+
+msgid "TASK_ADD_ACTION_TEMPLATE"
+msgstr "<strong>%s</strong> ekintza berria badabil!"
+
+msgid "TASK_ADD_ACTION_ERROR"
+msgstr "Ekintza modulura doan izena adierazi behar duzu, sortu nahi duzun ekintzaren izena eta bere URLa. Adibidez:"
+
+msgid "TASK_ADD_ACTION_OPTIONAL"
+msgstr "AUKERAZKOA: Ekintza berriak zer nolako itzulera izango duen adierazi dezakezu (lehenetsitakoa HTML da), adibidez:"
+
+msgid "TASK_ADD_ACTION_NO_MODULE"
+msgstr "Eskatutako "%s" modulua ezin izan da aurkitu "%s"(e)n"
+
+msgid "TASK_ADD_ACTION_EXISTS"
+msgstr ""%s" ekintza jada badago."
+
+msgid "TASK_ADD_ACTION_TEMPLATE_EXISTS"
+msgstr ""%s" txantiloi-fitxategia jada badago."
+
+msgid "TASK_ADD_ACTION_NEW_ACTION"
+msgstr ""%s" ekintza berria "%s" moduluan sortua."
+
+msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
+msgstr ""%s" txantiloi-fitxategi berria sortua."
+
+msgid "TASK_ADD_ACTION_URLS_UPDATED"
+msgstr "URLen cache-fitxategia eguneratua izan da."
+
+msgid "TASK_ADD_SERVICE_ERROR"
+msgstr "Sortu nahi duzun zerbitzuaren izena adierazi behar duzu, adibidez:"
+
+msgid "TASK_ADD_SERVICE_EXISTS"
+msgstr ""%s" zerbitzu-fitxategia jada badago."
+
+msgid "TASK_ADD_SERVICE_NEW_SERVICE"
+msgstr ""%s" zerbitzu berria sortua:"
+
+msgid "TASK_ADD_SERVICE_NEW_FILE"
+msgstr ""%s" fitxategi berria sortua."
+
+msgid "TASK_ADD_TASK_MESSAGE"
+msgstr ""%s" ataza berria"
+
+msgid "TASK_ADD_TASK_ERROR"
+msgstr "Sortu nahi duzun atazaren izena adierazi behar duzu, adibidez:"
+
+msgid "TASK_ADD_TASK_EXISTS"
+msgstr ""%s" ataza-fitxategia jada badago."
+
+msgid "TASK_ADD_TASK_NEW_TASK"
+msgstr ""%s" ataza berria sortua:"
+
+msgid "TASK_ADD_TASK_NEW_FILE"
+msgstr ""%s" fitxategi berria sortua."
+
+msgid "TASK_ADD_MODEL_COMPONENT_ERROR"
+msgstr "Sortu nahi duzun moduluaren osagaiaren izena adierazi behar duzu, adibidez:"
+
+msgid "TASK_ADD_MODEL_COMPONENT_NO_MODEL"
+msgstr ""%s" eskatutako modulua ezin izan da aurkitu."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_EXISTS"
+msgstr ""%s" karpeta jada badago."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_EXISTS"
+msgstr ""%s" fitxategia jada badago."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CANT_CREATE"
+msgstr "Can't create folder "%s"."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CANT_CREATE"
+msgstr ""%s" fitxategia ezin da sortu."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FOLDER_CREATED"
+msgstr ""%s" karpeta berria sortua."
+
+msgid "TASK_ADD_MODEL_COMPONENT_FILE_CREATED"
+msgstr ""%s" fitxategi berria sortua."
+
+msgid "TASK_ADD_MODEL_COMPONENT_USE"
+msgstr ""%s" modulu-osagaia sortua. Honekin erabili:"
+
+msgid "OFW_INDICATE_OPTION"
+msgstr "  Aukera bat aukeratu behar duzu.\n"
+
+msgid "OFW_OPTIONS"
+msgstr "  Aukerak:\n\n"
+
+msgid "OFW_EXAMPLE"
+msgstr "Adibidez"
+
+msgid "OFW_WRONG_OPTION"
+msgstr ""%s" aukera oker dago."
