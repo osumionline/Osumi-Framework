@@ -1,6 +1,16 @@
 {
-	"version": "7.2.0",
+	"version": "7.3.0",
 	"updates": {
+		"7.3.0": {
+			"message": "7.3.0 - Nuevo valor name en config y opciones para limitar tamaño y rotar los logs",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/oconfig.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/log/olog.class.php"
+			]
+		},
 		"7.2.0": {
 			"message": "7.2.0 - Nuevo idioma Euskara, corrección en las traducciones y cabecera con la versión",
 			"files": [

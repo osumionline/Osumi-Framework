@@ -2,14 +2,19 @@
 
 namespace OsumiFramework\OFW\Core;
 
+use OsumiFramework\OFW\Tools\OTools;
+
 /**
  * OConfig - Class with all the configuration info for the framework
  */
 class OConfig {
+	private string $name = 'Osumi';
 	private string $environment = '';
 	private array $log = [
-		'dir' => null,
-		'level' => 'DEBUG'
+		'name'          => null,
+		'level'         => 'DEBUG',
+		'max_file_size' => 50,
+		'max_num_files' => 3
 	];
 	private bool $allow_cross_origin = true;
 
@@ -97,6 +102,9 @@ class OConfig {
 	 * @return void
 	 */
 	private function loadConfig(array $config): void {
+		if (array_key_exists('name', $config)) {
+			$this->setName($config['name']);
+		}
 		if (array_key_exists('db', $config)) {
 			$db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset', 'collate'];
 			foreach ($db_fields as $db_field) {
@@ -116,8 +124,16 @@ class OConfig {
 		if (array_key_exists('log_level', $config)) {
 			$this->setLog('level', $config['log_level']);
 		}
-		if (array_key_exists('log_dir', $config)) {
-			$this->setLog('dir', $config['log_dir']);
+		if (array_key_exists('log', $config)) {
+			if (array_key_exists('name', $config['log'])) {
+				$this->setLog('name', $config['log']['name']);
+			}
+			if (array_key_exists('max_file_size', $config['log'])) {
+				$this->setLog('max_file_size', $config['log']['max_file_size']);
+			}
+			if (array_key_exists('max_num_files', $config['log'])) {
+				$this->setLog('max_num_files', $config['log']['max_num_files']);
+			}
 		}
 		if (array_key_exists('base_url', $config)) {
 			$this->setUrl('base', $config['base_url']);
@@ -176,6 +192,26 @@ class OConfig {
 	}
 
 	/**
+	 * Set application's name
+	 *
+	 * @param string $name Name of the application
+	 *
+	 * @return void
+	 */
+	public function setName(string $name): void {
+		$this->name = $name;
+	}
+
+	/**
+	 * Get application's name
+	 *
+	 * @return string Application's name
+	 */
+	public function getName(): string {
+		return $this->name;
+	}
+
+	/**
 	 * Set the environment name, if any
 	 *
 	 * @return void
@@ -198,11 +234,11 @@ class OConfig {
 	 *
 	 * @param string $key "dir" -log directory- of "level" -logging importance level-
 	 *
-	 * @param string $value Value of the logging configuration
+	 * @param string|int $value Value of the logging configuration
 	 *
 	 * @return void
 	 */
-	public function setLog(string $key, string $value): void {
+	public function setLog(string $key, string|int $value): void {
 		$this->log[$key] = $value;
 	}
 
@@ -211,9 +247,9 @@ class OConfig {
 	 *
 	 * @param string $key "dir" -log directory- of "level" -logging importance level-
 	 *
-	 * @return ?string Value of the logging configuration
+	 * @return string|int|null Value of the logging configuration
 	 */
-	public function getLog(string $key): ?string {
+	public function getLog(string $key): string|int|null {
 		return array_key_exists($key, $this->log) ? $this->log[$key] : null;
 	}
 
@@ -366,13 +402,7 @@ class OConfig {
 		$this->setDir('ofw_template',   $bd.'ofw/template/');
 		$this->setDir('ofw_tmp',        $bd.'ofw/tmp/');
 		$this->setDir('logs',           $bd.'logs/');
-		$this->setDir('debug_log',      $bd.'logs/debug.log');
 		$this->setDir('web',            $bd.'web/');
-
-		// If user hasn't defined logs directory, set a default one
-		if (is_null($this->getLog('dir'))){
-			$this->setLog('dir', $this->getDir('debug_log'));
-		}
 	}
 
 	/**

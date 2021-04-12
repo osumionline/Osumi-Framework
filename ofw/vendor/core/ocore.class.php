@@ -40,7 +40,7 @@ class OCore {
 		date_default_timezone_set('Europe/Madrid');
 
 		$basedir = realpath(dirname(__FILE__));
-		$basedir = str_ireplace('ofw/vendor/core','',$basedir);
+		$basedir = str_ireplace('ofw/vendor/core', '', $basedir);
 
 		require $basedir.'ofw/vendor/core/oconfig.class.php';
 		$this->config = new OConfig($basedir);
@@ -66,6 +66,11 @@ class OCore {
 		require $this->config->getDir('ofw_vendor').'routing/ourl.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/oform.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/otools.class.php';
+
+		// Due to a circular dependancy, check name of the log file after core loading
+		if (is_null($this->config->getLog('name'))) {
+			$this->config->setLog('name', OTools::slugify($this->config->getName()));
+		}
 
 		// Load framework translations
 		$this->translate = new OTranslate();

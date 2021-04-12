@@ -1,6 +1,30 @@
 CHANGELOG
 =========
 
+## `7.3.0` (12/04/2021)
+
+Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
+
+```json
+...
+"log": {
+	"name": "ofw",         // Nombre del archivo donde se guardarán los logs
+	"max_file_size": 50,   // Tamaño máximo del archivo, en MBs
+	"max_num_files": 3     // Número máximo de rotaciones del archivo de logs
+}
+...
+```
+
+* `name` indica el nombre del archivo donde se escriben los logs. 
+* `max_file_size` indica el tamaño máximo (en MB) del archivo de logs. El valor por defecto es 50MB.
+* `max_num_files` indica el número de archivos que se rotarán. El valor por defecto es de 3 archivos de rotación.
+
+Si el valor de `max_num_files` es 1, en cuanto el archivo de log llegue a ocupar el valor definido en `max_file_size`, cada nueva línea hará que se borren las más antiguas.
+
+Nuevo campo `name` en el archivo `config`. Este campo por ahora no es más que meramente informativo.
+
+Si el valor `name` del campo `log` está en blanco, se usará el slug del campo `name`. En caso de que este campo no esté presente, el valor por defecto es `Osumi`.
+
 ## `7.2.0` (06/04/2021)
 
 Nuevo idioma para el Framework: **Euskara**.

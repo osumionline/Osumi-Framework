@@ -1,4 +1,5 @@
 {
+	"name": "Osumi Framework",
 	"db": {
 		"host": "localhost",
 		"user": "user",
@@ -12,6 +13,11 @@
 		"url": ".osumi.es"
 	},
 	"log_level": "DEBUG",
+	"log": {
+		"name": "ofw",
+		"max_file_size": 50,
+		"max_num_files": 3
+	},
 	"base_url": "https://demo.osumi.es/",
 	"admin_email": "inigo.gorosabel@gmail.com",
 	"default_title": "Osumi Framework",
