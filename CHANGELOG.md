@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.3.1` (19/05/2021)
+
+Corrección al crear nuevos servicios o tareas mediante el comando `php ofw.php add`. Los nuevos servicios y tareas no incluían los nuevos namespaces.
+
 ## `7.3.0` (12/04/2021)
 
 Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
@@ -15,7 +19,7 @@ Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
 ...
 ```
 
-* `name` indica el nombre del archivo donde se escriben los logs. 
+* `name` indica el nombre del archivo donde se escriben los logs.
 * `max_file_size` indica el tamaño máximo (en MB) del archivo de logs. El valor por defecto es 50MB.
 * `max_num_files` indica el número de archivos que se rotarán. El valor por defecto es de 3 archivos de rotación.
 

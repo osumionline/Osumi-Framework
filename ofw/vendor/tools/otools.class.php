@@ -748,6 +748,8 @@ class OTools {
 			return ['status' => 'exists', 'name' => $name];
 		}
 		$str_service = "<"."?php declare(strict_types=1);\n";
+		$str_service .= "namespace OsumiFramework\App\Service;\n\n";
+		$str_service .= "use OsumiFramework\OFW\Core\OService;\n\n";
 		$str_service .= "class ".$name." extends OService {\n";
 		$str_service .= "	function __construct() {\n";
 		$str_service .= "		$"."this->loadService();\n";
@@ -778,6 +780,8 @@ class OTools {
 			return ['status' => 'ofw-exists', 'name' => $name];
 		}
 		$str_task = "<"."?php declare(strict_types=1);\n";
+		$str_task .= "namespace OsumiFramework\App\Task;\n\n";
+		$str_task .= "use OsumiFramework\OFW\Core\OTask;\n\n";
 		$str_task .= "class ".$name."Task extends OTask {\n";
 		$str_task .= "	public function __toString() {\n";
 		$str_task .= "		return \"".$name.": ".self::getMessage('TASK_ADD_TASK_MESSAGE', [$name])."\";\n";

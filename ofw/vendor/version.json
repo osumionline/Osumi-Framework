@@ -1,6 +1,14 @@
 {
-	"version": "7.3.0",
+	"version": "7.3.1",
 	"updates": {
+		"7.3.1": {
+			"message": "7.3.1 - Corrección al crear servicios y tareas, faltaban namespaces",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"7.3.0": {
 			"message": "7.3.0 - Nuevo valor name en config y opciones para limitar tamaño y rotar los logs",
 			"files": [
