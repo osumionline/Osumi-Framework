@@ -1,6 +1,14 @@
 {
-	"version": "7.3.1",
+	"version": "7.3.2",
 	"updates": {
+		"7.3.2": {
+			"message": "7.3.2 - Corrección de estilo al crear servicios y tareas y corrección al crear componentes de modelo",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"7.3.1": {
 			"message": "7.3.1 - Corrección al crear servicios y tareas, faltaban namespaces",
 			"files": [

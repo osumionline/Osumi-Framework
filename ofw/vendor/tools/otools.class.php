@@ -747,7 +747,7 @@ class OTools {
 		if (file_exists($service_file)) {
 			return ['status' => 'exists', 'name' => $name];
 		}
-		$str_service = "<"."?php declare(strict_types=1);\n";
+		$str_service = "<"."?php declare(strict_types=1);\n\n";
 		$str_service .= "namespace OsumiFramework\App\Service;\n\n";
 		$str_service .= "use OsumiFramework\OFW\Core\OService;\n\n";
 		$str_service .= "class ".$name." extends OService {\n";
@@ -779,7 +779,7 @@ class OTools {
 		if (file_exists($ofw_task_file)) {
 			return ['status' => 'ofw-exists', 'name' => $name];
 		}
-		$str_task = "<"."?php declare(strict_types=1);\n";
+		$str_task = "<"."?php declare(strict_types=1);\n\n";
 		$str_task .= "namespace OsumiFramework\App\Task;\n\n";
 		$str_task .= "use OsumiFramework\OFW\Core\OTask;\n\n";
 		$str_task .= "class ".$name."Task extends OTask {\n";
@@ -826,6 +826,7 @@ class OTools {
 		$cont             = 0;
 
 		$list_content = "<"."?php\n";
+		$list_content .= "use OsumiFramework\OFW\Tools\OTools;\n\n";
 		$list_content .= "foreach ($"."values['list'] as $"."i => $".strtolower($values['model_name']).") {\n";
 		$list_content .= "	echo OTools::getComponent('model/".strtolower($values['model_name'])."', [ '".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])." ]);\n";
 		$list_content .= "	if ($"."i<count($"."values['list'])-1) {\n";

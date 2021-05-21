@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `7.3.2` (21/05/2021)
+
+Corrección de estilo al crear nuevos servicios o tareas mediante el comando `php ofw.php add`, se han añadido unos saltos de líneas para separar mejor los namespaces de las clases que se usan.
+
+Corrección al crear un componente de modelo. Al crear un componente de modelo se generan dos archivos, un componente para un objeto de modelo y un componente para crear listados de objetos de modelo. En el listado faltaba por incluir la clase `OTools`.
+
 ## `7.3.1` (19/05/2021)
 
 Corrección al crear nuevos servicios o tareas mediante el comando `php ofw.php add`. Los nuevos servicios y tareas no incluían los nuevos namespaces.
