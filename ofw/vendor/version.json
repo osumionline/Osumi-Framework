@@ -1,6 +1,16 @@
 {
-	"version": "7.3.2",
+	"version": "7.4.0",
 	"updates": {
+		"7.4.0": {
+			"message": "7.4.0 - Acceso a Cache Container desde módulos, servicios y tareas",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/omodule.class.php",
+				"ofw/vendor/core/oservice.class.php",
+				"ofw/vendor/core/otask.class.php"
+			]
+		},
 		"7.3.2": {
 			"message": "7.3.2 - Corrección de estilo al crear servicios y tareas y corrección al crear componentes de modelo",
 			"files": [

@@ -6,17 +6,19 @@ use OsumiFramework\OFW\DB\ODB;
 use OsumiFramework\OFW\Log\OLog;
 use OsumiFramework\OFW\Web\OSession;
 use OsumiFramework\OFW\Web\OCookie;
+use OsumiFramework\OFW\Cache\OCacheContainer;
 
 /**
  * OModule - Base class for the module classes providing access to the framework configuration, database, template, logs, session or cookies
  */
 class OModule {
-	protected ?OConfig   $config   = null;
-	protected ?ODB       $db       = null;
-	protected ?OTemplate $template = null;
-	protected ?OLog      $log      = null;
-	protected ?OSession  $session  = null;
-	protected ?OCookie   $cookie   = null;
+	protected ?OConfig         $config   = null;
+	protected ?ODB             $db       = null;
+	protected ?OTemplate       $template = null;
+	protected ?OLog            $log      = null;
+	protected ?OSession        $session  = null;
+	protected ?OCookie         $cookie   = null;
+	protected ?OCacheContainer $cacheContainer = null;
 
 	/**
 	 * Load matched URL configuration value into the module
@@ -30,8 +32,9 @@ class OModule {
 
 		$this->config   = $core->config;
 		$this->session  = $core->session;
+		$this->cacheContainer = $core->cacheContainer;
 		if (!is_null($core->dbContainer)) {
-			$this->db   = new ODB();
+			$this->db = new ODB();
 		}
 		$this->template = new OTemplate();
 		$this->log      = new OLog(get_class($this));
@@ -102,5 +105,14 @@ class OModule {
 	 */
 	public final function getCookie(): OCookie {
 		return $this->cookie;
+	}
+
+	/**
+	 * Get access to the cache container
+	 *
+	 * @return OCacheContainer Cache container class object
+	 */
+	public final function getCacheContainer(): OCacheContainer {
+		return $this->cacheContainer;
 	}
 }

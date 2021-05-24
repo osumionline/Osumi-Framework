@@ -3,6 +3,7 @@
 namespace OsumiFramework\OFW\Core;
 
 use OsumiFramework\OFW\Log\OLog;
+use OsumiFramework\OFW\Cache\OCacheContainer;
 
 /**
  * OService - Base class for the service classes
@@ -10,6 +11,7 @@ use OsumiFramework\OFW\Log\OLog;
 class OService {
 	protected ?OConfig $config = null;
 	protected ?OLog    $log    = null;
+	protected ?OCacheContainer $cacheContainer = null;
 
 	/**
 	 * Load global configuration and logger to use in the service
@@ -21,6 +23,7 @@ class OService {
 
 		$this->config = $core->config;
 		$this->log    = new OLog(get_class($this));
+		$this->cacheContainer = $core->cacheContainer;
 	}
 
 	/**
@@ -39,5 +42,14 @@ class OService {
 	 */
 	public final function getLog(): OLog {
 		return $this->log;
+	}
+
+	/**
+	 * Get access to the cache container
+	 *
+	 * @return OCacheContainer Cache container class object
+	 */
+	public final function getCacheContainer(): OCacheContainer {
+		return $this->cacheContainer;
 	}
 }

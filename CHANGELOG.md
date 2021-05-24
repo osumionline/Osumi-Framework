@@ -1,6 +1,24 @@
 CHANGELOG
 =========
 
+## `7.4.0` (24/05/2021)
+
+Añado el método `getCacheContainer` a los módulos, servicios y tareas. De este modo no es necesario acceder al objeto global `core`. Por ejemplo:
+
+```php
+class api extends OModule {
+/**
+ * Función para obtener la fecha
+ *
+ * @url /getDate
+ * @param ORequest $req Request object with method, headers, parameters and filters used
+ * @return void
+ */
+public function getDate(ORequest $req): void {
+  $this->getCacheContainer()->deleteItem('last_date');
+}
+```
+
 ## `7.3.2` (21/05/2021)
 
 Corrección de estilo al crear nuevos servicios o tareas mediante el comando `php ofw.php add`, se han añadido unos saltos de líneas para separar mejor los namespaces de las clases que se usan.

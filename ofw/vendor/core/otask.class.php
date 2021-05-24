@@ -4,6 +4,7 @@ namespace OsumiFramework\OFW\Core;
 
 use OsumiFramework\OFW\Tools\OColors;
 use OsumiFramework\OFW\Log\OLog;
+use OsumiFramework\OFW\Cache\OCacheContainer;
 
 /**
  * OTask - Base class for the task classes
@@ -12,6 +13,7 @@ class OTask {
 	protected ?OColors $colors = null;
 	protected ?OConfig $config = null;
 	protected ?OLog    $log    = null;
+	protected ?OCacheContainer $cacheContainer = null;
 
 	/**
 	 * Load global configuration and logger to use in the service
@@ -25,6 +27,7 @@ class OTask {
 		}
 		$this->config = $core->config;
 		$this->log    = new OLog(get_class($this));
+		$this->cacheContainer = $core->cacheContainer;
 	}
 
 	/**
@@ -52,5 +55,14 @@ class OTask {
 	 */
 	public final function getLog(): OLog {
 		return $this->log;
+	}
+
+	/**
+	 * Get access to the cache container
+	 *
+	 * @return OCacheContainer Cache container class object
+	 */
+	public final function getCacheContainer(): OCacheContainer {
+		return $this->cacheContainer;
 	}
 }
