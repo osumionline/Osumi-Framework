@@ -1,6 +1,14 @@
 {
-	"version": "7.4.0",
+	"version": "7.4.1",
 	"updates": {
+		"7.4.1": {
+			"message": "7.4.1 - Corrección en llamadas cURL",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"7.4.0": {
 			"message": "7.4.0 - Acceso a Cache Container desde módulos, servicios y tareas",
 			"files": [

@@ -313,9 +313,9 @@ class OTools {
 	 *
 	 * @param array $data Key / value array with parameters to be sent
 	 *
-	 * @return string Result of the curl request
+	 * @return string|false Result of the curl request or false if the execution failed
 	 */
-	public static function curlRequest(string $method, string $url, array $data): string {
+	public static function curlRequest(string $method, string $url, array $data): string|false {
 		$ch = curl_init();
 		if ($method=='get') {
 			$url .= '?';

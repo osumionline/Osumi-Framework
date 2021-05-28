@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.4.1` (28/05/2021)
+
+Corrección en la función `OTools::curlRequest`. En el caso de que una llamada cURL falle, la ejecución devuelve el valor `false` y la función estaba preparada para devolver un `string`.
+
 ## `7.4.0` (24/05/2021)
 
 Añado el método `getCacheContainer` a los módulos, servicios y tareas. De este modo no es necesario acceder al objeto global `core`. Por ejemplo:
