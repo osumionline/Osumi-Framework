@@ -42,8 +42,10 @@ class OLog {
 	 * @return bool Returns if the message was written to the log file or not
 	 */
 	public function debug(string $str): bool {
+		$bt = debug_backtrace();
+		$caller = array_shift($bt);
 		if (in_array($this->log_level, ['ALL', 'DEBUG'])) {
-			return $this->putLog('DEBUG', $str);
+			return $this->putLog('DEBUG', $str, $caller);
 		}
 		return false;
 	}
@@ -56,8 +58,10 @@ class OLog {
 	 * @return bool Returns if the message was written to the log file or not
 	 */
 	public function info(string $str): bool {
+		$bt = debug_backtrace();
+		$caller = array_shift($bt);
 		if (in_array($this->log_level, ['ALL', 'DEBUG', 'INFO'])) {
-			return $this->putLog('INFO', $str);
+			return $this->putLog('INFO', $str, $caller);
 		}
 		return false;
 	}
@@ -70,7 +74,9 @@ class OLog {
 	 * @return bool Returns if the message was written to the log file or not
 	 */
 	public function error(string $str): bool {
-		return $this->putLog('ERROR', $str);
+		$bt = debug_backtrace();
+		$caller = array_shift($bt);
+		return $this->putLog('ERROR', $str, $caller);
 	}
 
 	/**
@@ -80,13 +86,16 @@ class OLog {
 	 *
 	 * @param string $str Message to be logged
 	 *
+	 * @param array $caller Information about the file that logged the message
+	 *
 	 * @return bool Returns if the message was written to the log file or not
 	 */
-	private function putLog(string $level, string $str): bool {
+	private function putLog(string $level, string $str, array $caller): bool {
 		$data = '['.date('Y-m-d H:i:s',time()).'] - ['.$level.'] - ';
 		if (!is_null($this->class_name)) {
 			$data .= '['.$this->class_name.'] - ';
 		}
+		$data .= '['.basename($caller['file']).' - '.$caller['line'].'] - ';
 		$data .= $str."\n";
 
 		$rotate = false;

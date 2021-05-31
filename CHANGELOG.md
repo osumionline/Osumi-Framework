@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.5.0` (31/05/2021)
+
+Mejora en `OLog`. Ahora ademas de la fecha, nivel de log, clase que le ha llamado y el mensaje, también se guardará el nombre del archivo y la línea desde donde se ha ejecutado la llamada a logear.
+
 ## `7.4.1` (28/05/2021)
 
 Corrección en la función `OTools::curlRequest`. En el caso de que una llamada cURL falle, la ejecución devuelve el valor `false` y la función estaba preparada para devolver un `string`.

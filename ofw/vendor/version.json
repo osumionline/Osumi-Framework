@@ -1,6 +1,14 @@
 {
-	"version": "7.4.1",
+	"version": "7.5.0",
 	"updates": {
+		"7.5.0": {
+			"message": "7.5.0 - Mejora en OLog",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/log/olog.class.php"
+			]
+		},
 		"7.4.1": {
 			"message": "7.4.1 - Corrección en llamadas cURL",
 			"files": [
