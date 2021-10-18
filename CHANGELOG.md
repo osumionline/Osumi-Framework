@@ -1,6 +1,43 @@
 CHANGELOG
 =========
 
+## `7.6.0` (18/10/2021)
+
+Ahora las acciones de los métodos, ademas poder recibir un objeto de tipo `ORequest`, pueden recibir objetos DTO (Data Transfer Object) personalizados.
+
+Estos DTOs son clases que se guardan en la carpeta `app/dto` y tienen que implementar la interfaz `ODTO`, para asegurar que contienen dos métodos necesarios. Por ejemplo:
+
+```php
+class UserDTO implements ODTO{
+  private int $id_user = -1;
+
+  public function getIdUser(): int {
+    return $this->id_user;
+    }
+  private function setIdUser(int $id_user): void {
+    $this->id_user = $id_user;
+  }
+
+  public function isValid(): bool {
+    return ($this->getIdUser() != -1);
+  }
+
+  public function load(ORequest $req): void {
+    $id_user = $req->getParamInt('id');
+    if (!is_null($id_user)) {
+      $this->setIdUser($id_user);
+    }
+  }
+}
+```
+
+En el ejemplo, la clase `UserDTO` implementa la interfaz `ODTO` y debe tener los métodos `isValid` y `load`:
+
+* La función `load` recibe un objeto de tipo `ORequest` tal y como lo recibían antes las acciones de los módulos. Esta función se usará para cargar los datos recibidos en las variables apropiadas del DTO.
+* La función `isValid` sirve para realizar una validación de los datos obtenidos.
+
+De este modo las acciones de los módulos que reciban los mismos parámetros (por ejemplo un id de usuario) pueden compartir un mismo DTO que obtiene y valida los datos. Así se evita repetir el mismo código en cada acción: obtener datos, validar datos...
+
 ## `7.5.0` (31/05/2021)
 
 Mejora en `OLog`. Ahora ademas de la fecha, nivel de log, clase que le ha llamado y el mensaje, también se guardará el nombre del archivo y la línea desde donde se ha ejecutado la llamada a logear.

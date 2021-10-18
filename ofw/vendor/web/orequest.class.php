@@ -127,7 +127,7 @@ class ORequest {
 	 */
 	public function getParamInt(string $key, $default=null): ?int {
 		$param = $this->getParam($key, $default);
-		return (!is_null($param) && $param!=='null') ? intval($param) : null;
+		return (!is_null($param) && $param!=='null' && is_numeric($param)) ? intval($param) : null;
 	}
 
 	/**
@@ -141,7 +141,7 @@ class ORequest {
 	 */
 	public function getParamFloat(string $key, $default=null): ?float {
 		$param = $this->getParam($key, $default);
-		return !is_null($param) ? floatval($param) : null;
+		return (!is_null($param) && $param!=='null' && is_numeric($param)) ? floatval($param) : null;
 	}
 
 	/**

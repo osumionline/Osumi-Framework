@@ -3,6 +3,7 @@
 namespace OsumiFramework\OFW\Core;
 
 use \PDO;
+use \ReflectionParameter;
 use OsumiFramework\OFW\DB\ODBContainer;
 use OsumiFramework\OFW\Cache\OCacheContainer;
 use OsumiFramework\OFW\Web\OSession;
@@ -56,6 +57,7 @@ class OCore {
 		require $this->config->getDir('ofw_vendor').'log/olog.class.php';
 		require $this->config->getDir('ofw_vendor').'cache/ocache.container.class.php';
 		require $this->config->getDir('ofw_vendor').'cache/ocache.class.php';
+		require $this->config->getDir('ofw_vendor').'core/odto.interface.php';
 		require $this->config->getDir('ofw_vendor').'core/omodule.class.php';
 		require $this->config->getDir('ofw_vendor').'core/oservice.class.php';
 		require $this->config->getDir('ofw_vendor').'core/oplugin.class.php';
@@ -128,6 +130,18 @@ class OCore {
 			else {
 				echo "ERROR: Lib file \"".$lib_file."\" not found.\n";
 				exit;
+			}
+		}
+
+		// DTOs
+		if (file_exists($this->config->getDir('app_dto'))) {
+			if ($model = opendir($this->config->getDir('app_dto'))) {
+				while (false !== ($entry = readdir($model))) {
+					if ($entry != '.' && $entry != '..') {
+						require $this->config->getDir('app_dto').$entry;
+					}
+				}
+				closedir($model);
 			}
 		}
 
@@ -224,8 +238,19 @@ class OCore {
 				$module = new $module_name;
 
 				if (method_exists($module, $url_result['action'])) {
+					$reflection_param = new ReflectionParameter([$module_name, $url_result['action']], 0);
+					$reflection_param_type = $reflection_param->getType()->getName();
+					$req = new ORequest($url_result);
+					if (str_starts_with($reflection_param_type, 'OsumiFramework\App\DTO')) {
+						$param = new $reflection_param_type;
+						$param->load($req);
+					}
+					else {
+						$param = $req;
+					}
+
 					$module->loadModule($url_result);
-					call_user_func(array($module, $url_result['action']), new ORequest($url_result));
+					call_user_func([$module, $url_result['action']], $param);
 					echo $module->getTemplate()->process();
 				}
 				else {

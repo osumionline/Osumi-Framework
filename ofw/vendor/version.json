@@ -1,6 +1,17 @@
 {
-	"version": "7.5.0",
+	"version": "7.6.0",
 	"updates": {
+		"7.6.0": {
+			"message": "7.6.0 - DTOs como parámetros de las acciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/oconfig.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/odto.interface.php",
+				"ofw/vendor/web/orequest.class.php"
+			]
+		},
 		"7.5.0": {
 			"message": "7.5.0 - Mejora en OLog",
 			"files": [

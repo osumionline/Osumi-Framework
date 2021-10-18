@@ -385,6 +385,7 @@ class OConfig {
 		$this->setDir('app',            $bd.'app/');
 		$this->setDir('app_config',     $bd.'app/config/');
 		$this->setDir('app_component',  $bd.'app/component/');
+		$this->setDir('app_dto',        $bd.'app/dto/');
 		$this->setDir('app_filter',     $bd.'app/filter/');
 		$this->setDir('app_model',      $bd.'app/model/');
 		$this->setDir('app_module',     $bd.'app/module/');

@@ -7,6 +7,7 @@ use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\OFW\Routing\ORoute;
 use OsumiFramework\App\Service\userService;
 use OsumiFramework\App\Service\photoService;
+use OsumiFramework\App\DTO\UserDTO;
 
 class home extends OModule {
 	private ?userService  $user_service;
@@ -34,12 +35,17 @@ class home extends OModule {
 	/**
 	 * User's page
 	 *
-	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 * @param UserDTO $req Data Transfer Object with "isValid" method and methods for this functions parameters
 	 * @return void
 	 */
 	 #[ORoute('/user/:id')]
-	public function user(ORequest $req): void {
-		$user = $this->user_service->getUser($req->getParamInt('id'));
+	public function user(UserDTO $req): void {
+		if (!$req->isValid()) {
+			echo "ERROR!";
+			exit();
+		}
+		$id_user = $req->getIdUser();
+		$user = $this->user_service->getUser($id_user);
 		$list = $this->photo_service->getPhotos($user->get('id'));
 
 		$this->getTemplate()->add('name', $user->get('user'));
