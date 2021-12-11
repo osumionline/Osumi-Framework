@@ -66,7 +66,7 @@ class OUrl {
 		$this->check_url = $check_url;
 		$check_params = stripos($check_url, '?');
 		if ($check_params !== false) {
-			$check_url = substr($check_url, 0, $check_params);
+			$this->check_url = substr($check_url, 0, $check_params);
 		}
 		if (!is_null($get)) {
 			foreach ($get as $key => $value) {

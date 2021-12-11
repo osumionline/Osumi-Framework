@@ -1,6 +1,14 @@
 {
-	"version": "7.6.0",
+	"version": "7.6.1",
 	"updates": {
+		"7.6.1": {
+			"message": "7.6.1 - Corrección en rutas con parametros GET",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/routing/ourl.class.php"
+			]
+		},
 		"7.6.0": {
 			"message": "7.6.0 - DTOs como parámetros de las acciones",
 			"files": [

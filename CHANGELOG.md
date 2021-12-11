@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.6.1` (11/12/2021)
+
+Corrección en rutas con parámetros GET. Los parámetros pasados por GET no se estaban ignorando, de modo que las rutas que los recibiesen nunca coincidían y devolvían un error 404.
+
 ## `7.6.0` (18/10/2021)
 
 Ahora las acciones de los métodos, ademas poder recibir un objeto de tipo `ORequest`, pueden recibir objetos DTO (Data Transfer Object) personalizados.
