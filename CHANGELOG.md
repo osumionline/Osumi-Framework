@@ -1,6 +1,32 @@
 CHANGELOG
 =========
 
+## `7.7.0` (26/12/2021)
+
+Nueva tarea `reset`. Esta tarea borra todo el contenido generado por el usuario, una especie de sistema de auto-destrucción que resetea el estado de la aplicación a cero.
+
+Esto sirve para la creación de aplicaciones nuevas. Al bajar el repositorio de Github, este incluye una aplicación de ejemplo con abundante código, y hay que borrar todo antes de poder empezar a crear contenido nuevo.
+
+Esta tarea consiste de dos pasos, para asegurarse, ya que el borrado es definitivo e irreversible.
+
+El primer paso consiste en ejecutar la tarea:
+
+```
+  php ofw.php reset
+```
+
+Tras un aviso y una cuenta atrás de 15 segundos, que se puede interrumpir presionando Control + C, se ofrecerá un código de confirmación. Este código es de un solo uso y tiene una caducidad de 15 minutos. En caso de escribir mal el código o si se introduce pasados 15 minutos, el código deja de ser válido y hay que volver a solicitar uno nuevo.
+
+A continuación, hay que volver a llamar a la tarea pasándole el código que se ha creado en el primer paso. Por ejemplo:
+
+```
+  php ofw.php reset 0f982313a901
+```
+
+Tras ejecutar este comando, la aplicación se habrá reseteado.
+
+¡Asegúrate de tener copias de seguridad!
+
 ## `7.6.1` (11/12/2021)
 
 Corrección en rutas con parámetros GET. Los parámetros pasados por GET no se estaban ignorando, de modo que las rutas que los recibiesen nunca coincidían y devolvían un error 404.

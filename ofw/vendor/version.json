@@ -1,6 +1,17 @@
 {
-	"version": "7.6.1",
+	"version": "7.7.0",
 	"updates": {
+		"7.7.0": {
+			"message": "7.7.0 - Nueva tarea reset",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/locale/en.po",
+				"ofw/locale/es.po",
+				"ofw/locale/eu.po",
+				"ofw/task/reset.php"
+			]
+		},
 		"7.6.1": {
 			"message": "7.6.1 - Corrección en rutas con parametros GET",
 			"files": [

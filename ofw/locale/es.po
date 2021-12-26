@@ -502,3 +502,26 @@ msgstr "Por ejemplo"
 msgid "OFW_WRONG_OPTION"
 msgstr "La opción "%s" no es correcta."
 
+msgid "TASK_RESET"
+msgstr "Limpia todos los datos que no son propios del framework, para usar en instalaciones nuevas."
+
+msgid "TASK_RESET_WARNING"
+msgstr "¡Atención!"
+
+msgid "TASK_RESET_CONTINUE"
+msgstr "A continuación se va a proceder a borrar todo el contenido ajeno al framework, al acabar tendrá el estado de una aplicación recién instalada."
+
+msgid "TASK_RESET_TIME_TO_CANCEL"
+msgstr "Dispones de 15 segundos para cancelar este proceso presionando Control + C."
+
+msgid "TASK_RESET_RESET_KEY_CREATED"
+msgstr "Clave de reseteo creada. Para confirmar el borrado de todos los datos ejecuta el siguiente comando en los próximos 15 minutos:"
+
+msgid "TASK_RESET_DATA_ERASED"
+msgstr "¡Datos borrados!"
+
+msgid "TASK_RESET_ERROR"
+msgstr "¡ERROR!"
+
+msgid "TASK_RESET_GET_NEW_KEY"
+msgstr "Ocurrió un error al validar la clave de reseteo o ya ha expirado. Vuelve a crear una nueva clave ejecutando el siguiente comando:"
