@@ -1,6 +1,47 @@
 CHANGELOG
 =========
 
+## `7.8.0` (27/12/2021)
+
+¡Nuevo `Osumi Framework CLI`!
+
+Esta actualización prepara el framework para ser usado mediante la nueva herramienta CLI. Esta nueva herramienta es un ejecutable de línea de comandos para ser usado independientemente de cada proyecto, sustituyendo al archivo `ofw.php`.
+
+Una vez descargado el CLI, hay que mover el ejecutable a una carpeta que esté en el PATH. A continuación ofrece una nueva opción `new` con la que crear un proyecto desde cero.
+
+```
+  $ ofw new prueba
+  Cloning into 'prueba'...
+  remote: Enumerating objects: 2052, done.
+  remote: Counting objects: 100% (269/269), done.
+  remote: Compressing objects: 100% (193/193), done.
+  remote: Total 2052 (delta 145), reused 159 (delta 61), pack-reused 1783
+  Receiving objects: 100% (2052/2052), 1.23 MiB | 0 bytes/s, done.
+  Resolving deltas: 100% (1233/1233), done.
+```
+
+Esta tarea crea una nueva aplicación descargando el repositorio oficial y ejecutando la nueva tarea `reset`, de modo que queda listo para empezar a ser usado.
+
+Por otra parte, estando dentro de una carpeta que contenga una aplicación `Osumi Framework`, puede ser usado del mismo modo que se usaba el archivo `ofw.php`:
+
+```
+  $ ofw version
+  
+  
+  ==============================================================================================================
+  
+    Osumi Framework
+  
+    7.8.0 - Nuevo CLI
+  
+    GitHub:  https://github.com/igorosabel/Osumi-Framework
+    Twitter: https://twitter.com/osumionline
+  
+  ==============================================================================================================
+```
+
+Al estar el ejecutable en el path, en caso de que haya varios proyectos en la misma máquina, el ejecutable es el mismo para todos y deja de ser necesario el archivo `ofw.php`.
+
 ## `7.7.0` (26/12/2021)
 
 Nueva tarea `reset`. Esta tarea borra todo el contenido generado por el usuario, una especie de sistema de auto-destrucción que resetea el estado de la aplicación a cero.

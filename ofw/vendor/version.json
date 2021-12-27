@@ -1,6 +1,17 @@
 {
-	"version": "7.7.0",
+	"version": "7.8.0",
 	"updates": {
+		"7.8.0": {
+			"message": "7.8.0 - Nuevo CLI",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/cli/cli.php"
+			],
+			"deletes": [
+				"ofw.php"
+			}
+		},
 		"7.7.0": {
 			"message": "7.7.0 - Nueva tarea reset",
 			"files": [
