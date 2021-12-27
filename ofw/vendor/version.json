@@ -10,7 +10,7 @@
 			],
 			"deletes": [
 				"ofw.php"
-			}
+			]
 		},
 		"7.7.0": {
 			"message": "7.7.0 - Nueva tarea reset",
