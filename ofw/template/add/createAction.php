@@ -9,13 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_ADD_ACTION_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php add action api getUsers /api/get-users', 'light_green') ?>
-
-
-      <?php echo OTools::getMessage('TASK_ADD_ACTION_OPTIONAL') ?>
-
-
-      <?php echo $values['colors']->getColoredString('php ofw.php add action api getUsers /api/get-users json', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('php ofw.php add action api getUsers /api/get-users json pdf,users', 'light_green') ?>
 
 
 <?php endif ?>

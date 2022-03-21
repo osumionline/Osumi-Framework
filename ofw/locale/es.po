@@ -413,10 +413,7 @@ msgid "TASK_ADD_ACTION_TEMPLATE"
 msgstr "¡La nueva acción <strong>%s</strong> funciona!"
 
 msgid "TASK_ADD_ACTION_ERROR"
-msgstr "Debes indicar el nombre del módulo donde debe ir la acción, el nombre de la acción que quieres crear y su URL. Por ejemplo:"
-
-msgid "TASK_ADD_ACTION_OPTIONAL"
-msgstr "OPCIONAL: Puedes indicar el tipo de retorno que la acción tendrá (por defecto es html), por ejemplo:"
+msgstr "Debes indicar el nombre del módulo donde debe ir la acción, el nombre de la acción que quieres crear, su URL, su tipo de retorno y si quieres añadir alguna clase de utils. Por ejemplo:"
 
 msgid "TASK_ADD_ACTION_NO_MODULE"
 msgstr "El módulo "%s" indicado no se pudo hallar en "%s""

@@ -413,10 +413,7 @@ msgid "TASK_ADD_ACTION_TEMPLATE"
 msgstr "<strong>%s</strong> ekintza berria badabil!"
 
 msgid "TASK_ADD_ACTION_ERROR"
-msgstr "Ekintza modulura doan izena adierazi behar duzu, sortu nahi duzun ekintzaren izena eta bere URLa. Adibidez:"
-
-msgid "TASK_ADD_ACTION_OPTIONAL"
-msgstr "AUKERAZKOA: Ekintza berriak zer nolako itzulera izango duen adierazi dezakezu (lehenetsitakoa HTML da), adibidez:"
+msgstr "Ekintza modulura doan izena adierazi behar duzu, sortu nahi duzun ekintzaren izena, bere URLa, zer nolako itzulera izango duen eta utils hautazko klaseen izenak. Adibidez:"
 
 msgid "TASK_ADD_ACTION_NO_MODULE"
 msgstr "Eskatutako "%s" modulua ezin izan da aurkitu "%s"(e)n"

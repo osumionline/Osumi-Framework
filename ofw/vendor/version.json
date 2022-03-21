@@ -1,6 +1,21 @@
 {
-	"version": "7.8.0",
+	"version": "7.9.0",
 	"updates": {
+		"7.9.0": {
+			"message": "7.9.0 - Nuevas clases auxiliares utils",
+			"files": [
+				"CHANGELOG.md",
+        "ofw/locale/en.po",
+        "ofw/locale/es.po",
+        "ofw/locale/eu.po",
+        "ofw/template/add/createAction.php",
+        "ofw/vendor/core/oconfig.class.php",
+        "ofw/vendor/core/ocore.class.php",
+        "ofw/vendor/routing/oroute.class.php",
+        "ofw/vendor/tools/otools.class.php",
+        "ofw/vendor/version.json"
+			]
+		},
 		"7.8.0": {
 			"message": "7.8.0 - Nuevo CLI",
 			"files": [

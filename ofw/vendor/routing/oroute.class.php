@@ -9,19 +9,22 @@ class ORoute {
 	private ?string $prefix = null;
 	private ?string $filter = null;
 	private ?string $layout = null;
+	private ?string $utils = null;
 
 	function __construct(
 		?string $url    = null,
 		?string $type   = null,
 		?string $prefix = null,
 		?string $filter = null,
-		?string $layout = null
+		?string $layout = null,
+		?string $utils  = null
 	) {
 		$this->url    = $url;
 		$this->type   = $type;
 		$this->prefix = $prefix;
 		$this->filter = $filter;
 		$this->layout = $layout;
+		$this->utils = $utils;
 	}
 
 	/**
@@ -67,5 +70,14 @@ class ORoute {
 	 */
 	public function getLayout(): ?string {
 		return $this->layout;
+	}
+
+	/**
+	 * Get "utils" folder's classes to be loaded into the method (comma separated values)
+	 *
+	 * @return string "utils" folder's classes to be loaded
+	 */
+	public function getUtils(): ?string {
+		return $this->utils;
 	}
 }

@@ -510,7 +510,8 @@ class OTools {
 			'type'   => 'html',
 			'prefix' => null,
 			'filter' => null,
-			'layout' => null
+			'layout' => null,
+			'utils'  => null
 		];
 
 		foreach ($reflector->getAttributes() as $attr) {
@@ -520,6 +521,7 @@ class OTools {
 				$class_params['prefix'] = !is_null($class_route->getPrefix()) ? $class_route->getPrefix() : $class_params['prefix'];
 				$class_params['filter'] = !is_null($class_route->getFilter()) ? $class_route->getFilter() : $class_params['filter'];
 				$class_params['layout'] = !is_null($class_route->getLayout()) ? $class_route->getLayout() : $class_params['layout'];
+				$class_params['utils']  = !is_null($class_route->getUtils())  ? $class_route->getUtils()  : $class_params['layout'];
 				break;
 			}
 		}
@@ -541,6 +543,7 @@ class OTools {
 				'prefix' => $class_params['prefix'],
 				'filter' => $class_params['filter'],
 				'layout' => $class_params['layout'],
+				'utils'  => $class_params['utils'],
 				'url'    => null
 			];
 			foreach ($ref->getAttributes() as $attr) {
@@ -551,6 +554,7 @@ class OTools {
 					$method_params['prefix'] = !is_null($method_route->getPrefix()) ? $method_route->getPrefix() : $method_params['prefix'];
 					$method_params['filter'] = !is_null($method_route->getFilter()) ? $method_route->getFilter() : $method_params['filter'];
 					$method_params['layout'] = !is_null($method_route->getLayout()) ? $method_route->getLayout() : $method_params['layout'];
+					$method_params['utils']  = !is_null($method_route->getUtils())  ? $method_route->getUtils()  : $method_params['utils'];
 					break;
 				}
 			}
@@ -638,9 +642,11 @@ class OTools {
 	 *
 	 * @param string $layout Layout of the new action
 	 *
+	 * @param string $utils "utils" folder's classes to be loaded into the method (comma separated values)
+	 *
 	 * @return array Status of the operation (status, module name, action name, action url and action type)
 	 */
-	public static function addAction(string $module, string $action, string $url, string $type=null, string $layout=null): array {
+	public static function addAction(string $module, string $action, string $url, string $type=null, string $layout=null, string $utils=null): array {
 		global $core;
 
 		$module_path      = $core->config->getDir('app_module').$module;
@@ -652,7 +658,8 @@ class OTools {
 			'action' => $action,
 			'url'    => $url,
 			'type'   => $type,
-			'layout' => $layout
+			'layout' => $layout,
+			'utils'  => $utils
 		];
 
 		if (!file_exists($module_path) || !file_exists($module_file)) {
@@ -675,7 +682,8 @@ class OTools {
 				'type'   => $type,
 				'prefix' => null,
 				'filter' => null,
-				'layout' => null
+				'layout' => null,
+				'utils'  => null
 			];
 			if (!is_null($class_params['prefix'])) {
 				if (stripos($url, $class_params['prefix'])!==false) {
@@ -695,6 +703,7 @@ class OTools {
 			$layout = 'default';
 		}
 		$status['layout'] = $layout;
+		$status['utils']  = $utils;
 
 		$action_template  = $module_templates.'/'.$action.'.'.$type;
 		if (file_exists($action_template)) {
@@ -716,6 +725,9 @@ class OTools {
 		}
 		if (!is_null($layout) && $layout != 'default') {
 			$str_action .= ", layout: '".$layout."'";
+		}
+		if (!is_null($utils)) {
+			$str_action .= ", utils: '".$utils."'";
 		}
 		$str_action .= ")]\n";
 		$str_action .= "	public function ".$action."(ORequest $"."req): void {}\n";

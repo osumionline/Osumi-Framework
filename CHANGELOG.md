@@ -1,6 +1,41 @@
 CHANGELOG
 =========
 
+## `7.9.0` (21/03/2022)
+
+Nuevas clases auxiliares `utils`. Ahora se pueden usar clases auxiliares que no se cargarán por defecto con todo el Framework.
+
+Por ejemplo, una clase llamada `PDF` encargada de crear archivos PDF. Esta clase solo se utilizará en ocasiones puntuales, por lo que no es necesario incluirla en cada una de las llamadas que reciba la aplicación.
+
+Estas nuevas clases se guardarán en la carpeta `app/utils`, bajo el namespace `OsumiFramework\App\Utils` (por ejemplo `OsumiFramework\App\Utils\PDF`).
+
+Hay dos formas de incluirlas:
+
+Usando ORoute
+-------------
+
+Cada acción de un módulo tiene un decorador de tipo `ORoute` con el que configurar su URL, el tipo de retorno... Ahora acepta un nuevo parámetro `utils`, una cadena de texto con los nombres de las clases a cargar separados por comas. Por ejemplo:
+
+```php
+#[ORoute(
+  '/getUser/:id',
+  utils: 'PDF'
+)]
+public function getUser(ORequest $req): void {
+...
+}
+```
+
+Manualmente
+-----------
+
+La función `getDir` de la clase `OConfig` ahora soporta un nuevo parámetro `app_utils`, que apunta a la carpeta `app/utils`. De este modo se puede crear una ruta al archivo que se quiera cargar e incluirlo a mano:
+
+```php
+$pdf_class_route = $this->getConfig()->getDir('app_utils').'PDF.php';
+require_once $pdf_class_route;
+```
+
 ## `7.8.0` (27/12/2021)
 
 ¡Nuevo `Osumi Framework CLI`!
@@ -26,17 +61,17 @@ Por otra parte, estando dentro de una carpeta que contenga una aplicación `Osum
 
 ```
   $ ofw version
-  
-  
+
+
   ==============================================================================================================
-  
+
     Osumi Framework
-  
+
     7.8.0 - Nuevo CLI
-  
+
     GitHub:  https://github.com/igorosabel/Osumi-Framework
     Twitter: https://twitter.com/osumionline
-  
+
   ==============================================================================================================
 ```
 

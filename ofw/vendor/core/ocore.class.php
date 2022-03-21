@@ -157,8 +157,8 @@ class OCore {
 			}
 		}
 
+		// Filters
 		if (!$from_cli) {
-			// Filters
 			if (file_exists($this->config->getDir('app_filter'))) {
 				if ($model = opendir($this->config->getDir('app_filter'))) {
 					while (false !== ($entry = readdir($model))) {
@@ -171,7 +171,7 @@ class OCore {
 			}
 		}
 
-		// App
+		// Database model classes
 		if (file_exists($this->config->getDir('app_model'))) {
 			if ($model = opendir($this->config->getDir('app_model'))) {
 				while (false !== ($entry = readdir($model))) {
@@ -226,6 +226,17 @@ class OCore {
 					}
 					else {
 						OTools::showErrorPage($url_result, '403');
+					}
+				}
+			}
+
+			// If there are any "utils" classes required to be loaded, load before the controller
+			if (array_key_exists('utils', $url_result) && !is_null($url_result['utils'])) {
+				$utils = explode(',', $url_result['utils']);
+				foreach ($utils as $util) {
+					$util_file = $this->config->getDir('app_utils').$util.'.php';
+					if (file_exists($util_file)) {
+						require_once $util_file;
 					}
 				}
 			}

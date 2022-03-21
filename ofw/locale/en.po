@@ -413,10 +413,7 @@ msgid "TASK_ADD_ACTION_TEMPLATE"
 msgstr "New action <strong>%s</strong> works!"
 
 msgid "TASK_ADD_ACTION_ERROR"
-msgstr "You must indicate the name of the module where the action should go, the name of the action you want to create and it's URL. For example:"
-
-msgid "TASK_ADD_ACTION_OPTIONAL"
-msgstr "OPTIONAL: You can indicate the type of the return the new action will do (default type is html), for example:"
+msgstr "You must indicate the name of the module where the action should go, the name of the action you want to create, it's URL, the type of the return and any utils classes you want it to use. For example:"
 
 msgid "TASK_ADD_ACTION_NO_MODULE"
 msgstr "Required module "%s" could not be found on "%s""
