@@ -1,6 +1,29 @@
 CHANGELOG
 =========
 
+## `7.9.1` (09/05/2022)
+
+Corrección en clase `OModel`. Al usar la función `find` en objetos de modelo, las búsquedas cuyo valor fuese nulo fallaban ya que eran tomadas como cadenas de texto vacías:
+
+```php
+$tabla->find([
+  'id' => 12,
+  'valor' => null
+])
+```
+
+SQL resultante (antes):
+
+```sql
+SELECT * FROM `tabla` WHERE `id` = 12 AND `valor` = ''
+```
+
+SQL OFW 7.9.1:
+
+```sql
+SELECT * FROM `tabla` WHERE `id` = 12 AND `valor` IS NULL
+```
+
 ## `7.9.0` (21/03/2022)
 
 Nuevas clases auxiliares `utils`. Ahora se pueden usar clases auxiliares que no se cargarán por defecto con todo el Framework.
