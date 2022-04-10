@@ -312,7 +312,12 @@ class OModel {
 		$search_fields = [];
 		foreach ($opt as $key => $value) {
 			if (!is_null($value)) {
-				array_push($search_fields, "`".$key."` = '".$value."' ");
+				if ($this->model[$key]['type'] != self::BOOL) {
+					array_push($search_fields, "`".$key."` = '".$value."' ");
+				}
+				else {
+					array_push($search_fields, "`".$key."` = ".($value ? 1 : 0)." ");
+				}
 			}
 			else {
 				array_push($search_fields, "`".$key."` IS NULL ");

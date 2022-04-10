@@ -1,6 +1,29 @@
 CHANGELOG
 =========
 
+## `7.9.2` (10/05/2022)
+
+Corrección en clase `OModel`. Al usar la función `find` en objetos de modelo, las búsquedas cuyo valor fuese booleano fallaban ya que eran tomadas como cadenas de texto vacías. OFW almacena los valores booleanos como números enteros donde el valor 1 representa `true` y el valor 0 representa `false`.
+
+```php
+$tabla->find([
+  'id' => 12,
+  'valor' => false
+])
+```
+
+SQL resultante (antes):
+
+```sql
+SELECT * FROM `tabla` WHERE `id` = 12 AND `valor` = ''
+```
+
+SQL OFW 7.9.2:
+
+```sql
+SELECT * FROM `tabla` WHERE `id` = 12 AND `valor` = 0;
+```
+
 ## `7.9.1` (09/05/2022)
 
 Corrección en clase `OModel`. Al usar la función `find` en objetos de modelo, las búsquedas cuyo valor fuese nulo fallaban ya que eran tomadas como cadenas de texto vacías:
