@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.9.3` (24/05/2022)
+
+Corrección en `OUpdate`. Esta corrección sirve para preparar correctamente la actualización a la próxima versón 8.0.
+
 ## `7.9.2` (10/05/2022)
 
 Corrección en clase `OModel`. Al usar la función `find` en objetos de modelo, las búsquedas cuyo valor fuese booleano fallaban ya que eran tomadas como cadenas de texto vacías. OFW almacena los valores booleanos como números enteros donde el valor 1 representa `true` y el valor 0 representa `false`.

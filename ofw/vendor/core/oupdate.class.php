@@ -279,7 +279,7 @@ class OUpdate {
 			}
 
 			if ($update['postinstall']) {
-				$file = 'ofw/core/postinstall-'.$version.'.php';
+				$file = 'ofw/vendor/migrations/postinstall-'.$version.'.php';
 				$file_url = $this->repo_url.'v'.$version.'/'.$file;
 				$file_content = $this->getFile($file_url);
 				if (is_null($file_content)) {
