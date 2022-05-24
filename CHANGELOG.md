@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `7.9.4` (24/05/2022)
+
+Corrección en `OUpdate` (por `postinstall`). Esta corrección sirve para preparar correctamente la actualización a la próxima versón 8.0.
+
 ## `7.9.3` (24/05/2022)
 
 Corrección en `OUpdate`. Esta corrección sirve para preparar correctamente la actualización a la próxima versón 8.0.
