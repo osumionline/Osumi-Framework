@@ -4,6 +4,7 @@ namespace OsumiFramework\OFW\Core;
 
 use OsumiFramework\OFW\Tools\OColors;
 use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\OFW\Migrations\OPostInstall;
 
 /**
  * Utilities for the update process

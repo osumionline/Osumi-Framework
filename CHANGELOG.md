@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## `7.9.5` (25/05/2022)
+
+Última corrección en `OUpdate` previa al lanzamiento de `OsumiFramework 8.0`.
+
+
 ## `7.9.4` (24/05/2022)
 
 Corrección en `OUpdate` (por `postinstall`). Esta corrección sirve para preparar correctamente la actualización a la próxima versón 8.0.
