@@ -41,7 +41,7 @@ $colors = new OColors();
 if ($model = opendir($core->config->getDir('ofw_task'))) {
 	while (false !== ($entry = readdir($model))) {
 		if ($entry != "." && $entry != "..") {
-			array_push($ofw_task_list, str_ireplace(".php", "", $entry));
+			array_push($ofw_task_list, str_ireplace(".task.php", "", $entry));
 		}
 	}
 	closedir($model);
@@ -53,7 +53,7 @@ if (file_exists($core->config->getDir('app_task'))) {
 		while (false !== ($entry = readdir($model))) {
 			if ($entry != "." && $entry != "..") {
 				require $core->config->getDir('app_task').$entry;
-				array_push($app_task_list, str_ireplace('.php', '', $entry));
+				array_push($app_task_list, str_ireplace('.task.php', '', $entry));
 			}
 		}
 		closedir($model);

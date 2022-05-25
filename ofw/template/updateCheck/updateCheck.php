@@ -26,7 +26,5 @@
 
   <?php echo OTools::getMessage('TASK_UPDATE_CHECK_DO_UPDATE') ?>
 
-      <?php echo $values['colors']->getColoredString('php ofw.php update', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw update', 'light_green') ?>
 <?php endif ?>
-
-

@@ -9,7 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins install email', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins install email', 'light_green') ?>
 
 
 <?php endif ?>
@@ -20,7 +20,7 @@
       <?php echo OTools::getMessage('TASK_PLUGINS_INSTALL_CHECK_LIST') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins', 'light_green') ?>
 
 
 <?php endif ?>

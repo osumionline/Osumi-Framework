@@ -9,7 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_ADD_MODEL_COMPONENT_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php add modelComponent User', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw add modelComponent User', 'light_green') ?>
 
 
 <?php endif ?>
@@ -94,6 +94,10 @@ $values['colors']->getColoredString($values['list_folder'], 'light_green')
 $values['colors']->getColoredString($values['list_folder'].$values['list_file'], 'light_green')
 ]) ?>
 
+    <?php echo OTools::getMessage('TASK_ADD_MODEL_COMPONENT_FILE_CREATED', [
+$values['colors']->getColoredString($values['list_folder'].$values['list_template_file'], 'light_green')
+]) ?>
+
     <?php echo OTools::getMessage('TASK_ADD_MODEL_COMPONENT_FOLDER_CREATED', [
 $values['colors']->getColoredString($values['component_folder'], 'light_green')
 ]) ?>
@@ -102,13 +106,24 @@ $values['colors']->getColoredString($values['component_folder'], 'light_green')
 $values['colors']->getColoredString($values['component_folder'].$values['component_file'], 'light_green')
 ]) ?>
 
+    <?php echo OTools::getMessage('TASK_ADD_MODEL_COMPONENT_FILE_CREATED', [
+$values['colors']->getColoredString($values['component_folder'].$values['component_template_file'], 'light_green')
+]) ?>
+
 
     <?php echo OTools::getMessage('TASK_ADD_MODEL_COMPONENT_USE', [
 $values['colors']->getColoredString(strtolower($values['model_name']), 'light_green')
 ]) ?>
 
 
-      <?php echo $values['colors']->getColoredString('$'.'this->getTemplate()->addComponent(\'...\', \'model/'.strtolower($values['model_name']).'\', []);', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('$'.'list_component = new '.$values['list_name']."(['list' => $"."list]);", 'light_green') ?>
+
+      <?php echo $values['colors']->getColoredString('$'.'this->getTemplate()->add(\'list\', $'.'list_component);', 'light_green') ?>
+
+
+      <?php echo $values['colors']->getColoredString('$'.'component = new '.$values['component_name']."(['".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])."]);", 'light_green') ?>
+
+      <?php echo $values['colors']->getColoredString('$'.'this->getTemplate()->add(\''.strtolower($values['model_name']).'\', $'.'component);', 'light_green') ?>
 
 
 <?php endif ?>

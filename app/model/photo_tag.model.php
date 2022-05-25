@@ -9,7 +9,6 @@ class PhotoTag extends OModel {
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$table_name  = 'photo_tag';
 		$model = [
 			'id_photo' => [
 				'type'    => OModel::PK,
@@ -27,6 +26,6 @@ class PhotoTag extends OModel {
 			]
 		];
 
-		parent::load($table_name, $model);
+		parent::load($model);
 	}
 }

@@ -489,7 +489,7 @@ class OPostInstall {
 	}
 
 	/**
-	 * Runs the v6.1.0 update post-installation tasks
+	 * Runs the v7.0.0 update post-installation tasks
 	 *
 	 * @return string
 	 */

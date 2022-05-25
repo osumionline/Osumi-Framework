@@ -1,6 +1,64 @@
 {
-	"version": "7.9.5",
+	"version": "8.0.0",
 	"updates": {
+		"8.0.0": {
+			"message": "8.0.0 - Nueva versión 8.0",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/cli/cli.php",
+				"ofw/vendor/core/ocomponent.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/otemplate.class.php",
+				"ofw/vendor/core/oupdate.class.php",
+				"ofw/vendor/db/omodel.class.php",
+				"ofw/vendor/routing/oaction.class.php",
+				"ofw/vendor/routing/omodule.class.php",
+				"ofw/vendor/routing/omoduleaction.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/vendor/version.json",
+				"ofw/locale/en.po",
+				"ofw/locale/es.po",
+				"ofw/locale/eu.po",
+				"ofw/task/add.task.php",
+				"ofw/task/backupAll.task.php",
+				"ofw/task/backupDB.task.php",
+				"ofw/task/extractor.task.php",
+				"ofw/task/generateModel.task.php",
+				"ofw/task/plugins.task.php",
+				"ofw/task/reset.task.php",
+				"ofw/task/update.task.php",
+				"ofw/task/updateCheck.task.php",
+				"ofw/task/updateUrls.task.php",
+				"ofw/task/version.task.php",
+				"ofw/template/add/createAction.php",
+				"ofw/template/add/createModelComponent.php",
+				"ofw/template/add/createModule.php",
+				"ofw/template/add/createService.php",
+				"ofw/template/add/createTask.php",
+				"ofw/template/plugins/availablePlugins.php",
+				"ofw/template/plugins/installPlugin.php",
+				"ofw/template/plugins/removePlugin.php",
+				"ofw/template/plugins/updateCheck.php",
+				"ofw/template/updateCheck/updateCheck.php"
+			],
+			"deletes": [
+				"ofw/vendor/core/omodule.class.php",
+				"ofw/vendor/routing/oroute.class.php",
+				"ofw/task/add.php",
+				"ofw/task/backupAll.php",
+				"ofw/task/backupDB.php",
+				"ofw/task/extractor.php",
+				"ofw/task/generateModel.php",
+				"ofw/task/plugins.php",
+				"ofw/task/reset.php",
+				"ofw/task/update.php",
+				"ofw/task/updateCheck.php",
+				"ofw/task/updateUrls.php",
+				"ofw/task/version.php"
+			],
+			"postinstall": true
+		},
 		"7.9.5": {
 			"message": "7.9.5 - Corrección en OUpdate",
 			"files": [
@@ -297,143 +355,6 @@
 				"ofw/lib/routing/sfRoute.class.php",
 				"ofw/lib/routing/sfRouteCollection.class.php",
 				"ofw/lib/routing/sfRouting.class.php"
-			],
-			"postinstall": true
-		},
-		"6.6.0": {
-			"message": "6.6.0 - Funciones modelComponent para obtener un JSON de un objeto de modelo",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OTools.php",
-				"ofw/core/OTemplate.php",
-				"ofw/core/OModel.php"
-			]
-		},
-		"6.5.1": {
-			"message": "6.5.1 - Archivo de configuración de entorno no obligatorio",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OConfig.php"
-			]
-		},
-		"6.5.0": {
-			"message": "6.5.0 - Minimizar resultado de llamadas JSON en entornos de producción",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OTools.php",
-				"ofw/core/OTemplate.php"
-			]
-		},
-		"6.4.0": {
-			"message": "6.4.0 - Nueva función getComponent",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OTools.php",
-				"ofw/core/OTemplate.php"
-			]
-		},
-		"6.3.4": {
-			"message": "6.3.4 - Corrección en runTask de OTools",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OTools.php"
-			]
-		},
-		"6.3.3": {
-			"message": "6.3.3 - Corrección en ORequest para enteros con valor cero",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/ORequest.php"
-			]
-		},
-		"6.3.2": {
-			"message": "6.3.2 - Corrección en ORequest para valores nulos en int",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/ORequest.php"
-			]
-		},
-		"6.3.1": {
-			"message": "6.3.1 - Corrección en ORequest para valores booleanos",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/ORequest.php"
-			]
-		},
-		"6.3.0": {
-			"message": "6.3.0 - Datos de sesión en core",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OCore.php",
-				"ofw/core/OModule.php"
-			]
-		},
-		"6.2.0": {
-			"message": "6.2.0 - Funcion getEnvironment en OConfig",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OConfig.php"
-			]
-		},
-		"6.1.0": {
-			"message": "6.1.0 - Nuevos components",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OConfig.php",
-				"ofw/core/OTemplate.php",
-				"ofw.php"
-			],
-			"postinstall": true
-		},
-		"6.0.1": {
-			"message": "6.0.1 - Corrección al crear una nueva acción",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OTools.php"
-			]
-		},
-		"6.0.0": {
-			"message": "6.0.0 - Versión 6.0",
-			"files": [
-				"CHANGELOG.md",
-				"ofw/core/version.json",
-				"ofw/core/OCache.php",
-				"ofw/core/OConfig.php",
-				"ofw/core/OCore.php",
-				"ofw/core/OPlugin.php",
-				"ofw/core/ORequest.php",
-				"ofw/core/OTools.php",
-				"ofw/core/OUpdate.php",
-				"ofw/core/OUrl.php",
-				"ofw/locale/en.php",
-				"ofw/locale/es.php",
-				"ofw/task/add.php",
-				"ofw/task/plugins.php",
-				"ofw/task/updateUrls.php",
-				"ofw/task/version.php",
-				"ofw/template/add/add.php",
-				"ofw/template/add/createAction.php",
-				"ofw/template/add/createModule.php",
-				"ofw/template/add/createService.php",
-				"ofw/template/add/createTask.php",
-				"ofw/template/plugins/installPlugin.php",
-				"ofw/template/plugins/removePlugin.php"
-			],
-			"deletes": [
-				"app/config/plugins.json",
-				"app/config/translations.json"
 			],
 			"postinstall": true
 		}

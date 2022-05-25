@@ -9,7 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_ADD_ACTION_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php add action api getUsers /api/get-users json pdf,users', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw add action api getUsers /api/get-users json pdf,users', 'light_green') ?>
 
 
 <?php endif ?>
@@ -41,15 +41,25 @@
 <?php else: ?>
   <?php echo OTools::getMessage('TASK_ADD_ACTION_NEW_ACTION', [
   	  $values['colors']->getColoredString($values['action_name'], 'light_green'),
-	  $values['colors']->getColoredString($values['module_name'], 'light_green'),
+	    $values['colors']->getColoredString($values['module_name'], 'light_green'),
+    ]) ?>
+
+    <?php echo OTools::getMessage('TASK_ADD_ACTION_NEW_FOLDER', [
+  	  $values['colors']->getColoredString($values['action_folder'], 'light_green')
+    ]) ?>
+
+    <?php echo OTools::getMessage('TASK_ADD_ACTION_NEW_FILE', [
+      $values['colors']->getColoredString($values['action_file'], 'light_green')
     ]) ?>
 
     <?php echo OTools::getMessage('TASK_ADD_ACTION_NEW_TEMPLATE', [
-  	  $values['colors']->getColoredString($values['action_template'], 'light_green')
+      $values['colors']->getColoredString($values['action_template'], 'light_green')
     ]) ?>
 
 
   <?php echo OTools::getMessage('TASK_ADD_ACTION_URLS_UPDATED') ?>
 
+
+        <?php echo $values['colors']->getColoredString('ofw updateUrls', 'light_green') ?>
 
 <?php endif ?>

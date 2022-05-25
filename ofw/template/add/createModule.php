@@ -9,7 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_ADD_MODULE_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php add module api', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw add module api', 'light_green') ?>
 
 
 <?php endif ?>
@@ -31,7 +31,7 @@
     ]) ?>
 
 	  <?php echo OTools::getMessage('TASK_ADD_MODULE_NEW_FOLDER', [
-  	  $values['colors']->getColoredString($values['module_templates'], 'light_green')
+  	  $values['colors']->getColoredString($values['module_actions'], 'light_green')
     ]) ?>
 
 	  <?php echo OTools::getMessage('TASK_ADD_MODULE_NEW_FILE', [

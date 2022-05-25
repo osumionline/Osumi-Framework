@@ -2,7 +2,7 @@
 
 namespace OsumiFramework\App\Filter;
 
-use OsumiFramework\OFW\Plugins\OToken;
+//use OsumiFramework\OFW\Plugins\OToken;
 
 /**
  * Security filter for clients
@@ -15,6 +15,8 @@ use OsumiFramework\OFW\Plugins\OToken;
  */
 function loginFilter(array $params, array $headers): array {
 	global $core;
+	/*
+	// Sample header authentication code
 	$ret = ['status'=>'error', 'id'=>null];
 
 	$tk = new OToken($core->config->getExtra('secret'));
@@ -22,6 +24,8 @@ function loginFilter(array $params, array $headers): array {
 		$ret['status'] = 'ok';
 		$ret['id'] = intval($tk->getParam('id'));
 	}
+	*/
+	$ret = ['status'=>'ok', 'id'=>1];
 
 	return $ret;
 }

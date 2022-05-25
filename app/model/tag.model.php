@@ -9,7 +9,6 @@ class Tag extends OModel {
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$table_name  = 'tag';
 		$model = [
 			'id' => [
 				'type'    => OModel::PK,
@@ -38,7 +37,7 @@ class Tag extends OModel {
 			]
 		];
 
-		parent::load($table_name, $model);
+		parent::load($model);
 	}
 
 	/**

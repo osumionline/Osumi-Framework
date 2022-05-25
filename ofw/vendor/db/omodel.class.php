@@ -3,6 +3,7 @@
 namespace OsumiFramework\OFW\DB;
 
 use OsumiFramework\OFW\Log\Olog;
+use \ReflectionClass;
 
 /**
  * OModel - Base class for the model classes with all the methods necessary to interact with the database.
@@ -46,17 +47,25 @@ class OModel {
 	/**
 	 * Load model information
 	 *
-	 * @param string $table_name Name of the table in the database
-	 *
 	 * @param array $model Array with the fields of the table (type, default value, nullable, comment explaining the field and references to another table fields)
+	 *
+	 * @param string $table_name Optional name of the database table. If ommitted the name of the model field is used as the table name.
 	 *
 	 * @return void
 	 */
-	function load(string $table_name, array $model): void {
+	function load(array $model, string $table_name = null): void {
 		global $core;
 		$this->debug = ($core->config->getLog('level') == 'ALL');
 		if ($this->debug) {
 			$this->l = new OLog('OModel');
+		}
+
+		if (is_null($table_name)) {
+			$rc = new ReflectionClass(get_class($this));
+			$full_path = $rc->getFileName();
+			$data = explode('/', $full_path);
+			$file_name = array_pop($data);
+			$table_name = str_ireplace('.model.php', '', $file_name);
 		}
 
 		$this->db         = new ODB();

@@ -427,11 +427,17 @@ msgstr "El archivo de plantilla "%s" ya existe."
 msgid "TASK_ADD_ACTION_NEW_ACTION"
 msgstr "Nueva acción "%s" creada en el módulo "%s"."
 
+msgid "TASK_ADD_ACTION_NEW_FOLDER"
+msgstr "Nueva carpeta "%s" creada."
+
+msgid "TASK_ADD_ACTION_NEW_FILE"
+msgstr "Nuevo archivo de acción "%s" creado."
+
 msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
 msgstr "Nuevo archivo de plantilla "%s" creado."
 
 msgid "TASK_ADD_ACTION_URLS_UPDATED"
-msgstr "El archivo de cache de URLs ha sido actualizado."
+msgstr "Por favor, ejecuta el siguiente comando para actualizar el archivo de cache de URLs:"
 
 msgid "TASK_ADD_SERVICE_ERROR"
 msgstr "Debes indicar el nombre del servicio que quieres crear, por ejemplo:"

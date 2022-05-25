@@ -9,7 +9,6 @@ class User extends OModel {
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$table_name  = 'user';
 		$model = [
 			'id' => [
 				'type'    => OModel::PK,
@@ -62,6 +61,6 @@ class User extends OModel {
 			]
 		];
 
-		parent::load($table_name, $model);
+		parent::load($model);
 	}
 }

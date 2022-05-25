@@ -280,9 +280,8 @@ class OUpdate {
 			}
 
 			if ($update['postinstall']) {
-				$migrations_folder = $this->base_dir.'ofw/vendor/migrations/';
-				$file = $migrations_folder.'postinstall-'.$version.'.php';
-				$file_url = $this->repo_url.'v'.$version.'/ofw/vendor/migrations/postinstall-'.$version.'.php';
+				$file = 'ofw/vendor/migrations/postinstall-'.$version.'.php';
+				$file_url = $this->repo_url.'v'.$version.'/'.$file;
 				$file_content = $this->getFile($file_url);
 				if (is_null($file_content)) {
 					$ret .= "\n\n".$this->colors->getColoredString("ERROR", "white", "red").": ".OTools::getMessage('TASK_UPDATE_NOT_FOUND', [$file_url])."\n\n";
@@ -290,19 +289,16 @@ class OUpdate {
 					return $ret;
 				}
 
-				if (file_exists($file)) {
-					unlink($file);
+				if (file_exists($this->base_dir.$file)){
+					unlink($this->base_dir.$file);
 				}
-				if (!file_exists($migrations_folder)) {
-					mkdir($migrations_folder);
-				}
-				$result_file = file_put_contents($file, $file_content);
+				$result_file = file_put_contents($this->base_dir.$file, $file_content);
 
-				include $file;
+				include $this->base_dir.$file;
 
 				$postinstall = new OPostInstall();
 				$ret .= $postinstall->run();
-				unlink($file);
+				unlink($this->base_dir.$file);
 			}
 
 			if ($result) {

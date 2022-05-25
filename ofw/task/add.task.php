@@ -38,10 +38,10 @@ class addTask extends OTask {
 			exit;
 		}
 
-		$values['module_name']      = $params[1];
-		$values['module_path']      = $this->getConfig()->getDir('app_module').$values['module_name'];
-		$values['module_templates'] = $values['module_path'].'/template';
-		$values['module_file']      = $values['module_path'].'/'.$values['module_name'].'.php';
+		$values['module_name']    = $params[1];
+		$values['module_path']    = $this->getConfig()->getDir('app_module').$values['module_name'];
+		$values['module_actions'] = $values['module_path'].'/actions';
+		$values['module_file']    = $values['module_path'].'/'.$values['module_name'].'.module.php';
 
 		$add = OTools::addModule($values['module_name']);
 
@@ -77,16 +77,18 @@ class addTask extends OTask {
 			exit;
 		}
 
-		$values['module_name']      = $params[1];
-		$values['module_path']      = $this->getConfig()->getDir('app_module').$values['module_name'];
-		$values['module_templates'] = $values['module_path'].'/template';
-		$values['module_file']      = $values['module_path'].'/'.$values['module_name'].'.php';
-		$values['action_name']      = $params[2];
-		$values['action_url']       = $params[3];
-		$values['action_type']      = isset($params[4]) ? $params[4] : null;
+		$values['module_name']    = $params[1];
+		$values['module_path']    = $this->getConfig()->getDir('app_module').$values['module_name'];
+		$values['module_actions'] = $values['module_path'].'/actions';
+		$values['module_file']    = $values['module_path'].'/'.$values['module_name'].'.module.php';
+		$values['action_name']    = $params[2];
+		$values['action_url']     = $params[3];
+		$values['action_type']    = isset($params[4]) ? $params[4] : null;
 
 		$add = OTools::addAction($values['module_name'], $values['action_name'], $values['action_url'], $values['action_type']);
-		$values['action_template']  = $values['module_templates'].'/'.$values['action_name'].'.'.$add['type'];
+		$values['action_folder']   = $values['module_actions'].'/'.$values['action_name'];
+		$values['action_file']     = $values['action_folder'].'/'.$values['action_name'].'.action.php';
+		$values['action_template'] = $values['action_folder'].'/'.$values['action_name'].'.action.'.$add['type'];
 
 		if ($add['status']=='no-module') {
 			$values['error'] = 2;
@@ -168,7 +170,7 @@ class addTask extends OTask {
 		}
 
 		$values['task_name'] = $params[1];
-		$values['task_file'] = $this->getConfig()->getDir('app_task').$values['task_name'].'.php';
+		$values['task_file'] = $this->getConfig()->getDir('app_task').$values['task_name'].'.task.php';
 
 		$add = OTools::addTask($values['task_name']);
 
@@ -179,7 +181,7 @@ class addTask extends OTask {
 		}
 		if ($add['status']=='ofw-exists') {
 			$values['error'] = 2;
-			$values['task_file'] = $this->getConfig()->getDir('ofw_task').$values['task_name'].'.php';
+			$values['task_file'] = $this->getConfig()->getDir('ofw_task').$values['task_name'].'.task.php';
 			echo OTools::getPartial($path, $values);
 			exit;
 		}
@@ -226,11 +228,15 @@ class addTask extends OTask {
 		$model_name = "\\OsumiFramework\\App\\Model\\".$values['model_name'];
 		$model = new $model_name;
 		$values['model'] = $model->getModel();
-		$values['list_folder'] = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'_list/';
-		$values['list_file'] = strtolower($values['model_name']).'_list.php';
-		$values['component_folder'] = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'/';
-		$values['component_file'] = strtolower($values['model_name']).'.php';
-		
+		$values['list_name']          = OTools::underscoresToCamelCase($values['model_name'], true).'ListComponent';
+		$values['list_folder']        = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'_list/';
+		$values['list_file']          = strtolower($values['model_name']).'_list.component.php';
+		$values['list_template_file'] = strtolower($values['model_name']).'_list.template.php';
+		$values['component_name']          = OTools::underscoresToCamelCase($values['model_name'], true).'Component';
+		$values['component_folder']        = $this->getConfig()->getDir('app_component').'model/'.strtolower($values['model_name']).'/';
+		$values['component_file']          = strtolower($values['model_name']).'.component.php';
+		$values['component_template_file'] = strtolower($values['model_name']).'.template.php';
+
 		$add = OTools::addModelComponent($values);
 		if ($add=='list-folder-exists') {
 			$values['error'] = 3;

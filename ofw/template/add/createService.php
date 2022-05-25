@@ -9,7 +9,7 @@
     <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_ADD_SERVICE_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php add service backend', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw add service backend', 'light_green') ?>
 
 
 <?php endif ?>

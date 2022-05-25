@@ -8,6 +8,8 @@ use \ReflectionObject;
 use OsumiFramework\OFW\Cache\OCache;
 use OsumiFramework\OFW\DB\OModel;
 use OsumiFramework\OFW\Routing\ORoute;
+use OsumiFramework\OFW\Routing\OModule;
+use OsumiFramework\OFW\Routing\OModuleAction;
 
 /**
  * OTools - Utility class with auxiliary tools
@@ -492,6 +494,21 @@ class OTools {
 	}
 
 	/**
+	 * Get the attribute class from a module or an action.
+	 *
+	 * @param $class Class from which information will be taken
+	 *
+	 * @return OModule | OModuleAction Attribute class obtained from the class
+	 */
+	public static function getClassAttributes($class): OModule | OModuleAction {
+		$reflector = new ReflectionClass($class::class);
+		foreach ($reflector->getAttributes() as $attr) {
+			$attributes = $attr->newInstance();
+		}
+		return $attributes;
+	}
+
+	/**
 	 * Get module method's phpDoc information
 	 *
 	 * @param string $inspectclass Module name
@@ -499,66 +516,39 @@ class OTools {
 	 * @return array List of items with module name, method name and associated phpDoc information
 	 */
 	public static function getDocumentation(string $inspectclass): array {
-		$class_name = "\\OsumiFramework\\App\Module\\".$inspectclass;
-		$class = new $class_name;
-		$reflector = new ReflectionClass($class::class);
-		$reflector->getAttributes();
+		global $core;
+		$module_path = $core->config->getDir('app_module').$inspectclass.'/'.$inspectclass.'.module.php';
+		require_once $module_path;
+		$module_name = "\\OsumiFramework\\App\Module\\".$inspectclass."Module";
+		$module = new $module_name;
+		$module_attributes = self::getClassAttributes($module);
 
 		$class_params = [
-			'module' => $inspectclass,
-			'action' => null,
-			'type'   => 'html',
-			'prefix' => null,
-			'filter' => null,
-			'layout' => null,
-			'utils'  => null
+			'module'  => $inspectclass,
+			'type'    => !is_null($module_attributes->getType()) ? $module_attributes->getType() : 'html',
+			'prefix'  => !is_null($module_attributes->getPrefix()) ? $module_attributes->getPrefix() : null
 		];
-
-		foreach ($reflector->getAttributes() as $attr) {
-			if ($attr->getName()==='OsumiFramework\OFW\Routing\ORoute') {
-				$class_route = $attr->newInstance();
-				$class_params['type']   = !is_null($class_route->getType())   ? $class_route->getType()   : $class_params['type'];
-				$class_params['prefix'] = !is_null($class_route->getPrefix()) ? $class_route->getPrefix() : $class_params['prefix'];
-				$class_params['filter'] = !is_null($class_route->getFilter()) ? $class_route->getFilter() : $class_params['filter'];
-				$class_params['layout'] = !is_null($class_route->getLayout()) ? $class_route->getLayout() : $class_params['layout'];
-				$class_params['utils']  = !is_null($class_route->getUtils())  ? $class_route->getUtils()  : $class_params['layout'];
-				break;
-			}
-		}
-
-		$methods = [];
-		foreach ($reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-			if ($method->class==$reflector->getName() && $method->name != '__construct') {
-				 array_push($methods, $method->name);
-			}
-		}
+		$actions = $module_attributes->getActionList();
 
 		$arr = [];
-		foreach($methods as $method) {
-			$ref = new ReflectionMethod("\\OsumiFramework\\App\Module\\".$inspectclass, $method);
-			$method_params = [
+		foreach($actions as $action_name) {
+			$action_path = $core->config->getDir('app_module').$inspectclass.'/actions/'.$action_name.'/'.$action_name.'.action.php';
+			require_once $action_path;
+			$action_class_name = "\\OsumiFramework\\App\\Module\\Action\\".$action_name.'Action';
+			$action = new $action_class_name;
+			$action_attributes = self::getClassAttributes($action);
+
+			$action_params = [
 				'module' => $class_params['module'],
-				'action' => $method,
-				'type'   => $class_params['type'],
+				'action' => $action_name,
+				'type'   => (!is_null($action_attributes->getType())) ? $action_attributes->getType() : $class_params['type'],
 				'prefix' => $class_params['prefix'],
-				'filter' => $class_params['filter'],
-				'layout' => $class_params['layout'],
-				'utils'  => $class_params['utils'],
-				'url'    => null
+				'filter' => $action_attributes->getFilter(),
+				'url'    => $action_attributes->getUrl(),
+				'layout' => $action_attributes->getLayout(),
+				'utils'  => $action_attributes->getUtils()
 			];
-			foreach ($ref->getAttributes() as $attr) {
-				if ($attr->getName()==='OsumiFramework\OFW\Routing\ORoute') {
-					$method_route = $attr->newInstance();
-					$method_params['url']    = !is_null($method_route->getUrl())    ? $method_route->getUrl()    : $method_params['url'];
-					$method_params['type']   = !is_null($method_route->getType())   ? $method_route->getType()   : $method_params['type'];
-					$method_params['prefix'] = !is_null($method_route->getPrefix()) ? $method_route->getPrefix() : $method_params['prefix'];
-					$method_params['filter'] = !is_null($method_route->getFilter()) ? $method_route->getFilter() : $method_params['filter'];
-					$method_params['layout'] = !is_null($method_route->getLayout()) ? $method_route->getLayout() : $method_params['layout'];
-					$method_params['utils']  = !is_null($method_route->getUtils())  ? $method_route->getUtils()  : $method_params['utils'];
-					break;
-				}
-			}
-			array_push($arr, $method_params);
+			array_push($arr, $action_params);
 		}
 
 		return $arr;
@@ -577,7 +567,7 @@ class OTools {
 				while (false !== ($entry = readdir($model))) {
 					if ($entry != '.' && $entry != '..') {
 						array_push($modules, $entry);
-						require_once $core->config->getDir('app_module').$entry.'/'.$entry.'.php';
+						require_once $core->config->getDir('app_module').$entry.'/'.$entry.'.module.php';
 					}
 				}
 				closedir($model);
@@ -586,13 +576,13 @@ class OTools {
 
 		$list = [];
 		foreach ($modules as $module) {
-			$methods = self::getDocumentation($module);
-			foreach ($methods as $method) {
-				if (!is_null($method['prefix'])) {
-					$method['url'] = $method['prefix'].$method['url'];
+			$actions = self::getDocumentation($module);
+			foreach ($actions as $action) {
+				if (!is_null($action['prefix'])) {
+					$action['url'] = $action['prefix'].$action['url'];
 				}
-				unset($method['prefix']);
-				array_push($list, $method);
+				unset($action['prefix']);
+				array_push($list, $action);
 			}
 		}
 
@@ -609,21 +599,26 @@ class OTools {
 	public static function addModule(string $name): array {
 		global $core;
 
-		$module_path      = $core->config->getDir('app_module').$name;
-		$module_templates = $module_path.'/template';
-		$module_file      = $module_path.'/'.$name.'.php';
+		$module_path    = $core->config->getDir('app_module').$name;
+		$module_actions = $module_path.'/actions';
+		$module_file    = $module_path.'/'.$name.'.module.php';
 
 		if (file_exists($module_path) || file_exists($module_file)) {
 			return ['status' => 'exists', 'name' => $name];
 		}
 		mkdir($module_path);
-		mkdir($module_templates);
+		mkdir($module_actions);
 		$str_module = "<"."?php declare(strict_types=1);\n\n";
 		$str_module .= "namespace OsumiFramework\App\Module;\n\n";
-		$str_module .= "use OsumiFramework\OFW\Core\OModule;\n";
-		$str_module .= "use OsumiFramework\OFW\Web\ORequest;\n";
-		$str_module .= "use OsumiFramework\OFW\Routing\ORoute;\n\n";
-		$str_module .= "class ".$name." extends OModule {}";
+		$str_module .= "use OsumiFramework\OFW\Routing\OModule;\n\n";
+		$str_module .= "/**\n";
+		$str_module .= " * New ".$name." module\n";
+		$str_module .= " */\n";
+		$str_module .= "#[OModule(\n";
+		$str_module .= "	type: 'html',\n";
+		$str_module .= "	actions: ''\n";
+		$str_module .= ")]\n";
+		$str_module .= "class ".$name."Module {}";
 		file_put_contents($module_file, $str_module);
 
 		return ['status' => 'ok', 'name' => $name];
@@ -649,10 +644,10 @@ class OTools {
 	public static function addAction(string $module, string $action, string $url, string $type=null, string $layout=null, string $utils=null): array {
 		global $core;
 
-		$module_path      = $core->config->getDir('app_module').$module;
-		$module_templates = $module_path.'/template';
-		$module_file      = $module_path.'/'.$module.'.php';
-		$status           = [
+		$module_path    = $core->config->getDir('app_module').$module;
+		$module_actions = $module_path.'/actions';
+		$module_file    = $module_path.'/'.$module.'.module.php';
+		$status         = [
 			'status' => 'ok',
 			'module' => $module,
 			'action' => $action,
@@ -667,33 +662,35 @@ class OTools {
 			return $status;
 		}
 		$module_content = file_get_contents($module_file);
-		if (stripos($module_content, 'function '.$action.'(')!==false) {
+		if (preg_match("/actions: '(.*?)".$action."(.*?)'/", $module_content) == 1) {
 			$status['status'] = 'action-exists';
 			return $status;
 		}
 
 		$module_type = false;
 		require_once $module_file;
-		$class_doc = self::getDocumentation($module);
-		if (!is_null($class_doc)) {
-			$class_params = [
-				'module' => $module,
-				'action' => null,
-				'type'   => $type,
-				'prefix' => null,
-				'filter' => null,
-				'layout' => null,
-				'utils'  => null
-			];
-			if (!is_null($class_params['prefix'])) {
-				if (stripos($url, $class_params['prefix'])!==false) {
-					$url = str_ireplace($class_params['prefix'], '', $url);
-				}
+
+		$module_name = "\\OsumiFramework\\App\\Module\\".$module.'Module';
+		$module_class = new $module_name;
+		$module_attributes = self::getClassAttributes($module_class);
+
+		$class_params = [
+			'module' => $module,
+			'action' => null,
+			'type'   => $type,
+			'prefix' => null,
+			'filter' => null,
+			'layout' => null,
+			'utils'  => null
+		];
+		if (!is_null($module_attributes->getPrefix())) {
+			if (stripos($url, $module_attributes->getPrefix())!==false) {
+				$url = str_ireplace($module_attributes->getPrefix(), '', $url);
 			}
-			if (is_null($type) && !is_null($class_params['type'])) {
-				$type = $class_params['type'];
-				$module_type = true;
-			}
+		}
+		if (is_null($type) && !is_null($module_attributes->getType())) {
+			$type = $class_params['type'];
+			$module_type = true;
 		}
 		if (is_null($type)) {
 			$type = 'html';
@@ -705,41 +702,64 @@ class OTools {
 		$status['layout'] = $layout;
 		$status['utils']  = $utils;
 
-		$action_template  = $module_templates.'/'.$action.'.'.$type;
+		$action_folder = $module_actions.'/'.$action;
+		if (file_exists($action_folder)) {
+			$status['status'] = 'action-exists';
+			return $status;
+		}
+		mkdir($action_folder);
+		$action_file   = $action_folder.'/'.$action.'.action.php';
+		if (file_exists($action_file)) {
+			$status['status'] = 'action-exists';
+			return $status;
+		}
+		$action_template  = $action_folder.'/'.$action.'.action.'.$type;
 		if (file_exists($action_template)) {
 			$status['status'] = 'template-exists';
 			return $status;
 		}
 
-		$module_content = substr($module_content, 0, -1);
-
-		$str_action = "\n	/**\n";
-		$str_action .= "	 * ".self::getMessage('TASK_ADD_ACTION_MESSAGE', [$action])."\n";
-		$str_action .= "	 *\n";
-		$str_action .= "	 * @param ORequest $"."req Request object with method, headers, parameters and filters used\n";
-		$str_action .= "	 * @return void\n";
-		$str_action .= "	 */\n";
-		$str_action .= "	#[ORoute('".$url."'";
-		if (!$module_type) {
-			$str_action .= ", type: '".$type."'";
+		// Add action to module
+		if (stripos($module_content, "actions: ''") !== false) {
+			$module_content = preg_replace("/actions: ''/i", "actions: '".$action."'", $module_content);
 		}
-		if (!is_null($layout) && $layout != 'default') {
-			$str_action .= ", layout: '".$layout."'";
+		else {
+			$module_content = preg_replace("/actions: '(.*?)'/i", "actions: '${1}, ".$action."'", $module_content);
 		}
-		if (!is_null($utils)) {
-			$str_action .= ", utils: '".$utils."'";
-		}
-		$str_action .= ")]\n";
-		$str_action .= "	public function ".$action."(ORequest $"."req): void {}\n";
-		$str_action .= "}";
 
-		file_put_contents($module_file, $module_content.$str_action);
-
+		// New action's content
 		$str_template = self::getMessage('TASK_ADD_ACTION_TEMPLATE', [$action]);
 
-		file_put_contents($action_template, $str_template);
+		$action_content = "<"."?php declare(strict_types=1);\n\n";
+		$action_content .= "namespace OsumiFramework\App\Module\Action;\n\n";
+		$action_content .= "use OsumiFramework\OFW\Routing\OModuleAction;\n";
+		$action_content .= "use OsumiFramework\OFW\Routing\OAction;\n";
+		$action_content .= "use OsumiFramework\OFW\Web\ORequest;\n\n";
+		$action_content .= "#[OModuleAction(\n";
+		$action_content .= "	url: '".$url."'";
+		if (!$module_type) {
+			$action_content .= ",\n	type: '".$type."'";
+		}
+		if (!is_null($layout) && $layout != 'default') {
+			$action_content .= ",\n	layout: '".$layout."'";
+		}
+		if (!is_null($utils)) {
+			$action_content .= ",\n	utils: '".$utils."'";
+		}
+		$action_content .= "\n)]\n";
+		$action_content .= "class ".$action."Action extends OAction {\n";
+		$action_content .= "	/**\n";
+		$action_content .= "	 * ".$str_template."\n";
+		$action_content .= "	 *\n";
+		$action_content .= "	 * @param ORequest $"."req Request object with method, headers, parameters and filters used\n";
+		$action_content .= "	 * @return void\n";
+		$action_content .= "	 */\n";
+		$action_content .= "	public function run(ORequest $"."req):void {}\n";
+		$action_content .= "}";
 
-		self::updateUrls(true);
+		file_put_contents($module_file,     $module_content);
+		file_put_contents($action_file,     $action_content);
+		file_put_contents($action_template, $str_template);
 
 		return $status;
 	}
@@ -754,7 +774,7 @@ class OTools {
 	public static function addService(string $name): array {
 		global $core;
 
-		$service_file = $core->config->getDir('app_service').$name.'.php';
+		$service_file = $core->config->getDir('app_service').$name.'.service.php';
 
 		if (file_exists($service_file)) {
 			return ['status' => 'exists', 'name' => $name];
@@ -762,7 +782,7 @@ class OTools {
 		$str_service = "<"."?php declare(strict_types=1);\n\n";
 		$str_service .= "namespace OsumiFramework\App\Service;\n\n";
 		$str_service .= "use OsumiFramework\OFW\Core\OService;\n\n";
-		$str_service .= "class ".$name." extends OService {\n";
+		$str_service .= "class ".$name."Service extends OService {\n";
 		$str_service .= "	function __construct() {\n";
 		$str_service .= "		$"."this->loadService();\n";
 		$str_service .= "	}\n";
@@ -782,8 +802,8 @@ class OTools {
 	public static function addTask(string $name): array {
 		global $core;
 
-		$task_file = $core->config->getDir('app_task').$name.'.php';
-		$ofw_task_file = $core->config->getDir('ofw_task').$name.'.php';
+		$task_file = $core->config->getDir('app_task').$name.'.task.php';
+		$ofw_task_file = $core->config->getDir('ofw_task').$name.'.task.php';
 
 		if (file_exists($task_file)) {
 			return ['status' => 'exists', 'name' => $name];
@@ -791,12 +811,15 @@ class OTools {
 		if (file_exists($ofw_task_file)) {
 			return ['status' => 'ofw-exists', 'name' => $name];
 		}
+
+		$str_message = str_ireplace('"', '\"', self::getMessage('TASK_ADD_TASK_MESSAGE', [$name]));
+
 		$str_task = "<"."?php declare(strict_types=1);\n\n";
 		$str_task .= "namespace OsumiFramework\App\Task;\n\n";
 		$str_task .= "use OsumiFramework\OFW\Core\OTask;\n\n";
 		$str_task .= "class ".$name."Task extends OTask {\n";
 		$str_task .= "	public function __toString() {\n";
-		$str_task .= "		return \"".$name.": ".self::getMessage('TASK_ADD_TASK_MESSAGE', [$name])."\";\n";
+		$str_task .= "		return \"".$name.": ".$str_message."\";\n";
 		$str_task .= "	}\n\n";
 		$str_task .= "	public function run(array $"."options=[]): void {}\n";
 		$str_task .= "}";
@@ -819,10 +842,16 @@ class OTools {
 		if (file_exists($values['list_folder'].$values['list_file'])) {
 			return 'list-file-exists';
 		}
+		if (file_exists($values['list_folder'].$values['list_template_file'])) {
+			return 'list-file-exists';
+		}
 		if (file_exists($values['component_folder'])) {
 			return 'component-folder-exists';
 		}
 		if (file_exists($values['component_folder'].$values['component_file'])) {
+			return 'component-file-exists';
+		}
+		if (file_exists($values['component_folder'].$values['component_template_file'])) {
 			return 'component-file-exists';
 		}
 		if (!mkdir($values['list_folder'], 0755, true)) {
@@ -837,67 +866,85 @@ class OTools {
 		$date_fields      = [OModel::CREATED, OModel::UPDATED, OModel::DATE];
 		$cont             = 0;
 
-		$list_content = "<"."?php\n";
-		$list_content .= "use OsumiFramework\OFW\Tools\OTools;\n\n";
-		$list_content .= "foreach ($"."values['list'] as $"."i => $".strtolower($values['model_name']).") {\n";
-		$list_content .= "	echo OTools::getComponent('model/".strtolower($values['model_name'])."', [ '".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])." ]);\n";
-		$list_content .= "	if ($"."i<count($"."values['list'])-1) {\n";
-		$list_content .= "		echo \",\\n\";\n";
-		$list_content .= "	}\n";
-		$list_content .= "}\n";
+		$component_name = self::underscoresToCamelCase($values['model_name'], true).'Component';
 
-		if (file_put_contents($values['list_folder'].$values['list_file'], $list_content)===false) {
+		$list_component_content = "<"."?php declare(strict_types=1);\n\n";
+		$list_component_content .= "namespace OsumiFramework\App\Component;\n\n";
+		$list_component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
+		$list_component_content .= "class ".$values['list_name']." extends OComponent {}";
+
+		$list_template_content = "<"."?php\n";
+		$list_template_content .= "use OsumiFramework\\App\\Component\\".$component_name.";\n\n";
+		$list_template_content .= "foreach ($"."values['list'] as $"."i => $".strtolower($values['model_name']).") {\n";
+		$list_template_content .= "  $"."component = new ".$values['component_name']."([ '".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])." ]);\n";
+		$list_template_content .= "	echo strval($"."component);\n";
+		$list_template_content .= "	if ($"."i<count($"."values['list'])-1) {\n";
+		$list_template_content .= "		echo \",\\n\";\n";
+		$list_template_content .= "	}\n";
+		$list_template_content .= "}\n";
+
+		if (file_put_contents($values['list_folder'].$values['list_file'], $list_component_content)===false) {
+			return 'list-file-cant-create';
+		}
+		if (file_put_contents($values['list_folder'].$values['list_template_file'], $list_template_content)===false) {
 			return 'list-file-cant-create';
 		}
 
-		$content = '';
-		$content .= "<"."?php if (is_null($"."values['".strtolower($values['model_name'])."'])): ?>\n";
-		$content .= "null\n";
-		$content .= "<"."?php else: ?>\n";
-		$content .= "{\n";
+		$component_content = "<"."?php declare(strict_types=1);\n\n";
+		$component_content .= "namespace OsumiFramework\App\Component;\n\n";
+		$component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
+		$component_content .= "class ".$values['component_name']." extends OComponent {}";
+
+		$template_content = "<"."?php if (is_null($"."values['".strtolower($values['model_name'])."'])): ?>\n";
+		$template_content .= "null\n";
+		$template_content .= "<"."?php else: ?>\n";
+		$template_content .= "{\n";
 		foreach ($values['model'] as $field_name => $field) {
 			$cont++;
-			$content .= "	\"".OTools::underscoresToCamelCase($field_name)."\": ";
+			$template_content .= "	\"".OTools::underscoresToCamelCase($field_name)."\": ";
 			if (in_array($field['type'], $text_fields) || in_array($field['type'], $date_fields)) {
-				$content .= "\"";
+				$template_content .= "\"";
 			}
 
 			if ($field['type']===OModel::BOOL) {
-				$content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ? 'true' : 'false' ?>";
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ? 'true' : 'false' ?>";
 			}
 			elseif ($field['nullable'] && in_array($field['type'], $date_fields)) {
-				$content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
 			}
 			elseif (!$field['nullable'] && in_array($field['type'], $date_fields)) {
-				$content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
 			}
 			elseif ($field['nullable'] && !in_array($field['type'], $urlencode_fields)) {
-				$content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
 			}
 			elseif (!$field['nullable'] && !in_array($field['type'], $urlencode_fields)) {
-				$content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
 			}
 			elseif ($field['nullable'] && in_array($field['type'], $urlencode_fields)) {
-				$content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
 			}
 			elseif (!$field['nullable'] && in_array($field['type'], $urlencode_fields)) {
-				$content .= "<"."?php echo urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
+				$template_content .= "<"."?php echo urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
 			}
 
 			if (in_array($field['type'], $text_fields) || in_array($field['type'], $date_fields)) {
-				$content .= "\"";
+				$template_content .= "\"";
 			}
 
 			if ($cont<count($values['model'])) {
-				$content .= ",";
+				$template_content .= ",";
 			}
 
-			$content .= "\n";
+			$template_content .= "\n";
 		}
-		$content .= "}\n";
-		$content .= "<"."?php endif ?>";
+		$template_content .= "}\n";
+		$template_content .= "<"."?php endif ?>";
 
-		if (file_put_contents($values['component_folder'].$values['component_file'], $content)===false) {
+		if (file_put_contents($values['component_folder'].$values['component_file'], $component_content)===false) {
+			return 'component-file-cant-create';
+		}
+		if (file_put_contents($values['component_folder'].$values['component_template_file'], $template_content)===false) {
 			return 'component-file-cant-create';
 		}
 
@@ -1001,7 +1048,7 @@ class OTools {
 	 */
 	public static function runTask(string $task_name, array $params=[]): bool {
 		global $core;
-		$task_file = $core->config->getDir('app_task').$task_name.'.php';
+		$task_file = $core->config->getDir('app_task').$task_name.'.task.php';
 		if (!file_exists($task_file)) {
 			return false;
 		}
@@ -1032,7 +1079,7 @@ class OTools {
 			'status' => 'ok',
 			'return' => ''
 		];
-		$task_file = $core->config->getDir('ofw_task').$task_name.'.php';
+		$task_file = $core->config->getDir('ofw_task').$task_name.'.task.php';
 		if (!file_exists($task_file)) {
 			$ret['status'] = 'error';
 			return $ret;
@@ -1076,13 +1123,12 @@ class OTools {
 		global $core;
 		$version_file = $core->config->getDir('ofw_vendor').'version.json';
 		$version = json_decode( file_get_contents($version_file), true );
-
 		$current_version = $version['version'];
 		return $version['updates'][$current_version]['message'];
 	}
 
 	/**
-	 * Convert underscore notation to camel case (eg id_user -> idUser)
+	 * Convert underscore notation (snake case) to camel case (eg id_user -> idUser)
 	 *
 	 * @param string $string Text string to convert
 	 *
@@ -1098,5 +1144,18 @@ class OTools {
 		}
 
 		return $str;
+	}
+
+	/**
+	 * Convert camel case (idUser) or Pascal case (IdUser) notation to snake case (eg IdUser -> id_user)
+	 *
+	 * @param string $string Text string to convert
+	 *
+	 * @param stringn $glue Character to use between words, defaults to underscore (_)
+	 *
+	 * @return string Converted text string
+	 */
+	public static function toSnakeCase(string $str, string $glue = '_'): string {
+		return ltrim(preg_replace_callback('/[A-Z]/', fn($matches) => $glue . strtolower($matches[0]), $str), $glue);
 	}
 }

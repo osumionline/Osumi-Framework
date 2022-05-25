@@ -427,11 +427,17 @@ msgstr ""%s" txantiloi-fitxategia jada badago."
 msgid "TASK_ADD_ACTION_NEW_ACTION"
 msgstr ""%s" ekintza berria "%s" moduluan sortua."
 
+msgid "TASK_ADD_ACTION_NEW_FOLDER"
+msgstr ""%s" karpeta berria sortua."
+
+msgid "TASK_ADD_ACTION_NEW_FILE"
+msgstr ""%s" ekintza-fitxategi berria sortua."
+
 msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
 msgstr ""%s" txantiloi-fitxategi berria sortua."
 
 msgid "TASK_ADD_ACTION_URLS_UPDATED"
-msgstr "URLen cache-fitxategia eguneratua izan da."
+msgstr "Mesedez, idatzi hurrengoa URLen cache-fitxategia eguneratzeko:"
 
 msgid "TASK_ADD_SERVICE_ERROR"
 msgstr "Sortu nahi duzun zerbitzuaren izena adierazi behar duzu, adibidez:"

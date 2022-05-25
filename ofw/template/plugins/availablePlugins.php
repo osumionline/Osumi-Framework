@@ -14,16 +14,14 @@
 
   <?php echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_INSTALL') ?>
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins install ('.OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').')', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins install ('.OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').')', 'light_green') ?>
 
 
   <?php echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_LIST') ?>
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins list', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins list', 'light_green') ?>
 
 
   <?php echo OTools::getMessage('TASK_PLUGINS_AVAILABLE_DELETE') ?>
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins remove ('.OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').')', 'light_green') ?>
-
-
+      <?php echo $values['colors']->getColoredString('ofw plugins remove ('.OTools::getMessage('TASK_PLUGINS_AVAILABLE_NAME').')', 'light_green') ?>

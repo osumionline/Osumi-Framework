@@ -32,8 +32,7 @@
 
   <?php echo OTools::getMessage('TASK_PLUGINS_UPDATE_CHECK_UPDATE') ?>
 
-    <?php echo $values['colors']->getColoredString('php ofw.php plugins update', 'light_green') ?>
+    <?php echo $values['colors']->getColoredString('ofw plugins update', 'light_green') ?>
 
 <?php endif ?>
 <?php endif ?>
-

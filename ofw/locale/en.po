@@ -427,11 +427,17 @@ msgstr "Template file "%s" already exists."
 msgid "TASK_ADD_ACTION_NEW_ACTION"
 msgstr "New action "%s" created on module "%s"."
 
+msgid "TASK_ADD_ACTION_NEW_FOLDER"
+msgstr "New folder "%s" created."
+
+msgid "TASK_ADD_ACTION_NEW_FILE"
+msgstr "New action file "%s" created."
+
 msgid "TASK_ADD_ACTION_NEW_TEMPLATE"
 msgstr "New template file "%s" created."
 
 msgid "TASK_ADD_ACTION_URLS_UPDATED"
-msgstr "URLs cache file has been updated."
+msgstr "Please run the following command to update URLs cache file:"
 
 msgid "TASK_ADD_SERVICE_ERROR"
 msgstr "You must indicate the name of the service you want to create, for example:"

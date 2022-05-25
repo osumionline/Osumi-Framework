@@ -9,7 +9,7 @@
   <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_ERROR') ?>
 
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins remove email', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins remove email', 'light_green') ?>
 <?php endif ?>
 <?php if ($values['error']==2): ?>
   <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_NOT_INSTALLED') ?>
@@ -17,7 +17,7 @@
 
   <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_CHECK_LIST') ?>
 
-      <?php echo $values['colors']->getColoredString('php ofw.php plugins list', 'light_green') ?>
+      <?php echo $values['colors']->getColoredString('ofw plugins list', 'light_green') ?>
 <?php endif ?>
 <?php if ($values['error']==3): ?>
   <?php echo $values['colors']->getColoredString('ERROR', 'red') ?>: <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_FOLDER_NOT_FOUND', [$values['plugin_path']]) ?>
@@ -52,5 +52,3 @@
 
   <?php echo OTools::getMessage('TASK_PLUGINS_REMOVE_DONE') ?>
 <?php endif ?>
-
-

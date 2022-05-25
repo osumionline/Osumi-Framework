@@ -129,13 +129,13 @@ class OTemplate {
 		if (is_null($layout)) {
 			$layout = 'default';
 		}
-		$this->setLayout( file_get_contents($this->layout_dir.$layout.'.php') );
+		$this->setLayout( file_get_contents($this->layout_dir.$layout.'.layout.php') );
 	}
 
 	/**
 	 * Set array of CSS files to be used in the template
 	 *
-	 * @param string[] $cl Array of CSS file names to be included
+	 * @param array $cl Array of CSS file names to be included
 	 *
 	 * @return void
 	 */
@@ -150,7 +150,7 @@ class OTemplate {
 	/**
 	 * Set array of external CSS file URLs to be used in the application (eg in a CDN)
 	 *
-	 * @param string[] $ecl Array of external CSS file URLs to be included
+	 * @param array $ecl Array of external CSS file URLs to be included
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class OTemplate {
 	/**
 	 * Set array of JS files to be used in the application
 	 *
-	 * @param string[] $jl Array of JS file names to be included
+	 * @param array $jl Array of JS file names to be included
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class OTemplate {
 	/**
 	 * Set array of external JS file URLs to be used in the application (eg in a CDN)
 	 *
-	 * @param string[] $ejl Array of external JS file URLs to be included
+	 * @param array $ejl Array of external JS file URLs to be included
 	 *
 	 * @return void
 	 */
@@ -211,14 +211,35 @@ class OTemplate {
 	 *
 	 * @param string $key Key value in the template that will get substituted (eg {{title}})
 	 *
-	 * @param string|int|float $value Value to be substituted
+	 * @param string|object $value Value to be substituted
 	 *
 	 * @param string|int $extra Optional information about the value ('nourlencode' in json files, cut strings if too long...)
 	 *
 	 * @return void
 	 */
 	public function add(string $key, $value, $extra=null): void {
-		$temp = ['name' => $key, 'value' => $value];
+		$temp = ['name' => $key, 'value' => strval($value)];
+		if (is_object($value) && str_starts_with(get_class($value), 'OsumiFramework\App\Component')) {
+			if (property_exists($value, 'css')) {
+				foreach ($value->css as $item) {
+					$css_path = $value->getPath().$item.'.css';
+					if (file_exists($css_path)) {
+						$this->addCss($css_path, true);
+					}
+				}
+			}
+			if (property_exists($value, 'js')) {
+				foreach ($value->js as $item) {
+					$js_path = $value->getPath().$item.'.js';
+					if (file_exists($js_path)) {
+						$this->addJs($js_path, true);
+					}
+				}
+			}
+			if (!is_null($value->getValue('extra'))) {
+				$extra = $value->getValue('extra');
+			}
+		}
 		if (!is_null($extra)) {
 			$temp['extra'] = $extra;
 		}
@@ -319,7 +340,7 @@ class OTemplate {
 		}
 		$this->add($where, $output, array_key_exists('extra', $values) ? $values['extra'] : null);
 	}
-	
+
 	/**
 	 * Add a model object's JSON representation into a substitution key on the template
 	 *
@@ -371,7 +392,7 @@ class OTemplate {
 	public function process(): string {
 		global $core;
 		$this->log('process - Type: '.$this->type);
-		$this->template     = file_get_contents($this->modules_dir.$this->module.'/template/'.$this->action.'.'.$this->type);
+		$this->template = file_get_contents($this->modules_dir.$this->module.'/actions/'.$this->action.'/'.$this->action.'.action.'.$this->type);
 		foreach ($core->config->getCssList() as $css) {
 			$this->addCss($css);
 		}
@@ -379,15 +400,20 @@ class OTemplate {
 		foreach ($core->config->getJsList() as $js) {
 			$this->addJs($js);
 		}
-		$this->ext_js_list  = array_merge($this->ext_js_list, $core->config->getExtJsList());
+		$this->ext_js_list = array_merge($this->ext_js_list, $core->config->getExtJsList());
 
 		$layout   = $this->layout;
 		$str_body = $this->template;
 
 		// If type is html, add 'title', 'css' and 'js'
 		if ($this->type==='html') {
+			// Add html lang, if present
+			if (stripos($layout, '<html lang="') !== false && !empty($this->lang)) {
+				$layout = preg_replace('/<html lang="(.*?)"/i', '<html lang="'.$this->lang.'"', $layout);
+			}
+
 			// Add title
-			$layout = str_replace(['{{title}}'], $this->title, $layout);
+			$layout = preg_replace('/<title>(.*?)<\/title>/i', '<title>'.$this->title.'</title>', $layout);
 
 			// Add css
 			$str_css = '';
@@ -409,7 +435,7 @@ class OTemplate {
 				$str_css .= '<link rel="stylesheet" media="screen" type="text/css" href="'.$ext_css_item.'">'."\n";
 			}
 
-			$layout = str_replace(['{{css}}'], $str_css, $layout);
+			$layout = str_replace(['</head>'], $str_css.'</head>', $layout);
 
 			// Add js
 			$str_js = '';
@@ -431,7 +457,7 @@ class OTemplate {
 				$str_js .= '<script src="'.$ext_js_item.'"></script>'."\n";
 			}
 
-			$layout = str_replace(['{{js}}'], $str_js, $layout);
+			$layout = str_replace(['</head>'], $str_js.'</head>', $layout);
 		}
 
 		// Add parameters to the body
