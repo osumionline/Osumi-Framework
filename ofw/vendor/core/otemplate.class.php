@@ -236,8 +236,8 @@ class OTemplate {
 					}
 				}
 			}
-			if (!is_null($value->getValue('extra'))) {
-				$extra = $value->getValue('extra');
+			if (!$value->getUrlEncode()) {
+				$extra = 'nourlencode';
 			}
 		}
 		if (!is_null($extra)) {

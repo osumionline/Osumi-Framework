@@ -1,6 +1,80 @@
 CHANGELOG
 =========
 
+## `8.0.1` (14/05/2022)
+
+Primera ronda de correcciones y cambios tras usar la nueva versión 8.0 en producción.
+
+### Componentes
+
+Ahora los componentes tienen por defecto la propiedad `nourlencode`. Ya que la mayoría de veces los componentes se utilizan para renderizar resultados parciales o para mostrar componentes reutilizables, no tenía sentido que siguiesen siendo `urlencode-ados`.
+
+Aun así los componentes tienen ahora un método para forzar el `urlencode-ado`:
+
+```php
+$user_list = new UserListComponent(['list' => []]);
+$user_list->setURLEncode(true);
+```
+
+Ahora los componentes también cuentan con un método `setValue` que permite actualizar un valor añadido al inicializar el componente, o añadir uno nuevo:
+
+```php
+$user_list->setValue('list', $new_list);
+```
+
+### Acciones
+
+Con la versión 8.0 se introdujo el decorador `OModuleAction` con el que configurar las acciones. Este decorador aceptaba varios valores, listas, como cadenas de texto de valores separados por comas.
+
+Esto resultaba muy ineficiente ya que cada llamada parseaba este valor para luego dividirlo en un array de valores individuales. Más código que mantener, código que no cuesta nada añadirlo y pocas veces se modificará una vez se empiece a trabajar en la acción...
+
+```php
+// Antes
+#[OModuleAction(
+	url: '/getUsers',
+	services: 'user, backend'
+)]
+class getUsersAction extends OAction {
+...
+}
+
+// Ahora
+#[OModuleAction(
+	url: '/getUsers',
+	services: ['user', 'backend']
+)]
+class getUsersAction extends OAction {
+...
+}
+```
+
+### Gestión de errores
+
+A partir de esta versión, el propio framework se encarga de gestionar los posibles errores que se produzcan en tiempo de ejecución. Tanto errores de programación (errores de sintaxis, punto-comas que faltan, corchetes sin cerrar...)  como errores debidos a la programación (accesos a bases de datos, divisiones por cero...).
+
+El framework muestra una página con información del lugar dónde se produjo el error (archivo y línea) y la pila de trazas que han llevado a ese error.
+
+### Métodos para cargar servicios y componentes
+
+La versión 8.0 introdujo la filosofía de "cargar exclusivamente lo mínimo necesario". Para eso, el decorador `OModuleAction` cuenta con parámetros para cargar los servicios y componentes que se vayan a usar.
+
+Pero los servicios, tareas o clases de modelo no cuentan con este mecanismo. Esto hacía que no se pudiese llamar de un servicio a otro o que no se pudiesen usar componentes en un servicio.
+
+Para solucionar esto se han incluido tres métodos estáticos nuevos en la clase `OTools`:
+
+```php
+OTools::loadService('nombre_de_servicio');
+// Carga el servicio app/services/nombre_de_servicio.service.php
+OTools::loadComponent('nombre_de_componente');
+// Carga el componente app/component/nombre_de_componente/nombre_de_componente.component.php
+OTools::loadComponents(['componente-1', 'componente-2', ...]);
+// Similar al anterior pero para cargar una lista de componentes, en vez de hacer llamadas individuales.
+```
+
+### Correcciones
+
+Esta versión cuenta con unas cuantas correcciones de errores encontrados una vez usado en producción.
+
 ## `8.0.0` (25/05/2022)
 
 ¡Nueva versión 8.0!

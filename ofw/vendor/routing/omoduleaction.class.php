@@ -6,36 +6,30 @@ use Attribute;
 
 #[Attribute]
 class OModuleAction {
-	private ?string $url             = null;
-	private ?string $services        = null;
-	private array   $service_list    = [];
-	private ?string $components      = null;
-	private array   $component_list  = [];
-	private ?string $filter          = null;
-	private ?string $layout          = null;
-	private ?string $type            = null;
-	private ?string $inline_css      = null;
-	private array   $inline_css_list = [];
-	private ?string $css             = null;
-	private array   $css_list        = [];
-	private ?string $inline_js       = null;
-	private array   $inline_js_list  = [];
-	private ?string $js              = null;
-	private array   $js_list         = [];
-	private ?string $utils           = null;
-	private array   $util_list       = [];
+	private ?string $url      = null;
+	private array $services   = [];
+	private array $components = [];
+	private ?string $filter   = null;
+	private ?string $layout   = null;
+	private ?string $type     = null;
+	private array $inline_css = [];
+	private array $css        = [];
+	private array $inline_js  = [];
+	private array $js         = [];
+	private array $utils      = [];
 
 	function __construct(
-		?string $url        = null,
-		?string $services   = null,
-		?string $components = null,
-		?string $filter     = null,
-		?string $layout     = null,
-		?string $type       = null,
-		?string $inlineCSS  = null,
-		?string $css        = null,
-		?string $inlineJS   = null,
-		?string $js         = null
+		?string $url      = null,
+		array $services   = [],
+		array $components = [],
+		?string $filter   = null,
+		?string $layout   = null,
+		?string $type     = null,
+		array $inlineCSS  = [],
+		array $css        = [],
+		array $inlineJS   = [],
+		array $js         = [],
+		array $utils      = []
 	) {
 		$this->url        = $url;
 		$this->services   = $services;
@@ -47,37 +41,7 @@ class OModuleAction {
 		$this->css        = $css;
 		$this->inline_js  = $inlineJS;
 		$this->js         = $js;
-
-		if (!is_null($this->services)) {
-			foreach (explode(',', $this->services) as $service) {
-				array_push($this->service_list, trim($service));
-			}
-		}
-		if (!is_null($this->components)) {
-			foreach (explode(',', $this->components) as $component) {
-				array_push($this->component_list, trim($component));
-			}
-		}
-		if (!is_null($this->inline_css)) {
-			foreach (explode(',', $this->inline_css) as $css) {
-				array_push($this->inline_css_list, trim($css));
-			}
-		}
-		if (!is_null($this->css)) {
-			foreach (explode(',', $this->css) as $css_item) {
-				array_push($this->css_list, trim($css_item));
-			}
-		}
-		if (!is_null($this->inline_js)) {
-			foreach (explode(',', $this->inline_js) as $js) {
-				array_push($this->inline_js_list, trim($js));
-			}
-		}
-		if (!is_null($this->js)) {
-			foreach (explode(',', $this->js) as $js_item) {
-				array_push($this->js_list, trim($js_item));
-			}
-		}
+		$this->utils      = $utils;
 	}
 
 	/**
@@ -92,37 +56,19 @@ class OModuleAction {
 	/**
 	 * Get list of services used on an action
 	 *
-	 * @return ?string Action's services
+	 * @return array Action's services
 	 */
-	public function getServices(): ?string {
+	public function getServices(): array {
 		return $this->services;
-	}
-
-	/**
-	 * Get list of services used on an action as an array
-	 *
-	 * @return array Array of services used on an action
-	 */
-	public function getServiceList(): array {
-		return $this->service_list;
 	}
 
 	/**
 	 * Get list of components used on an action
 	 *
-	 * @return ?string Action's components
+	 * @return array Action's components
 	 */
-	public function getComponents(): ?string {
+	public function getComponents(): array {
 		return $this->components;
-	}
-
-	/**
-	 * Get list of components used on an action as an array
-	 *
-	 * @return array Action's component list
-	 */
-	public function getComponentList(): array {
-		return $this->component_list;
 	}
 
 	/**
@@ -155,90 +101,45 @@ class OModuleAction {
 	/**
 	 * Get list of CSS files to be inlined on an action
 	 *
-	 * @return ?string Action's inline CSS files
+	 * @return array Action's inline CSS files
 	 */
-	public function getInlineCss(): ?string {
+	public function getInlineCss(): array {
 		return $this->inline_css;
-	}
-
-	/**
-	 * Get list of CSS files to be inlined on an action as an array
-	 *
-	 * @return array Action's inline CSS file list
-	 */
-	public function getInlineCssList(): array {
-		return $this->inline_css_list;
 	}
 
 	/**
 	 * Get list of CSS files to be included on an action
 	 *
-	 * @return ?string Action's included CSS files
+	 * @return array Action's included CSS files
 	 */
-	public function getCss(): ?string {
+	public function getCss(): array {
 		return $this->css;
-	}
-
-	/**
-	 * Get list of CSS files to be included on an action as an array
-	 *
-	 * @return array Action's included CSS file list
-	 */
-	public function getCssList(): array {
-		return $this->css_list;
 	}
 
 	/**
 	 * Get list of JS files to be inlined on an action
 	 *
-	 * @return ?string Action's inline JS files
+	 * @return array Action's inline JS files
 	 */
-	public function getInlineJs(): ?string {
+	public function getInlineJs(): array {
 		return $this->inline_js;
-	}
-
-	/**
-	 * Get list of JS files to be inlined on an action as an array
-	 *
-	 * @return array Action's inline JS file list
-	 */
-	public function getInlineJsList(): array {
-		return $this->inline_js_list;
 	}
 
 	/**
 	 * Get list of JS files to be included on an action
 	 *
-	 * @return ?string Action's included JS files
+	 * @return array Action's included JS files
 	 */
-	public function getJs(): ?string {
+	public function getJs(): array {
 		return $this->js;
-	}
-
-	/**
-	 * Get list of JS files to be included on an action as an array
-	 *
-	 * @return array Action's included JS file list
-	 */
-	public function getJsList(): array {
-		return $this->js_list;
 	}
 
 	/**
 	 * Get "utils" folder's classes to be loaded into the method (comma separated values)
 	 *
-	 * @return string "utils" folder's classes to be loaded
+	 * @return array "utils" folder's classes to be loaded
 	 */
-	public function getUtils(): ?string {
+	public function getUtils(): array {
 		return $this->utils;
-	}
-
-	/**
-	 * Get list of utils used on an action as an array
-	 *
-	 * @return array Action's utils classes list
-	 */
-	public function getUtilList(): array {
-		return $this->util_list;
 	}
 }

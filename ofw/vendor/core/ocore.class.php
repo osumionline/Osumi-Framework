@@ -11,6 +11,7 @@ use OsumiFramework\OFW\Web\OSession;
 use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\OFW\Routing\OUrl;
 use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\OFW\Log\OLog;
 
 /**
  * OCore - Base class for the framework with methods to load required files and start the application
@@ -277,5 +278,27 @@ class OCore {
 		if (!is_null($this->dbContainer)) {
 			$this->dbContainer->closeAllConnections();
 		}
+	}
+
+
+	public function errorHandler(\Throwable $ex): void {
+		$log = new OLog(get_class($this));
+		$params = ['message' => OTools::getMessage('ERROR_500_LABEL')];
+		if ($this->config->getEnvironment()!='prod') {
+			$params['message'] = "<strong>Error:</strong> \"".$ex->getMessage()."\"\n<strong>File:</strong> \"".$ex->getFile()."\" (Line: ".$ex->getLine().")\n\n<strong>Trace:</strong> \n";
+			foreach ($ex->getTrace() as $trace) {
+				if (array_key_exists('file', $trace)) {
+					$params['message'] .= "  <strong>File:</strong> \"".$trace['file']." (Line: ".$trace['line'].")\"\n";
+				}
+				if (array_key_exists('class', $trace)) {
+					$params['message'] .= "  <strong>Class:</strong> \"".$trace['class']."\"\n";
+				}
+				if (array_key_exists('function', $trace)) {
+					$params['message'] .= "  <strong>Function:</strong> \"".$trace['function']."\"\n\n";
+				}
+			}
+		}
+		$log->error( str_ireplace('</strong>', '', str_ireplace('<strong>', '', $params['message'])) );
+		OTools::showErrorPage($params, '500');
 	}
 }

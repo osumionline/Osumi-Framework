@@ -19,6 +19,9 @@ msgstr "403 Authentication error"
 msgid "ERROR_404_LABEL"
 msgstr "404 Page not found"
 
+msgid "ERROR_500_LABEL"
+msgstr "500 Internal server error"
+
 msgid "ERROR_NO_MODULE_LABEL"
 msgstr "Module <strong>%s</strong> not found"
 
@@ -528,3 +531,12 @@ msgstr "ERROR!"
 
 msgid "TASK_RESET_GET_NEW_KEY"
 msgstr "An error occurred when validating the reset key or it has already expired. Re-create a new key by running the following command:"
+
+msgid "PLUGIN_IMAGE_FILE_NOT_FOUND"
+msgstr "ERROR! Required file was not found."
+
+msgid "PLUGIN_IMAGE_LOAD_ERROR"
+msgstr "ERROR! There was an error loading the file."
+
+msgid "PLUGIN_IMAGE_FILE_NOT_LOADED"
+msgstr "ERROR! There is not file already loaded."

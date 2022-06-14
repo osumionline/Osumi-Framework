@@ -218,8 +218,24 @@ class addTask extends OTask {
 		}
 
 		$values['model_name'] = $params[1];
-		$values['model_file'] = $this->getConfig()->getDir('app_model').$values['model_name'].'.php';
-		if (!file_exists($values['model_file'])) {
+		$values['model_file'] = '';
+
+		if (file_exists($this->config->getDir('app_model'))) {
+			if ($model = opendir($this->config->getDir('app_model'))) {
+				while (false !== ($entry = readdir($model))) {
+					if ($entry != '.' && $entry != '..') {
+						$model_content = file_get_contents($this->config->getDir('app_model').$entry);
+						if (stripos($model_content, 'class '.$values['model_name']) !== false) {
+							$values['model_file'] = $this->getConfig()->getDir('app_model').$entry;
+							break;
+						}
+					}
+				}
+				closedir($model);
+			}
+		}
+
+		if ($values['model_file']=='' || !file_exists($values['model_file'])) {
 			$values['error'] = 2;
 			echo OTools::getPartial($path, $values);
 			exit;

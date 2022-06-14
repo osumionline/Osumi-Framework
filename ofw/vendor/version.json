@@ -1,6 +1,25 @@
 {
-	"version": "8.0.0",
+	"version": "8.0.1",
 	"updates": {
+		"8.0.1": {
+			"message": "8.0.1 - Cambios en sintaxis de OModuleAction, cambios en componentes, gestión de errores 500 y correcciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocomponent.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/otemplate.class.php",
+				"ofw/vendor/routing/oaction.class.php",
+				"ofw/vendor/routing/omoduleaction.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/task/add.task.php",
+				"ofw/locale/en.po",
+				"ofw/locale/es.po",
+				"ofw/locale/eu.po",
+				"ofw/template/error.php",
+				"web/index.php"
+			]
+		},
 		"8.0.0": {
 			"message": "8.0.0 - Nueva versión 8.0",
 			"files": [

@@ -19,6 +19,9 @@ msgstr "403 Autentifikazio errorea"
 msgid "ERROR_404_LABEL"
 msgstr "404 Orria ez da aurkitu"
 
+msgid "ERROR_500_LABEL"
+msgstr "500 Zerbitzariaren barneko errorea"
+
 msgid "ERROR_NO_MODULE_LABEL"
 msgstr "<strong>%s</strong> modulua ez da aurkitu"
 
@@ -528,3 +531,12 @@ msgstr "ERROREA!"
 
 msgid "TASK_RESET_GET_NEW_KEY"
 msgstr "Errore bat gertatu da berrezartzeko gakoa balioztatzean edo dagoeneko iraungi da. Sortu berriro gako berri bat komando hau exekutatuz:"
+
+msgid "PLUGIN_IMAGE_FILE_NOT_FOUND"
+msgstr "ERROREA! Eskatutako irudia ezin izan da aurkitu."
+
+msgid "PLUGIN_IMAGE_LOAD_ERROR"
+msgstr "ERROREA! Errore bat gertatu da irudia kargatzean."
+
+msgid "PLUGIN_IMAGE_FILE_NOT_LOADED"
+msgstr "ERROREA! Momentu honetan ez dago irudirik kargatuta."

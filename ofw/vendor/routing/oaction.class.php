@@ -10,6 +10,7 @@ use OsumiFramework\OFW\Log\OLog;
 use OsumiFramework\OFW\Web\OSession;
 use OsumiFramework\OFW\Web\OCookie;
 use OsumiFramework\OFW\Cache\OCacheContainer;
+use OsumiFramework\OFW\Tools\OTools;
 
 /**
  * OAction - Base class for the module actions providing access to the framework configuration, database, template, logs, session or cookies
@@ -58,47 +59,35 @@ class OAction {
 		$this->template->setAction($url_result['action']);
 		$this->template->setType($url_result['type']);
 		$this->template->loadLayout($url_result['layout']);
-		
-		// Load action's required services and components
-		foreach ($this->attributes->getServiceList() as $item) {
-			$service_path = $this->config->getDir('app_service').$item.'.service.php';
-			if (file_exists($service_path)) {
-				require_once $service_path;
-			}
+
+		// Load action's required services
+		foreach ($this->attributes->getServices() as $item) {
+			OTools::loadService($item);
 			$service_name = "\\OsumiFramework\\App\\Service\\".$item.'Service';
 			$service = new $service_name;
 			$service->loadService();
 			$this->{$item.'_service'} = $service;
 		}
-		
-		foreach ($this->attributes->getComponentList() as $item) {
-			$file = $item;
-			if (stripos($item, '/') !== false) {
-				$data = explode('/', $item);
-				$file = array_pop($data);
-			}
-			$component_path = $this->config->getDir('app_component').$item.'/'.$file.'.component.php';
-			if (file_exists($component_path)) {
-				require_once $component_path;
-			}
-		}
+
+		// Load action's required components
+		OTools::loadComponents($this->attributes->getComponents());
 
 		// Load action's CSS and JS files
-		foreach ($this->attributes->getInlineCssList() as $item) {
+		foreach ($this->attributes->getInlineCss() as $item) {
 			$css_file = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$item.'.css';
 			$this->template->addCss($css_file, true);
 		}
 
-		foreach ($this->attributes->getCssList() as $item) {
+		foreach ($this->attributes->getCss() as $item) {
 			$this->template->addCss($item);
 		}
 
-		foreach ($this->attributes->getInlineJsList() as $item) {
+		foreach ($this->attributes->getInlineJs() as $item) {
 			$js_file = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$item.'.js';
 			$this->template->addJs($js_file, true);
 		}
 
-		foreach ($this->attributes->getJsList() as $item) {
+		foreach ($this->attributes->getJs() as $item) {
 			$this->template->addJs($item);
 		}
 	}

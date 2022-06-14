@@ -19,6 +19,9 @@ msgstr "403 Error de autenticación"
 msgid "ERROR_404_LABEL"
 msgstr "404 Página no encontrada"
 
+msgid "ERROR_500_LABEL"
+msgstr "500 Error interno del servidor"
+
 msgid "ERROR_NO_MODULE_LABEL"
 msgstr "Módulo <strong>%s</strong> no encontrado"
 
@@ -528,3 +531,12 @@ msgstr "¡ERROR!"
 
 msgid "TASK_RESET_GET_NEW_KEY"
 msgstr "Ocurrió un error al validar la clave de reseteo o ya ha expirado. Vuelve a crear una nueva clave ejecutando el siguiente comando:"
+
+msgid "PLUGIN_IMAGE_FILE_NOT_FOUND"
+msgstr "ERROR! La imagen solicitada no se ha podido encontrar."
+
+msgid "PLUGIN_IMAGE_LOAD_ERROR"
+msgstr "ERROR! Ha ocurrido un error al cargar el archivo."
+
+msgid "PLUGIN_IMAGE_FILE_NOT_LOADED"
+msgstr "ERROR! No hay ningún archivo cargado actualmente."

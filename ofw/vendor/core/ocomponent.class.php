@@ -9,9 +9,10 @@ use \ReflectionClass;
  * Base class for components
  */
 class OComponent {
-	private array $values = [];
-	private string $path = '';
-	private string $template = '';
+	private array  $values    = [];
+	private string $path      = '';
+	private string $template  = '';
+	private bool   $urlencode = false;
 
 	function __construct(array $values = []) {
 		$rc = new ReflectionClass(get_class($this));
@@ -47,12 +48,45 @@ class OComponent {
 	}
 
 	/**
+	 * Set a value for the given key. If the key already existed, it update's it's value
+	 *
+	 * @param string $key Key of the item to be set
+	 *
+	 * @param mixed $value Value to be set or updated
+	 *
+	 * @return void
+	 */
+	public function setValue(string $key, $value): void {
+		$this->values[$key] = $value;
+	}
+
+	/**
 	 * Function to get the path of the component
 	 *
 	 * @return string Path of the component
 	 */
 	public function getPath(): string {
 		return $this->path;
+	}
+
+	/**
+	 * Set the URLEncode mode for the component, defaults to false
+	 *
+	 * @param bool $urlencode The URLEncode mode for the component
+	 *
+	 * @return void
+	 */
+	public function setUrlEncode(bool $urlencode): void {
+		$this->urlencode = $urlencode;
+	}
+
+	/**
+	 * Get the URLEncode mode for the component
+	 *
+	 * @return bool The URLEncode mode for the component
+	 */
+	public function getUrlEncode(): bool {
+		return $this->urlencode;
 	}
 
 	/**
