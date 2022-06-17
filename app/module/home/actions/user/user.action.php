@@ -10,8 +10,8 @@ use OsumiFramework\App\Component\PhotoListComponent;
 
 #[OModuleAction(
 	url: '/user/:id',
-	services: 'user, photo',
-	components: 'home/photo_list'
+	services: ['user', 'photo'],
+	components: ['home/photo_list']
 )]
 class userAction extends OAction {
 	/**

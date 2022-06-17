@@ -8,7 +8,7 @@ use OsumiFramework\OFW\Web\ORequest;
 
 #[OModuleAction(
 	url: '/getDate',
-	services: 'user'
+	services: ['user']
 )]
 class getDateAction extends OAction {
 	/**

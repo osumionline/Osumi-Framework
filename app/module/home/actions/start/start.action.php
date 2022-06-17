@@ -9,10 +9,10 @@ use OsumiFramework\App\Component\UsersComponent;
 
 #[OModuleAction(
 	url: '/',
-	services: 'user',
-	inlineCSS: 'start',
-	inlineJS: 'start, test',
-	components: 'home/users'
+	services: ['user'],
+	inlineCSS: ['start'],
+	inlineJS: ['start', 'test'],
+	components: ['home/users']
 )]
 class startAction extends OAction {
 	/**
