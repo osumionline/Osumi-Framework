@@ -1,6 +1,17 @@
 {
-	"version": "8.0.1",
+	"version": "8.0.2",
 	"updates": {
+		"8.0.2": {
+			"message": "8.0.2 - Cambios en dependencias de componentes",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocomponent.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/template/updateCheck/updateCheck.php"
+			],
+			"postinstall": true
+		},
 		"8.0.1": {
 			"message": "8.0.1 - Cambios en sintaxis de OModuleAction, cambios en componentes, gestión de errores 500 y correcciones",
 			"files": [

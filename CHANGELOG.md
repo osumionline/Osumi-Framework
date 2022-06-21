@@ -1,6 +1,29 @@
 CHANGELOG
 =========
 
+## `8.0.2` (21/05/2022)
+
+Segunda ronda de correcciones, también con breaking changes. A partir de esta versión cambia la sintaxis usada para definir dependencias en componentes:
+
+```php
+Antes:
+
+class ChangelogListComponent extends OComponent {
+  private string $depends = 'model/changelog';
+}
+
+Ahora:
+
+class ChangelogListComponent extends OComponent {
+  public array $depends = ['model/changelog'];
+}
+
+```
+
+De este modo las clases componente sobrescriben la propiedad `$depends` que tiene por defecto la clase `OComponent`, una lista vacía. Antes se trataba de un string con los nombres de las dependencias separados por comas, de modo que había que parsear cada solicitud a un componente, las sub-dependencias... Ahora al tratarse directamente de una lista no hace falta ningún procesamiento.
+
+La actualización incluye una tarea `postinstall` que se encarga de actualizar los componentes a la nueva sintaxis automáticamente.
+
 ## `8.0.1` (14/05/2022)
 
 Primera ronda de correcciones y cambios tras usar la nueva versión 8.0 en producción.
@@ -31,8 +54,8 @@ Esto resultaba muy ineficiente ya que cada llamada parseaba este valor para lueg
 ```php
 // Antes
 #[OModuleAction(
-	url: '/getUsers',
-	services: 'user, backend'
+  url: '/getUsers',
+  services: 'user, backend'
 )]
 class getUsersAction extends OAction {
 ...
@@ -40,8 +63,8 @@ class getUsersAction extends OAction {
 
 // Ahora
 #[OModuleAction(
-	url: '/getUsers',
-	services: ['user', 'backend']
+  url: '/getUsers',
+  services: ['user', 'backend']
 )]
 class getUsersAction extends OAction {
 ...
@@ -565,9 +588,9 @@ Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
 ```json
 ...
 "log": {
-	"name": "ofw",         // Nombre del archivo donde se guardarán los logs
-	"max_file_size": 50,   // Tamaño máximo del archivo, en MBs
-	"max_num_files": 3     // Número máximo de rotaciones del archivo de logs
+  "name": "ofw",         // Nombre del archivo donde se guardarán los logs
+  "max_file_size": 50,   // Tamaño máximo del archivo, en MBs
+  "max_num_files": 3     // Número máximo de rotaciones del archivo de logs
 }
 ...
 ```
@@ -661,16 +684,16 @@ En la versión anterior las rutas se definían usando bloques de comentarios en 
  * @prefix /api
  */
 class api extends OModule {
-	/**
-	 * Función para obtener la fecha
-	 *
-	 * @url /getDate
-	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 * @return void
-	 */
-	public function getDate(ORequest $req): void {
-		...
-	}
+  /**
+   * Función para obtener la fecha
+   *
+   * @url /getDate
+   * @param ORequest $req Request object with method, headers, parameters and filters used
+   * @return void
+   */
+  public function getDate(ORequest $req): void {
+    ...
+  }
 }
 ```
 
@@ -681,20 +704,20 @@ A partir de esta versión, se usará el nuevo sistema de anotaciones de PHP 8.0.
  * Módulo API de prueba
  */
 #[ORoute(
-	type: 'json',
-	prefix: '/api'
+  type: 'json',
+  prefix: '/api'
 )]
 class api extends OModule {
-	/**
-	 * Función para obtener la fecha
-	 *
-	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 * @return void
-	 */
-	#[ORoute('/getDate')]
-	public function getDate(ORequest $req): void {
-		...
-	}
+  /**
+   * Función para obtener la fecha
+   *
+   * @param ORequest $req Request object with method, headers, parameters and filters used
+   * @return void
+   */
+  #[ORoute('/getDate')]
+  public function getDate(ORequest $req): void {
+    ...
+  }
 }
 ```
 
@@ -707,10 +730,10 @@ Los anteriores comentarios ahora se traducen como parámetros de la función `OR
 @filter testFilter
 
 #[ORoute(
-	'/ejemplo',
-	type: 'json',
-	prefix: '/api',
-	filter: 'testFilter'
+  '/ejemplo',
+  type: 'json',
+  prefix: '/api',
+  filter: 'testFilter'
 )]
 ```
 

@@ -173,16 +173,6 @@ class OTools {
 		$component_path = $core->config->getDir('app_component').$item.'/'.$file.'.component.php';
 		if (file_exists($component_path)) {
 			require_once $component_path;
-
-			// Check if component has dependencies
-			$component_content = file_get_contents($component_path);
-			if (preg_match('/^\s+private string \$depends = \'(.*?)\';$/m', $component_content, $matches) == 1) {
-				$dependecies = explode(',', $matches[1]);
-				foreach ($dependecies as $dependency) {
-					$dependency = trim($dependency);
-					self::loadComponent($dependency);
-				}
-			}
 		}
 	}
 
