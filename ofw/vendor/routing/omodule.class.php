@@ -8,22 +8,16 @@ use Attribute;
 class OModule {
 	private ?string $type        = null;
 	private ?string $prefix      = null;
-	private ?string $actions     = null;
-	private array   $action_list = [];
+	private array   $actions     = [];
 
 	function __construct(
 		?string $type    = null,
 		?string $prefix  = null,
-		?string $actions = null
+		array   $actions = []
 	) {
 		$this->type    = $type;
 		$this->prefix  = $prefix;
 		$this->actions = $actions;
-		if  ($this->actions != '') {
-			foreach (explode(',', $this->actions) as $action) {
-				array_push($this->action_list, trim($action));
-			}
-		}
 	}
 
 	/**
@@ -47,18 +41,9 @@ class OModule {
 	/**
 	 * Get module's actions
 	 *
-	 * @return string Module's actions
+	 * @return array Module's actions
 	 */
-	public function getActions(): ?string {
+	public function getActions(): array {
 		return $this->actions;
-	}
-
-	/**
-	 * Get module's actions as an array
-	 *
-	 * @return array Module's action list
-	 */
-	public function getActionList(): array {
-		return $this->action_list;
 	}
 }

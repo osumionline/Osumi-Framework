@@ -1,6 +1,17 @@
 {
-	"version": "8.0.2",
+	"version": "8.0.3",
 	"updates": {
+		"8.0.3": {
+			"message": "8.0.3 - Cambios en acciones de módulos",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/routing/omodule.class.php",
+				"ofw/vendor/tools/otools.class.php"
+			],
+			"postinstall": true
+		},
 		"8.0.2": {
 			"message": "8.0.2 - Cambios en dependencias de componentes",
 			"files": [

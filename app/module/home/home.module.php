@@ -9,6 +9,6 @@ use OsumiFramework\OFW\Routing\OModule;
  */
 #[OModule(
 	type: 'html',
-	actions: 'start, user, filter'
+	actions: ['start', 'user', 'filter']
 )]
 class homeModule {}

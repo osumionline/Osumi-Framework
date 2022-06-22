@@ -10,6 +10,6 @@ use OsumiFramework\OFW\Routing\OModule;
 #[OModule(
 	type: 'json',
 	prefix: '/api',
-	actions: 'getDate, getUser, getUsers'
+	actions: ['getDate', 'getUser', 'getUsers']
 )]
 class apiModule {}

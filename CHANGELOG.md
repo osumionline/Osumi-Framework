@@ -1,6 +1,36 @@
 CHANGELOG
 =========
 
+## `8.0.3` (22/05/2022)
+
+Tercera ronda de correcciones. Al crear la versión 8.0 puse en varios lugares parámetros u opciones como cadenas de texto de valores separados por comas. Quedaba bien estéticamente. Pero una vez puesto en uso me he dado cuenta que a cambio se añaden un montón de parseos innecesarios. A cambio de tener cadenas de texto, hay que partirlas y dividirlas en array para poder tratarlas. Cuando directamente podrían ser arrays.
+
+Esta actualización convierte el parámetro `actions` de los módulos en arrays:
+
+```php
+Antes:
+
+#[OModule(
+  type: 'json',
+  prefix: '/api',
+  actions: 'getDate, getUser, getUsers'
+)]
+class apiModule {}
+
+Despues:
+
+#[OModule(
+  type: 'json',
+  prefix: '/api',
+  actions: ['getDate', 'getUser', 'getUsers']
+)]
+class apiModule {}
+```
+
+Esta actualización también adapta la tarea `add` para crear nuevos módulos o añadir nuevas acciones a módulos ya existentes, teniendo en cuenta que el parámetro `actions` ahora es un array.
+
+Quedan un par de cosas por homogeneizar, este proceso de limpieza y refinación terminará con la versión 8.1, que será "lo que la versión 8.0 debería haber sido" :P
+
 ## `8.0.2` (21/05/2022)
 
 Segunda ronda de correcciones, también con breaking changes. A partir de esta versión cambia la sintaxis usada para definir dependencias en componentes:

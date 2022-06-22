@@ -580,7 +580,7 @@ class OTools {
 			'type'    => !is_null($module_attributes->getType()) ? $module_attributes->getType() : 'html',
 			'prefix'  => !is_null($module_attributes->getPrefix()) ? $module_attributes->getPrefix() : null
 		];
-		$actions = $module_attributes->getActionList();
+		$actions = $module_attributes->getActions();
 
 		$arr = [];
 		foreach($actions as $action_name) {
@@ -668,7 +668,7 @@ class OTools {
 		$str_module .= " */\n";
 		$str_module .= "#[OModule(\n";
 		$str_module .= "	type: 'html',\n";
-		$str_module .= "	actions: ''\n";
+		$str_module .= "	actions: []\n";
 		$str_module .= ")]\n";
 		$str_module .= "class ".$name."Module {}";
 		file_put_contents($module_file, $str_module);
@@ -714,7 +714,7 @@ class OTools {
 			return $status;
 		}
 		$module_content = file_get_contents($module_file);
-		if (preg_match("/actions: '(.*?)".$action."(.*?)'/", $module_content) == 1) {
+		if (preg_match("/^\s+actions: \[(.*?)".$action."(.*?)\]$/", $module_content) == 1) {
 			$status['status'] = 'action-exists';
 			return $status;
 		}
@@ -772,11 +772,17 @@ class OTools {
 		}
 
 		// Add action to module
-		if (stripos($module_content, "actions: ''") !== false) {
-			$module_content = preg_replace("/actions: ''/i", "actions: '".$action."'", $module_content);
+		if (stripos($module_content, "actions: []") !== false) {
+			$module_content = preg_replace("/actions: \[\]/i", "actions: ['".$action."']", $module_content);
 		}
 		else {
-			$module_content = preg_replace("/actions: '(.*?)'/i", "actions: '${1}, ".$action."'", $module_content);
+			preg_match("/^\s+actions: \[(.*?)\]$/m", $module_content, $match);
+			$actions = explode(',', $match[1]);
+			for ($i = 0; $i < count($actions); $i++) {
+				$actions[$i] = trim($actions[$i]);
+			}
+			array_push($actions, "'".$action."'");
+			$module_content = preg_replace("/actions: \[(.*?)\]/i", "actions: [".implode(', ', $actions)."]", $module_content);
 		}
 
 		// New action's content
@@ -796,7 +802,7 @@ class OTools {
 			$action_content .= ",\n	layout: '".$layout."'";
 		}
 		if (!is_null($utils)) {
-			$action_content .= ",\n	utils: '".$utils."'";
+			$action_content .= ",\n	utils: ['".$utils."']";
 		}
 		$action_content .= "\n)]\n";
 		$action_content .= "class ".$action."Action extends OAction {\n";

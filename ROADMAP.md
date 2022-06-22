@@ -5,7 +5,11 @@ ROADMAP
 
 * `depends` en componentes, cambiarlo de string a array. Así se evitará que parsearlo en cada solicitud.
 
-## 8.0.3
+##  8.0.3
+
+* `actions` en módulos, cambiarlo de string a array. Así se evitará que parsearlo en cada solicitud.
+
+## 8.0.4
 
 * Cambiar DTOs a nombre.dto.php
 * Cambiar `$req->getFilter(‘login’)`, quitar parámetro. Si solo hay un filtro… no hace falta indicar cuál. O implementar múltiples filtros. Por decidir.

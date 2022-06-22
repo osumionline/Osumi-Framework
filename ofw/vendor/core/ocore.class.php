@@ -236,7 +236,7 @@ class OCore {
 				$module = new $module_name;
 				$module_attributes = OTools::getClassAttributes($module);
 
-				if (in_array($url_result['action'], $module_attributes->getActionList())) {
+				if (in_array($url_result['action'], $module_attributes->getActions())) {
 					$action_path = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$url_result['action'].'.action.php';
 					if (file_exists($action_path)) {
 						require_once $action_path;
