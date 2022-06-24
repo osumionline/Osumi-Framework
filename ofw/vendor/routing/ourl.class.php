@@ -113,6 +113,7 @@ class OUrl {
 			'headers' => getallheaders(),
 			'method'  => strtolower($this->method),
 			'layout'  => 'default',
+			'filters' => [],
 			'res'     => false
 		];
 
@@ -133,8 +134,10 @@ class OUrl {
 				if (array_key_exists('layout', $this->urls[$i])) {
 					$ret['layout'] = $this->urls[$i]['layout'];
 				}
-				if (array_key_exists('filter', $this->urls[$i])) {
-					$ret['filter'] = $this->urls[$i]['filter'];
+				if (array_key_exists('filters', $this->urls[$i])) {
+					foreach ($this->urls[$i]['filters'] as $filter_name) {
+						$ret['filters'][$filter_name] = [];
+					}
 				}
 
 				$ret['params'] = $chk;

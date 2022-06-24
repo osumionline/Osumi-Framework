@@ -1,6 +1,19 @@
 {
-	"version": "8.0.3",
+	"version": "8.0.4",
 	"updates": {
+		"8.0.4": {
+			"message": "8.0.4 - Múltiples filtros",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/routing/omoduleaction.class.php",
+				"ofw/vendor/routing/ourl.class.php",
+				"ofw/vendor/tools/otools.class.php",
+				"ofw/vendor/web/orequest.class.php"
+			],
+			"postinstall": true
+		},
 		"8.0.3": {
 			"message": "8.0.3 - Cambios en acciones de módulos",
 			"files": [

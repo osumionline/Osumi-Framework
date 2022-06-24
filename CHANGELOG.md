@@ -1,6 +1,45 @@
 CHANGELOG
 =========
 
+## `8.0.4` (24/05/2022)
+
+Penultima ronda de actualizaciones: ¡filtros!
+
+Hasta ahora el parámetro `filter` del decorador `OModuleAction` permitía indicar el nombre del filtro que se debía ejecutar antes de la acción. Pero a la hora de obtener el resultado de ese filtro era necesario indicar "qué" filtro se quería obtener:
+
+```php
+#[OModuleAction(
+	url: '/getUsers',
+	filter: 'login'
+)]
+class filterAction extends OAction {
+	public function run(ORequest $req):void {
+		$filter = $req->getFilter('login');
+	}
+}
+```
+
+Era un poco inconsistente, ¿para que indicar el nombre del filtro a obtener... cuando solo se ha usado un filtro? Debería estar claro "qué" filtro hay que obtener al hacer `getFilter()`. Esto se debe a que originalmente pensé en un sistema de filtros encadenados, la posibilidad de que una acción pudiese tener distintos filtros que se ejecutasen uno tras otro. Por ejemplo:
+
+```php
+#[OModuleAction(
+	url: '/getUsers',
+	filters: ['login', 'user']
+)]
+class filterAction extends OAction {
+	public function run(ORequest $req):void {
+		$login_filter = $req->getFilter('login');
+		$user_filter = $req->getFilter('user');
+	}
+}
+```
+
+En el ejemplo el filtro `login` serviría para comprobar que el que está haciendo la llamada realmente ha iniciado sesión (por ejemplo comprobando un token). El segundo filtro serviría para obtener el usuario que previamente se ha comprobado.
+
+De este modo las acciones se encadenan siguiendo el orden en que se definen en el campo `filters`. Si un filtro falla el resto no llega ni a ejecutarse.
+
+La actualización tiene una tarea postinstall que actualizará automáticamente todas las acciones que cuenten con un filtro a la nueva sintaxis.
+
 ## `8.0.3` (22/05/2022)
 
 Tercera ronda de correcciones. Al crear la versión 8.0 puse en varios lugares parámetros u opciones como cadenas de texto de valores separados por comas. Quedaba bien estéticamente. Pero una vez puesto en uso me he dado cuenta que a cambio se añaden un montón de parseos innecesarios. A cambio de tener cadenas de texto, hay que partirlas y dividirlas en array para poder tratarlas. Cuando directamente podrían ser arrays.
@@ -11,18 +50,18 @@ Esta actualización convierte el parámetro `actions` de los módulos en arrays:
 Antes:
 
 #[OModule(
-  type: 'json',
-  prefix: '/api',
-  actions: 'getDate, getUser, getUsers'
+	type: 'json',
+	prefix: '/api',
+	actions: 'getDate, getUser, getUsers'
 )]
 class apiModule {}
 
 Despues:
 
 #[OModule(
-  type: 'json',
-  prefix: '/api',
-  actions: ['getDate', 'getUser', 'getUsers']
+	type: 'json',
+	prefix: '/api',
+	actions: ['getDate', 'getUser', 'getUsers']
 )]
 class apiModule {}
 ```
@@ -84,8 +123,8 @@ Esto resultaba muy ineficiente ya que cada llamada parseaba este valor para lueg
 ```php
 // Antes
 #[OModuleAction(
-  url: '/getUsers',
-  services: 'user, backend'
+	url: '/getUsers',
+	services: 'user, backend'
 )]
 class getUsersAction extends OAction {
 ...
@@ -93,8 +132,8 @@ class getUsersAction extends OAction {
 
 // Ahora
 #[OModuleAction(
-  url: '/getUsers',
-  services: ['user', 'backend']
+	url: '/getUsers',
+	services: ['user', 'backend']
 )]
 class getUsersAction extends OAction {
 ...
@@ -146,11 +185,11 @@ Por ejemplo, el archivo `users.component.php` sería:
 
 ```php
   <?php declare(strict_types=1);
-  
+
   namespace OsumiFramework\App\Component;
-  
+
   use OsumiFramework\OFW\Core\OComponent;
-  
+
   class UsersComponent extends OComponent {
     public array $css = ['users'];
   }
@@ -177,7 +216,7 @@ Para usar este componente, en una `acción` hay que crear una variable a la que 
 ```php
   $users = $this->user_service->getUsers();
   $users_component = new UsersComponent(['users' => $users]);
-  
+
   $this->getTemplate()->add('users', $users_component);
 ```
 
@@ -229,14 +268,14 @@ A partir de esta versión los módulos se reducen a su mínima expresión, actua
 
 ```php
   <?php declare(strict_types=1);
-  
+
   namespace OsumiFramework\App\Module;
-  
+
   use OsumiFramework\OFW\Core\OModule;
   use OsumiFramework\OFW\Web\ORequest;
   use OsumiFramework\OFW\Routing\ORoute;
   use OsumiFramework\App\Service\userService;
-  
+
   /**
    * Sample API module
    */
@@ -246,11 +285,11 @@ A partir de esta versión los módulos se reducen a su mínima expresión, actua
   )]
   class api extends OModule {
     private ?userService $user_service;
-  
+
     function __construct() {
       $this->user_service  = new userService();
     }
-  
+
     /**
      * Function used to obtain current date
      *
@@ -261,10 +300,10 @@ A partir de esta versión los módulos se reducen a su mínima expresión, actua
     public function getDate(ORequest $req): void {
       $this->getTemplate()->add('date', $this->user_service->getLastUpdate());
     }
-    
+
     ...
     public function getUsers(ORequest $req): void { ... }
-    
+
     ...
     public function getUser(ORequest $req): void { ... }
   }
@@ -276,11 +315,11 @@ A partir de esta versión, el módulo `api` tiene este aspecto:
 
 ```php
   <?php declare(strict_types=1);
-  
+
   namespace OsumiFramework\App\Module;
-  
+
   use OsumiFramework\OFW\Routing\OModule;
-  
+
   /**
    * Sample API module
    */
@@ -618,9 +657,9 @@ Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
 ```json
 ...
 "log": {
-  "name": "ofw",         // Nombre del archivo donde se guardarán los logs
-  "max_file_size": 50,   // Tamaño máximo del archivo, en MBs
-  "max_num_files": 3     // Número máximo de rotaciones del archivo de logs
+	"name": "ofw",         // Nombre del archivo donde se guardarán los logs
+	"max_file_size": 50,   // Tamaño máximo del archivo, en MBs
+	"max_num_files": 3     // Número máximo de rotaciones del archivo de logs
 }
 ...
 ```
@@ -714,16 +753,16 @@ En la versión anterior las rutas se definían usando bloques de comentarios en 
  * @prefix /api
  */
 class api extends OModule {
-  /**
-   * Función para obtener la fecha
-   *
-   * @url /getDate
-   * @param ORequest $req Request object with method, headers, parameters and filters used
-   * @return void
-   */
-  public function getDate(ORequest $req): void {
-    ...
-  }
+	/**
+	 * Función para obtener la fecha
+	 *
+	 * @url /getDate
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 * @return void
+	 */
+	public function getDate(ORequest $req): void {
+		...
+	}
 }
 ```
 
@@ -734,20 +773,20 @@ A partir de esta versión, se usará el nuevo sistema de anotaciones de PHP 8.0.
  * Módulo API de prueba
  */
 #[ORoute(
-  type: 'json',
-  prefix: '/api'
+	type: 'json',
+	prefix: '/api'
 )]
 class api extends OModule {
-  /**
-   * Función para obtener la fecha
-   *
-   * @param ORequest $req Request object with method, headers, parameters and filters used
-   * @return void
-   */
-  #[ORoute('/getDate')]
-  public function getDate(ORequest $req): void {
-    ...
-  }
+	/**
+	 * Función para obtener la fecha
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 * @return void
+	 */
+	#[ORoute('/getDate')]
+	public function getDate(ORequest $req): void {
+		...
+	}
 }
 ```
 
@@ -760,10 +799,10 @@ Los anteriores comentarios ahora se traducen como parámetros de la función `OR
 @filter testFilter
 
 #[ORoute(
-  '/ejemplo',
-  type: 'json',
-  prefix: '/api',
-  filter: 'testFilter'
+	'/ejemplo',
+	type: 'json',
+	prefix: '/api',
+	filter: 'testFilter'
 )]
 ```
 

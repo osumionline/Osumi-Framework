@@ -591,14 +591,14 @@ class OTools {
 			$action_attributes = self::getClassAttributes($action);
 
 			$action_params = [
-				'module' => $class_params['module'],
-				'action' => $action_name,
-				'type'   => (!is_null($action_attributes->getType())) ? $action_attributes->getType() : $class_params['type'],
-				'prefix' => $class_params['prefix'],
-				'filter' => $action_attributes->getFilter(),
-				'url'    => $action_attributes->getUrl(),
-				'layout' => $action_attributes->getLayout(),
-				'utils'  => $action_attributes->getUtils()
+				'module'  => $class_params['module'],
+				'action'  => $action_name,
+				'type'    => (!is_null($action_attributes->getType())) ? $action_attributes->getType() : $class_params['type'],
+				'prefix'  => $class_params['prefix'],
+				'filters' => $action_attributes->getFilters(),
+				'url'     => $action_attributes->getUrl(),
+				'layout'  => $action_attributes->getLayout(),
+				'utils'   => $action_attributes->getUtils()
 			];
 			array_push($arr, $action_params);
 		}

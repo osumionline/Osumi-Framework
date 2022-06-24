@@ -9,7 +9,7 @@ class OModuleAction {
 	private ?string $url      = null;
 	private array $services   = [];
 	private array $components = [];
-	private ?string $filter   = null;
+	private array $filters    = [];
 	private ?string $layout   = null;
 	private ?string $type     = null;
 	private array $inline_css = [];
@@ -22,7 +22,7 @@ class OModuleAction {
 		?string $url      = null,
 		array $services   = [],
 		array $components = [],
-		?string $filter   = null,
+		array $filters    = [],
 		?string $layout   = null,
 		?string $type     = null,
 		array $inlineCSS  = [],
@@ -34,7 +34,7 @@ class OModuleAction {
 		$this->url        = $url;
 		$this->services   = $services;
 		$this->components = $components;
-		$this->filter     = $filter;
+		$this->filters    = $filters;
 		$this->layout     = $layout;
 		$this->type       = $type;
 		$this->inline_css = $inlineCSS;
@@ -72,12 +72,12 @@ class OModuleAction {
 	}
 
 	/**
-	 * Get method's filter
+	 * Get method's filters
 	 *
-	 * @return string Method's filter
+	 * @return array Method's filters
 	 */
-	public function getFilter(): ?string {
-		return $this->filter;
+	public function getFilters(): array {
+		return $this->filters;
 	}
 
 	/**

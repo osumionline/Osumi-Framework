@@ -190,30 +190,47 @@ class OCore {
 			}
 
 			// If there is a filter defined, apply it before the controller
-			if (array_key_exists('filter', $url_result) && !is_null($url_result['filter'])) {
-				// Check if the filter's file exist as it is loaded per request
-				$filter_route = $this->config->getDir('app_filter').$url_result['filter'].'.filter.php';
-				if (file_exists($filter_route)) {
-					require_once $filter_route;
+			if (array_key_exists('filters', $url_result) && count($url_result['filters']) > 0) {
+				$filter_check =  true;
+				$filter_return = null;
+				foreach ($url_result['filters'] as $filter_name => $value) {
+					// Check if the filter's file exist as it is loaded per request
+					$filter_route = $this->config->getDir('app_filter').$filter_name.'.filter.php';
+					if (file_exists($filter_route)) {
+						require_once $filter_route;
 
-					$url_result[$url_result['filter']] = call_user_func(
-						"\\OsumiFramework\\App\\Filter\\".$url_result['filter']."Filter",
-						$url_result['params'],
-						$url_result['headers']
-					);
+						$value = call_user_func(
+							"\\OsumiFramework\\App\\Filter\\".$filter_name."Filter",
+							$url_result['params'],
+							$url_result['headers']
+						);
 
-					// If status is 'error', return 403 Forbidden
-					if ($url_result[$url_result['filter']]['status']=='error') {
-						if (array_key_exists('return', $url_result[$url_result['filter']])) {
-							OUrl::goToUrl($url_result[$url_result['filter']]['return']);
+						// If status is not 'ok', filter checks have failed
+						if ($value['status'] !== 'ok') {
+							$filter_check = false;
+							if (is_null($filter_return) && array_key_exists('return', $value)) {
+								$filter_return = $value['return'];
+							}
+							break;
 						}
-						else {
-							OTools::showErrorPage($url_result, '403');
-						}
+
+						// Store the result value
+						$url_result['filters'][$filter_name] = $value;
+					}
+					else {
+						OTools::showErrorPage($url_result, '403');
 					}
 				}
-				else {
-					OTools::showErrorPage($url_result, '403');
+
+				// If filter checks didn't pass
+				if (!$filter_check) {
+					// If return value has been set in any of the filters, go there, otherwise go to error page
+					if (!is_null($filter_return)) {
+						OUrl::goToUrl($filter_return);
+					}
+					else {
+						OTools::showErrorPage($url_result, '403');
+					}
 				}
 			}
 

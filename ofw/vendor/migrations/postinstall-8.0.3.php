@@ -39,7 +39,7 @@ class OPostInstall {
 	}
 
 	/**
-	 * Runs the v8.0.2 update post-installation tasks
+	 * Runs the v8.0.3 update post-installation tasks
 	 *
 	 * @return string
 	 */
@@ -87,4 +87,4 @@ class OPostInstall {
 
 		return $ret;
 	}
-}	
+}
