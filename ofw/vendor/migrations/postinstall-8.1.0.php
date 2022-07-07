@@ -60,6 +60,8 @@ class OPostInstall {
 	 * Update components and save update history to update modules after this job
 	 *
 	 * @param string $path Path from where to look upon searching for components
+	 *
+	 * @return void
 	 */
 	private function updateComponents(string $path): void {
 		if ($folder = opendir($path)) {
@@ -84,6 +86,13 @@ class OPostInstall {
 							'namespace OsumiFramework\\App\\Component\\' . $partial_path . ';',
 							$component_content
 						);
+						// Busco depends
+						$depends_pattern = '/\n\spublic array \\$depends = \[(.*?)];\n/m';
+						$result = preg_match($depends_pattern, $component_content, $depends_match);
+						if ($result === 1) {
+							$replace = '/\n\spublic array \\$depends = \['.str_ireplace('/', '\/', $depends_match[1]).'];\n/m';
+							$component_content = preg_replace($replace, '', $component_content);
+						}
 						file_put_contents($check_path, $component_content);
 						// Obtengo nombre de la clase
 						preg_match("/^class (.*?) extends OComponent/m", $component_content, $name_match);
@@ -92,6 +101,35 @@ class OPostInstall {
 					}
 					else {
 						$this->updateComponents($path . $file . '/');
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update component templates
+	 *
+	 * @param string $path Path from where to look upon searching for components
+	 *
+	 * @return void
+	 */
+	private function updateComponentTemplates(string $path): void {
+		if ($folder = opendir($path)) {
+			// Recorrer path
+			while (false !== ($file = readdir($folder))) {
+				if ($file != '.' && $file != '..') {
+					$check_path = $path.$file.'/'.$file.'.template.php';
+					// Si existe file/file.component.php es un componente
+					if (file_exists($check_path)) {
+						$template_content = file_get_contents($check_path);
+						foreach ($this->replaces as $old => $new) {
+							$template_content = str_ireplace($old, $new, $template_content);
+						}
+						file_put_contents($check_path, $template_content);
+					}
+					else {
+						$this->updateComponentTemplates($path . $file . '/');
 					}
 				}
 			}
@@ -154,6 +192,9 @@ class OPostInstall {
 
 		foreach ($list as $item) {
 			$new_name = str_ireplace("DTO.php", ".dto.php", $item);
+			$new_name_parts = explode('.', $new_name);
+			$new_name_parts[0] = OTools::toSnakeCase($new_name_parts[0]);
+			$new_name = implode('.', $new_name_parts);
 			rename($this->config->getDir('app_dto').$item, $this->config->getDir('app_dto').$new_name);
 		}
 	}
@@ -172,6 +213,7 @@ class OPostInstall {
 		$ret .= $this->messages[$this->config->getLang()]['UPDATING_COMPONENTS'];
 
 		$this->updateComponents($this->config->getDir('app_component'));
+		$this->updateComponentTemplates($this->config->getDir('app_component'));
 
 		$ret .= $this->messages[$this->config->getLang()]['COMPONENTS_UPDATED'];
 
