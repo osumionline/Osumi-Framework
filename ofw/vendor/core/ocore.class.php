@@ -137,18 +137,6 @@ class OCore {
 			}
 		}
 
-		// DTOs
-		if (file_exists($this->config->getDir('app_dto'))) {
-			if ($model = opendir($this->config->getDir('app_dto'))) {
-				while (false !== ($entry = readdir($model))) {
-					if ($entry != '.' && $entry != '..') {
-						require $this->config->getDir('app_dto').$entry;
-					}
-				}
-				closedir($model);
-			}
-		}
-
 		// Database model classes
 		if (file_exists($this->config->getDir('app_model'))) {
 			if ($model = opendir($this->config->getDir('app_model'))) {
@@ -257,6 +245,9 @@ class OCore {
 					$action_path = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$url_result['action'].'.action.php';
 					if (file_exists($action_path)) {
 						require_once $action_path;
+
+						$this->eagerLoader($action_path);
+
 						$action_name = "\\OsumiFramework\\App\\Module\\Action\\".$url_result['action'].'Action';
 
 						$action = new $action_name;
@@ -297,7 +288,110 @@ class OCore {
 		}
 	}
 
+	/**
+	 * Load an action's required DTO and components
+	 */
+	public function eagerLoader(string $path): void {
+		$action_content = file_get_contents($path);
 
+		// Check for DTOs
+		$dto = $this->getContentDTO($action_content);
+		if (!is_null($dto)) {
+			require_once $this->config->getDir('app_dto').$dto.'.dto.php';
+		}
+
+		// Check for components
+		$components = $this->getContentComponents($action_content);
+		foreach ($components as $component) {
+			$this->loadComponent($component);
+		}
+	}
+
+	/**
+	 * Get the name of the DTO used in an action. If there is no DTO returns null.
+	 *
+	 * @param string $content Content of the action's file
+	 *
+	 * @return string Name of the DTO file used in the action or null if there is no DTO.
+	 */
+	public function getContentDTO(string $content): ?string {
+		preg_match("/^use OsumiFramework\\\App\\\DTO\\\(.*?);$/m", $content, $match);
+		if (!is_null($match) && count($match) > 1) {
+			return OTools::toSnakeCase(str_ireplace("DTO", "", $match[1]));
+		}
+		return null;
+	}
+
+	/**
+	 * Get the name of the components used in an action. If there are no components returns an empty list.
+	 *
+	 * @param string $content Content of the action's file
+	 *
+	 * @return array List of component names
+	 */
+	public function getContentComponents(string $content): array {
+		$pattern = "/^use OsumiFramework\\\App\\\Component\\\(.*?);$/m";
+		$result = preg_match_all($pattern, $content, $matches);
+		$ret = [];
+
+		if  (!is_null($matches) && count($matches) > 1) {
+			for ($i = 0; $i < count($matches[1]); $i++) {
+				$component = $matches[1][$i];
+				$component_parts = explode('\\', $component);
+				if (count($component_parts) > 1) {
+					$name = array_pop($component_parts);
+					array_push($component_parts, str_ireplace("Component", "", $name));
+				}
+				for ($j = 0; $j < count($component_parts); $j++) {
+					$component_parts[$j] = OTools::toSnakeCase($component_parts[$j]);
+				}
+				array_push($ret, implode('/', $component_parts));
+			}
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Load a component and it's dependencies
+	 *
+	 * @param string $component Path/name of the component
+	 *
+	 * @return void
+	 */
+	public function loadComponent(string $component): void {
+		$file = $component;
+
+		// Check if component is in a sub-folder
+		if (stripos($component, '/') !== false) {
+			$data = explode('/', $component);
+			$file = array_pop($data);
+		}
+
+		$component_path = $this->config->getDir('app_component').$component.'/'.$file.'.component.php';
+		$template_path = $this->config->getDir('app_component').$component.'/'.$file.'.template.php';
+		if (file_exists($component_path)) {
+			require_once $component_path;
+		}
+
+		$subcomponents = [];
+		$component_content = file_get_contents($component_path);
+		$subcomponents = array_merge($subcomponents, $this->getContentComponents($component_content));
+		$template_content = file_get_contents($template_path);
+		$subcomponents = array_merge($subcomponents, $this->getContentComponents($template_content));
+
+		foreach ($subcomponents as $sub) {
+			$this->loadComponent($sub);
+		}
+	}
+
+	/**
+	 * Custom error handler, shows an error page and the error's stack trace
+	 *
+	 * @param Throwable $ex Given error
+	 *
+	 * @return void
+	 */
 	public function errorHandler(\Throwable $ex): void {
 		$log = new OLog(get_class($this));
 		$params = ['message' => OTools::getMessage('ERROR_500_LABEL')];

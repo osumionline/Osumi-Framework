@@ -5,14 +5,13 @@ namespace OsumiFramework\App\Module\Action;
 use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
-use OsumiFramework\App\Component\UsersComponent;
+use OsumiFramework\App\Component\Home\UsersComponent;
 
 #[OModuleAction(
 	url: '/',
 	services: ['user'],
 	inlineCSS: ['start'],
-	inlineJS: ['start', 'test'],
-	components: ['home/users']
+	inlineJS: ['start', 'test']
 )]
 class startAction extends OAction {
 	/**

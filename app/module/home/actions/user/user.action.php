@@ -6,12 +6,11 @@ use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\DTO\UserDTO;
-use OsumiFramework\App\Component\PhotoListComponent;
+use OsumiFramework\App\Component\Home\PhotoListComponent;
 
 #[OModuleAction(
 	url: '/user/:id',
-	services: ['user', 'photo'],
-	components: ['home/photo_list']
+	services: ['user', 'photo']
 )]
 class userAction extends OAction {
 	/**

@@ -1,6 +1,102 @@
 CHANGELOG
 =========
 
+## `8.1.0` (07/07/2022)
+
+Termino ronda de refactorizaciones/correcciones en la nueva versión 8.0
+
+En esta actualización hay un nuevo método interno llamado `eagerLoader` que se encarga de recorrer los archivos que se van a ejecutar para hacer ciertas cargas automáticas. Ahora si una acción tiene como parámetro un DTO, solo se cargará ese DTO. En lugar de cargar todos los DTOs como hasta ahora a pesar de que solo se usaba uno.
+
+También hace una carga automática de los componentes que se usen en una acción. De este modo ya no es necesario indicar qué componentes se usarán en una acción mediante el campo `components` del decorador `OModuleAction`, y se puede quitar.
+
+```php
+Antes:
+
+#[OModuleAction(
+	url: '/user/:id',
+	services: ['user', 'photo'],
+	components: ['home/photo_list']
+)]
+class userAction extends OAction {
+  ...
+}
+
+Ahora:
+
+#[OModuleAction(
+	url: '/user/:id',
+	services: ['user', 'photo']
+)]
+class userAction extends OAction {
+  ...
+}
+```
+
+Si los componentes se organizan en subcarpetas, será necesario indicar esa estructura de carpetas como parte del `namespace` de cada módulo. Por ejemplo:
+
+```php
+app/
+  - component/
+	  -home/
+		  -users/
+				users.component.php
+```
+
+Esto se reflejaría de la siguiente manera:
+
+```php
+Antes (users.component.php):
+
+namespace OsumiFramework\App\Component;
+
+use OsumiFramework\OFW\Core\OComponent;
+
+class UsersComponent extends OComponent {
+  ...
+}
+
+Ahora:
+
+namespace OsumiFramework\App\Component\Home;
+
+use OsumiFramework\OFW\Core\OComponent;
+
+class UsersComponent extends OComponent {
+  ...
+}
+```
+
+Por lo que a la hora de usarlos también es necesario indicar el nuevo `namespace` completo:
+
+```php
+Antes (user.action.php):
+
+use OsumiFramework\App\Component\PhotoListComponent;
+
+#[OModuleAction(
+	url: '/user/:id',
+	services: ['user', 'photo'],
+	components: ['home/photo_list']
+)]
+class userAction extends OAction {
+	...
+}
+
+Ahora:
+
+use OsumiFramework\App\Component\Home\PhotoListComponent;
+
+#[OModuleAction(
+	url: '/user/:id',
+	services: ['user', 'photo']
+)]
+class userAction extends OAction {
+	...
+}
+```
+
+La actualización cuenta con una tarea postinstall que realiza todos los cambios necesarios en el código existente.
+
 ## `8.0.4` (24/05/2022)
 
 Penultima ronda de actualizaciones: ¡filtros!

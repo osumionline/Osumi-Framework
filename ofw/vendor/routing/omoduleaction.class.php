@@ -8,7 +8,6 @@ use Attribute;
 class OModuleAction {
 	private ?string $url      = null;
 	private array $services   = [];
-	private array $components = [];
 	private array $filters    = [];
 	private ?string $layout   = null;
 	private ?string $type     = null;
@@ -21,7 +20,6 @@ class OModuleAction {
 	function __construct(
 		?string $url      = null,
 		array $services   = [],
-		array $components = [],
 		array $filters    = [],
 		?string $layout   = null,
 		?string $type     = null,
@@ -33,7 +31,6 @@ class OModuleAction {
 	) {
 		$this->url        = $url;
 		$this->services   = $services;
-		$this->components = $components;
 		$this->filters    = $filters;
 		$this->layout     = $layout;
 		$this->type       = $type;
@@ -60,15 +57,6 @@ class OModuleAction {
 	 */
 	public function getServices(): array {
 		return $this->services;
-	}
-
-	/**
-	 * Get list of components used on an action
-	 *
-	 * @return array Action's components
-	 */
-	public function getComponents(): array {
-		return $this->components;
 	}
 
 	/**

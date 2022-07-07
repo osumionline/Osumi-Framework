@@ -1,6 +1,19 @@
 {
-	"version": "8.0.4",
+	"version": "8.1.0",
 	"updates": {
+		"8.1.0": {
+			"message": "8.1.0 - Eager Loader: carga automática de DTOs y componentes",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocomponent.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/routing/oaction.class.php",
+				"ofw/vendor/routing/omoduleaction.class.php",
+				"ofw/vendor/tools/otools.class.php"
+			],
+			"postinstall": true
+		},
 		"8.0.4": {
 			"message": "8.0.4 - Múltiples filtros",
 			"files": [

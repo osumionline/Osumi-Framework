@@ -69,9 +69,6 @@ class OAction {
 			$this->{$item.'_service'} = $service;
 		}
 
-		// Load action's required components
-		OTools::loadComponents($this->attributes->getComponents());
-
 		// Load action's CSS and JS files
 		foreach ($this->attributes->getInlineCss() as $item) {
 			$css_file = $this->config->getDir('app_module').$url_result['module'].'/actions/'.$url_result['action'].'/'.$item.'.css';

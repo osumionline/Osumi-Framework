@@ -13,7 +13,6 @@ class OComponent {
 	private string $path      = '';
 	private string $template  = '';
 	private bool   $urlencode = false;
-	public array   $depends   = [];
 
 	function __construct(array $values = []) {
 		$rc = new ReflectionClass(get_class($this));
@@ -91,27 +90,11 @@ class OComponent {
 	}
 
 	/**
-	 * Function to load the dependencies of a component
-	 *
-	 * @param array $depends List of component's dependencies
-	 *
-	 * @return void
-	 */
-	public function loadDepends(): void {
-		foreach ($this->depends as $depend) {
-			OTools::loadComponent($depend);
-		}
-	}
-
-	/**
 	 * Function that takes the values, renders into the template and returns the result
 	 *
 	 * @return string Template with the values parsed
 	 */
 	public function __toString() {
-		if (count($this->depends)>0) {
-			$this->loadDepends();
-		}
 		$output = OTools::getPartial($this->template, $this->values);
 
 		if (is_null($output)) {
