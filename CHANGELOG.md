@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `8.1.1` (17/07/2022)
+
+Correcciones a `eeagerLoader`. La primera versión de `eagerLoader` cargaba dinámicamente todos los servicios y componentes que hubiera en la acción a ejecutar. Pero si un servicio usaba en su interior otro servicio o componentes no se cargaban. Lo mismo ocurría en las tareas.
+
+Ahora `eagerLoader` carga todos los servicios y componentes de manera recursiva de modo que se asegura que todos los servicios y componentes, por muchos "subservicios" o "subcomponentes" tengan, serán cargados.
+
 ## `8.1.0` (07/07/2022)
 
 Termino ronda de refactorizaciones/correcciones en la nueva versión 8.0
@@ -13,9 +19,9 @@ También hace una carga automática de los componentes que se usen en una acció
 Antes:
 
 #[OModuleAction(
-	url: '/user/:id',
-	services: ['user', 'photo'],
-	components: ['home/photo_list']
+  url: '/user/:id',
+  services: ['user', 'photo'],
+  components: ['home/photo_list']
 )]
 class userAction extends OAction {
   ...
@@ -24,8 +30,8 @@ class userAction extends OAction {
 Ahora:
 
 #[OModuleAction(
-	url: '/user/:id',
-	services: ['user', 'photo']
+  url: '/user/:id',
+  services: ['user', 'photo']
 )]
 class userAction extends OAction {
   ...
@@ -37,9 +43,9 @@ Si los componentes se organizan en subcarpetas, será necesario indicar esa estr
 ```php
 app/
   - component/
-	  -home/
-		  -users/
-				users.component.php
+    -home/
+      -users/
+        users.component.php
 ```
 
 Esto se reflejaría de la siguiente manera:
@@ -74,12 +80,12 @@ Antes (user.action.php):
 use OsumiFramework\App\Component\PhotoListComponent;
 
 #[OModuleAction(
-	url: '/user/:id',
-	services: ['user', 'photo'],
-	components: ['home/photo_list']
+  url: '/user/:id',
+  services: ['user', 'photo'],
+  components: ['home/photo_list']
 )]
 class userAction extends OAction {
-	...
+  ...
 }
 
 Ahora:
@@ -87,11 +93,11 @@ Ahora:
 use OsumiFramework\App\Component\Home\PhotoListComponent;
 
 #[OModuleAction(
-	url: '/user/:id',
-	services: ['user', 'photo']
+  url: '/user/:id',
+  services: ['user', 'photo']
 )]
 class userAction extends OAction {
-	...
+  ...
 }
 ```
 
@@ -105,13 +111,13 @@ Hasta ahora el parámetro `filter` del decorador `OModuleAction` permitía indic
 
 ```php
 #[OModuleAction(
-	url: '/getUsers',
-	filter: 'login'
+  url: '/getUsers',
+  filter: 'login'
 )]
 class filterAction extends OAction {
-	public function run(ORequest $req):void {
-		$filter = $req->getFilter('login');
-	}
+  public function run(ORequest $req):void {
+    $filter = $req->getFilter('login');
+  }
 }
 ```
 
@@ -119,14 +125,14 @@ Era un poco inconsistente, ¿para que indicar el nombre del filtro a obtener... 
 
 ```php
 #[OModuleAction(
-	url: '/getUsers',
-	filters: ['login', 'user']
+  url: '/getUsers',
+  filters: ['login', 'user']
 )]
 class filterAction extends OAction {
-	public function run(ORequest $req):void {
-		$login_filter = $req->getFilter('login');
-		$user_filter = $req->getFilter('user');
-	}
+  public function run(ORequest $req):void {
+    $login_filter = $req->getFilter('login');
+    $user_filter = $req->getFilter('user');
+  }
 }
 ```
 
@@ -146,18 +152,18 @@ Esta actualización convierte el parámetro `actions` de los módulos en arrays:
 Antes:
 
 #[OModule(
-	type: 'json',
-	prefix: '/api',
-	actions: 'getDate, getUser, getUsers'
+  type: 'json',
+  prefix: '/api',
+  actions: 'getDate, getUser, getUsers'
 )]
 class apiModule {}
 
 Despues:
 
 #[OModule(
-	type: 'json',
-	prefix: '/api',
-	actions: ['getDate', 'getUser', 'getUsers']
+  type: 'json',
+  prefix: '/api',
+  actions: ['getDate', 'getUser', 'getUsers']
 )]
 class apiModule {}
 ```
@@ -219,8 +225,8 @@ Esto resultaba muy ineficiente ya que cada llamada parseaba este valor para lueg
 ```php
 // Antes
 #[OModuleAction(
-	url: '/getUsers',
-	services: 'user, backend'
+  url: '/getUsers',
+  services: 'user, backend'
 )]
 class getUsersAction extends OAction {
 ...
@@ -228,8 +234,8 @@ class getUsersAction extends OAction {
 
 // Ahora
 #[OModuleAction(
-	url: '/getUsers',
-	services: ['user', 'backend']
+  url: '/getUsers',
+  services: ['user', 'backend']
 )]
 class getUsersAction extends OAction {
 ...
@@ -753,9 +759,9 @@ Cambios en el sistema de logs. Nuevos campos en el archivo `config`:
 ```json
 ...
 "log": {
-	"name": "ofw",         // Nombre del archivo donde se guardarán los logs
-	"max_file_size": 50,   // Tamaño máximo del archivo, en MBs
-	"max_num_files": 3     // Número máximo de rotaciones del archivo de logs
+  "name": "ofw",         // Nombre del archivo donde se guardarán los logs
+  "max_file_size": 50,   // Tamaño máximo del archivo, en MBs
+  "max_num_files": 3     // Número máximo de rotaciones del archivo de logs
 }
 ...
 ```
@@ -849,16 +855,16 @@ En la versión anterior las rutas se definían usando bloques de comentarios en 
  * @prefix /api
  */
 class api extends OModule {
-	/**
-	 * Función para obtener la fecha
-	 *
-	 * @url /getDate
-	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 * @return void
-	 */
-	public function getDate(ORequest $req): void {
-		...
-	}
+  /**
+   * Función para obtener la fecha
+   *
+   * @url /getDate
+   * @param ORequest $req Request object with method, headers, parameters and filters used
+   * @return void
+   */
+  public function getDate(ORequest $req): void {
+    ...
+  }
 }
 ```
 
@@ -869,20 +875,20 @@ A partir de esta versión, se usará el nuevo sistema de anotaciones de PHP 8.0.
  * Módulo API de prueba
  */
 #[ORoute(
-	type: 'json',
-	prefix: '/api'
+  type: 'json',
+  prefix: '/api'
 )]
 class api extends OModule {
-	/**
-	 * Función para obtener la fecha
-	 *
-	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 * @return void
-	 */
-	#[ORoute('/getDate')]
-	public function getDate(ORequest $req): void {
-		...
-	}
+  /**
+   * Función para obtener la fecha
+   *
+   * @param ORequest $req Request object with method, headers, parameters and filters used
+   * @return void
+   */
+  #[ORoute('/getDate')]
+  public function getDate(ORequest $req): void {
+    ...
+  }
 }
 ```
 
@@ -895,10 +901,10 @@ Los anteriores comentarios ahora se traducen como parámetros de la función `OR
 @filter testFilter
 
 #[ORoute(
-	'/ejemplo',
-	type: 'json',
-	prefix: '/api',
-	filter: 'testFilter'
+  '/ejemplo',
+  type: 'json',
+  prefix: '/api',
+  filter: 'testFilter'
 )]
 ```
 

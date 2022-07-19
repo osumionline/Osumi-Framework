@@ -1,6 +1,18 @@
 {
-	"version": "8.1.0",
+	"version": "8.1.1",
 	"updates": {
+		"8.1.1": {
+			"message": "8.1.1 - Correcciones a EagerLoader",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/cli/cli.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/routing/oaction.class.php",
+				"ofw/vendor/tools/otools.class.php"
+			],
+			"postinstall": true
+		},
 		"8.1.0": {
 			"message": "8.1.0 - Eager Loader: carga automática de DTOs y componentes",
 			"files": [

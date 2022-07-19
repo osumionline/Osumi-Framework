@@ -141,21 +141,6 @@ class OTools {
 	}
 
 	/**
-	 * Function to load a service file
-	 *
-	 * @param string $item Name of the service file
-	 *
-	 * @return void
-	 */
-	public static function loadService(string $item): void {
-		global $core;
-		$service_path = $core->config->getDir('app_service').$item.'.service.php';
-		if (file_exists($service_path)) {
-			require_once $service_path;
-		}
-	}
-
-	/**
 	 * Get a files content as a Base64 string
 	 *
 	 * @param string $filename Route of the filename to be loaded

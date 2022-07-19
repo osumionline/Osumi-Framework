@@ -62,7 +62,6 @@ class OAction {
 
 		// Load action's required services
 		foreach ($this->attributes->getServices() as $item) {
-			OTools::loadService($item);
 			$service_name = "\\OsumiFramework\\App\\Service\\".$item.'Service';
 			$service = new $service_name;
 			$service->loadService();

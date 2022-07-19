@@ -79,10 +79,15 @@ array_shift($argv);
 
 if (in_array($option, $ofw_task_list)) {
 	$task_name = "\\OsumiFramework\\OFW\\Task\\".$option.'Task';
+	$task_file = $core->config->getDir('ofw_task').$option.'.task.php';
 }
 if (in_array($option, $app_task_list)) {
 	$task_name = "\\OsumiFramework\\App\\Task\\".$option.'Task';
+	$task_file = $core->config->getDir('app_task').$option.'.task.php';
 }
+
+$core->taskEagerLoader($task_file);
+
 $task = new $task_name;
 $task->loadTask();
 $task->run($argv);

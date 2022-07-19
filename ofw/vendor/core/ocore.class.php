@@ -142,7 +142,13 @@ class OCore {
 			if ($model = opendir($this->config->getDir('app_model'))) {
 				while (false !== ($entry = readdir($model))) {
 					if ($entry != '.' && $entry != '..') {
-						require $this->config->getDir('app_model').$entry;
+						$model_path = $this->config->getDir('app_model').$entry;
+						require $model_path;
+						$model_content = file_get_contents($model_path);
+						$services = $this->getContentServices($model_content);
+						foreach ($services as $service) {
+							$this->loadService($service);
+						}
 					}
 				}
 				closedir($model);
@@ -290,6 +296,10 @@ class OCore {
 
 	/**
 	 * Load an action's required DTO and components
+	 *
+	 * @param string $path Path of the action file that will be checked
+	 *
+	 * @return void
 	 */
 	public function eagerLoader(string $path): void {
 		$action_content = file_get_contents($path);
@@ -300,8 +310,37 @@ class OCore {
 			require_once $this->config->getDir('app_dto').$dto.'.dto.php';
 		}
 
+		// Check for services
+		$services = $this->getContentServiceList($action_content);
+		foreach ($services as $service) {
+			$this->loadService($service);
+		}
+
 		// Check for components
 		$components = $this->getContentComponents($action_content);
+		foreach ($components as $component) {
+			$this->loadComponent($component);
+		}
+	}
+
+	/**
+	 * Load a task's required services and components
+	 *
+	 * @param string $path Path of the action file that will be checked
+	 *
+	 * @return void
+	 */
+	public function taskEagerLoader(string $path): void {
+		$task_content = file_get_contents($path);
+
+		// Check for services
+		$services = $this->getContentServices($task_content);
+		foreach ($services as $service) {
+			$this->loadService($service);
+		}
+
+		// Check for components
+		$components = $this->getContentComponents($task_content);
 		foreach ($components as $component) {
 			$this->loadComponent($component);
 		}
@@ -315,11 +354,51 @@ class OCore {
 	 * @return string Name of the DTO file used in the action or null if there is no DTO.
 	 */
 	public function getContentDTO(string $content): ?string {
-		preg_match("/^use OsumiFramework\\\App\\\DTO\\\(.*?);$/m", $content, $match);
+		preg_match("/^\s?use OsumiFramework\\\App\\\DTO\\\(.*?);$/m", $content, $match);
 		if (!is_null($match) && count($match) > 1) {
 			return OTools::toSnakeCase(str_ireplace("DTO", "", $match[1]));
 		}
 		return null;
+	}
+
+	/**
+	 * Get list of required services in an action. If there are no components returns an empty list.
+	 *
+	 * @param string $content Content of the action's file
+	 *
+	 * @return array List of service names
+	 */
+	public function getContentServiceList(string $content): array {
+		$pattern = "/^\s?services:\s?\t?\[(.*?)]/m";
+		$result = preg_match_all($pattern, $content, $matches);
+		$ret = [];
+
+		if ($result > 0) {
+			$ret = explode(',', $matches[1][0]);
+			for ($i = 0; $i < count($ret); $i++) {
+				$ret[$i] = str_ireplace("'", "", $ret[$i]);
+				$ret[$i] = str_ireplace('"', "", $ret[$i]);
+			}
+		}
+
+		return $ret;
+	}
+
+	/**
+	 *
+	 */
+	public function getContentServices(string $content): array {
+		$pattern = "/^\s?use OsumiFramework\\\App\\\Service\\\(.*?)Service;$/m";
+		$result = preg_match_all($pattern, $content, $matches);
+		$ret = [];
+
+		if ($result > 0) {
+			foreach ($matches[1] as $service) {
+				array_push($ret, $service);
+			}
+		}
+
+		return $ret;
 	}
 
 	/**
@@ -330,11 +409,11 @@ class OCore {
 	 * @return array List of component names
 	 */
 	public function getContentComponents(string $content): array {
-		$pattern = "/^use OsumiFramework\\\App\\\Component\\\(.*?);$/m";
+		$pattern = "/^\s?use OsumiFramework\\\App\\\Component\\\(.*?);$/m";
 		$result = preg_match_all($pattern, $content, $matches);
 		$ret = [];
 
-		if  (!is_null($matches) && count($matches) > 1) {
+		if  ($result > 0) {
 			for ($i = 0; $i < count($matches[1]); $i++) {
 				$component = $matches[1][$i];
 				$component_parts = explode('\\', $component);
@@ -350,6 +429,29 @@ class OCore {
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Load a service file
+	 *
+	 * @param string $service Name of the service
+	 *
+	 * @return void
+	 */
+	public function loadService(string $service): void {
+		$service_path = $this->config->getDir('app_service').$service.'.service.php';
+		require_once $service_path;
+
+		$service_content = file_get_contents($service_path);
+		$service_components = $this->getContentComponents($service_content);
+		foreach ($service_components as $component) {
+			$this->loadComponent($component);
+		}
+
+		$services = $this->getContentServices($service_content);
+		foreach ($services as $service) {
+			$this->loadService($service);
+		}
 	}
 
 	/**
