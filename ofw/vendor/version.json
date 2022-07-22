@@ -1,6 +1,14 @@
 {
-	"version": "8.1.1",
+	"version": "8.1.2",
 	"updates": {
+		"8.1.2": {
+			"message": "8.1.2 - Corrección al obtener la lista de servicios para EagerLoader",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocore.class.php"
+			]
+		},
 		"8.1.1": {
 			"message": "8.1.1 - Correcciones a EagerLoader",
 			"files": [

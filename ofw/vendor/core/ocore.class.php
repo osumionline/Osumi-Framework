@@ -376,6 +376,7 @@ class OCore {
 		if ($result > 0) {
 			$ret = explode(',', $matches[1][0]);
 			for ($i = 0; $i < count($ret); $i++) {
+				$ret[$i] = trim($ret[$i]);
 				$ret[$i] = str_ireplace("'", "", $ret[$i]);
 				$ret[$i] = str_ireplace('"', "", $ret[$i]);
 			}

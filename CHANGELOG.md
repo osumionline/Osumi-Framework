@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.1.2` (22/07/2022)
+
+Pequeña corrección al obtener la lista de servicios de una acción. En el caso de que el array de servicios, además de estar separados por comas, estuviesen separados por espacios, se tomaba el espacio como parte del nombre del servicio y fallaba al incluirlos.
+
 ## `8.1.1` (17/07/2022)
 
 Correcciones a `eeagerLoader`. La primera versión de `eagerLoader` cargaba dinámicamente todos los servicios y componentes que hubiera en la acción a ejecutar. Pero si un servicio usaba en su interior otro servicio o componentes no se cargaban. Lo mismo ocurría en las tareas.
