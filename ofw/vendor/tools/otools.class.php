@@ -429,7 +429,7 @@ class OTools {
 		if ($model = opendir($core->config->getDir('app_model'))) {
 			while (false !== ($entry = readdir($model))) {
 				if ($entry != '.' && $entry != '..') {
-					$table = "\\OsumiFramework\\App\\Model\\".str_ireplace('.php','',$entry);
+					$table = "\\OsumiFramework\\App\\Model\\".self::underscoresToCamelCase(str_ireplace('.model.php','',$entry), true);
 					array_push($ret, new $table());
 				}
 			}

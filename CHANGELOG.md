@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.1.3` (04/10/2022)
+
+Corrección al general el modelo usando la tarea `generateModel`. La tarea no tomaba bien los nombres de las clases de modelo y daba un error.
+
 ## `8.1.2` (22/07/2022)
 
 Pequeña corrección al obtener la lista de servicios de una acción. En el caso de que el array de servicios, además de estar separados por comas, estuviesen separados por espacios, se tomaba el espacio como parte del nombre del servicio y fallaba al incluirlos.
