@@ -1,9 +1,13 @@
 CHANGELOG
 =========
 
+## `8.1.4` (31/10/2022)
+
+Corrección al añadir una nueva acción usando la tarea `add`. Si el módulo al que se quiere añadir una acción contiene algún valor después del valor "actions", este tiene una coma final que no se estaba teniendo en cuenta y fallaba.
+
 ## `8.1.3` (04/10/2022)
 
-Corrección al general el modelo usando la tarea `generateModel`. La tarea no tomaba bien los nombres de las clases de modelo y daba un error.
+Corrección al generar el modelo usando la tarea `generateModel`. La tarea no tomaba bien los nombres de las clases de modelo y daba un error.
 
 ## `8.1.2` (22/07/2022)
 
