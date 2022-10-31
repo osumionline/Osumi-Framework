@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.1.5` (31/10/2022)
+
+Mejoras al añadir acciones. He acotado la busqueda de acciones existentes de modo que sea menos restrictiva y se evitan errores por caracteres extraños o que no se han contemplado.
+
 ## `8.1.4` (31/10/2022)
 
 Corrección al añadir una nueva acción usando la tarea `add`. Si el módulo al que se quiere añadir una acción contiene algún valor después del valor "actions", este tiene una coma final que no se estaba teniendo en cuenta y fallaba.

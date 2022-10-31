@@ -1,6 +1,14 @@
 {
-	"version": "8.1.4",
+	"version": "8.1.5",
 	"updates": {
+		"8.1.5": {
+			"message": "8.1.5 - Mejoras al añadir acciones",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"8.1.4": {
 			"message": "8.1.4 - Corrección al añadir acciones",
 			"files": [
