@@ -1,6 +1,14 @@
 {
-	"version": "8.1.5",
+	"version": "8.1.6",
 	"updates": {
+		"8.1.6": {
+			"message": "8.1.6 - Mejoras al buscar subcomponentes",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocore.class.php"
+			]
+		},
 		"8.1.5": {
 			"message": "8.1.5 - Mejoras al añadir acciones",
 			"files": [

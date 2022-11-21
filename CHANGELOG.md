@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.1.6` (21/10/2022)
+
+Mejoras a la hora de buscar subcomponentes. La expresión regular usada para buscar subcomponentes en un componente era demasiado restrictiva y daba fallos con algún que otro salto de línea. Se ha simplificado de modo que sea menos restrictiva y no haga falta tal exactitud.
+
 ## `8.1.5` (31/10/2022)
 
 Mejoras al añadir acciones. He acotado la busqueda de acciones existentes de modo que sea menos restrictiva y se evitan errores por caracteres extraños o que no se han contemplado.
