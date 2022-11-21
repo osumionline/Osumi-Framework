@@ -1,7 +1,11 @@
 CHANGELOG
 =========
 
-## `8.1.6` (21/10/2022)
+## `8.1.7` (22/11/2022)
+
+Correcciones en la tarea `add modelComponent`. Al crear un nuevo componente de una clase de modelo, el nombre del namespace no era correcto y provocaba fallos.
+
+## `8.1.6` (21/11/2022)
 
 Mejoras a la hora de buscar subcomponentes. La expresión regular usada para buscar subcomponentes en un componente era demasiado restrictiva y daba fallos con algún que otro salto de línea. Se ha simplificado de modo que sea menos restrictiva y no haga falta tal exactitud.
 

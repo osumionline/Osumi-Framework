@@ -1,6 +1,14 @@
 {
-	"version": "8.1.6",
+	"version": "8.1.7",
 	"updates": {
+		"8.1.7": {
+			"message": "8.1.7 - Correcciones al añadir un model component",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"8.1.6": {
 			"message": "8.1.6 - Mejoras al buscar subcomponentes",
 			"files": [

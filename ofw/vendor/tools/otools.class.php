@@ -878,14 +878,12 @@ class OTools {
 		$component_name = self::underscoresToCamelCase($values['model_name'], true).'Component';
 
 		$list_component_content = "<"."?php declare(strict_types=1);\n\n";
-		$list_component_content .= "namespace OsumiFramework\App\Component;\n\n";
+		$list_component_content .= "namespace OsumiFramework\App\Component\Model;\n\n";
 		$list_component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
-		$list_component_content .= "class ".$values['list_name']." extends OComponent {\n";
-		$list_component_content .= "	private string $"."depends = 'model/".strtolower($values['model_name'])."';\n";
-		$list_component_content .= "}";
+		$list_component_content .= "class ".$values['list_name']." extends OComponent {}";
 
 		$list_template_content = "<"."?php\n";
-		$list_template_content .= "use OsumiFramework\\App\\Component\\".$component_name.";\n\n";
+		$list_template_content .= "use OsumiFramework\\App\\Component\\Model\\".$component_name.";\n\n";
 		$list_template_content .= "foreach ($"."values['list'] as $"."i => $".strtolower($values['model_name']).") {\n";
 		$list_template_content .= "  $"."component = new ".$values['component_name']."([ '".strtolower($values['model_name'])."' => $".strtolower($values['model_name'])." ]);\n";
 		$list_template_content .= "	echo strval($"."component);\n";
@@ -902,7 +900,7 @@ class OTools {
 		}
 
 		$component_content = "<"."?php declare(strict_types=1);\n\n";
-		$component_content .= "namespace OsumiFramework\App\Component;\n\n";
+		$component_content .= "namespace OsumiFramework\App\Component\Model;\n\n";
 		$component_content .= "use OsumiFramework\OFW\Core\OComponent;\n\n";
 		$component_content .= "class ".$values['component_name']." extends OComponent {}";
 
