@@ -1,6 +1,53 @@
 CHANGELOG
 =========
 
+## `8.2.0` (11/12/2022)
+
+Nuevo sistema de modelos. Hasta ahora las clases de modelo creaban un array asociativo donde cada clave era un campo de la tabla y sus datos definían las características del campo.
+
+A partir de esta versión, el modelo estará definido por una clase `OModelGroup`, que recibe como parámetros una lista de objetos `OModelField`. Los campos son los mismos que en el anterior array asociativo:
+
+```php
+Antes:
+
+$model = [
+  'id' => [
+    'type'    => OModel::PK,
+    'comment' => 'Unique id for each user'
+  ],
+  'user' => [
+    'type'     => OModel::TEXT,
+    'size'     => 50,
+    'nullable' => false,
+    'comment'  => 'Users name'
+  ],
+...
+];
+
+Ahora:
+
+$model = new OModelGroup(
+  new OModelField(
+    name: 'id',
+    type: OMODEL_PK,
+    comment: 'Unique id for each user'
+  ),
+  new OModelField(
+    name: 'user',
+    type: OMODEL_TEXT,
+    nullable: false,
+    comment: 'Users name'
+  ),
+...
+);
+```
+
+A partir de esta versión los tipos de los campos se definen mediante constantes, por ejemplo antes era `OModel::PK` y ahora es `OMODEL_PK`, `OModel::DATE` ahora es `OMODEL_DATE`...
+
+Estas nuevas clases incluyen una serie de validaciones y comprobaciones que lanzarán excepciones en caso de que haya algún error.
+
+La actualización incluye una tarea `postinstall` que actualizará automáticamente los modelos a la nueva sintaxis.
+
 ## `8.1.7` (22/11/2022)
 
 Correcciones en la tarea `add modelComponent`. Al crear un nuevo componente de una clase de modelo, el nombre del namespace no era correcto y provocaba fallos.

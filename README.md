@@ -5,7 +5,7 @@ Osumi Framework es un pequeño framework orientado al modelo MVC (Modelo, Vista,
 
 ## Documentación
 
-La documentación del framework, con casos de uso y ejemplos, se encuentra en [Osumi Framework Docs](https://framework.osumi.es).
+La documentación del framework, con casos de uso y ejemplos, se encuentra en [Osumi Framework Docs](https://framework.osumi.dev).
 
 Este repositorio contiene código de ejemplo para crear una pequeña aplicación que es necesario quitar para crear una nueva.
 
