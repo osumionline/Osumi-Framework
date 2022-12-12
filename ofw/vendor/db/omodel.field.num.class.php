@@ -35,7 +35,7 @@ class OModelFieldNum extends OModelField {
       }
     }
     else {
-      throw new \Exception('Value "'.strval($value).'" must be an integer or null.');
+      throw new \Exception('Value "'.strval($value).'" must be an integer or null ('.gettype($value).' given).');
     }
   }
 

@@ -26,7 +26,10 @@ class OModelFieldFloat extends OModelField {
    * @return void
    */
   public function set(mixed $value, int | null $extra = null): void {
-    if (is_float($value) || is_null($value)) {
+    if (is_float($value) || is_int($value) || is_null($value)) {
+      if (is_int($value)) {
+        $value = floatval($value);
+      }
       if (!is_null($value) && !is_null($extra)) {
         $value = floatval(number_format($value, $extra));
       }
@@ -40,7 +43,7 @@ class OModelFieldFloat extends OModelField {
       }
     }
     else {
-      throw new \Exception('Value "'.strval($value).'" must be a float or null.');
+      throw new \Exception('Value "'.strval($value).'" must be a float or null ('.gettype($value).' given).');
     }
   }
 

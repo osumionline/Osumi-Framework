@@ -38,7 +38,7 @@ class OModelFieldBool extends OModelField {
       }
     }
     else {
-      throw new \Exception('Value "'.strval($value).'" must be an integer, a boolean or null.');
+      throw new \Exception('Value "'.strval($value).'" must be an integer, a boolean or null ('.gettype($value).' given).');
     }
   }
 

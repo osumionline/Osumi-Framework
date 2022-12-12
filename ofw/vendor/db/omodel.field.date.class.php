@@ -41,7 +41,7 @@ class OModelFieldDate extends OModelField {
       }
     }
     else {
-      throw new \Exception('Value "'.strval($value).'" must be a string or null.');
+      throw new \Exception('Value "'.strval($value).'" must be a string or null ('.gettype($value).' given).');
     }
   }
 

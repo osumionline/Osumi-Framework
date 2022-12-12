@@ -289,6 +289,10 @@ class OUpdate {
 					return $ret;
 				}
 
+				if (!is_dir($this->base_dir)) {
+					mkdir($this->base_dir);
+				}
+
 				if (file_exists($this->base_dir.$file)){
 					unlink($this->base_dir.$file);
 				}

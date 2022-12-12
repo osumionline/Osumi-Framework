@@ -7,6 +7,7 @@
 				"CHANGELOG.md",
 				"ofw/vendor/version.json",
 				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/oupdate.class.php",
 				"ofw/vendor/db/odb.class.php",
 				"ofw/vendor/db/omodel.class.php",
 				"ofw/vendor/db/omodel.field.class.php",

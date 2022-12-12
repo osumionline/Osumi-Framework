@@ -59,7 +59,10 @@ class OPostInstall {
 	}
 	if ($key === 'default') {
 	  if ($type === 'OMODEL_PK_STR' || $type === 'OMODEL_TEXT' || $type === 'OMODEL_DATE' || $type === 'OMODEL_LONGTEXT') {
-		return "'".$value."'";
+			if (is_null($value)) {
+				return 'null';
+			}
+			return "'".$value."'";
 	  }
 	}
 	return $value;
