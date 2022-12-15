@@ -73,7 +73,7 @@ class OModelFieldText extends OModelField {
    * @return void
    */
   public function reset(): void {
-  	$this->original_value = $this->current_value;
+    $this->original_value = $this->current_value;
   }
 
   /**
@@ -83,6 +83,15 @@ class OModelFieldText extends OModelField {
    */
   public function getUpdateStr(): string {
     return "`".$this->getName()."` = ?";
+  }
+
+  /**
+   * Get the SQL string needed to insert the field.
+   *
+   * @return string SQL string.
+   */
+  public function getInsertStr(): string {
+    return "?";
   }
 
   /**

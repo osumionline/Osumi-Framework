@@ -192,8 +192,8 @@ class OModel {
 			$sql .= ") VALUES (";
 			$insert_fields = [];
 			foreach ($this->model->getFields() as $field) {
-				$value  = $field->get();
-				array_push($insert_fields, "?");
+				$value = $field->get();
+				array_push($insert_fields, $field->getInsertStr());
 				if ($field->getType() === OMODEL_PK && $field->getIncr()) {
 					array_push($query_params, null);
 				}

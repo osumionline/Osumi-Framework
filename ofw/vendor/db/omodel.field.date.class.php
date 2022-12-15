@@ -74,7 +74,7 @@ class OModelFieldDate extends OModelField {
    * @return void
    */
   public function reset(): void {
-  	$this->original_value = $this->current_value;
+    $this->original_value = $this->current_value;
   }
 
   /**
@@ -84,9 +84,21 @@ class OModelFieldDate extends OModelField {
    */
   public function getUpdateStr(): string {
     if (!is_null($this->extra)) {
-      return 'DATE_FORMAT(`'.$this->getName().'`, "'.$this->extra.'") = ?';
+      return 'STR_TO_DATE(`'.$this->getName().'`, "'.$this->extra.'") = ?';
     }
     return "`".$this->getName()."` = ?";
+  }
+
+  /**
+   * Get the SQL string needed to insert the field.
+   *
+   * @return string SQL string.
+   */
+  public function getInsertStr(): string {
+    if (!is_null($this->extra)) {
+      return 'STR_TO_DATE(?, "'.$this->extra.'")';
+    }
+    return "?";
   }
 
   /**

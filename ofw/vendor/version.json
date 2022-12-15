@@ -1,6 +1,19 @@
 {
-	"version": "8.2.0",
+	"version": "8.2.1",
 	"updates": {
+		"8.2.1": {
+			"message": "8.2.1 - Correcciones en modelos",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/db/omodel.class.php",
+				"ofw/vendor/db/omodel.field.bool.class.php",
+				"ofw/vendor/db/omodel.field.date.class.php",
+				"ofw/vendor/db/omodel.field.float.class.php",
+				"ofw/vendor/db/omodel.field.num.class.php",
+				"ofw/vendor/db/omodel.field.text.class.php"
+			]
+		},
 		"8.2.0": {
 			"message": "8.2.0 - Nuevo sistema de modelos",
 			"files": [

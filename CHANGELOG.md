@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.2.1` (15/12/2022)
+
+Correcciones en el nuevo sistema de modelos. En las consultas insert de los campos de tipo fecha no se usaba el parametro extra que indicaba el formato, y en las consultas update estaba puesto DATE_FORMAT en lugar de STR_TO_DATE.
+
 ## `8.2.0` (11/12/2022)
 
 Nuevo sistema de modelos. Hasta ahora las clases de modelo creaban un array asociativo donde cada clave era un campo de la tabla y sus datos definían las características del campo.
