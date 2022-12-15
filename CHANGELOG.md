@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.2.2` (15/12/2022)
+
+Corrección en clase de modelo date. Al realizar un update de un campo de tipo date, si tenía un campo extra, el comando SQL no se construía correctamente.
+
 ## `8.2.1` (15/12/2022)
 
 Correcciones en el nuevo sistema de modelos. En las consultas insert de los campos de tipo fecha no se usaba el parametro extra que indicaba el formato, y en las consultas update estaba puesto DATE_FORMAT en lugar de STR_TO_DATE.

@@ -84,7 +84,7 @@ class OModelFieldDate extends OModelField {
    */
   public function getUpdateStr(): string {
     if (!is_null($this->extra)) {
-      return 'STR_TO_DATE(`'.$this->getName().'`, "'.$this->extra.'") = ?';
+      return '`'.$this->getName().'` = STR_TO_DATE(?, "'.$this->extra.'")';
     }
     return "`".$this->getName()."` = ?";
   }

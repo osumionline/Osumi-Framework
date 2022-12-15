@@ -1,6 +1,14 @@
 {
-	"version": "8.2.1",
+	"version": "8.2.2",
 	"updates": {
+		"8.2.2": {
+			"message": "8.2.2 - Correcciones en modelo date",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/db/omodel.field.date.class.php"
+			]
+		},
 		"8.2.1": {
 			"message": "8.2.1 - Correcciones en modelos",
 			"files": [
