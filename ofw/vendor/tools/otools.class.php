@@ -870,9 +870,9 @@ class OTools {
 			return 'component-folder-cant-create';
 		}
 
-		$text_fields      = [OModel::PK_STR, OModel::TEXT, OModel::LONGTEXT];
-		$urlencode_fields = [OModel::TEXT, OModel::LONGTEXT];
-		$date_fields      = [OModel::CREATED, OModel::UPDATED, OModel::DATE];
+		$text_fields      = [OMODEL_PK_STR, OMODEL_TEXT, OMODEL_LONGTEXT];
+		$urlencode_fields = [OMODEL_TEXT, OMODEL_LONGTEXT];
+		$date_fields      = [OMODEL_CREATED, OMODEL_UPDATED, OMODEL_DATE];
 		$cont             = 0;
 
 		$component_name = self::underscoresToCamelCase($values['model_name'], true).'Component';
@@ -908,36 +908,36 @@ class OTools {
 		$template_content .= "null\n";
 		$template_content .= "<"."?php else: ?>\n";
 		$template_content .= "{\n";
-		foreach ($values['model'] as $field_name => $field) {
+		foreach ($values['model'] as $field) {
 			$cont++;
-			$template_content .= "	\"".OTools::underscoresToCamelCase($field_name)."\": ";
-			if (in_array($field['type'], $text_fields) || in_array($field['type'], $date_fields)) {
+			$template_content .= "	\"".OTools::underscoresToCamelCase($field->getName())."\": ";
+			if (in_array($field->getType(), $text_fields) || in_array($field->getType(), $date_fields)) {
 				$template_content .= "\"";
 			}
 
-			if ($field['type']===OModel::BOOL) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ? 'true' : 'false' ?>";
+			if ($field->getType()===OMODEL_BOOL) {
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ? 'true' : 'false' ?>";
 			}
-			elseif ($field['nullable'] && in_array($field['type'], $date_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
+			elseif ($field->getNullable() && in_array($field->getType(), $date_fields)) {
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
 			}
-			elseif (!$field['nullable'] && in_array($field['type'], $date_fields)) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."', 'd/m/Y H:i:s') ?>";
+			elseif (!$field->getNullable() && in_array($field->getType(), $date_fields)) {
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."', 'd/m/Y H:i:s') ?>";
 			}
-			elseif ($field['nullable'] && !in_array($field['type'], $urlencode_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
+			elseif ($field->getNullable() && !in_array($field->getType(), $urlencode_fields)) {
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ?>";
 			}
-			elseif (!$field['nullable'] && !in_array($field['type'], $urlencode_fields)) {
-				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field_name."') ?>";
+			elseif (!$field->getNullable() && !in_array($field->getType(), $urlencode_fields)) {
+				$template_content .= "<"."?php echo $"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."') ?>";
 			}
-			elseif ($field['nullable'] && in_array($field['type'], $urlencode_fields)) {
-				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ? 'null' : urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
+			elseif ($field->getNullable() && in_array($field->getType(), $urlencode_fields)) {
+				$template_content .= "<"."?php echo is_null($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ? 'null' : urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ?>";
 			}
-			elseif (!$field['nullable'] && in_array($field['type'], $urlencode_fields)) {
-				$template_content .= "<"."?php echo urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field_name."')) ?>";
+			elseif (!$field->getNullable() && in_array($field->getType(), $urlencode_fields)) {
+				$template_content .= "<"."?php echo urlencode($"."values['".strtolower($values['model_name'])."']->get('".$field->getName()."')) ?>";
 			}
 
-			if (in_array($field['type'], $text_fields) || in_array($field['type'], $date_fields)) {
+			if (in_array($field->getType(), $text_fields) || in_array($field->getType(), $date_fields)) {
 				$template_content .= "\"";
 			}
 

@@ -1,6 +1,15 @@
 {
-	"version": "8.2.2",
+	"version": "8.2.3",
 	"updates": {
+		"8.2.3": {
+			"message": "8.2.3 - Correcciones en modelo bool y en modelComponents",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/db/omodel.field.bool.class.php",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"8.2.2": {
 			"message": "8.2.2 - Correcciones en modelo date",
 			"files": [

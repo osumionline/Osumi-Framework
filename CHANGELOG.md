@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `8.2.3` (20/12/2022)
+
+Corrección en clase de modelo bool. Al generar el modelo en SQL, no se mostraban correctamente los valores por defecto.
+
+Corrección en tarea `add modelComponent`. Esta tarea seguía usando el sistema de modelos antiguo y fallaba al generar componentes de modelo.
+
 ## `8.2.2` (15/12/2022)
 
 Corrección en clase de modelo date. Al realizar un update de un campo de tipo date, si tenía un campo extra, el comando SQL no se construía correctamente.

@@ -99,7 +99,7 @@ class OModelFieldBool extends OModelField {
       $sql .= " NOT NULL";
     }
     if ($this->getHasDefault()) {
-      $sql .= " DEFAULT ".(is_null($this->getDefault()) ? "NULL" : $this->getDefault());
+      $sql .= " DEFAULT ".(is_null($this->getDefault()) ? "NULL" : ($this->getDefault() ? 1 : 0) );
     }
     if (!is_null($this->getComment())) {
       $sql .= " COMMENT '".$this->getComment()."'";
