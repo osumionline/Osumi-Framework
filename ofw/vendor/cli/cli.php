@@ -13,10 +13,12 @@ use OsumiFramework\OFW\Tools\OTools;
 use OsumiFramework\OFW\Tools\OColors;
 
 function taskOptions(array $ofw_task_list, array $app_task_list): string {
+	global $core;
 	$ret = "";
 	$ret .= OTools::getMessage('OFW_OPTIONS');
 	asort($ofw_task_list);
 	foreach ($ofw_task_list as $task) {
+		$core->taskEagerLoader($core->config->getDir('ofw_task').$task.'.task.php');
 		$task_name = "\\OsumiFramework\\OFW\\Task\\".$task."Task";
 		$task = new $task_name;
 		$task->loadTask();
@@ -24,6 +26,7 @@ function taskOptions(array $ofw_task_list, array $app_task_list): string {
 	}
 	asort($app_task_list);
 	foreach ($app_task_list as $task) {
+		$core->taskEagerLoader($core->config->getDir('app_task').$task.'.task.php');
 		$task_name = "\\OsumiFramework\\App\\Task\\".$task."Task";
 		$task = new $task_name;
 		$task->loadTask();

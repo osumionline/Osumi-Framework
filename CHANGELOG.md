@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `8.2.4` (03/01/2022)
+
+Corrección en CLI. Si no se indica ninguna opción el CLI muestra las opciones disponibles cargando todas ellas, pero al no pasar el `eagerLoader` por ellas, las que tuviesen `services` o `componentes` provocaban un fallo.
+
+Aprovecho este commit para hacer limpieza quitando una task y un favicon.
+
 ## `8.2.3` (20/12/2022)
 
 Corrección en clase de modelo bool. Al generar el modelo en SQL, no se mostraban correctamente los valores por defecto.

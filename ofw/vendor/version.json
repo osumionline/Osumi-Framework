@@ -1,6 +1,14 @@
 {
-	"version": "8.2.3",
+	"version": "8.2.4",
 	"updates": {
+		"8.2.4": {
+			"message": "8.2.4 - Corrección en CLI",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/cli/cli.php"
+			]
+		},
 		"8.2.3": {
 			"message": "8.2.3 - Correcciones en modelo bool y en modelComponents",
 			"files": [
