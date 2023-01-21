@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## `8.2.5` (21/01/2022)
+
+Corrección menor en la función `showErrorPage` de la clase `OTools`. Esta función es la encargada de mostrar las diferentes páginas de errores y había un caso donde no se le mandaba un campo que se consideraba obligatorio. Esto no provocaba ningún fallo, pero quedaba una traza del error en el log cada vez que se ejecutaba, incrementando de manera innecesaria el archivo del log.
+
 ## `8.2.4` (03/01/2022)
 
 Corrección en CLI. Si no se indica ninguna opción el CLI muestra las opciones disponibles cargando todas ellas, pero al no pasar el `eagerLoader` por ellas, las que tuviesen `services` o `componentes` provocaban un fallo.

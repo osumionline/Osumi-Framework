@@ -263,7 +263,7 @@ class OTools {
 			'mode'    => $mode,
 			'version' => self::getVersion(),
 			'title'   => $core->config->getDefaultTitle(),
-			'message' => $res['message'],
+			'message' => array_key_exists('message', $res) ? $res['message'] : '',
 			'res'     => $res
 		];
 

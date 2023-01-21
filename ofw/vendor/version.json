@@ -1,6 +1,14 @@
 {
-	"version": "8.2.4",
+	"version": "8.2.5",
 	"updates": {
+		"8.2.5": {
+			"message": "8.2.5 - Corrección en Tools",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/tools/otools.class.php"
+			]
+		},
 		"8.2.4": {
 			"message": "8.2.4 - Corrección en CLI",
 			"files": [
