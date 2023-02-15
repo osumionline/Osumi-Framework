@@ -1,6 +1,17 @@
 {
-	"version": "8.2.5",
+	"version": "8.2.6",
 	"updates": {
+		"8.2.6": {
+			"message": "8.2.6 - Carga de OColors y correcciones para Windows",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/ocomponent.class.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/core/otask.class.php",
+				"ofw/vendor/db/omodel.class.php"
+			]
+		},
 		"8.2.5": {
 			"message": "8.2.5 - Corrección en Tools",
 			"files": [

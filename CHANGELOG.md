@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## `8.2.6` (15/02/2023)
+
+Cargo por defecto la clase `OColors`. Esta clase solo se utiliza en las tareas internas de OFW, pero si se quiere utilizar una de ellas desde un módulo, daba un error al no estar cargadas.
+
+También se aplican una serie de correcciones para la ejecución de OFW en Windows (las rutas en Windows usan contrabarra y en macOS y Linux usan barras).
+
 ## `8.2.5` (21/01/2022)
 
 Corrección menor en la función `showErrorPage` de la clase `OTools`. Esta función es la encargada de mostrar las diferentes páginas de errores y había un caso donde no se le mandaba un campo que se consideraba obligatorio. Esto no provocaba ningún fallo, pero quedaba una traza del error en el log cada vez que se ejecutaba, incrementando de manera innecesaria el archivo del log.

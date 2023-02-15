@@ -44,6 +44,7 @@ class OModel {
 		if (is_null($table_name)) {
 			$rc = new ReflectionClass(get_class($this));
 			$full_path = $rc->getFileName();
+			$full_path = str_ireplace("\\", '/', $full_path);
 			$data = explode('/', $full_path);
 			$file_name = array_pop($data);
 			$table_name = str_ireplace('.model.php', '', $file_name);

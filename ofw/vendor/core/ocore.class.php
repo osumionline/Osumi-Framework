@@ -43,6 +43,7 @@ class OCore {
 		date_default_timezone_set('Europe/Madrid');
 
 		$basedir = realpath(dirname(__FILE__));
+		$basedir = str_ireplace("\\", '/', $basedir);
 		$basedir = str_ireplace('ofw/vendor/core', '', $basedir);
 
 		require $basedir.'ofw/vendor/core/oconfig.class.php';
@@ -72,6 +73,7 @@ class OCore {
 		require $this->config->getDir('ofw_vendor').'routing/ourl.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/oform.class.php';
 		require $this->config->getDir('ofw_vendor').'tools/otools.class.php';
+		require $this->config->getDir('ofw_vendor').'tools/ocolors.class.php';
 
 		// Due to a circular dependancy, check name of the log file after core loading
 		if (is_null($this->config->getLog('name'))) {
@@ -122,7 +124,6 @@ class OCore {
 			$this->session  = new OSession();
 		}
 		else {
-			require $this->config->getDir('ofw_vendor').'tools/ocolors.class.php';
 			require $this->config->getDir('ofw_vendor').'core/oupdate.class.php';
 		}
 
@@ -372,7 +373,7 @@ class OCore {
 	 * @return string Name of the DTO file used in the action or null if there is no DTO.
 	 */
 	public function getContentDTO(string $content): ?string {
-		preg_match("/^\s?use OsumiFramework\\\App\\\DTO\\\(.*?);$/m", $content, $match);
+		preg_match("/use OsumiFramework\\\App\\\DTO\\\(.*?);/m", $content, $match);
 		if (!is_null($match) && count($match) > 1) {
 			return OTools::toSnakeCase(str_ireplace("DTO", "", $match[1]));
 		}

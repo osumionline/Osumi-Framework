@@ -22,9 +22,7 @@ class OTask {
 	 */
 	public final function loadTask(): void {
 		global $core;
-		if (class_exists('\OsumiFramework\OFW\Tools\OColors')) {
-			$this->colors = new OColors();
-		}
+		$this->colors = new OColors();
 		$this->config = $core->config;
 		$this->log    = new OLog(get_class($this));
 		$this->cacheContainer = $core->cacheContainer;

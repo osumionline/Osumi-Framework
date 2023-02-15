@@ -17,6 +17,7 @@ class OComponent {
 	function __construct(array $values = []) {
 		$rc = new ReflectionClass(get_class($this));
 		$full_path = $rc->getFileName();
+		$full_path = str_ireplace("\\", '/', $full_path);
 		$data = explode('/', $full_path);
 		$file_name = array_pop($data);
 		$name = str_ireplace('.component.php', '', $file_name);
@@ -98,7 +99,7 @@ class OComponent {
 		$output = OTools::getPartial($this->template, $this->values);
 
 		if (is_null($output)) {
-			$output = 'ERROR: File '.$name.' not found';
+			$output = 'ERROR: File '.$this->template.' not found';
 		}
 
 		return $output;
