@@ -19,6 +19,18 @@ class generateModelTask extends OTask {
 	 * @return void Echoes SQL to create database tables and generates a SQL file in export folder
 	 */
 	public function run(): void {
+		global $core;
+		// Check if there is a database configured and loaded
+		if (is_null($core->dbContainer)) {
+			$path   = $this->getConfig()->getDir('ofw_template').'generateModel/error.php';
+			$values = [
+				'colors' => $this->getColors()
+			];
+
+			echo OTools::getPartial($path, $values);
+			exit;
+		}
+
 		$path     = $this->getConfig()->getDir('ofw_template').'generateModel/generateModel.php';
 		$sql_file = $this->getConfig()->getDir('ofw_export').'model.sql';
 		$params   = [

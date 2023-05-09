@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+## `8.2.7` (09/05/2023)
+
+Ronda de correcciones.
+
+Cuando el entorno es producción, los logs de errores no guardaban las trazas de los errores. Cuando precisamente es el momento más necesario...
+
+Corrección en la tarea `add`: Al crear un nuevo servicio o tarea, si no existen las carpetas que deben contenerlos, ahora se crean automáticamente. Antes esto no se hacía y en caso de faltar la carpeta daba un error.
+
+Corrección en la tarea `generateModel`: Al llamar a esta tarea, si no había una base de datos definida daba un error. Ahora se comprueba antes y da un mensaje de error.
+
 ## `8.2.6` (15/02/2023)
 
 Cargo por defecto la clase `OColors`. Esta clase solo se utiliza en las tareas internas de OFW, pero si se quiere utilizar una de ellas desde un módulo, daba un error al no estar cargadas.

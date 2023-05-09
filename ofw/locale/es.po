@@ -97,6 +97,9 @@ msgstr "El archivo ya existía y ha sido borrado."
 msgid "TASK_GENERATE_MODEL_GENERATED"
 msgstr "Archivo de modelo generado: %s"
 
+msgid "TASK_GENERATE_MODEL_NO_DATABASE"
+msgstr "No se ha definido ninguna base de datos."
+
 msgid "TASK_PLUGINS"
 msgstr "Función para obtener el listado de plugins disponibles."
 

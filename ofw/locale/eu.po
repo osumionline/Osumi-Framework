@@ -97,6 +97,9 @@ msgstr "Helburu-fitxategia jada bazegoen, ezabatua izan da."
 msgid "TASK_GENERATE_MODEL_GENERATED"
 msgstr "Eredu-fitxategia sortua: %s"
 
+msgid "TASK_GENERATE_MODEL_NO_DATABASE"
+msgstr "Ez da definitu datu-baserik."
+
 msgid "TASK_PLUGINS"
 msgstr "Pluginak manipulatzeko zeregina (zerrendatu erabilgarriak / instalatu / ezabatu)"
 

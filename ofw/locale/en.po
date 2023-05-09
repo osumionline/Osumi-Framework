@@ -97,6 +97,9 @@ msgstr "Destiny file already existed, it has been deleted."
 msgid "TASK_GENERATE_MODEL_GENERATED"
 msgstr "Model file generated: %s"
 
+msgid "TASK_GENERATE_MODEL_NO_DATABASE"
+msgstr "There are no databases configured."
+
 msgid "TASK_PLUGINS"
 msgstr "Task to manage plugins (list available / install / remove)"
 

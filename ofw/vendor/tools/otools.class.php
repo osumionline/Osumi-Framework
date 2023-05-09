@@ -783,6 +783,11 @@ class OTools {
 	public static function addService(string $name): array {
 		global $core;
 
+		// If services folder does not exist I create it before doing anything else
+		if (!is_dir($core->config->getDir('app_service'))) {
+			mkdir($core->config->getDir('app_service'));
+		}
+
 		$service_file = $core->config->getDir('app_service').$name.'.service.php';
 
 		if (file_exists($service_file)) {
@@ -810,6 +815,11 @@ class OTools {
 	 */
 	public static function addTask(string $name): array {
 		global $core;
+
+		// If tasks folder does not exist I create it before doing anything else
+		if (!is_dir($core->config->getDir('app_task'))) {
+			mkdir($core->config->getDir('app_task'));
+		}
 
 		$task_file = $core->config->getDir('app_task').$name.'.task.php';
 		$ofw_task_file = $core->config->getDir('ofw_task').$name.'.task.php';
