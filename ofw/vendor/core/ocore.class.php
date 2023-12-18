@@ -39,7 +39,6 @@ class OCore {
 	 * @return void
 	 */
 	public function load(bool $from_cli=false): void {
-		session_start();
 		date_default_timezone_set('Europe/Madrid');
 
 		$basedir = realpath(dirname(__FILE__));
@@ -184,6 +183,11 @@ class OCore {
 	 * @return void
 	 */
 	public function run(): void {
+		// Check if session is to be used
+		if ($this->config->getUseSession()) {
+			session_start();
+		}
+
 		if ($this->config->getAllowCrossOrigin()) {
 			header('Access-Control-Allow-Origin: *');
 			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');

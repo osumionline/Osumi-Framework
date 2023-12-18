@@ -1,6 +1,16 @@
 {
-	"version": "8.2.7",
+	"version": "8.2.8",
 	"updates": {
+		"8.2.7": {
+			"message": "8.2.8 - Configuración para sesiones y corrección en PKs de tipo string",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/core/oconfig.class.php",
+        "ofw/vendor/core/ocore.class.php",
+        "ofw/vendor/db/omodel.group.class.php"
+			]
+		},
 		"8.2.7": {
 			"message": "8.2.7 - Correcciones en logs y en tareas",
 			"files": [

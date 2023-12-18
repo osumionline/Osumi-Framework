@@ -31,6 +31,7 @@ class OModelGroup {
 				break;
 				case OMODEL_PK_STR: {
 					$field = new OModelFieldText($item);
+					array_push($this->pk, $field->getName());
 				}
 				break;
 				case OMODEL_CREATED: {

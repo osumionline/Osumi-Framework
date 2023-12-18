@@ -1,6 +1,30 @@
 CHANGELOG
 =========
 
+## `8.2.8` (18/12/2023)
+
+Otra ronda de correcciones.
+
+Se ha añadido un nuevo valor de configuración para indicar si se quiere usar sesiones de PHP. Por defecto el valor es "no", ya que la mayoría de casos en los que se usa una API es mediante stateless y se usa un token para identificar a los usuarios.
+
+```php
+{
+	"name": "Osumi Framework",
+  "use-session": true,
+	"db": {
+		"host": "localhost",
+		"user": "user",
+		"pass": "password",
+		"name": "db_name",
+		"charset": "utf8mb4",
+		"collate": "utf8mb4_unicode_ci"
+	},
+  ...
+}
+```
+
+Por otra parte se ha hecho una corrección a la hora de usar PKs de tipo string, no se estaba guardando qué campos eran PK de modo que luego no se generaban bien las consultas.
+
 ## `8.2.7` (09/05/2023)
 
 Ronda de correcciones.

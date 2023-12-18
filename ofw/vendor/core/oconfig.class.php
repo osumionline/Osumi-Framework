@@ -16,6 +16,7 @@ class OConfig {
 		'max_file_size' => 50,
 		'max_num_files' => 3
 	];
+	private bool $use_session = false;
 	private bool $allow_cross_origin = true;
 
 	private array $plugins  = [];
@@ -104,6 +105,12 @@ class OConfig {
 	private function loadConfig(array $config): void {
 		if (array_key_exists('name', $config)) {
 			$this->setName($config['name']);
+		}
+		if (array_key_exists('use-session', $config)) {
+			$this->setUseSession($config['use-session']);
+		}
+		if (array_key_exists('allow-cross-origin', $config)) {
+			$this->setAllowCrossOrigin($config['allow-cross-origin']);
 		}
 		if (array_key_exists('db', $config)) {
 			$db_fields = ['driver', 'host', 'user', 'pass', 'name', 'charset', 'collate'];
@@ -254,13 +261,33 @@ class OConfig {
 	}
 
 	/**
+	 * Set if session is to be used
+	 *
+	 * @param bool $value Value of the Use Session configuration
+	 *
+	 * @return void
+	 */
+	public function setUseSession(bool $value): void {
+		$this->use_session = $value;
+	}
+
+	/**
+	 * Get if session is to be used
+	 *
+	 * @return bool Value of the Use Session configuration
+	 */
+	public function getUseSession(): bool {
+		return $this->use_session;
+	}
+
+	/**
 	 * Set if Cross-Origin calls are allowed
 	 *
 	 * @param bool $value Value of the Cross-Origin configuration
 	 *
 	 * @return void
 	 */
-	public function setAllowCrossOrigin(string $value): void {
+	public function setAllowCrossOrigin(bool $value): void {
 		$this->allow_cross_origin = $value;
 	}
 
