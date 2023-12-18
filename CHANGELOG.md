@@ -10,7 +10,7 @@ Se ha añadido un nuevo valor de configuración para indicar si se quiere usar s
 ```php
 {
 	"name": "Osumi Framework",
-  "use-session": true,
+	"use-session": true,
 	"db": {
 		"host": "localhost",
 		"user": "user",
