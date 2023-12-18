@@ -1,6 +1,120 @@
 CHANGELOG
 =========
 
+## `8.3.0` (18/12/2023)
+
+Nueva opción `set_function` para las clases de modelo. Al definir cada campo de una clase de modelo además de los actuales campos `name`, `type`... ahora hay una nueva opción llamada `set_function`. En esta opción se puede indicar el nombre de una función estática que deberá estar dentro de una clase de modelo y lo que hará será modificar el valor del campo al hacer un `set` del mismo.
+
+Por ejemplo puede servir para pasar los valores de un campo a mayusculas:
+
+```php
+class User extends OModel {
+	function __construct() {
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Unique id for each user'
+			),
+			new OModelField(
+				name: 'username',
+				type: OMODEL_TEXT,
+				nullable: false,
+				comment: 'Users name',
+				set_function: ['User', 'pasar_a_mayusculas']
+			),
+			...
+		);
+	}
+
+	public static function pasar_a_mayusculas(string | null $value): string | null {
+		if (is_null($value)) {
+			return null;
+		}
+		return strtoupper($value);
+	}
+}
+```
+
+Esto hará que cada vez que se haga un `set` del campo `username`, el valor automáticamente pasará a mayusculas:
+
+```php
+$user = new User();
+$user->set('username', 'nombre');
+
+echo $user->get('username'); // Devolverá "NOMBRE"
+```
+
+Puede servir también para realizar validaciones. Por ejemplo un producto de una tienda que tiene dos campos "price" y "new_price". El campo "price" sirve para indicar su precio real y "new_price" para indicar su precio rebajado. Si se indica que "new_price" es 0 no tendría sentido, por que el producto pasaría a ser gratuito. Con una función `set` se podría modificar automáticamente el valor para dejarlo como `null` y así indicar que no está rebajado:
+
+```php
+class Product extends OModel {
+	function __construct() {
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Unique id for each product'
+			),
+			new OModelField(
+				name: 'price',
+				type: OMODEL_FLOAT,
+				nullable: false,
+				comment: 'Products price'
+			),
+			new OModelField(
+				name: 'new_price',
+				type: OMODEL_FLOAT,
+				nullable: false,
+				comment: 'Products sales price',
+				set_function: ['Product', 'comprobar_cero']
+			),
+			...
+		);
+	}
+
+	public static function comprobar_cero(float | null $value): float | null {
+		if (is_null($value)) {
+			return null;
+		}
+		if ($value == 0) {
+			return null;
+		}
+		return $value;
+	}
+}
+```
+
+**NOTA**: Para usar un método de una clase que no sea de modelo, por ejemplo una clase con utilidades, habrá que indicar el namespace completo. De lo contrario se asume que se quiere usar una clase de modelo. Por ejemplo:
+
+```php
+class Product extends OModel {
+  function __construct() {
+    $model = new OModelGroup(
+      new OModelField(
+        name: 'id',
+        type: OMODEL_PK,
+        comment: 'Unique id for each product'
+      ),
+      new OModelField(
+        name: 'price',
+        type: OMODEL_FLOAT,
+        nullable: false,
+        comment: 'Products price'
+      ),
+      new OModelField(
+        name: 'new_price',
+        type: OMODEL_FLOAT,
+        nullable: false,
+        comment: 'Products sales price',
+        set_function: ['OsumiFramework\\App\\Tools\\ProductTools', 'comprobar_cero']
+      ),
+      ...
+    );
+  }
+}
+```
+
 ## `8.2.8` (18/12/2023)
 
 Otra ronda de correcciones.

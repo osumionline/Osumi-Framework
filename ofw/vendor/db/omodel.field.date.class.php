@@ -24,10 +24,15 @@ class OModelFieldDate extends OModelField {
    *
    * @param string | null $extra MySQL DATE_FORMAT mask to be used on insert or update commands
    *
+   * @param array | null $set_function Set function for the field
+   *
    * @return void
    */
-  public function set(mixed $value, string | null $extra = null): void {
+  public function set(mixed $value, string | null $extra = null, array | null $set_function = null): void {
     if (is_string($value) || is_null($value)) {
+      if (!is_null($set_function)) {
+        $value = call_user_func([$set_function[0], $set_function[1]], $value);
+      }
       if ($this->original_set) {
         $this->current_value = $value;
       }

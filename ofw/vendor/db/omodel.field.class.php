@@ -6,15 +6,16 @@ namespace OsumiFramework\OFW\DB;
  * Table field definition object class
  */
 class OModelField {
-	private string | null $name        = null;
-	private int | null    $type        = null;
-	private bool          $has_default = true;
+	private string | null   $name         = null;
+	private int | null      $type         = null;
+	private bool            $has_default  = true;
 	private int | float | string | bool | null $default = null;
-	private bool | null   $incr        = null;
-	private int | null    $size        = null;
-	private bool          $nullable    = true;
-	private string | null $comment     = null;
-	private string | null $ref         = null;
+	private bool | null     $incr         = null;
+	private int | null      $size         = null;
+	private bool            $nullable     = true;
+	private string | null   $comment      = null;
+	private string | null   $ref          = null;
+	private array | null    $set_function = null;
 
 	function __construct(
 		string $name = null,
@@ -24,9 +25,10 @@ class OModelField {
 		int $size = null,
 		bool $nullable = true,
 		string $comment = null,
-		string $ref = null
+		string $ref = null,
+		array $set_function = null
 	) {
-		$this->validate($name, $type, $default, $incr, $size, $nullable, $comment, $ref);
+		$this->validate($name, $type, $default, $incr, $size, $nullable, $comment, $ref, $set_function);
 	}
 
 	/**
@@ -45,7 +47,8 @@ class OModelField {
 			$field->getSize(),
 			$field->getNullable(),
 			$field->getComment(),
-			$field->getRef()
+			$field->getRef(),
+			$field->getSetFunction()
 		);
 		$this->has_default = $field->getHasDefault();
 	}
@@ -69,6 +72,8 @@ class OModelField {
 	 *
 	 * @param string $ref Reference to another tables column
 	 *
+	 * @param array | null $set_function Set function for the field
+	 *
 	 * @return void
 	 */
 	public function validate(
@@ -79,7 +84,8 @@ class OModelField {
 		int $size = null,
 		bool $nullable = true,
 		string $comment = null,
-		string $ref = null
+		string $ref = null,
+		array | null $set_function = null
 	): void {
 		// Field name is mandatory
 		if (is_null($name)) {
@@ -147,6 +153,12 @@ class OModelField {
 		$this->nullable = $nullable;
 		$this->comment = $comment;
 		$this->ref = $ref;
+		if (!is_null($set_function) && is_array($set_function) && count($set_function) == 2) {
+			if (!str_contains($set_function[0], '\\')) {
+				$set_function[0] = 'OsumiFramework\\App\\Model\\'.$set_function[0];
+			}
+			$this->set_function = $set_function;
+		}
 	}
 
 	/**
@@ -239,5 +251,14 @@ class OModelField {
 	 */
 	public function getRef(): ?string {
 		return $this->ref;
+	}
+
+	/**
+	 * Get the set function's name for the field
+	 *
+	 * @return array Set function's name for the field
+	 */
+	public function getSetFunction(): ?array {
+		return $this->set_function;
 	}
 }

@@ -23,15 +23,20 @@ class OModelFieldFloat extends OModelField {
    *
    * @param int | null $extra Number of decimals for the field.
    *
+   * @param array | null $set_function Set function for the field
+   *
    * @return void
    */
-  public function set(mixed $value, int | null $extra = null): void {
+  public function set(mixed $value, int | null $extra = null, array | null $set_function = null): void {
     if (is_float($value) || is_int($value) || is_null($value)) {
       if (is_int($value)) {
         $value = floatval($value);
       }
       if (!is_null($value) && !is_null($extra)) {
         $value = floatval(number_format($value, $extra));
+      }
+      if (!is_null($set_function)) {
+        $value = call_user_func([$set_function[0], $set_function[1]], $value);
       }
       if ($this->original_set) {
         $this->current_value = $value;

@@ -105,11 +105,12 @@ class OModel {
 	 */
 	public function set(string $key, mixed $value, string | int | null $extra = null): bool {
 		if (array_key_exists($key, $this->model->getFields())) {
+			$set_function = $this->model->getFields()[$key]->getSetFunction();
 			if ($this->model->getFields()[$key]::SET_EXTRA) {
-				$this->model->getFields()[$key]->set($value, $extra);
+				$this->model->getFields()[$key]->set(value: $value, extra: $extra, set_function: $set_function);
 			}
 			else {
-				$this->model->getFields()[$key]->set($value);
+				$this->model->getFields()[$key]->set(value: $value, set_function: $set_function);
 			}
 			return true;
 		}
@@ -289,21 +290,22 @@ class OModel {
 					$this->model->getFields()[$field->getName()]->set(null);
 				}
 				else {
+					$set_function = $this->model->getFields()[$field->getName()]->getSetFunction();
 					switch($field->getType()) {
 						case OMODEL_NUM: {
-							$this->model->getFields()[$field->getName()]->set( intval($res[$field->getName()]) );
+							$this->model->getFields()[$field->getName()]->set( value: intval($res[$field->getName()]), set_function: $set_function );
 						}
 						break;
 						case OMODEL_FLOAT: {
-							$this->model->getFields()[$field->getName()]->set( floatval($res[$field->getName()]) );
+							$this->model->getFields()[$field->getName()]->set( value: floatval($res[$field->getName()]), set_function: $set_function );
 						}
 						break;
 						case OMODEL_BOOL: {
-							$this->model->getFields()[$field->getName()]->set( ($res[$field->getName()]==1) );
+							$this->model->getFields()[$field->getName()]->set( value: ($res[$field->getName()]==1), set_function: $set_function );
 						}
 						break;
 						default: {
-							$this->model->getFields()[$field->getName()]->set( $res[$field->getName()] );
+							$this->model->getFields()[$field->getName()]->set( value: $res[$field->getName()], set_function: $set_function );
 						}
 					}
 				}

@@ -1,14 +1,28 @@
 {
-	"version": "8.2.8",
+	"version": "8.3.0",
 	"updates": {
+		"8.3.0": {
+			"message": "8.3.0 - Funciones set para campos de clases de modelo",
+			"files": [
+				"CHANGELOG.md",
+				"ofw/vendor/version.json",
+				"ofw/vendor/db/omodel.class.php",
+				"ofw/vendor/db/omodel.field.bool.class.php",
+				"ofw/vendor/db/omodel.field.class.php",
+				"ofw/vendor/db/omodel.field.date.class.php",
+				"ofw/vendor/db/omodel.field.float.class.php",
+				"ofw/vendor/db/omodel.field.num.class.php",
+				"ofw/vendor/db/omodel.field.text.class.php"
+			]
+		},
 		"8.2.8": {
 			"message": "8.2.8 - Configuración para sesiones y corrección en PKs de tipo string",
 			"files": [
 				"CHANGELOG.md",
 				"ofw/vendor/version.json",
 				"ofw/vendor/core/oconfig.class.php",
-        "ofw/vendor/core/ocore.class.php",
-        "ofw/vendor/db/omodel.group.class.php"
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/db/omodel.group.class.php"
 			]
 		},
 		"8.2.7": {
@@ -17,12 +31,12 @@
 				"CHANGELOG.md",
 				"ofw/vendor/version.json",
 				"ofw/locale/en.po",
-        "ofw/locale/es.po",
-        "ofw/locale/eu.po",
-        "ofw/task/generateModel.task.php",
-        "ofw/template/generateModel/error.php",
-        "ofw/vendor/core/ocore.class.php",
-        "ofw/vendor/tools/otools.class.php"
+				"ofw/locale/es.po",
+				"ofw/locale/eu.po",
+				"ofw/task/generateModel.task.php",
+				"ofw/template/generateModel/error.php",
+				"ofw/vendor/core/ocore.class.php",
+				"ofw/vendor/tools/otools.class.php"
 			]
 		},
 		"8.2.6": {

@@ -1,7 +1,7 @@
 ROADMAP
 =======
 
-## 8.3.0
+## 8.4.0
 
 La tarea updateUrls mira la carpeta de los plugins y mira en sus archivos de configuración a ver si hay la propiedad `hasUrls`.
 

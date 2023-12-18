@@ -21,7 +21,8 @@ class User extends OModel {
 				name: 'user',
 				type: OMODEL_TEXT,
 				nullable: false,
-				comment: 'Users name'
+				comment: 'Users name',
+				set_function: ['User', 'to_uppercase']
 			),
 			new OModelField(
 				name: 'pass',
@@ -75,5 +76,12 @@ class User extends OModel {
 		);
 
 		parent::load($model);
+	}
+
+	public static function to_uppercase(string | null $value): string | null {
+		if (is_null($value)) {
+			return null;
+		}
+		return strtoupper($value);
 	}
 }
